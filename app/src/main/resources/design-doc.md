@@ -1,28 +1,28 @@
 # Design Doc 
 ## Animal Enrichment Tracker Service
 
-## 1.Problem Statement
+## 1. Problem Statement
 Enrichment activities are essential for the well-being of animals at the St. Louis Zoo, mandated by the zoo's policy to provide at least two activities per week for each animal. The responsibility falls on teams of zookeepers to administer these activities and assess their effectiveness based on a current rating system.
 To streamline this process, the proposed Animal Enrichment Tracker Service aims to automate activity tracking for each animal. This service will empower zookeepers to efficiently monitor animals, select appropriate enrichments, record enrichment activities administered, and evaluate each activity's impact through a rating system.
 
 ## 2. Use Cases
-U1. As a user, I would like the ability to add a habitat to the system.
-U2. As a user, I would like the ability to remove a habitat from the system.
-U3. As a user, I would like the ability to update a habitat.
-U4. As a user, I would like the ability to add an animal to a habitat.
-U5. As a user, I would like the ability to remove an animal from a habitat.
-U6. As a user, I would like the ability to view all animals in a habitat.
-U7. As a user, I would like the ability to add an enrichment activity to a habitat.
-U8. As a user, I would like the ability to remove an enrichment activity from a habitat.
-U9. As a user, I would like the ability to update an enrichment activity.
-U10. As a user, I would like the ability to view all enrichments for a habitat.
-U11. As a user, I would like the ability to view all enrichment activities sorted by date administered.
-U12. As a user, I would like the ability to view all enrichment activities sorted by ratings and habitat.
-[STRETCH GOALS]
-U13. As a user, I would like the ability to add an animal object with specific attributes (more than just a string name) to a habitat.
-U14. As a user, I would like the ability to remove an animal object with specific attributes (more than just a string name) from a habitat.
-U15. As a user, I would like the ability to update an animal object with specific attributes (more than just a string name) in a habitat.
-U16. As a user, I would like the ability to view all animal objects in a habitat.
+- U1. As a user, I would like the ability to add a habitat to the system.
+- U2. As a user, I would like the ability to remove a habitat from the system.
+- U3. As a user, I would like the ability to update a habitat.
+- U4. As a user, I would like the ability to add an animal to a habitat.
+- U5. As a user, I would like the ability to remove an animal from a habitat.
+- U6. As a user, I would like the ability to view all animals in a habitat.
+- U7. As a user, I would like the ability to add an enrichment activity to a habitat.
+- U8. As a user, I would like the ability to remove an enrichment activity from a habitat.
+- U9. As a user, I would like the ability to update an enrichment activity.
+- U10. As a user, I would like the ability to view all enrichments for a habitat.
+- U11. As a user, I would like the ability to view all enrichment activities sorted by date administered.
+- U12. As a user, I would like the ability to view all enrichment activities sorted by ratings and habitat.
+- [STRETCH GOALS]
+- U13. As a user, I would like the ability to add an animal object with specific attributes (more than just a string name) to a habitat.
+- U14. As a user, I would like the ability to remove an animal object with specific attributes (more than just a string name) from a habitat.
+- U15. As a user, I would like the ability to update an animal object with specific attributes (more than just a string name) in a habitat.
+- U16. As a user, I would like the ability to view all animal objects in a habitat.
 
 ## 4. Project Scope
 
@@ -43,9 +43,10 @@ U16. As a user, I would like the ability to view all animal objects in a habitat
 
 ## 5. Proposed Architecture Overview
 
-This initial iteration will provide the minimum lovable product (MLP) including creating, retrieving, and updating a habitat, as well as adding to and retrieving a saved habitat’s enrichment activities.
+- This initial iteration will provide the minimum lovable product (MLP) including creating, retrieving, and updating a habitat, as well as adding to and retrieving a saved habitat’s enrichment activities.
 We will use API Gateway and Lambda to create ten endpoints (AddHabitat, RemoveHabitat, UpdateHabitat, viewHabitat, AddAnimalToHabitat, RemoveAnimalFromHabitat, AddEnrichment, RemoveEnrichment, UpdateEnrichment, viewEnrichment) that will handle the creation, update, and retrieval of habitats and enrichments to satisfy our requirements.
-We will store newly created enrichment activities and habitats in DynamoDB. For simpler enrichment retrieval, we will store the list of enrichment activities in a given habitat directly in the habitats table.
+
+- We will store newly created enrichment activities and habitats in DynamoDB. For simpler enrichment retrieval, we will store the list of enrichment activities in a given habitat directly in the habitats table.
 Animal Enrichment Tracker Service will also provide a web interface for users to manage habitats and enrichment activities. A main page providing a list view of all the keeper’s habitats will let them add/remove habitats. This will link off to pages per-habitat to update metadata and add/remove animals and/or enrichment activities.
 
 
@@ -66,11 +67,11 @@ Animal Enrichment Tracker Service will also provide a web interface for users to
 
 // EnrichmentModel
 
-String enrichmentId;
-String name;
-Integer keeperRating;
-String description;
-ZonedDateTime dateCompleted;
+- String enrichmentId;
+- String name;
+- Integer keeperRating;
+- String description;
+- ZonedDateTime dateCompleted;
 
 ### 6.2. AddHabitat Endpoint
 
