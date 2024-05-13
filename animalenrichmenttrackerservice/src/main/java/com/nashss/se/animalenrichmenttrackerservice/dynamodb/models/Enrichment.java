@@ -10,7 +10,7 @@ import java.util.Objects;
 /**
  * Represents a record in the habitats table.
  */
-@DynamoDBTable(tableName = "enrichments")
+@DynamoDBTable(tableName = "Enrichments")
 public class Enrichment {
     private String enrichmentId;
     private String name;

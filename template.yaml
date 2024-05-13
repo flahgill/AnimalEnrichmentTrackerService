@@ -224,8 +224,8 @@ Resources:
     Type: AWS::Serverless::Function
     Properties:
       Role: !GetAtt AccessRole.Arn
-      CodeUri: BookTrackerServiceLambda
-      Handler: com.nashss.se.booktrackerservice.lambda.ViewUserHabitatsLambda::handleRequest
+      CodeUri: animalenrichmenttrackerservice
+      Handler: com.nashss.se.animalenrichmenttrackerservice.lambda.ViewUserHabitatsLambda::handleRequest
       Runtime: java11
       Architectures:
         - x86_64
@@ -234,7 +234,7 @@ Resources:
         Variables:
           JAVA_TOOL_OPTIONS: -XX:+TieredCompilation -XX:TieredStopAtLevel=1
       Events:
-        BookTrackerService:
+        animalenrichmenttrackerservice:
           Type: Api
           Properties:
             Path: /userHabitats
@@ -260,7 +260,7 @@ Resources:
         - AttributeName: "keeperManagerId"
           KeyType: "RANGE"
       BillingMode: "PAY_PER_REQUEST"
-      TableName: "habitats"
+      TableName: "Habitats"
       GlobalSecondaryIndexes:
         - IndexName: "HabitatsForKeeperManagerIdIndex"
           KeySchema:
@@ -279,7 +279,7 @@ Resources:
         - AttributeName: "enrichmentId"
           KeyType: "HASH"
       BillingMode: "PAY_PER_REQUEST"
-      TableName: "enrichments"
+      TableName: "Enrichments"
 
 
       # The outputs defined below will be printed

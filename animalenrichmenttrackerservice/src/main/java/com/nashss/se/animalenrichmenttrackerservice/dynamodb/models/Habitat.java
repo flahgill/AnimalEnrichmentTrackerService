@@ -12,7 +12,7 @@ import java.util.Objects;
 /**
  * Represents a record in the habitats table.
  */
-@DynamoDBTable(tableName = "habitats")
+@DynamoDBTable(tableName = "Habitats")
 public class Habitat {
 
     private String habitatId;
