@@ -71,7 +71,7 @@ Animal Enrichment Tracker Service will also provide a web interface for users to
 - String name;
 - Integer keeperRating;
 - String description;
-- ZonedDateTime dateCompleted;
+- LocalDate dateCompleted;
 
 ### 6.2. AddHabitat Endpoint
 
