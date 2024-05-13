@@ -58,7 +58,7 @@ Animal Enrichment Tracker Service will also provide a web interface for users to
 
 - String habitatId;
 - String habitatName;
-- String species;
+- List<String> species;
 - String keeperManagerId;
 - int totalAnimals;
 - List<String> animalsInHabitat;
@@ -145,7 +145,7 @@ Animal Enrichment Tracker Service will also provide a web interface for users to
 
 - habitatId // partition key, string 
 - habitatName // string 
-- species // string 
+- species // list
 - keeperManagerId // sort key, string (keeperManagerId-habitatId-index) 
 - totalAnimals // number 
 - animalsInHabitat // list 

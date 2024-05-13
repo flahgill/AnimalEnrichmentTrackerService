@@ -1,0 +1,49 @@
+{
+  "habitats": [
+    {
+      "PutRequest": {
+        "Item": {
+          "habitatId": { "S": "001" },
+          "habitatName": { "S": "Antelope House" },
+          "species": { "L": [] },
+          "keeperManagerId": { "S": "123" },
+          "totalAnimals": { "N": "5" },
+          "animalsInHabitat": { "L": [
+            { "S": "G1" }, { "S": "G2" }, { "S": "K1" }, { "S": "K2" }, { "S": "NL1" }
+          ] },
+          "acceptableEnrichmentIds": { "L": [
+            { "S": "06" }, { "S": "01" }, { "S": "02" }, { "S":  "03" }
+          ] },
+          "completedEnrichments": { "L": [
+            { "M": { "enrichmentId": {"S": "01" }, "name": { "S": "Amazing Graze" }, "keeperRating": { "N": "8" }, "description": { "S": "grazing tube" }, "dateCompleted": { "S": "05-13-2024" } } },
+            { "M": { "enrichmentId": {"S": "02" }, "name": { "S": "Boomer Ball" }, "keeperRating": { "N": "6" }, "description": { "S": "ball no handle" }, "dateCompleted": { "S": "05-08-2024" } } }
+          ] }
+        }
+      }
+    }
+  ],
+  "enrichments": [
+    {
+      "PutRequest": {
+        "Item": {
+          "enrichmentId": { "S": "01" },
+          "name": { "S": "Amazing Graze" },
+          "keeperRating": { "N": ""},
+          "description": { "S": "grazing tube"},
+          "dateCompleted": { "S": ""}
+        }
+      }
+    },
+    {
+      "PutRequest": {
+        "Item": {
+          "enrichmentId": { "S": "02" },
+          "name": { "S": "Boomer Ball" },
+          "keeperRating": { "N": ""},
+          "description": { "S": "ball no handle"},
+          "dateCompleted": { "S": ""}
+        }
+      }
+    }
+  ]
+}

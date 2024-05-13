@@ -1,0 +1,290 @@
+:root {
+    /* css variables: https://developer.mozilla.org/en-US/docs/Web/CSS/var */
+    --primary-color: #7e4b86; /*light purple - main background */
+    --secondary-color: #ffffff; /*white - wording */
+    --tertiary-color: #3c1d65; /*dark purple - buttons and header background */
+    --error-color: #D4A841; /*orange */
+}
+
+/* fixing weird bug where the booklist name wouldn't show up */
+#search-results-display a {
+    color: #A789CF;
+    text-decoration: none;
+}
+
+/* fixing weird bug where the booklist name wouldn't show up on viewUserBooklists*/
+#booklists-table a {
+    color: #A789CF;
+    text-decoration: none;
+}
+
+.background {
+    background: url("bg color corrected.png") var(--primary-color);
+    background-size: 400px 400px;
+    margin: 0;
+    counter-reset: section;
+    background-attachment: fixed;
+    font-family: "Helvetica Neue",Helvetica,sans-serif;
+}
+
+.header-img {
+    width: 500px;
+    padding: 4px 20px;
+}
+
+.header {
+    /* Flexbox: https://css-tricks.com/snippets/css/a-guide-to-flexbox/ */
+    display: flex;
+    font-family: 'AR Julian';
+    justify-content: space-between;
+    align-items: center;
+    background-color: var(--tertiary-color);
+    color: var(--secondary-color);
+    padding: 10px 20px;
+    height: 50px;
+}
+
+.button {
+  background-color: var(--tertiary-color);
+  border: none;
+  font-family: 'AR Julian';
+  letter-spacing: 2px;
+  color: var(--secondary-color);
+  padding: 6px 8px 4px 8px;
+  text-align: center;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.button-group {
+    display: flex;
+    justify-content: space-between;
+}
+
+.header_home {
+    font-size: 50px;
+    line-height: 40px;
+    height: 100px;
+    text-decoration: none;
+    color: var(--secondary-color);
+}
+.menu_list {
+    text-decoration: none;
+    list-style: none;
+    margin: 0 20px;
+    font-size: 30px;
+    display: flex;
+    align-items: center;
+    padding: 20px;
+    color: var(--secondary-color);
+}
+/* Create two unequal columns that floats next to each other */
+.column {
+  float: left;
+  padding: 10px;
+}
+
+.left {
+  width: 70%;
+}
+
+.right {
+  width: 30%;
+}
+.row {
+display: flex;
+}
+
+.row:after {
+  content: "";
+  display: flex;
+  clear: both;
+}
+
+/* Clear floats after the columns */
+.row:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
+.card {
+    color: var(--primary-color);
+    background-color: var(--secondary-color);
+    margin: 20px;
+    border-radius: 25px;
+    padding: 20px;
+    font-family: Palatino;
+}
+
+
+.upperCaseHeader { text-transform: uppercase}
+
+h1,h2,h3,h4,h5 { text-transform: uppercase; }
+
+.chart-content {
+    height: 400px;
+}
+
+
+.error {
+    color: var(--error-color);
+    border: 1px solid var(--error-color);
+    padding: 8px;
+}
+
+.validated-field:invalid {
+    outline: 2px solid var(--error-color);
+}
+.validated-field:focus:invalid {
+    color: var(--error-color);
+}
+
+.card-content {
+    max-width: 500px;
+    font-family: Palatino;
+}
+
+.card-content .form-field {
+    display: flex;
+    flex-direction: column;
+}
+
+.card-content .check-box {
+    max-width: 200px;
+    flex-direction: column;
+}
+
+.tags {
+    display: flex;
+    flex-direction: row;
+}
+
+.tag {
+    font-size: 12px;
+    margin: 0 10px;
+    padding: 4px 8px;
+    background-color: var(--primary-color);
+    color: var(--secondary-color);
+    position: relative;
+    border-radius: 16px;
+}
+.nav {
+    display: flex;
+    align-items: center;
+    padding: 20px;
+}
+nav ul{
+    flex: 1;
+    text-align: right;
+}
+nav ul li{
+    display: inline-block;
+    list-style: none;
+    margin: 0 20px;
+}
+nav ul li a{
+    text-decoration: none;
+    color: #fff;
+}
+.div ul li a{
+    text-decoration: none;
+    color: #fff;
+}
+
+.song {
+    padding: 2px;
+    display: flex;
+}
+
+.song .title {
+    flex: 20%;
+}
+
+.song .album {
+    flex: 80%;
+}
+
+.bookImage {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+figcaption {
+    text-align: center;
+}
+
+/* Dropdown Button */
+.dropbtn {
+  background-color: var(--tertiary-color);
+  border: none;
+  color: var(--secondary-color);
+  padding: 6px 8px 4px 8px;
+  text-align: center;
+  font-weight: bold;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+/* The container <div> - needed to position the dropdown content */
+.dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+/* Dropdown Content (Hidden by Default) */
+.dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: #f1f1f1;
+  min-width: 160px;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  z-index: 1;
+}
+
+/* Links inside the dropdown */
+.dropdown-content option {
+  color: black;
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+}
+
+/* Change color of dropdown links on hover */
+.dropdown-content option:hover {background-color: #ddd;}
+
+/* Show the dropdown menu (use JS to add this class to the .dropdown-content container when the user clicks on the dropdown button) */
+.show {display:block;}
+
+/*
+Flexbox on a lists removes the numbers. We use a counter here to add them back.
+https://stackoverflow.com/a/34316093
+https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Lists_and_Counters/Using_CSS_counters
+*/
+.song:before {
+    counter-increment: section;
+    content: counter(section) ".";
+    position: absolute;
+    margin-left: -40px;
+}
+
+.hidden {
+    display: none;
+}
+
+/* table styles */
+
+th, td {
+    padding: 10px;
+    text-align: left;
+}
+
+th {
+    border-bottom: 1px solid var(--primary-color);
+}
+
+a {
+    color: var(--secondary-color);
+    text-decoration: none;
+}
