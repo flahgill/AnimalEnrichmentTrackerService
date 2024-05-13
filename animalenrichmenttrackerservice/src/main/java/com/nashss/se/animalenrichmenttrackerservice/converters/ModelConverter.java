@@ -89,7 +89,7 @@ public class ModelConverter {
      * @param habitats The Habitats to convert to HabitatModels
      * @return The converted list of HabitatModels
      */
-    public List<HabitatModel> toPlaylistModelList(List<Habitat> habitats) {
+    public List<HabitatModel> toHabitatModelList(List<Habitat> habitats) {
         List<HabitatModel> habitatModels = new ArrayList<>();
 
         for (Habitat habitat : habitats) {
