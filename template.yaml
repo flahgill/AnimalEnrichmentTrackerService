@@ -240,11 +240,9 @@ Resources:
             Path: /userHabitats
             Method: get
 
-
   #-----------------------------------------------------
   # DynamoDB Configuration
   #-----------------------------------------------------
-
 
   HabitatsTable:
     Type: AWS::DynamoDB::Table
@@ -255,7 +253,7 @@ Resources:
         - AttributeName: "keeperManagerId"
           AttributeType: "S"
       KeySchema:
-        - AttributeName: "Habitatid"
+        - AttributeName: "habitatId"
           KeyType: "HASH"
         - AttributeName: "keeperManagerId"
           KeyType: "RANGE"
@@ -281,9 +279,9 @@ Resources:
       BillingMode: "PAY_PER_REQUEST"
       TableName: "Enrichments"
 
-
-      # The outputs defined below will be printed
-      #  to the screen after a successful deploy
+#-----------------------------------------------------
+# The outputs defined below will be printed
+#  to the screen after a successful deploy
 #-----------------------------------------------------
 
 Outputs:
