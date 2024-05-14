@@ -8,4 +8,4 @@
  */
 
 rootProject.name = 'AnimalEnrichmentTracker'
-include('app')
+include('animalenrichmenttrackerservice')
