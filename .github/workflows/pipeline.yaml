@@ -25,9 +25,9 @@ env:
   SAM_TEMPLATE: template.yaml
 
   STACK_NAME: animal-enrichment-tracker-service
-  PIPELINE_EXECUTION_ROLE: arn:aws:iam::058264384147:role/aws-sam-cli-managed-ServiceSt-PipelineExecutionRole-pRx7EztXDArH
-  CLOUDFORMATION_EXECUTION_ROLE: arn:aws:iam::058264384147:role/aws-sam-cli-managed-Servi-CloudFormationExecutionRo-QRP9uZ5ho34z
-  ARTIFACTS_BUCKET: aws-sam-cli-managed-servicestage-p-artifactsbucket-gpqurczb3oxi
+  PIPELINE_EXECUTION_ROLE: arn:aws:iam::058264384147:role/aws-sam-cli-managed-ServiceSt-PipelineExecutionRole-1mPxLBcPKOCm
+  CLOUDFORMATION_EXECUTION_ROLE: arn:aws:iam::058264384147:role/aws-sam-cli-managed-Servi-CloudFormationExecutionRo-7LgLIodk0tza
+  ARTIFACTS_BUCKET: aws-sam-cli-managed-servicestage-p-artifactsbucket-2u0bwxezvjov
   REGION: us-east-2
 
 jobs:
