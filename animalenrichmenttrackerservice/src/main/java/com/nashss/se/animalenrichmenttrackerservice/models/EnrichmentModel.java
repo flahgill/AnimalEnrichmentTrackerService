@@ -42,8 +42,12 @@ public class EnrichmentModel {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
         EnrichmentModel that = (EnrichmentModel) o;
         return Objects.equals(enrichmentId, that.enrichmentId) && Objects.equals(name, that.name);
     }
@@ -53,6 +57,7 @@ public class EnrichmentModel {
         return Objects.hash(enrichmentId, name);
     }
 
+    //CHECKSTYLE:OFF:Builder
     public static Builder builder() {
         return new Builder();
     }

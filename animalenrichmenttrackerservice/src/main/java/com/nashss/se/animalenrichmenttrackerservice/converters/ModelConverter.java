@@ -1,8 +1,8 @@
 package com.nashss.se.animalenrichmenttrackerservice.converters;
 
 import com.nashss.se.animalenrichmenttrackerservice.dynamodb.models.Enrichment;
-import com.nashss.se.animalenrichmenttrackerservice.models.EnrichmentModel;
 import com.nashss.se.animalenrichmenttrackerservice.dynamodb.models.Habitat;
+import com.nashss.se.animalenrichmenttrackerservice.models.EnrichmentModel;
 import com.nashss.se.animalenrichmenttrackerservice.models.HabitatModel;
 
 import java.util.ArrayList;

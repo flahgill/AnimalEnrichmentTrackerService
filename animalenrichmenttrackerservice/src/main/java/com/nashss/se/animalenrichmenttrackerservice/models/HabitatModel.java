@@ -62,8 +62,12 @@ public class HabitatModel {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
         HabitatModel that = (HabitatModel) o;
         return Objects.equals(habitatId, that.habitatId) && Objects.equals(habitatName, that.habitatName);
     }
@@ -73,6 +77,7 @@ public class HabitatModel {
         return Objects.hash(habitatId, habitatName);
     }
 
+    //CHECKSTYLE:OFF:Builder
     public static Builder builder() {
         return new Builder();
     }

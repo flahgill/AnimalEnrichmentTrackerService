@@ -1,6 +1,5 @@
 package com.nashss.se.animalenrichmenttrackerservice.dynamodb.models;
 
-
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBAttribute;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBHashKey;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBRangeKey;
@@ -98,8 +97,12 @@ public class Habitat {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
         Habitat habitat = (Habitat) o;
         return Objects.equals(habitatId, habitat.habitatId) && Objects.equals(habitatName, habitat.habitatName);
     }
