@@ -65,8 +65,12 @@ public class Enrichment {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
         Enrichment that = (Enrichment) o;
         return Objects.equals(enrichmentId, that.enrichmentId) && Objects.equals(name, that.name);
     }
