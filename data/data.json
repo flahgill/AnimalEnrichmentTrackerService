@@ -5,7 +5,9 @@
         "Item": {
           "habitatId": { "S": "001" },
           "habitatName": { "S": "Antelope House" },
-          "species": { "L": [] },
+          "species": { "L": [
+            { "S": "Giraffe" }, { "S": "Kangaroo" }, { "S": "Nile Lechwe" }
+          ] },
           "keeperManagerId": { "S": "123" },
           "totalAnimals": { "N": "5" },
           "animalsInHabitat": { "L": [
