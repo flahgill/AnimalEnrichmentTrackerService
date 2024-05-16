@@ -4,19 +4,20 @@ import BindingClass from '../util/bindingClass';
 import DataStore from '../util/DataStore';
 
 /**
- * Logic needed for the create playlist page of the website.
+ * Logic needed for the create habitat page of the website.
  */
-class CreatePlaylist extends BindingClass {
+class CreateHabitat extends BindingClass {
     constructor() {
         super();
-        this.bindClassMethods(['mount', 'submit', 'redirectToViewPlaylist'], this);
+        this.bindClassMethods(['mount', 'submit', 'redirectToViewHabitat'], this);
         this.dataStore = new DataStore();
-        this.dataStore.addChangeListener(this.redirectToViewPlaylist);
+        this.dataStore.addChangeListener(this.redirectToViewHabitat);
         this.header = new Header(this.dataStore);
+        console.log("createHabitat constructor");
     }
 
     /**
-     * Add the header to the page and load the MusicPlaylistClient.
+     * Add the header to the page and load the AnimalEnrichmentTrackerClient.
      */
     mount() {
         document.getElementById('create').addEventListener('click', this.submit);
@@ -27,8 +28,8 @@ class CreatePlaylist extends BindingClass {
     }
 
     /**
-     * Method to run when the create playlist submit button is pressed. Call the MusicPlaylistService to create the
-     * playlist.
+     * Method to run when the create habitat submit button is pressed. Call the AnimalEnrichmentTrackerClient to create the
+     * habitat.
      */
     async submit(evt) {
         evt.preventDefault();
@@ -41,31 +42,31 @@ class CreatePlaylist extends BindingClass {
         const origButtonText = createButton.innerText;
         createButton.innerText = 'Loading...';
 
-        const playlistName = document.getElementById('playlist-name').value;
-        const tagsText = document.getElementById('tags').value;
+        const habitatName = document.getElementById('habitat-name').value;
+        const speciesText = document.getElementById('species').value;
 
-        let tags;
-        if (tagsText.length < 1) {
-            tags = null;
+        let species;
+        if (speciesText.length < 1) {
+            species = null;
         } else {
-            tags = tagsText.split(/\s*,\s*/);
+            species = speciesText.split(/\s*,\s*/);
         }
 
-        const playlist = await this.client.createPlaylist(playlistName, tags, (error) => {
+        const habitat = await this.client.createHabitat(habitatName, species, (error) => {
             createButton.innerText = origButtonText;
             errorMessageDisplay.innerText = `Error: ${error.message}`;
             errorMessageDisplay.classList.remove('hidden');
         });
-        this.dataStore.set('playlist', playlist);
+        this.dataStore.set('habitat', habitat);
     }
 
     /**
-     * When the playlist is updated in the datastore, redirect to the view playlist page.
+     * When the habitat is updated in the datastore, redirect to the view habitat page.
      */
-    redirectToViewPlaylist() {
-        const playlist = this.dataStore.get('playlist');
-        if (playlist != null) {
-            window.location.href = `/playlist.html?id=${playlist.id}`;
+    redirectToViewHabitat() {
+        const habitat = this.dataStore.get('habitat');
+        if (habitat != null) {
+            window.location.href = `/habitat.html?id=${habitat.habitatId}`;
         }
     }
 }
@@ -74,8 +75,8 @@ class CreatePlaylist extends BindingClass {
  * Main method to run when the page contents have loaded.
  */
 const main = async () => {
-    const createPlaylist = new CreatePlaylist();
-    createPlaylist.mount();
+    const createHabitat = new CreateHabitat();
+    createHabitat.mount();
 };
 
 window.addEventListener('DOMContentLoaded', main);

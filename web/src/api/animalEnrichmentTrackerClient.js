@@ -15,7 +15,7 @@ export default class AnimalEnrichmentTrackerClient extends BindingClass {
     constructor(props = {}) {
         super();
 
-        const methodsToBind = ['clientLoaded', 'getIdentity', 'login', 'logout', 'getPlaylist', 'getPlaylistSongs', 'createPlaylist'];
+        const methodsToBind = ['clientLoaded', 'getIdentity', 'login', 'logout', 'getHabitat', 'getPlaylistSongs', 'createHabitat'];
         this.bindClassMethods(methodsToBind, this);
 
         this.authenticator = new Authenticator();;
@@ -72,15 +72,15 @@ export default class AnimalEnrichmentTrackerClient extends BindingClass {
     }
 
     /**
-     * Gets the playlist for the given ID.
-     * @param id Unique identifier for a playlist
+     * Gets the habitat for the given ID.
+     * @param id Unique identifier for a habitat
      * @param errorCallback (Optional) A function to execute if the call fails.
-     * @returns The playlist's metadata.
+     * @returns The habitat's metadata.
      */
-    async getPlaylist(id, errorCallback) {
+    async getHabitat(id, errorCallback) {
         try {
             const response = await this.axiosClient.get(`playlists/${id}`);
-            return response.data.playlist;
+            return response.data.habitat;
         } catch (error) {
             this.handleError(error, errorCallback)
         }
@@ -102,24 +102,24 @@ export default class AnimalEnrichmentTrackerClient extends BindingClass {
         }
 
         /**
-         * Create a new playlist owned by the current user.
-         * @param name The name of the playlist to create.
-         * @param tags Metadata tags to associate with a playlist.
+         * Create a new Habitat owned by the current user.
+         * @param name The name of the habitat to create.
+         * @param tags Metadata species to associate with a habitat.
          * @param errorCallback (Optional) A function to execute if the call fails.
          * @returns The playlist that has been created.
          */
-        async createPlaylist(name, tags, errorCallback) {
+        async createHabitat(habitatName, species, errorCallback) {
             try {
-                const token = await this.getTokenOrThrow("Only authenticated users can create playlists.");
-                const response = await this.axiosClient.post(`playlists`, {
-                    name: name,
-                    tags: tags
+                const token = await this.getTokenOrThrow("Only authenticated users can create habitats.");
+                const response = await this.axiosClient.post(`habitats`, {
+                    habitatName: habitatName,
+                    species: species
                 }, {
                     headers: {
                         Authorization: `Bearer ${token}`
                     }
                 });
-                return response.data.playlist;
+                return response.data.habitat;
             } catch (error) {
                 this.handleError(error, errorCallback)
             }
