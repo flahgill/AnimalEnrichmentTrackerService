@@ -13,17 +13,17 @@ public class AddHabitatLambda
     @Override
     public LambdaResponse handleRequest(AuthenticatedLambdaRequest<AddHabitatRequest> input, Context context) {
         return super.runActivity(
-                () -> {
-                    AddHabitatRequest unauthRequest = input.fromBody(AddHabitatRequest.class);
-                    return input.fromUserClaims(claims ->
-                            AddHabitatRequest.builder()
-                                    .withHabitatName(unauthRequest.getHabitatName())
-                                    .withSpecies(unauthRequest.getSpecies())
-                                    .withKeeperManagerId(claims.get("email"))
-                                    .build());
-                },
-                (request, serviceComponent) ->
-                        serviceComponent.provideAddHabitatActivity().handleRequest(request)
+            () -> {
+                AddHabitatRequest unauthRequest = input.fromBody(AddHabitatRequest.class);
+                return input.fromUserClaims(claims ->
+                        AddHabitatRequest.builder()
+                                .withHabitatName(unauthRequest.getHabitatName())
+                                .withSpecies(unauthRequest.getSpecies())
+                                .withKeeperManagerId(claims.get("email"))
+                                .build());
+            },
+            (request, serviceComponent) ->
+                    serviceComponent.provideAddHabitatActivity().handleRequest(request)
         );
     }
 }

@@ -2,6 +2,7 @@ package com.nashss.se.animalenrichmenttrackerservice.lambda;
 
 import com.nashss.se.animalenrichmenttrackerservice.dependency.DaggerServiceComponent;
 import com.nashss.se.animalenrichmenttrackerservice.dependency.ServiceComponent;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
