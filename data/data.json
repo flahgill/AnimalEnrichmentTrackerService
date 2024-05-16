@@ -1,18 +1,20 @@
 {
-  "habitats": [
+  "Habitats": [
     {
       "PutRequest": {
         "Item": {
           "habitatId": { "S": "001" },
           "habitatName": { "S": "Antelope House" },
-          "species": { "L": [] },
+          "species": { "L": [
+            { "S": "Giraffe" }, { "S": "Kangaroo" }, { "S": "Nile Lechwe" }
+          ] },
           "keeperManagerId": { "S": "123" },
           "totalAnimals": { "N": "5" },
           "animalsInHabitat": { "L": [
             { "S": "G1" }, { "S": "G2" }, { "S": "K1" }, { "S": "K2" }, { "S": "NL1" }
           ] },
           "acceptableEnrichmentIds": { "L": [
-            { "S": "06" }, { "S": "01" }, { "S": "02" }, { "S":  "03" }
+            { "S": "01" }, { "S": "02" }, { "S": "04" }, { "S":  "05" }, { "S":  "06" }, { "S":  "10" }, { "S":  "11" }, { "S":  "12" }, { "S":  "15" }, { "S":  "16" }, { "S":  "19" }
           ] },
           "completedEnrichments": { "L": [
             { "M": { "enrichmentId": {"S": "01" }, "name": { "S": "Amazing Graze" }, "keeperRating": { "N": "8" }, "description": { "S": "grazing tube" }, "dateCompleted": { "S": "05-13-2024" } } },
@@ -22,13 +24,13 @@
       }
     }
   ],
-  "enrichments": [
+  "Enrichments": [
     {
       "PutRequest": {
         "Item": {
           "enrichmentId": { "S": "01" },
           "name": { "S": "Amazing Graze" },
-          "keeperRating": { "N": ""},
+          "keeperRating": { "N": "0"},
           "description": { "S": "grazing tube"},
           "dateCompleted": { "S": ""}
         }
@@ -39,8 +41,206 @@
         "Item": {
           "enrichmentId": { "S": "02" },
           "name": { "S": "Boomer Ball" },
-          "keeperRating": { "N": ""},
+          "keeperRating": { "N": "0"},
           "description": { "S": "ball no handle"},
+          "dateCompleted": { "S": ""}
+        }
+      }
+    },
+    {
+      "PutRequest": {
+        "Item": {
+          "enrichmentId": { "S": "03" },
+          "name": { "S": "Jolly Ball" },
+          "keeperRating": { "N": "0"},
+          "description": { "S": "ball with handle"},
+          "dateCompleted": { "S": ""}
+        }
+      }
+    },
+    {
+      "PutRequest": {
+        "Item": {
+          "enrichmentId": { "S": "04" },
+          "name": { "S": "Bubbles" },
+          "keeperRating": { "N": "0"},
+          "description": { "S": "bubble machine"},
+          "dateCompleted": { "S": ""}
+        }
+      }
+    },
+    {
+      "PutRequest": {
+        "Item": {
+          "enrichmentId": { "S": "05" },
+          "name": { "S": "Chalk Drawings" },
+          "keeperRating": { "N": "0"},
+          "description": { "S": "use in stalls"},
+          "dateCompleted": { "S": ""}
+        }
+      }
+    },
+    {
+      "PutRequest": {
+        "Item": {
+          "enrichmentId": { "S": "06" },
+          "name": { "S": "Cup Feeder" },
+          "keeperRating": { "N": "0"},
+          "description": { "S": "grain swivel feeder"},
+          "dateCompleted": { "S": ""}
+        }
+      }
+    },
+    {
+      "PutRequest": {
+        "Item": {
+          "enrichmentId": { "S": "07" },
+          "name": { "S": "Hay Play Feeder" },
+          "keeperRating": { "N": "0"},
+          "description": { "S": "fill with feed, can roll or hang"},
+          "dateCompleted": { "S": ""}
+        }
+      }
+    },
+    {
+      "PutRequest": {
+        "Item": {
+          "enrichmentId": { "S": "08" },
+          "name": { "S": "Honeycomb Feeder" },
+          "keeperRating": { "N": "0"},
+          "description": { "S": "hanging box feeder"},
+          "dateCompleted": { "S": ""}
+        }
+      }
+    },
+    {
+      "PutRequest": {
+        "Item": {
+          "enrichmentId": { "S": "09" },
+          "name": { "S": "Jolly Stall" },
+          "keeperRating": { "N": "0"},
+          "description": { "S": "hanging stall ball toy"},
+          "dateCompleted": { "S": ""}
+        }
+      }
+    },
+    {
+      "PutRequest": {
+        "Item": {
+          "enrichmentId": { "S": "10" },
+          "name": { "S": "Keg" },
+          "keeperRating": { "N": "0"},
+          "description": { "S": "hang or leave free to roll, can have feed or treats"},
+          "dateCompleted": { "S": ""}
+        }
+      }
+    },
+    {
+      "PutRequest": {
+        "Item": {
+          "enrichmentId": { "S": "11" },
+          "name": { "S": "Looks Lou" },
+          "keeperRating": { "N": "0"},
+          "description": { "S": "mirror to be hung or left free"},
+          "dateCompleted": { "S": ""}
+        }
+      }
+    },
+    {
+      "PutRequest": {
+        "Item": {
+          "enrichmentId": { "S": "12" },
+          "name": { "S": "Paper Chains" },
+          "keeperRating": { "N": "0"},
+          "description": { "S": "hang in stalls or habitat"},
+          "dateCompleted": { "S": ""}
+        }
+      }
+    },
+    {
+      "PutRequest": {
+        "Item": {
+          "enrichmentId": { "S": "13" },
+          "name": { "S": "Planter Bucket" },
+          "keeperRating": { "N": "0"},
+          "description": { "S": "fill with feed or treats"},
+          "dateCompleted": { "S": ""}
+        }
+      }
+    },
+    {
+      "PutRequest": {
+        "Item": {
+          "enrichmentId": { "S": "14" },
+          "name": { "S": "PVC Roller" },
+          "keeperRating": { "N": "0"},
+          "description": { "S": "fill with grain and put in difficult locations to reach"},
+          "dateCompleted": { "S": ""}
+        }
+      }
+    },
+    {
+      "PutRequest": {
+        "Item": {
+          "enrichmentId": { "S": "15" },
+          "name": { "S": "Slow Feeder Bowls" },
+          "keeperRating": { "N": "0"},
+          "description": { "S": "fill with grain or peanut butter"},
+          "dateCompleted": { "S": ""}
+        }
+      }
+    },
+    {
+      "PutRequest": {
+        "Item": {
+          "enrichmentId": { "S": "16" },
+          "name": { "S": "Scents and Spices" },
+          "keeperRating": { "N": "0"},
+          "description": { "S": "in habitats and stalls"},
+          "dateCompleted": { "S": ""}
+        }
+      }
+    },
+    {
+      "PutRequest": {
+        "Item": {
+          "enrichmentId": { "S": "17" },
+          "name": { "S": "Sprinkler" },
+          "keeperRating": { "N": "0"},
+          "description": { "S": "water play and wallows"},
+          "dateCompleted": { "S": ""}
+        }
+      }
+    },
+    {
+      "PutRequest": {
+        "Item": {
+          "enrichmentId": { "S": "18" },
+          "name": { "S": "Wiffle Ball Feeder" },
+          "keeperRating": { "N": "0"},
+          "description": { "S": "fill with treats, must be hung"},
+          "dateCompleted": { "S": ""}
+        }
+      }
+    },
+    {
+      "PutRequest": {
+        "Item": {
+          "enrichmentId": { "S": "19" },
+          "name": { "S": "Weeble" },
+          "keeperRating": { "N": "0"},
+          "description": { "S": "leave free in habitat"},
+          "dateCompleted": { "S": ""}
+        }
+      }
+    },
+    {
+      "PutRequest": {
+        "Item": {
+          "enrichmentId": { "S": "20" },
+          "name": { "S": "Squiggle Feeder" },
+          "keeperRating": { "N": "0"},
+          "description": { "S": "add treats, put objects in that are too big for added difficulty"},
           "dateCompleted": { "S": ""}
         }
       }
