@@ -23,7 +23,8 @@ module.exports = {
     usedExports: true
   },
   entry: {
-    searchPlaylists: path.resolve(__dirname, 'src', 'pages', 'searchPlaylists.js'),
+    createHabitat: path.resolve(__dirname, 'src', 'pages', 'createHabitat.js'),
+    searchPlaylists: path.resolve(__dirname, 'src', 'pages', 'searchPlaylists.js')
   },
   output: {
     path: path.resolve(__dirname, 'build', 'assets'),
