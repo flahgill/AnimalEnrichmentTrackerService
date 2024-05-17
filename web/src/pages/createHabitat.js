@@ -66,7 +66,7 @@ class CreateHabitat extends BindingClass {
     redirectToViewHabitat() {
         const habitat = this.dataStore.get('habitat');
         if (habitat != null) {
-            window.location.href = `/habitat.html?id=${habitat.habitatId}`;
+            window.location.href = `/habitat.html?habitatId=${habitat.habitatId}`;
         }
     }
 }

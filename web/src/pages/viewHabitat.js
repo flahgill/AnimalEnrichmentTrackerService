@@ -4,7 +4,7 @@ import BindingClass from "../util/bindingClass";
 import DataStore from "../util/DataStore";
 
 /**
- * Logic needed for the view habitat page of the website.
+ * Logic needed for the view playlist page of the website.
  */
 class ViewHabitat extends BindingClass {
     constructor() {
@@ -17,7 +17,7 @@ class ViewHabitat extends BindingClass {
     }
 
     /**
-     * Once the client is loaded, get the habitat metadata and song list.
+     * Once the client is loaded, get the playlist metadata and song list.
      */
     async clientLoaded() {
         const urlParams = new URLSearchParams(window.location.search);
@@ -28,10 +28,9 @@ class ViewHabitat extends BindingClass {
     }
 
     /**
-     * Add the header to the page and load the AnimalEnrichmentTrackerClient.
+     * Add the header to the page and load the MusicPlaylistClient.
      */
     mount() {
-
         this.header.addHeaderToPage();
 
         this.client = new AnimalEnrichmentTrackerClient();
@@ -39,7 +38,7 @@ class ViewHabitat extends BindingClass {
     }
 
     /**
-     * When the habitat is updated in the datastore, update the habitat metadata on the page.
+     * When the playlist is updated in the datastore, update the playlist metadata on the page.
      */
     addHabitatToPage() {
         const habitat = this.dataStore.get('habitat');
@@ -51,19 +50,20 @@ class ViewHabitat extends BindingClass {
         document.getElementById('habitat-owner').innerText = habitat.keeperManagerId;
 
         let speciesHtml = '';
-        let species;
-        for (tag of habitat.species) {
-            speciesHtml += '<div class="species">' + species + '</div>';
+        let spec;
+        for (spec of habitat.species) {
+            speciesHtml += `<div class="species">${spec}</div>`;
         }
         document.getElementById('species').innerHTML = speciesHtml;
     }
+}
 
- /**
-  * Main method to run when the page contents have loaded.
-  */
-  const main = async () => {
-        const viewHabitat = new ViewHabitat();
-        viewHabitat.mount();
-  };
+/**
+ * Main method to run when the page contents have loaded.
+ */
+const main = async () => {
+    const viewHabitat = new ViewHabitat();
+    viewHabitat.mount();
+};
 
 window.addEventListener('DOMContentLoaded', main);
