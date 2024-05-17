@@ -10,7 +10,7 @@
     background-color: #8A8C8F;
     margin: 0;
     counter-reset: section;
-    font-family: "Helvetica Neue",Helvetica,sans-serif;
+    font-family: "Helvetica Neue", Helvetica, sans-serif;
 }
 
 .header {
@@ -24,14 +24,14 @@
 }
 
 .button {
-  background-color: var(--tertiary-color);
-  border: none;
-  color: var(--secondary-color);
-  padding: 6px 8px 4px 8px;
-  text-align: center;
-  font-weight: bold;
-  text-decoration: none;
-  cursor: pointer;
+    background-color: var(--tertiary-color);
+    border: none;
+    color: var(--secondary-color);
+    padding: 6px 8px 4px 8px;
+    text-align: center;
+    font-weight: bold;
+    text-decoration: none;
+    cursor: pointer;
 }
 
 .button-group {
@@ -77,18 +77,15 @@
 }
 
 .species {
-    display: flex;
-    flex-direction: row;
-}
-
-.tag {
+    display: inline-block;
     font-size: 12px;
-    margin: 0 10px;
+    margin: 0 10px 10px 0;
     padding: 4px 8px;
     background-color: var(--primary-color);
     color: var(--secondary-color);
     position: relative;
     border-radius: 16px;
+    margin-bottom: -40px;
 }
 
 .tip {

@@ -9,10 +9,10 @@ on:
 env:
 
   # STUDENTS: Set these environment variables 
-  API_BASE_URL: https://g688xoedn5.execute-api.us-east-2.amazonaws.com/Prod/
+  API_BASE_URL: https://dnyplxrmfb.execute-api.us-east-2.amazonaws.com/Prod/
   COGNITO_DOMAIN: project-animal-enrichment-tracker-gillian-flaherty
-  COGNITO_REDIRECT_SIGNIN: https://dvp8n1lkicgpk.cloudfront.net
-  COGNITO_REDIRECT_SIGNOUT: https://dvp8n1lkicgpk.cloudfront.net
+  COGNITO_REDIRECT_SIGNIN: https://d2y5syf1ilzp47.cloudfront.net
+  COGNITO_REDIRECT_SIGNOUT: https://d2y5syf1ilzp47.cloudfront.net
 
   COGNITO_USER_POOL_ID: ${{ secrets.COGNITO_USER_POOL_ID }}
   COGNITO_USER_POOL_CLIENT_ID: ${{ secrets.COGNITO_USER_POOL_CLIENT_ID }}
@@ -25,9 +25,9 @@ env:
   SAM_TEMPLATE: template.yaml
 
   STACK_NAME: animal-enrichment-tracker-service
-  PIPELINE_EXECUTION_ROLE: arn:aws:iam::058264384147:role/aws-sam-cli-managed-ServiceSt-PipelineExecutionRole-1mPxLBcPKOCm
-  CLOUDFORMATION_EXECUTION_ROLE: arn:aws:iam::058264384147:role/aws-sam-cli-managed-Servi-CloudFormationExecutionRo-7LgLIodk0tza
-  ARTIFACTS_BUCKET: aws-sam-cli-managed-servicestage-p-artifactsbucket-2u0bwxezvjov
+  PIPELINE_EXECUTION_ROLE: arn:aws:iam::058264384147:role/aws-sam-cli-managed-ServiceSt-PipelineExecutionRole-38LLARKCEuoT
+  CLOUDFORMATION_EXECUTION_ROLE: arn:aws:iam::058264384147:role/aws-sam-cli-managed-Servi-CloudFormationExecutionRo-TRjprFD409m8
+  ARTIFACTS_BUCKET: aws-sam-cli-managed-servicestage-p-artifactsbucket-c797olvazqi7
   REGION: us-east-2
 
 jobs:

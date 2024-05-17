@@ -1,18 +1,18 @@
 openapi: 3.0.0
 info:
-  title: Book Tracker Service
-  description: "This is the API definition for the Book Tracker Service."
+  title: Animal Enrichment Tracker Service
+  description: "This is the API definition for the Animal Enrichment Tracker Service."
   version: 1.0.0
 
 servers:
   - url: http://localhost:3000
 
 tags:
-  - name: Booklists
-    description: Create, view, and update booklists
+  - name: Habitats
+    description: Create, view, and update habitats
 
-  - name: Book
-    description: View and add books to booklists
+  - name: Enrichments
+    description: View and add enrichments to habitats
 
 paths:
 
@@ -20,7 +20,7 @@ paths:
     post:
       tags:
         - Habitats
-      summary: Create a new booklist (AddHabitatLambda)
+      summary: Create a new habitat (AddHabitatLambda)
       requestBody:
         content:
           application/json:
@@ -67,6 +67,53 @@ paths:
                     type: array
                     items:
                       type: enrichment
+
+  /habitats/{habitatId}:
+    get:
+      tags:
+        - Habitats
+      summary: Get an existing habitat (ViewHabitatLambda)
+      parameters:
+        - name: habitatId
+          in: path
+          description: ID of habitat to retrieve
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: A habitat object
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  habitatId:
+                    type: string
+                  habitatName:
+                    type: string
+                  keeperManagerId:
+                    type: string
+                  totalAnimals:
+                    type: integer
+                  species:
+                    type: array
+                    items:
+                      type: string
+                  animalsInHabitat:
+                    type: array
+                    items:
+                      type: string
+                  acceptableEnrichmentIds:
+                    type: array
+                    items:
+                      type: string
+                  completedEnrichments:
+                    type: array
+                    items:
+                      type: enrichment
+        "500":
+          description: "Invalid input parameters"
 
 
 

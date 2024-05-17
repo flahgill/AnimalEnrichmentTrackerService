@@ -15,7 +15,7 @@ export default class AnimalEnrichmentTrackerClient extends BindingClass {
     constructor(props = {}) {
         super();
 
-        const methodsToBind = ['clientLoaded', 'getIdentity', 'login', 'logout', 'getHabitat', 'getPlaylistSongs', 'createHabitat'];
+        const methodsToBind = ['clientLoaded', 'getIdentity', 'login', 'logout', 'getHabitat', 'createHabitat'];
         this.bindClassMethods(methodsToBind, this);
 
         this.authenticator = new Authenticator();;
@@ -77,9 +77,15 @@ export default class AnimalEnrichmentTrackerClient extends BindingClass {
      * @param errorCallback (Optional) A function to execute if the call fails.
      * @returns The habitat's metadata.
      */
-    async getHabitat(id, errorCallback) {
+    async getHabitat(habitatId, errorCallback) {
         try {
-            const response = await this.axiosClient.get(`playlists/${id}`);
+            const token = await this.getTokenOrThrow("Only authenticated users can view a habitat.");
+            const response = await this.axiosClient.get(`habitats/${habitatId}`, {
+                habitatId: habitatId,
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            });
             return response.data.habitat;
         } catch (error) {
             this.handleError(error, errorCallback)

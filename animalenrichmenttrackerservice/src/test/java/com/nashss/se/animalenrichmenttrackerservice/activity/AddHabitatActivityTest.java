@@ -1,6 +1,5 @@
 package com.nashss.se.animalenrichmenttrackerservice.activity;
 
-import com.nashss.se.animalenrichmenttrackerservice.AddHabitatActivity;
 import com.nashss.se.animalenrichmenttrackerservice.activity.requests.AddHabitatRequest;
 import com.nashss.se.animalenrichmenttrackerservice.activity.results.AddHabitatResult;
 import com.nashss.se.animalenrichmenttrackerservice.dynamodb.HabitatDao;
