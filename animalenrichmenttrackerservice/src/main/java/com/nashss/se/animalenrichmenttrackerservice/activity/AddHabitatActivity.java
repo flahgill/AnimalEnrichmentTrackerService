@@ -1,4 +1,4 @@
-package com.nashss.se.animalenrichmenttrackerservice;
+package com.nashss.se.animalenrichmenttrackerservice.activity;
 
 import com.nashss.se.animalenrichmenttrackerservice.activity.requests.AddHabitatRequest;
 import com.nashss.se.animalenrichmenttrackerservice.activity.results.AddHabitatResult;

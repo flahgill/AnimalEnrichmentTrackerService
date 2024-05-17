@@ -1,8 +1,13 @@
 package com.nashss.se.animalenrichmenttrackerservice.dynamodb;
 
 import com.nashss.se.animalenrichmenttrackerservice.dynamodb.models.Habitat;
+import com.nashss.se.animalenrichmenttrackerservice.exceptions.HabitatNotFoundException;
+import com.nashss.se.animalenrichmenttrackerservice.metrics.MetricsConstants;
+import com.nashss.se.animalenrichmenttrackerservice.metrics.MetricsPublisher;
 
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBMapper;
+
+import java.util.Objects;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
@@ -13,15 +18,18 @@ import javax.inject.Singleton;
 @Singleton
 public class HabitatDao {
     private final DynamoDBMapper dynamoDBMapper;
+    private final MetricsPublisher metricsPublisher;
 
     /**
      * Instantiates a new HabitatDao object.
      *
      * @param dynamoDBMapper the {@link DynamoDBMapper} used to interact with the Habitats table.
+     * @param metricsPublisher the {@link MetricsPublisher} used to record metrics.
      */
     @Inject
-    public HabitatDao(DynamoDBMapper dynamoDBMapper) {
+    public HabitatDao(DynamoDBMapper dynamoDBMapper, MetricsPublisher metricsPublisher) {
         this.dynamoDBMapper = dynamoDBMapper;
+        this.metricsPublisher = metricsPublisher;
     }
 
     /**
@@ -32,6 +40,25 @@ public class HabitatDao {
      */
     public Habitat saveHabitat(Habitat habitat) {
         this.dynamoDBMapper.save(habitat);
+        return habitat;
+    }
+
+    /**
+     * Retrieves (loads) a given habitat based on the habitatId.
+     *
+     * @param habitatId the habitatId to load the given habitat
+     * @return the habitat object that was retrieved/loaded
+     */
+    public Habitat getHabitat(String habitatId) {
+        Habitat habitat = this.dynamoDBMapper.load(Habitat.class, habitatId);
+
+        if (Objects.isNull(habitat)) {
+            metricsPublisher.addCount(MetricsConstants.GETHABITAT_HABTITATNOTFOUND, 1);
+            throw new HabitatNotFoundException("Could not find habitat with id [" + habitatId + "].");
+        }
+
+        metricsPublisher.addCount(MetricsConstants.GETHABITAT_HABTITATNOTFOUND, 0);
+
         return habitat;
     }
 }
