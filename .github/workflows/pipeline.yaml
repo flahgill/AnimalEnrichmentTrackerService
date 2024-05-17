@@ -9,10 +9,10 @@ on:
 env:
 
   # STUDENTS: Set these environment variables 
-  API_BASE_URL: https://g688xoedn5.execute-api.us-east-2.amazonaws.com/Prod/
+  API_BASE_URL: https://dnyplxrmfb.execute-api.us-east-2.amazonaws.com/Prod/
   COGNITO_DOMAIN: project-animal-enrichment-tracker-gillian-flaherty
-  COGNITO_REDIRECT_SIGNIN: https://dvp8n1lkicgpk.cloudfront.net
-  COGNITO_REDIRECT_SIGNOUT: https://dvp8n1lkicgpk.cloudfront.net
+  COGNITO_REDIRECT_SIGNIN: https://d2y5syf1ilzp47.cloudfront.net
+  COGNITO_REDIRECT_SIGNOUT: https://d2y5syf1ilzp47.cloudfront.net
 
   COGNITO_USER_POOL_ID: ${{ secrets.COGNITO_USER_POOL_ID }}
   COGNITO_USER_POOL_CLIENT_ID: ${{ secrets.COGNITO_USER_POOL_CLIENT_ID }}
