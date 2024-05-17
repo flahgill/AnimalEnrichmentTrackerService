@@ -32,7 +32,7 @@ public class ViewHabitatActivityTest {
         // GIVEN
         String expectedId = "expectedId";
         String expectedName = "expectedName";
-        String expectedKeeperId = "expectedCustomerId";
+        String expectedKeeperId = "expectedKeeperId";
         int expectedTotalAnimals = 0;
         List<String> expectedSpecies = List.of("Giraffe");
         List<String> expectedAnimals = List.of("G1", "G2");
@@ -49,10 +49,11 @@ public class ViewHabitatActivityTest {
         habitat.setAcceptableEnrichmentIds(expAccEnrichments);
         habitat.setCompletedEnrichments(expCompletedEnrichments);
 
-        when(habitatDao.getHabitat(expectedId)).thenReturn(habitat);
+        when(habitatDao.getHabitat(expectedId, expectedKeeperId)).thenReturn(habitat);
 
         ViewHabitatRequest request = ViewHabitatRequest.builder()
                 .withHabitatId(expectedId)
+                .withKeeperManagerId(expectedKeeperId)
                 .build();
 
         // WHEN

@@ -46,14 +46,15 @@ public class HabitatDaoTest {
     public void getHabitat_withHabitatId_callsMapperWithPartitionKey() {
         // GIVEN
         String habitatId = "habitatId";
-        when(dynamoDBMapper.load(Habitat.class, habitatId)).thenReturn(new Habitat());
+        String keeperId = "keeperId";
+        when(dynamoDBMapper.load(Habitat.class, habitatId, keeperId)).thenReturn(new Habitat());
 
         // WHEN
-        Habitat habitat = habitatDao.getHabitat(habitatId);
+        Habitat habitat = habitatDao.getHabitat(habitatId, keeperId);
 
         // THEN
         assertNotNull(habitat);
-        verify(dynamoDBMapper).load(Habitat.class, habitatId);
+        verify(dynamoDBMapper).load(Habitat.class, habitatId, keeperId);
         verify(metricsPublisher).addCount(eq(MetricsConstants.GETHABITAT_HABTITATNOTFOUND), anyDouble());
 
     }
@@ -62,10 +63,11 @@ public class HabitatDaoTest {
     public void getHabitat_habitatIdNotFound_throwsHabitatNotFoundException() {
         // GIVEN
         String nonexistentId = "nonexistent";
+        String keeperId = "keeperId";
         when(dynamoDBMapper.load(Habitat.class, nonexistentId)).thenReturn(null);
 
         // WHEN + THEN
-        assertThrows(HabitatNotFoundException.class, () -> habitatDao.getHabitat(nonexistentId));
+        assertThrows(HabitatNotFoundException.class, () -> habitatDao.getHabitat(nonexistentId, keeperId));
         verify(metricsPublisher).addCount(eq(MetricsConstants.GETHABITAT_HABTITATNOTFOUND), anyDouble());
     }
 }
