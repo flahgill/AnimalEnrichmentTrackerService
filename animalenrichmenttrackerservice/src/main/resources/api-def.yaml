@@ -115,6 +115,51 @@ paths:
         "500":
           description: "Invalid input parameters"
 
+  /userHabitats:
+    get:
+      tags:
+        - Habitats
+      summary: Get a list of Habitats (ViewUserHabitatsLambda)
+      parameters:
+        - name: customerId
+          in: path
+          description: ID of keeper to retrieve habitats
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: a list of habitats
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  habitatId:
+                    type: string
+                  habitatName:
+                    type: string
+                  keeperManagerId:
+                    type: string
+                  totalAnimals:
+                    type: integer
+                  species:
+                    type: array
+                    items:
+                      type: string
+                  animalsInHabitat:
+                    type: array
+                    items:
+                      type: string
+                  acceptableEnrichmentIds:
+                    type: array
+                    items:
+                      type: string
+                  completedEnrichments:
+                    type: array
+                    items:
+                      type: enrichment
+
 
 
 

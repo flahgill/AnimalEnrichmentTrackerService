@@ -2,6 +2,7 @@ package com.nashss.se.animalenrichmenttrackerservice.dynamodb.models;
 
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBAttribute;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBHashKey;
+import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBIndexHashKey;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBRangeKey;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBTable;
 
@@ -51,6 +52,8 @@ public class Habitat {
     }
 
     @DynamoDBRangeKey(attributeName = "keeperManagerId")
+    @DynamoDBIndexHashKey(globalSecondaryIndexName = "HabitatsForKeeperManagerIdIndex",
+            attributeName = "keeperManagerId")
     public String getKeeperManagerId() {
         return keeperManagerId;
     }

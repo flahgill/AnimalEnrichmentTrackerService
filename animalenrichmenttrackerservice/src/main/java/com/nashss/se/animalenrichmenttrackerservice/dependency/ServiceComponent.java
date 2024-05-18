@@ -3,6 +3,7 @@ package com.nashss.se.animalenrichmenttrackerservice.dependency;
 
 import com.nashss.se.animalenrichmenttrackerservice.activity.AddHabitatActivity;
 import com.nashss.se.animalenrichmenttrackerservice.activity.ViewHabitatActivity;
+import com.nashss.se.animalenrichmenttrackerservice.activity.ViewUserHabitatsActivity;
 
 import dagger.Component;
 
@@ -23,4 +24,10 @@ public interface ServiceComponent {
      * @return ViewHabitatActivity
      */
     ViewHabitatActivity provideViewHabitatActivity();
+
+    /**
+     * Provides the relevant activity.
+     * @return ViewUserHabitatsActivity
+     */
+    ViewUserHabitatsActivity provideViewUserHabitatsActivity();
 }
