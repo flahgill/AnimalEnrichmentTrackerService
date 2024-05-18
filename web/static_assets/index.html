@@ -3,11 +3,19 @@
 
 <head>
     <script type="text/javascript" src="assets/searchPlaylists.js"></script>
+    <script type="text/javascript" src="assets/viewUserHabitats.js"></script>
     <link rel="stylesheet" type="text/css" href="css/style.css">
 </head>
 
 <body class="background">
 <header class="header" id="header"></header>
+<div class="card">
+    <h2 id="habitats-page">My Habitats</h2>
+    <h3>Created by: <span id="habitat-owner"></span></h3>
+    <p class="hidden error" id="error-message"></p>
+    <ol id="habitats"></ol>
+</div>
+
 <div class="card">
     <h2>Search Playlists</h2>
     <form class="card-content" id="search-playlists-form">
@@ -22,11 +30,13 @@
         <a href="createHabitat.html" class="button">New Habitat</a>
     </p>
 </div>
+
 <div class="card hidden" id='search-results-container'>
     <h3>Results for <span id="search-criteria-display"></span></h3>
     <div id="search-results-display">
     </div>
 </div>
+
 </body>
 
 </html>

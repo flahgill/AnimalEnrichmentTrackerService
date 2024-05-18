@@ -1,17 +1,20 @@
 package com.nashss.se.animalenrichmenttrackerservice.dynamodb;
 
-import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBMapper;
+import com.amazonaws.services.dynamodbv2.datamodeling.*;
 import com.nashss.se.animalenrichmenttrackerservice.dynamodb.models.Habitat;
 import com.nashss.se.animalenrichmenttrackerservice.exceptions.HabitatNotFoundException;
 import com.nashss.se.animalenrichmenttrackerservice.metrics.MetricsConstants;
 import com.nashss.se.animalenrichmenttrackerservice.metrics.MetricsPublisher;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.ArgumentCaptor;
+import org.mockito.Captor;
 import org.mockito.Mock;
 
+import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.ArgumentMatchers.anyDouble;
-import static org.mockito.ArgumentMatchers.eq;
+import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.mockito.MockitoAnnotations.initMocks;
@@ -21,6 +24,10 @@ public class HabitatDaoTest {
     private DynamoDBMapper dynamoDBMapper;
     @Mock
     private MetricsPublisher metricsPublisher;
+    @Mock
+    private PaginatedQueryList<Habitat> pagQueryList;
+    @Captor
+    ArgumentCaptor<DynamoDBQueryExpression> queryExpCaptor;
     private HabitatDao habitatDao;
 
     @BeforeEach
@@ -69,5 +76,20 @@ public class HabitatDaoTest {
         // WHEN + THEN
         assertThrows(HabitatNotFoundException.class, () -> habitatDao.getHabitat(nonexistentId, keeperId));
         verify(metricsPublisher).addCount(eq(MetricsConstants.GETHABITAT_HABTITATNOTFOUND), anyDouble());
+    }
+
+    @Test
+    public void getAllHabitatsForKeeper_withKeeperId_returnsListOfHabitats() {
+        // GIVEN
+        String testId = "testId";
+        when(dynamoDBMapper.query(eq(Habitat.class), any(DynamoDBQueryExpression.class))).thenReturn(pagQueryList);
+
+        // WHEN
+        List<Habitat> results = habitatDao.getAllHabitatsForKeeper(testId);
+
+        // THEN
+        assertNotNull(results);
+        verify(dynamoDBMapper).query(eq(Habitat.class), queryExpCaptor.capture());
+        assertFalse(results.isEmpty());
     }
 }
