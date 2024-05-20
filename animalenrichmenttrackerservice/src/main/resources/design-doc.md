@@ -58,12 +58,15 @@ Animal Enrichment Tracker Service will also provide a web interface for users to
 
 - String habitatId;
 - String habitatName;
+- String isActive;
 - List<String> species;
+- String keeperManagerName;
 - String keeperManagerId;
-- int totalAnimals;
+- Int totalAnimals;
 - List<String> animalsInHabitat;
 - List<String> acceptableEnrichmentIds;
 - List<Enrichment> completedEnrichments;
+
 
 // EnrichmentModel
 
@@ -143,24 +146,30 @@ Animal Enrichment Tracker Service will also provide a web interface for users to
 
 ### 7.1. Habitats
 
-- habitatId // partition key, string 
-- habitatName // string 
+- habitatId // partition key, string
+- keeperManagerId // string (keeperManagerId-habitatId-index)
+- keeperManagerName // string
+- habitatName // string
 - species // list
-- keeperManagerId // sort key, string (keeperManagerId-habitatId-index) 
-- totalAnimals // number 
-- animalsInHabitat // list 
-- acceptableEnrichmentIds // list 
+- isActive // string (habitatId-isActive-index)
+- totalAnimals // number
+- animalsInHabitat // list
+- acceptableEnrichmentIds // list (habitatId-acceptableEnrichmentsIds-index)
 - completedEnrichments // list
 
    * keeperManagerId-habitatId-index includes ALL attributes
+   * habitatId-isActive-index includes ALL attributes
+   * habitatId-acceptableEnrichmentIds-index KEYS_ONLY
 
 ### 7.2. Enrichments
 
 - enrichmentId // partition key, string 
 - name // string  
-- keeperRating // number 
+- keeperRating // number (keeperRating-enrichmentId-index)
 - description // string  
 - dateCompleted // string
+
+  * keeperRating-enrichmentId-index includes ALL attributes
 
 ## 8. Link to Google doc with images
 [FULL DESIGN DOC](https://docs.google.com/document/d/1qD5lhMVNko6C9FZJOiNMof6X5cuzQFkSKtgWBlDoVaY/edit)
