@@ -43,8 +43,7 @@ public class ViewHabitatActivity {
     public ViewHabitatResult handleRequest(final ViewHabitatRequest viewHabitatRequest) {
         log.info("Recieved ViewHabitatRequest {}", viewHabitatRequest);
 
-        Habitat habitat = habitatDao.getHabitat(viewHabitatRequest.getHabitatId(),
-                viewHabitatRequest.getKeeperManagerId());
+        Habitat habitat = habitatDao.getHabitat(viewHabitatRequest.getHabitatId());
         HabitatModel habitatModel = new ModelConverter().toHabitatModel(habitat);
 
         return ViewHabitatResult.builder()

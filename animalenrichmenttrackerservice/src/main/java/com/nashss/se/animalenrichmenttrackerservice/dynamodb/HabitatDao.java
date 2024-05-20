@@ -52,11 +52,10 @@ public class HabitatDao {
      * Retrieves (loads) a given habitat based on the habitatId.
      *
      * @param habitatId the habitatId to load the given habitat
-     * @param keeperManagerId the keeperManagerId to load the given habitat
      * @return the habitat object that was retrieved/loaded
      */
-    public Habitat getHabitat(String habitatId, String keeperManagerId) {
-        Habitat habitat = this.dynamoDBMapper.load(Habitat.class, habitatId, keeperManagerId);
+    public Habitat getHabitat(String habitatId) {
+        Habitat habitat = this.dynamoDBMapper.load(Habitat.class, habitatId);
 
         if (Objects.isNull(habitat)) {
             metricsPublisher.addCount(MetricsConstants.GETHABITAT_HABTITATNOTFOUND, 1);
