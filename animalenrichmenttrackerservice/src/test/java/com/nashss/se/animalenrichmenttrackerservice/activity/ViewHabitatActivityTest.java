@@ -53,7 +53,6 @@ public class ViewHabitatActivityTest {
 
         ViewHabitatRequest request = ViewHabitatRequest.builder()
                 .withHabitatId(expectedId)
-                .withKeeperManagerId(expectedKeeperId)
                 .build();
 
         // WHEN

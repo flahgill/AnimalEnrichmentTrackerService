@@ -32,11 +32,10 @@ public class RemoveHabitatActivityTest {
         // GIVEN
         Habitat expHabitat = HabitatTestHelper.generateHabitatWithNEnrichments(3);
 
-        when(habitatDao.removeHabitat(expHabitat.getHabitatId(), expHabitat.getKeeperManagerId())).thenReturn(expHabitat);
+        when(habitatDao.removeHabitat(expHabitat.getHabitatId())).thenReturn(expHabitat);
 
         RemoveHabitatRequest request = RemoveHabitatRequest.builder()
                 .withHabitatId(expHabitat.getHabitatId())
-                .withKeeperManagerId(expHabitat.getKeeperManagerId())
                 .build();
 
         // WHEN
@@ -55,10 +54,9 @@ public class RemoveHabitatActivityTest {
         String expectedId = "expectedId";
         String expectedKeeperId = "keeperId";
 
-        when(habitatDao.removeHabitat(expectedId, expectedKeeperId)).thenReturn(null);
+        when(habitatDao.removeHabitat(expectedId)).thenReturn(null);
 
         RemoveHabitatRequest request = RemoveHabitatRequest.builder()
-                .withKeeperManagerId(expectedKeeperId)
                 .withHabitatId(expectedId)
                 .build();
 

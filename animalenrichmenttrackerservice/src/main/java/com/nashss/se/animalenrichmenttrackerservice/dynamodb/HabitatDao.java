@@ -68,14 +68,13 @@ public class HabitatDao {
     }
 
     /**
-     * Removes the {@link Habitat} associated with the habitatId and keeperManagerId.
+     * Hard deletes the {@link Habitat} associated with the habitatId.
      *
      * @param habitatId the habitatId to load and remove the given habitat.
-     * @param keeperManagerId the keeperManagerId to load and remove the given habitat.
      * @return the habitat object that was removed.
      */
-    public Habitat removeHabitat(String habitatId, String keeperManagerId) {
-        Habitat habitat = this.dynamoDBMapper.load(Habitat.class, habitatId, keeperManagerId);
+    public Habitat removeHabitat(String habitatId) {
+        Habitat habitat = this.dynamoDBMapper.load(Habitat.class, habitatId);
 
         if (Objects.isNull(habitat)) {
             metricsPublisher.addCount(MetricsConstants.GETHABITAT_HABTITATNOTFOUND, 1);

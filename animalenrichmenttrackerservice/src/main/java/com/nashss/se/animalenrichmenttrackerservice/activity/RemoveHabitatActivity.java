@@ -42,8 +42,7 @@ public class RemoveHabitatActivity {
     public RemoveHabitatResult handleRequest(final RemoveHabitatRequest removeHabitatRequest) {
         log.info("Recieved RemoveHabitatRequest {}", removeHabitatRequest);
 
-        Habitat habitat = habitatDao.removeHabitat(removeHabitatRequest.getHabitatId(),
-                removeHabitatRequest.getKeeperManagerId());
+        Habitat habitat = habitatDao.removeHabitat(removeHabitatRequest.getHabitatId());
         HabitatModel habitatModel = null;
 
         if (habitat == null) {
