@@ -69,6 +69,27 @@ public class HabitatDao {
     }
 
     /**
+     * Removes the {@link Habitat} associated with the habitatId and keeperManagerId.
+     *
+     * @param habitatId the habitatId to load and remove the given habitat.
+     * @param keeperManagerId the keeperManagerId to load and remove the given habitat.
+     * @return the habitat object that was removed.
+     */
+    public Habitat removeHabitat(String habitatId, String keeperManagerId) {
+        Habitat habitat = this.dynamoDBMapper.load(Habitat.class, habitatId, keeperManagerId);
+
+        if (Objects.isNull(habitat)) {
+            metricsPublisher.addCount(MetricsConstants.GETHABITAT_HABTITATNOTFOUND, 1);
+            throw new HabitatNotFoundException("Could not find habitat with id [" + habitatId + "].");
+        }
+
+        this.dynamoDBMapper.delete(habitat);
+        metricsPublisher.addCount(MetricsConstants.GETHABITAT_HABTITATNOTFOUND, 0);
+
+        return habitat;
+    }
+
+    /**
      * Perform a search (via the GSI) of the habitat table for habitats matching the keeperManagerId.
      *
      * @param keeperManagerId the Id associated with list of habitats to be returned
