@@ -4,11 +4,13 @@
       "PutRequest": {
         "Item": {
           "habitatId": { "S": "001" },
+          "isActive": { "S": "active" },
           "habitatName": { "S": "Antelope House" },
           "species": { "L": [
             { "S": "Giraffe" }, { "S": "Kangaroo" }, { "S": "Nile Lechwe" }
           ] },
           "keeperManagerId": { "S": "123" },
+          "keeperManagerName": { "S": "Gill" },
           "totalAnimals": { "N": "5" },
           "animalsInHabitat": { "L": [
             { "S": "G1" }, { "S": "G2" }, { "S": "K1" }, { "S": "K2" }, { "S": "NL1" }
