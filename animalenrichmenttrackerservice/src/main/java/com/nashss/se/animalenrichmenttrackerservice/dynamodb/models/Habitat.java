@@ -6,6 +6,7 @@ import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBIndexHashKey;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBIndexRangeKey;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBTable;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -22,7 +23,7 @@ public class Habitat {
     private String keeperManagerId;
     private int totalAnimals;
     private List<String> animalsInHabitat;
-    private List<String> acceptableEnrichmentIds;
+    private List<String> acceptableEnrichmentIds = new ArrayList<>();
     private List<Enrichment> completedEnrichments;
 
     @DynamoDBHashKey(attributeName = "habitatId")
@@ -83,13 +84,14 @@ public class Habitat {
     }
 
     @DynamoDBAttribute(attributeName = "acceptableEnrichmentIds")
-    @DynamoDBIndexRangeKey(globalSecondaryIndexName = "AcceptableEnrichmentsForHabitatIndex",
-        attributeName = "acceptableEnrichmentIds")
     public List<String> getAcceptableEnrichmentIds() {
         return acceptableEnrichmentIds;
     }
 
     public void setAcceptableEnrichmentIds(List<String> acceptableEnrichmentIds) {
+        if (acceptableEnrichmentIds == null) {
+            this.acceptableEnrichmentIds = new ArrayList<>();
+        }
         this.acceptableEnrichmentIds = acceptableEnrichmentIds;
     }
 

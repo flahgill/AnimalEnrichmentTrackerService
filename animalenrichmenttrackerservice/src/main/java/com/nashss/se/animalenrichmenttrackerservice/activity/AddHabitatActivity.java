@@ -72,10 +72,10 @@ public class AddHabitatActivity {
         habitat.setHabitatId(ServiceUtils.generateId());
         habitat.setIsActive("active");
         habitat.setHabitatName(addHabitatRequest.getHabitatName());
+        habitat.setSpecies(species);
         habitat.setKeeperManagerId(addHabitatRequest.getKeeperManagerId());
         habitat.setTotalAnimals(0);
         habitat.setAnimalsInHabitat(new ArrayList<>());
-        habitat.setSpecies(species);
         habitat.setAcceptableEnrichmentIds(new ArrayList<>());
 
         habitatDao.saveHabitat(habitat);
