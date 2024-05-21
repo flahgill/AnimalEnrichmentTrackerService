@@ -80,13 +80,7 @@ export default class AnimalEnrichmentTrackerClient extends BindingClass {
      */
     async getHabitat(habitatId, errorCallback) {
         try {
-            const token = await this.getTokenOrThrow("Only authenticated users can view a habitat.");
-            const response = await this.axiosClient.get(`habitats/${habitatId}`, {
-                habitatId: habitatId,
-                headers: {
-                    Authorization: `Bearer ${token}`
-                }
-            });
+            const response = await this.axiosClient.get(`habitats/${habitatId}`);
             return response.data.habitat;
         } catch (error) {
             this.handleError(error, errorCallback)
