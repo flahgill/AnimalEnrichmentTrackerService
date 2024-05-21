@@ -49,11 +49,10 @@ public class ViewHabitatActivityTest {
         habitat.setAcceptableEnrichmentIds(expAccEnrichments);
         habitat.setCompletedEnrichments(expCompletedEnrichments);
 
-        when(habitatDao.getHabitat(expectedId, expectedKeeperId)).thenReturn(habitat);
+        when(habitatDao.getHabitat(expectedId)).thenReturn(habitat);
 
         ViewHabitatRequest request = ViewHabitatRequest.builder()
                 .withHabitatId(expectedId)
-                .withKeeperManagerId(expectedKeeperId)
                 .build();
 
         // WHEN

@@ -1,7 +1,7 @@
 AWSTemplateFormatVersion: '2010-09-09'
 Transform: AWS::Serverless-2016-10-31
 Description: >
-  Animal Enrichment Tracker Service
+  Animal Enrichment Service
 
 Parameters:
 
@@ -310,13 +310,13 @@ Resources:
       AttributeDefinitions:
         - AttributeName: "habitatId"
           AttributeType: "S"
+        - AttributeName: "isActive"
+          AttributeType: "S"
         - AttributeName: "keeperManagerId"
           AttributeType: "S"
       KeySchema:
         - AttributeName: "habitatId"
           KeyType: "HASH"
-        - AttributeName: "keeperManagerId"
-          KeyType: "RANGE"
       BillingMode: "PAY_PER_REQUEST"
       TableName: "Habitats"
       GlobalSecondaryIndexes:
@@ -326,6 +326,22 @@ Resources:
               KeyType: "HASH"
           Projection:
             ProjectionType: "ALL"
+        - IndexName: "ActiveHabitatsIndex"
+          KeySchema:
+            - AttributeName: "habitatId"
+              KeyType: "HASH"
+            - AttributeName: "isActive"
+              KeyType: "RANGE"
+          Projection:
+            ProjectionType: "ALL"
+        - IndexName: "AcceptableEnrichmentsForHabitatIndex"
+          KeySchema:
+            - AttributeName: "habitatId"
+              KeyType: "HASH"
+          Projection:
+            ProjectionType: "INCLUDE"
+            NonKeyAttributes:
+              - "acceptableEnrichmentIds"
 
   EnrichmentsTable:
     Type: AWS::DynamoDB::Table
@@ -333,11 +349,22 @@ Resources:
       AttributeDefinitions:
         - AttributeName: "enrichmentId"
           AttributeType: "S"
+        - AttributeName: "keeperRating"
+          AttributeType: "N"
       KeySchema:
         - AttributeName: "enrichmentId"
           KeyType: "HASH"
       BillingMode: "PAY_PER_REQUEST"
       TableName: "Enrichments"
+      GlobalSecondaryIndexes:
+        - IndexName: "KeeperRatingsForEnrichmentIdsIndex"
+          KeySchema:
+            - AttributeName: "keeperRating"
+              KeyType: "HASH"
+            - AttributeName: "enrichmentId"
+              KeyType: "RANGE"
+          Projection:
+            ProjectionType: "ALL"
 
 #-----------------------------------------------------
 # The outputs defined below will be printed

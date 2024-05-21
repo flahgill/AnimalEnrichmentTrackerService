@@ -54,14 +54,14 @@ public class HabitatDaoTest {
         // GIVEN
         String habitatId = "habitatId";
         String keeperId = "keeperId";
-        when(dynamoDBMapper.load(Habitat.class, habitatId, keeperId)).thenReturn(new Habitat());
+        when(dynamoDBMapper.load(Habitat.class, habitatId)).thenReturn(new Habitat());
 
         // WHEN
-        Habitat habitat = habitatDao.getHabitat(habitatId, keeperId);
+        Habitat habitat = habitatDao.getHabitat(habitatId);
 
         // THEN
         assertNotNull(habitat);
-        verify(dynamoDBMapper).load(Habitat.class, habitatId, keeperId);
+        verify(dynamoDBMapper).load(Habitat.class, habitatId);
         verify(metricsPublisher).addCount(eq(MetricsConstants.GETHABITAT_HABTITATNOTFOUND), anyDouble());
 
     }
@@ -74,7 +74,7 @@ public class HabitatDaoTest {
         when(dynamoDBMapper.load(Habitat.class, nonexistentId)).thenReturn(null);
 
         // WHEN + THEN
-        assertThrows(HabitatNotFoundException.class, () -> habitatDao.getHabitat(nonexistentId, keeperId));
+        assertThrows(HabitatNotFoundException.class, () -> habitatDao.getHabitat(nonexistentId));
         verify(metricsPublisher).addCount(eq(MetricsConstants.GETHABITAT_HABTITATNOTFOUND), anyDouble());
     }
 

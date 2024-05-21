@@ -41,6 +41,7 @@ public class ModelConverter {
 
         return HabitatModel.builder()
                 .withHabitatId(habitat.getHabitatId())
+                .withIsActive(habitat.getIsActive())
                 .withHabitatName(habitat.getHabitatName())
                 .withSpecies(species)
                 .withKeeperManagerId(habitat.getKeeperManagerId())

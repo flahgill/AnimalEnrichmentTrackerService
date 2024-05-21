@@ -4,6 +4,7 @@
       "PutRequest": {
         "Item": {
           "habitatId": { "S": "001" },
+          "isActive": { "S": "active" },
           "habitatName": { "S": "Antelope House" },
           "species": { "L": [
             { "S": "Giraffe" }, { "S": "Kangaroo" }, { "S": "Nile Lechwe" }

@@ -3,9 +3,10 @@ package com.nashss.se.animalenrichmenttrackerservice.dynamodb.models;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBAttribute;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBHashKey;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBIndexHashKey;
-import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBRangeKey;
+import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBIndexRangeKey;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBTable;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -16,15 +17,18 @@ import java.util.Objects;
 public class Habitat {
 
     private String habitatId;
+    private String isActive;
     private String habitatName;
     private List<String> species;
     private String keeperManagerId;
     private int totalAnimals;
     private List<String> animalsInHabitat;
-    private List<String> acceptableEnrichmentIds;
+    private List<String> acceptableEnrichmentIds = new ArrayList<>();
     private List<Enrichment> completedEnrichments;
 
     @DynamoDBHashKey(attributeName = "habitatId")
+    @DynamoDBIndexHashKey(globalSecondaryIndexNames = {"AcceptableEnrichmentsForHabitatIndex",
+            "ActiveHabitatsIndex"}, attributeName = "habitatId")
     public String getHabitatId() {
         return habitatId;
     }
@@ -51,7 +55,6 @@ public class Habitat {
         this.species = species;
     }
 
-    @DynamoDBRangeKey(attributeName = "keeperManagerId")
     @DynamoDBIndexHashKey(globalSecondaryIndexName = "HabitatsForKeeperManagerIdIndex",
             attributeName = "keeperManagerId")
     public String getKeeperManagerId() {
@@ -85,7 +88,14 @@ public class Habitat {
         return acceptableEnrichmentIds;
     }
 
+    /**
+     * Setter for acceptableEnrichmentIds to avoid null data.
+     * @param acceptableEnrichmentIds list of acceptable enrichment Ids for a habitat
+     */
     public void setAcceptableEnrichmentIds(List<String> acceptableEnrichmentIds) {
+        if (acceptableEnrichmentIds == null) {
+            this.acceptableEnrichmentIds = new ArrayList<>();
+        }
         this.acceptableEnrichmentIds = acceptableEnrichmentIds;
     }
 
@@ -96,6 +106,17 @@ public class Habitat {
 
     public void setCompletedEnrichments(List<Enrichment> completedEnrichments) {
         this.completedEnrichments = completedEnrichments;
+    }
+
+    @DynamoDBAttribute(attributeName = "isActive")
+    @DynamoDBIndexRangeKey(globalSecondaryIndexName = "ActiveHabitatsIndex",
+            attributeName = "isActive")
+    public String getIsActive() {
+        return isActive;
+    }
+
+    public void setIsActive(String isActive) {
+        this.isActive = isActive;
     }
 
     @Override
@@ -119,6 +140,7 @@ public class Habitat {
     public String toString() {
         return "Habitat{" +
                 "habitatId='" + habitatId + '\'' +
+                ", isActive='" + isActive + '\'' +
                 ", habitatName='" + habitatName + '\'' +
                 ", species=" + species +
                 ", keeperManagerId='" + keeperManagerId + '\'' +

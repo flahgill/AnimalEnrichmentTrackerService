@@ -52,11 +52,10 @@ public class HabitatDao {
      * Retrieves (loads) a given habitat based on the habitatId.
      *
      * @param habitatId the habitatId to load the given habitat
-     * @param keeperManagerId the keeperManagerId to load the given habitat
      * @return the habitat object that was retrieved/loaded
      */
-    public Habitat getHabitat(String habitatId, String keeperManagerId) {
-        Habitat habitat = this.dynamoDBMapper.load(Habitat.class, habitatId, keeperManagerId);
+    public Habitat getHabitat(String habitatId) {
+        Habitat habitat = this.dynamoDBMapper.load(Habitat.class, habitatId);
 
         if (Objects.isNull(habitat)) {
             metricsPublisher.addCount(MetricsConstants.GETHABITAT_HABTITATNOTFOUND, 1);
@@ -69,14 +68,13 @@ public class HabitatDao {
     }
 
     /**
-     * Removes the {@link Habitat} associated with the habitatId and keeperManagerId.
+     * Hard deletes the {@link Habitat} associated with the habitatId.
      *
      * @param habitatId the habitatId to load and remove the given habitat.
-     * @param keeperManagerId the keeperManagerId to load and remove the given habitat.
      * @return the habitat object that was removed.
      */
-    public Habitat removeHabitat(String habitatId, String keeperManagerId) {
-        Habitat habitat = this.dynamoDBMapper.load(Habitat.class, habitatId, keeperManagerId);
+    public Habitat removeHabitat(String habitatId) {
+        Habitat habitat = this.dynamoDBMapper.load(Habitat.class, habitatId);
 
         if (Objects.isNull(habitat)) {
             metricsPublisher.addCount(MetricsConstants.GETHABITAT_HABTITATNOTFOUND, 1);
@@ -98,11 +96,13 @@ public class HabitatDao {
     public List<Habitat> getAllHabitatsForKeeper(String keeperManagerId) {
         Map<String, AttributeValue> valueMap = new HashMap<>();
         valueMap.put(":keeperManagerId", new AttributeValue().withS(keeperManagerId));
+        valueMap.put(":isActive", new AttributeValue().withS("active"));
 
         DynamoDBQueryExpression<Habitat> queryExpression = new DynamoDBQueryExpression<Habitat>()
                 .withIndexName("HabitatsForKeeperManagerIdIndex")
                 .withConsistentRead(false)
                 .withKeyConditionExpression("keeperManagerId = :keeperManagerId")
+                .withFilterExpression("isActive = :isActive")
                 .withExpressionAttributeValues(valueMap);
 
         return this.dynamoDBMapper.query(Habitat.class, queryExpression);
