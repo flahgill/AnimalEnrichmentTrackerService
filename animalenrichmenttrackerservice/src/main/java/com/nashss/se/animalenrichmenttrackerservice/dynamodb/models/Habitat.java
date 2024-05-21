@@ -103,6 +103,7 @@ public class Habitat {
         this.completedEnrichments = completedEnrichments;
     }
 
+    @DynamoDBAttribute(attributeName = "isActive")
     @DynamoDBIndexRangeKey(globalSecondaryIndexName = "ActiveHabitatsIndex",
             attributeName = "isActive")
     public String getIsActive() {

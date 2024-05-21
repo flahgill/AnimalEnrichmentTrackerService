@@ -17,8 +17,6 @@ public class Enrichment {
     private LocalDate dateCompleted;
 
     @DynamoDBHashKey(attributeName = "enrichmentId")
-    @DynamoDBIndexRangeKey(globalSecondaryIndexName = "KeeperRatingsForEnrichmentIdsIndex",
-            attributeName = "enrichmentId")
     public String getEnrichmentId() {
         return enrichmentId;
     }

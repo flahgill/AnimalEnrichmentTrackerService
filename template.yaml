@@ -1,7 +1,7 @@
 AWSTemplateFormatVersion: '2010-09-09'
 Transform: AWS::Serverless-2016-10-31
 Description: >
-  Animal Enrichment Tracker Service
+  Animal Enrichment Service
 
 Parameters:
 
@@ -312,8 +312,8 @@ Resources:
           AttributeType: "S"
         - AttributeName: "isActive"
           AttributeType: "S"
-        - AttributeName: "acceptableEnrichmentIds"
-          AttributeType: "L"
+        - AttributeName: "keeperManagerId"
+          AttributeType: "S"
       KeySchema:
         - AttributeName: "habitatId"
           KeyType: "HASH"
@@ -338,10 +338,10 @@ Resources:
           KeySchema:
             - AttributeName: "habitatId"
               KeyType: "HASH"
-            - AttributeName: "acceptableEnrichmentIds"
-              KeyType: "RANGE"
           Projection:
-            ProjectionType: "KEYS_ONLY"
+            ProjectionType: "INCLUDE"
+            NonKeyAttributes:
+              - "acceptableEnrichmentIds"
 
   EnrichmentsTable:
     Type: AWS::DynamoDB::Table
