@@ -20,7 +20,6 @@ public class Habitat {
     private String habitatName;
     private List<String> species;
     private String keeperManagerId;
-    private String keeperManagerName;
     private int totalAnimals;
     private List<String> animalsInHabitat;
     private List<String> acceptableEnrichmentIds;
@@ -114,15 +113,6 @@ public class Habitat {
         this.isActive = isActive;
     }
 
-    @DynamoDBAttribute(attributeName = "keeperManagerName")
-    public String getKeeperManagerName() {
-        return keeperManagerName;
-    }
-
-    public void setKeeperManagerName(String keeperManagerName) {
-        this.keeperManagerName = keeperManagerName;
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) {
@@ -148,7 +138,6 @@ public class Habitat {
                 ", habitatName='" + habitatName + '\'' +
                 ", species=" + species +
                 ", keeperManagerId='" + keeperManagerId + '\'' +
-                ", keeperManagerName='" + keeperManagerName + '\'' +
                 ", totalAnimals=" + totalAnimals +
                 ", animalsInHabitat=" + animalsInHabitat +
                 ", acceptableEnrichmentIds=" + acceptableEnrichmentIds +

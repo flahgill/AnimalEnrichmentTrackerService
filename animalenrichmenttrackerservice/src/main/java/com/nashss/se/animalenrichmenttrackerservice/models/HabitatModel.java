@@ -11,22 +11,19 @@ public class HabitatModel {
     private final String habitatName;
     private final List<String> species;
     private final String keeperManagerId;
-    private final String keeperManagerName;
     private final int totalAnimals;
     private final List<String> animalsInHabitat;
     private final List<String> acceptableEnrichmentIds;
     private final List<Enrichment> completedEnrichments;
 
     private HabitatModel(String habitatId, String isActive, String habitatName, List<String> species,
-                         String keeperManagerId, String keeperManagerName, int totalAnimals,
-                         List<String> animalsInHabitat, List<String> acceptableEnrichmentIds,
-                         List<Enrichment> completedEnrichments) {
+                         String keeperManagerId, int totalAnimals, List<String> animalsInHabitat,
+                         List<String> acceptableEnrichmentIds, List<Enrichment> completedEnrichments) {
         this.habitatId = habitatId;
         this.isActive = isActive;
         this.habitatName = habitatName;
         this.species = species;
         this.keeperManagerId = keeperManagerId;
-        this.keeperManagerName = keeperManagerName;
         this.totalAnimals = totalAnimals;
         this.animalsInHabitat = animalsInHabitat;
         this.acceptableEnrichmentIds = acceptableEnrichmentIds;
@@ -69,9 +66,6 @@ public class HabitatModel {
         return isActive;
     }
 
-    public String getKeeperManagerName() {
-        return keeperManagerName;
-    }
 
     @Override
     public boolean equals(Object o) {
@@ -101,7 +95,6 @@ public class HabitatModel {
         private String habitatName;
         private List<String> species;
         private String keeperManagerId;
-        private String keeperManagerName;
         private int totalAnimals;
         private List<String> animalsInHabitat;
         private List<String> acceptableEnrichmentIds;
@@ -128,11 +121,6 @@ public class HabitatModel {
             this.keeperManagerId = keeperManagerId;
             return this;
         }
-
-        public Builder withKeeperManagerName(String keeperManagerName) {
-            this.keeperManagerName = keeperManagerName;
-            return this;
-        }
         public Builder withTotalAnimals(int totalAnimals) {
             this.totalAnimals = totalAnimals;
             return this;
@@ -150,8 +138,8 @@ public class HabitatModel {
             return this;
         }
         public HabitatModel build() {
-            return new HabitatModel(habitatId,isActive, habitatName, species, keeperManagerId,
-                    keeperManagerName, totalAnimals, animalsInHabitat, acceptableEnrichmentIds,
+            return new HabitatModel(habitatId, isActive, habitatName, species, keeperManagerId,
+                    totalAnimals, animalsInHabitat, acceptableEnrichmentIds,
                     completedEnrichments);
         }
     }
