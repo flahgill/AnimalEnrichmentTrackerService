@@ -88,6 +88,10 @@ public class Habitat {
         return acceptableEnrichmentIds;
     }
 
+    /**
+     * Setter for acceptableEnrichmentIds to avoid null data.
+     * @param acceptableEnrichmentIds list of acceptable enrichment Ids for a habitat
+     */
     public void setAcceptableEnrichmentIds(List<String> acceptableEnrichmentIds) {
         if (acceptableEnrichmentIds == null) {
             this.acceptableEnrichmentIds = new ArrayList<>();

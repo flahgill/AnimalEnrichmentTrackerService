@@ -101,7 +101,8 @@ public class HabitatDao {
         DynamoDBQueryExpression<Habitat> queryExpression = new DynamoDBQueryExpression<Habitat>()
                 .withIndexName("HabitatsForKeeperManagerIdIndex")
                 .withConsistentRead(false)
-                .withKeyConditionExpression("keeperManagerId = :keeperManagerId and isActive = :isActive")
+                .withKeyConditionExpression("keeperManagerId = :keeperManagerId")
+                .withFilterExpression("isActive = :isActive")
                 .withExpressionAttributeValues(valueMap);
 
         return this.dynamoDBMapper.query(Habitat.class, queryExpression);
