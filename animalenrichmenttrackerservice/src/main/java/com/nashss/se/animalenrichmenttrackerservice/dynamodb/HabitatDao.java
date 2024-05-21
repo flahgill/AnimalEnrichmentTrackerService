@@ -96,11 +96,12 @@ public class HabitatDao {
     public List<Habitat> getAllHabitatsForKeeper(String keeperManagerId) {
         Map<String, AttributeValue> valueMap = new HashMap<>();
         valueMap.put(":keeperManagerId", new AttributeValue().withS(keeperManagerId));
+        valueMap.put(":isActive", new AttributeValue().withS("active"));
 
         DynamoDBQueryExpression<Habitat> queryExpression = new DynamoDBQueryExpression<Habitat>()
                 .withIndexName("HabitatsForKeeperManagerIdIndex")
                 .withConsistentRead(false)
-                .withKeyConditionExpression("keeperManagerId = :keeperManagerId")
+                .withKeyConditionExpression("keeperManagerId = :keeperManagerId and isActive = :isActive")
                 .withExpressionAttributeValues(valueMap);
 
         return this.dynamoDBMapper.query(Habitat.class, queryExpression);
