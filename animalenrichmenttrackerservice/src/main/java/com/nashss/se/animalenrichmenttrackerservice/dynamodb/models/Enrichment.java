@@ -1,8 +1,6 @@
 package com.nashss.se.animalenrichmenttrackerservice.dynamodb.models;
 
-import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBAttribute;
-import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBHashKey;
-import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBTable;
+import com.amazonaws.services.dynamodbv2.datamodeling.*;
 
 import java.time.LocalDate;
 import java.util.Objects;
@@ -19,6 +17,8 @@ public class Enrichment {
     private LocalDate dateCompleted;
 
     @DynamoDBHashKey(attributeName = "enrichmentId")
+    @DynamoDBIndexRangeKey(globalSecondaryIndexName = "KeeperRatingsForEnrichmentIdsIndex",
+            attributeName = "enrichmentId")
     public String getEnrichmentId() {
         return enrichmentId;
     }
@@ -37,6 +37,8 @@ public class Enrichment {
     }
 
     @DynamoDBAttribute(attributeName = "keeperRating")
+    @DynamoDBIndexHashKey(globalSecondaryIndexName = "KeeperRatingsForEnrichmentIdsIndex",
+    attributeName = "keeperRating")
     public int getKeeperRating() {
         return keeperRating;
     }
