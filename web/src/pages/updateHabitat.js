@@ -38,7 +38,7 @@ class UpdateHabitat extends BindingClass {
     async clientLoaded() {
         document.getElementById('habitat-name').innerText = "Loading Habitat ...";
 
-        const book = await this.client.getHabitat(this.habitatId);
+        const habitat = await this.client.getHabitat(this.habitatId);
         this.dataStore.set('habitat', habitat);
     }
 
@@ -76,7 +76,14 @@ class UpdateHabitat extends BindingClass {
         const newName = document.getElementById('new-name').value;
         const newSpecies = document.getElementById('new-species').value;
 
-        const book = await this.client.updateHabitat(this.habitatId, keeperId, newName, newSpecies, (error) => {
+        let species;
+        if (newSpecies.length < 1) {
+            species = null;
+        } else {
+            species = newSpecies.split(/\s*,\s*/);
+        }
+
+        const habitat = await this.client.updateHabitat(this.habitatId, newName, species, (error) => {
             updateButton.innerText = origButtonText;
             errorMessageDisplay.innerText = `Error: ${error.message}`;
             errorMessageDisplay.classList.remove('hidden');
@@ -88,7 +95,7 @@ class UpdateHabitat extends BindingClass {
     /**
      * When the habitat is updated in the datastore, redirect back to the habitat page.
      */
-    redirectToBooklist(habitatId) {
+    redirectToHabitat(habitatId) {
          window.location.href = `/habitat.html?habitatId=${habitatId}`;
 
     }

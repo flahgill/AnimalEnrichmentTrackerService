@@ -153,7 +153,7 @@ export default class AnimalEnrichmentTrackerClient extends BindingClass {
         }
      }
 
-     async updateHabitat(habitatId, keeperManagerId, habitatName, species) {
+     async updateHabitat(habitatId, habitatName, species, errorCallback) {
      try {
             const token = await this.getTokenOrThrow("Only authenticated users can update their habitat");
             const response = await this.axiosClient.put(`habitats/${habitatId}`, {
@@ -162,7 +162,7 @@ export default class AnimalEnrichmentTrackerClient extends BindingClass {
                 species: species
             }, {
                 headers: {
-                    Authorization: 'Bearer ${token}'
+                    Authorization: `Bearer ${token}`
                 }
             });
             return response.data.habiat;

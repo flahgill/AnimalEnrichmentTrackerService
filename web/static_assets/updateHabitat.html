@@ -11,9 +11,13 @@
 <header class="header" id="header"></header>
 <div class="card">
     <h2 id="update-habitat-form">Update Habitat </h2>
+    <label>Current Habitat Name:</label>
     <div class="habitat-name" id="habitat-name"></div>
+    <label>Manager:</label>
     <div class="habitat-owner" id="habitat-owner"></div>
+    <label>Habitat Id:</label>
     <div class="habitat-id" id="habitat-id"></div>
+    <label>Current Species:</label>
     <div class="species" id="species"></div>
 </div>
 
@@ -23,7 +27,7 @@
         <p class="form-field">
             <label>Update Habitat Name</label>
             <input type="text" required class="validated-field" id="new-name" placeholder="Giraffe Barn" autofocus>
-            <sub>Input the updated habitat name</sub>
+            <sub class="tip">*Input the updated habitat name</sub>
         </p>
     </form>
 </div>
@@ -33,8 +37,8 @@
         <p class="form-field">
             <label>Update Species in Habitat</label>
             <input type="text" required class="validated-field" id="new-species" placeholder="Giraffe, Kangaroo, Nile Lechwe" autofocus>
-            <sub>Input the update species as a comma separated list</sub>
-            <sub>This list will replace the old list completely</sub>
+            <sub class="tip">*Input the updated species as a comma separated list</sub>
+            <sub class="tip">*This list will replace the old list completely</sub>
         </p>
     </form>
 </div>

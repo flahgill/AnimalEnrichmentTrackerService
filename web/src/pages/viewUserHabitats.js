@@ -58,8 +58,8 @@ import DataStore from "../util/DataStore";
                 <td>${habitat.totalAnimals}</td>
                 <td>${habitat.species?.join(', ')}</td>
                 <td>${habitat.habitatId}</td>
-                <td><button data-id="${habitat.habitatId}" class="button update-habitat">Update ${habitat.habitatName}</button></td>
-                <td><button data-id="${habitat.habitatId}" class="button remove-habitat">Delete ${habitat.habitatName}</button></td>
+                <td><button data-id="${habitat.habitatId}" class="button update-habitat">Update</button></td>
+                <td><button data-id="${habitat.habitatId}" class="button remove-habitat">Delete</button></td>
             </tr>`;
         }
 
