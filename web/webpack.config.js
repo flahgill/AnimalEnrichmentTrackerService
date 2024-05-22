@@ -26,6 +26,7 @@ module.exports = {
     createHabitat: path.resolve(__dirname, 'src', 'pages', 'createHabitat.js'),
     viewHabitat: path.resolve(__dirname, 'src', 'pages', 'viewHabitat.js'),
     viewUserHabitats: path.resolve(__dirname, 'src', 'pages', 'viewUserHabitats.js'),
+    updateHabitat: path.resolve(__dirname, 'src', 'pages', 'updateHabitat.js'),
     searchPlaylists: path.resolve(__dirname, 'src', 'pages', 'searchPlaylists.js')
   },
   output: {

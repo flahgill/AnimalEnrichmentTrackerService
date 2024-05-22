@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <script type="text/javascript" src="assets/updateHabitat.js"></script>
+    <link rel="stylesheet" type="text/css" href="css/style.css">
+</head>
+
+<body class="background">
+
+<header class="header" id="header"></header>
+<div class="card">
+    <h2 id="update-habitat-form">Update Habitat </h2>
+    <label>Current Habitat Name:</label>
+    <div class="habitat-name" id="habitat-name"></div>
+    <label>Manager:</label>
+    <div class="habitat-owner" id="habitat-owner"></div>
+    <label>Habitat Id:</label>
+    <div class="habitat-id" id="habitat-id"></div>
+    <label>Current Species:</label>
+    <div class="species" id="species"></div>
+</div>
+
+<div class="card">
+    <form class="card-content" id="update-habitat-name-form">
+        <p class="hidden error" id="error-message"> </p>
+        <p class="form-field">
+            <label>Update Habitat Name</label>
+            <input type="text" required class="validated-field" id="new-name" placeholder="Giraffe Barn" autofocus>
+            <sub class="tip">*Input the updated habitat name</sub>
+        </p>
+    </form>
+</div>
+
+<div class="card">
+    <form class="card-content" id="update-species-form">
+        <p class="form-field">
+            <label>Update Species in Habitat</label>
+            <input type="text" required class="validated-field" id="new-species" placeholder="Giraffe, Kangaroo, Nile Lechwe" autofocus>
+            <sub class="tip">*Input the updated species as a comma separated list</sub>
+            <sub class="tip">*This list will replace the old list completely</sub>
+        </p>
+    </form>
+</div>
+
+<div class="card">
+    <a href="#" class="button" id="update-habitat">Submit</a>
+</div>
+</body>
+
+</html>

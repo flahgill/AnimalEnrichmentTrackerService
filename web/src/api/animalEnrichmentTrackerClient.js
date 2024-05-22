@@ -16,7 +16,7 @@ export default class AnimalEnrichmentTrackerClient extends BindingClass {
         super();
 
         const methodsToBind = ['clientLoaded', 'getIdentity', 'login', 'logout', 'getHabitat', 'createHabitat', 'getUserHabitats',
-        'removeHabitat'];
+        'removeHabitat', 'updateHabitat'];
         this.bindClassMethods(methodsToBind, this);
 
         this.authenticator = new Authenticator();;
@@ -151,6 +151,24 @@ export default class AnimalEnrichmentTrackerClient extends BindingClass {
         } catch (error) {
             this.handleError(error, errorCallback)
         }
+     }
+
+     async updateHabitat(habitatId, habitatName, species, errorCallback) {
+     try {
+            const token = await this.getTokenOrThrow("Only authenticated users can update their habitat");
+            const response = await this.axiosClient.put(`habitats/${habitatId}`, {
+                habitatId: habitatId,
+                habitatName: habitatName,
+                species: species
+            }, {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            });
+            return response.data.habiat;
+         } catch (error) {
+            this.handleError(error, errorCallback)
+         }
      }
 
     /**
