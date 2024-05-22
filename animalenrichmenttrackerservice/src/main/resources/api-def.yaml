@@ -159,6 +159,51 @@ paths:
                       type: enrichment
         "500":
           description: "Invalid input parameters"
+    put:
+      tags:
+        - Habitats
+      summary: Update an existing habitat (UpdateHabitatLambda)
+      parameters:
+        - name: habitatId
+          in: path
+          description: ID of habitat to update
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: A habitat object
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  habitatId:
+                    type: string
+                  habitatName:
+                    type: string
+                  keeperManagerId:
+                    type: string
+                  totalAnimals:
+                    type: integer
+                  species:
+                    type: array
+                    items:
+                      type: string
+                  animalsInHabitat:
+                    type: array
+                    items:
+                      type: string
+                  acceptableEnrichmentIds:
+                    type: array
+                    items:
+                      type: string
+                  completedEnrichments:
+                    type: array
+                    items:
+                      type: enrichment
+        "500":
+          description: "Invalid input parameters"
 
   /userHabitats:
     get:
