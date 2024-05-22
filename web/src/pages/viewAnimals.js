@@ -4,20 +4,20 @@ import BindingClass from "../util/bindingClass";
 import DataStore from "../util/DataStore";
 
 /**
- * Logic needed for the view playlist page of the website.
+ * Logic needed for the view animals page of the website.
  */
-class ViewHabitat extends BindingClass {
+class ViewAnimals extends BindingClass {
     constructor() {
         super();
-        this.bindClassMethods(['clientLoaded', 'mount', 'addHabitatToPage', 'redirectToViewAnimals'], this);
+        this.bindClassMethods(['clientLoaded', 'mount', 'addAnimalsToPage'], this);
         this.dataStore = new DataStore();
-        this.dataStore.addChangeListener(this.addHabitatToPage);
+        this.dataStore.addChangeListener(this.addAnimalsToPage);
         this.header = new Header(this.dataStore);
-        console.log("viewHabitat constructor");
+        console.log("viewAnimals constructor");
     }
 
     /**
-     * Once the client is loaded, get the playlist metadata and song list.
+     * Once the client is loaded, get the habitat metadata and animals list.
      */
     async clientLoaded() {
         const urlParams = new URLSearchParams(window.location.search);
@@ -25,25 +25,27 @@ class ViewHabitat extends BindingClass {
         document.getElementById('habitat-name').innerText = "Loading Habitat ...";
         const habitat = await this.client.getHabitat(habitatId);
         this.dataStore.set('habitat', habitat);
+        const animals = await this.client.getAnimalsForHabitat(habitatId);
+        this.dataStore.set('animals', animals);
     }
 
     /**
-     * Add the header to the page and load the MusicPlaylistClient.
+     * Add the header to the page and load the AnimalEnrichmentTrackerClient.
      */
     mount() {
         this.header.addHeaderToPage();
-        document.getElementById('view-animals-button').addEventListener("click", this.redirectToViewAnimals);
 
         this.client = new AnimalEnrichmentTrackerClient();
         this.clientLoaded();
     }
 
     /**
-     * When the habitat is updated in the datastore, update the habitat metadata on the page.
+     * When the list of animals are updated in the datastore, update the animals metadata on the page.
      */
-    addHabitatToPage() {
+    addAnimalsToPage() {
+        const animals = this.dataStore.get('animals');
         const habitat = this.dataStore.get('habitat');
-        if (habitat == null) {
+        if (animals == null || habitat == null) {
             return;
         }
 
@@ -57,21 +59,28 @@ class ViewHabitat extends BindingClass {
             speciesHtml += `<div class="species">${spec}</div>`;
         }
         document.getElementById('species').innerHTML = speciesHtml;
+
+        let animalsHtml = '<table id="animals-table"><tr><th>Animal Name</th></tr>';
+        let animal;
+        for (animal of animals) {
+            animalsHtml += `
+               <tr>
+                   <td>${animal}</td>
+               </tr>`;
+        }
+
+        animalsHtml += '</table>';
+        document.getElementById('animals').innerHTML = animalsHtml;
     }
 
-    async redirectToViewAnimals(e) {
-        const habitat = this.dataStore.get('habitat');
-        const habitatId = habitat.habitatId;
-        window.location.href = `viewAnimals.html?habitatId=${habitatId}`;
-    }
 }
 
 /**
  * Main method to run when the page contents have loaded.
  */
 const main = async () => {
-    const viewHabitat = new ViewHabitat();
-    viewHabitat.mount();
+    const viewAnimals = new ViewAnimals();
+    viewAnimals.mount();
 };
 
 window.addEventListener('DOMContentLoaded', main);

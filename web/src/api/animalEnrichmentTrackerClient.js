@@ -16,7 +16,7 @@ export default class AnimalEnrichmentTrackerClient extends BindingClass {
         super();
 
         const methodsToBind = ['clientLoaded', 'getIdentity', 'login', 'logout', 'getHabitat', 'createHabitat', 'getUserHabitats',
-        'removeHabitat', 'updateHabitat'];
+        'removeHabitat', 'updateHabitat', 'getAnimalsForHabitat'];
         this.bindClassMethods(methodsToBind, this);
 
         this.authenticator = new Authenticator();;
@@ -92,7 +92,7 @@ export default class AnimalEnrichmentTrackerClient extends BindingClass {
      * @param name The name of the habitat to create.
      * @param tags Metadata species to associate with a habitat.
      * @param errorCallback (Optional) A function to execute if the call fails.
-     * @returns The playlist that has been created.
+     * @returns The habitat that has been created.
      */
     async createHabitat(habitatName, species, errorCallback) {
         try {
@@ -153,6 +153,14 @@ export default class AnimalEnrichmentTrackerClient extends BindingClass {
         }
      }
 
+     /**
+      * Update an existing Habitat.
+      * @param habitatId the Id of the habitat to update.
+      * @param habitatName the name of the habitat to update.
+      * @param species the species of the habitat to update.
+      * @param errorCallback (Optional) A function to execute if the call fails.
+      * @returns The habitat that has been created.
+      */
      async updateHabitat(habitatId, habitatName, species, errorCallback) {
      try {
             const token = await this.getTokenOrThrow("Only authenticated users can update their habitat");
@@ -168,6 +176,21 @@ export default class AnimalEnrichmentTrackerClient extends BindingClass {
             return response.data.habiat;
          } catch (error) {
             this.handleError(error, errorCallback)
+         }
+     }
+
+     /**
+      * Gets the habitat's list of animals for the given ID.
+      * @param habitatId Unique identifier for a habitat
+      * @param errorCallback (Optional) A function to execute if the call fails.
+      * @returns {Promise<string[]>} The habitat's list of animals.
+      */
+     async getAnimalsForHabitat(habitatId, errorCallback) {
+         try {
+             const response = await this.axiosClient.get(`habitats/${habitatId}/animals`);
+             return response.data.animalsInHabitat;
+         } catch (error) {
+             this.handleError(error, errorCallback)
          }
      }
 
