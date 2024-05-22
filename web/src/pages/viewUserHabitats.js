@@ -8,7 +8,8 @@ import DataStore from "../util/DataStore";
   class ViewUserHabitats extends BindingClass {
      constructor() {
              super();
-             this.bindClassMethods(['clientLoaded', 'mount', 'addHabitatsToPage', 'removeHabitat'], this);
+             this.bindClassMethods(['clientLoaded', 'mount', 'addHabitatsToPage', 'removeHabitat',
+             'redirectToUpdateHabitat'], this);
              this.dataStore = new DataStore();
              console.log("viewUserHabitats constructor");
      }
@@ -30,6 +31,7 @@ import DataStore from "../util/DataStore";
   */
   mount() {
       document.getElementById('habitats').addEventListener("click", this.removeHabitat);
+      document.getElementById('habitats').addEventListener("click", this.redirectToUpdateHabitat);
 
       this.client = new AnimalEnrichmentTrackerClient();
       this.clientLoaded();
@@ -45,7 +47,7 @@ import DataStore from "../util/DataStore";
             return;
         }
 
-        let habitatsHtml = '<table id="habitats-table"><tr><th>Name</th><th>Total Animals</th><th>Species</th><th>Habitat Id</th><th>Delete Habitat</th></tr>';
+        let habitatsHtml = '<table id="habitats-table"><tr><th>Name</th><th>Total Animals</th><th>Species</th><th>Habitat Id</th><th>Update Habitat</th><th>Delete Habitat</th></tr>';
         let habitat;
         for (habitat of habitats) {
             habitatsHtml += `
@@ -56,7 +58,8 @@ import DataStore from "../util/DataStore";
                 <td>${habitat.totalAnimals}</td>
                 <td>${habitat.species?.join(', ')}</td>
                 <td>${habitat.habitatId}</td>
-                <td><button data-id="${habitat.habitatId}" class="button remove-habitat">Remove ${habitat.habitatName}</button></td>
+                <td><button data-id="${habitat.habitatId}" class="button update-habitat">Update ${habitat.habitatName}</button></td>
+                <td><button data-id="${habitat.habitatId}" class="button remove-habitat">Delete ${habitat.habitatName}</button></td>
             </tr>`;
         }
 
@@ -86,6 +89,22 @@ import DataStore from "../util/DataStore";
         });
 
         document.getElementById(removeButton.dataset.id).remove();
+    }
+
+    /**
+    * when the update button is clicked, redirects to update habitat page.
+    */
+    async redirectToUpdateHabitat(e) {
+        const updateButton = e.target;
+        if (!updateButton.classList.contains("update-habitat")) {
+            return;
+        }
+
+        updateButton.innerText = "Loading...";
+
+        if (updateButton != null) {
+            window.location.href = `/updateHabitat.html?habitatId=${updateButton.dataset.id}`;
+        }
     }
 }
 
