@@ -1,17 +1,17 @@
 package com.nashss.se.animalenrichmenttrackerservice.activity.requests;
 
 /**
- * viewHabitatRequest object class.
+ * ViewAnimalsForHabitatRequest object class.
  */
-public class ViewHabitatRequest {
+public class ViewAnimalsForHabitatRequest {
     private final String habitatId;
-    
+
     /**
-     * creates viewHabitatRequest object for retrieving a habitat using the habitatId and keeperManagerId.
+     * creates ViewAnimalsForHabitat object for retrieving a habitat's list of animals using the habitatId.
      *
      * @param habitatId the habitatId used to retrieve the habitat
      */
-    private ViewHabitatRequest(String habitatId) {
+    private ViewAnimalsForHabitatRequest(String habitatId) {
         this.habitatId = habitatId;
     }
 
@@ -21,7 +21,7 @@ public class ViewHabitatRequest {
 
     @Override
     public String toString() {
-        return "viewHabitatRequest{" +
+        return "ViewAnimalsForHabitat{" +
                 "habitatId='" + habitatId + '\'' +
                 '}';
     }
@@ -33,14 +33,12 @@ public class ViewHabitatRequest {
 
     public static class Builder {
         private String habitatId;
-
         public Builder withHabitatId(String habitatId) {
             this.habitatId = habitatId;
             return this;
         }
-
-        public ViewHabitatRequest build() {
-            return new ViewHabitatRequest(habitatId);
+        public ViewAnimalsForHabitatRequest build() {
+            return new ViewAnimalsForHabitatRequest(habitatId);
         }
     }
 }

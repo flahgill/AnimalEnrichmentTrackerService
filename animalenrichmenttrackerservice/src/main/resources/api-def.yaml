@@ -14,6 +14,9 @@ tags:
   - name: Enrichments
     description: View and add enrichments to habitats
 
+  - name: Animals
+    description: View, add, and remove animals from habitats
+
 paths:
 
   /habitats:
@@ -205,14 +208,36 @@ paths:
         "500":
           description: "Invalid input parameters"
 
+  /habitats/{habitatId}/animals:
+    get:
+      tags:
+        - Animals
+      summary: Get a list of animals (ViewAnimalsForHabitatLambda)
+      parameters:
+        - name: habitatId
+          in: path
+          description: ID of habitat
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: A list of animals
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: string
+
   /userHabitats:
     get:
       tags:
         - Habitats
       summary: Get a list of Habitats (ViewUserHabitatsLambda)
       parameters:
-        - name: customerId
-          in: path
+        - name: keeperManagerId
+          in: query
           description: ID of keeper to retrieve habitats
           required: true
           schema:
