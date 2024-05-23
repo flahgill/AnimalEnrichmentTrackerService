@@ -16,7 +16,7 @@ export default class AnimalEnrichmentTrackerClient extends BindingClass {
         super();
 
         const methodsToBind = ['clientLoaded', 'getIdentity', 'login', 'logout', 'getHabitat', 'createHabitat', 'getUserHabitats',
-        'removeHabitat', 'updateHabitat', 'getAnimalsForHabitat', 'addAnimalToHabitat'];
+        'removeHabitat', 'updateHabitat', 'getAnimalsForHabitat', 'addAnimalToHabitat', 'removeAnimalFromHabitat'];
         this.bindClassMethods(methodsToBind, this);
 
         this.authenticator = new Authenticator();;
@@ -197,6 +197,7 @@ export default class AnimalEnrichmentTrackerClient extends BindingClass {
      /**
       * Add an animal to an existing Habitat.
       * @param habitatId the Id of the habitat to update.
+      * @param animalToAdd the animal to be removed
       * @param errorCallback (Optional) A function to execute if the call fails.
       * @returns {Promise<string[]>} The habitat's list of animals.
       */
@@ -214,6 +215,30 @@ export default class AnimalEnrichmentTrackerClient extends BindingClass {
             return response.data.animalsInHabitat;
          } catch (error) {
             this.handleError(error, errorCallback)
+         }
+     }
+
+     /**
+      * removes an animal from a habitat.
+      * @param habitatId The id of the habitat.
+      * @param animalToRemove the animal to be removed.
+      * @@returns {Promise<string[]>} The habitat's list of animals.
+      */
+     async removeAnimalFromHabitat(habitatId, animalToRemove, errorCallback) {
+         try {
+             const token = await this.getTokenOrThrow("Only authenticated users can remove an animal from a habitat.");
+             const response = await this.axiosClient.delete(`habitats/${habitatId}/animals`, {
+                 headers: {
+                     Authorization: `Bearer ${token}`
+                 },
+                 data: {
+                     habitatId: habitatId,
+                     animalToRemove: animalToRemove
+                 }
+                 });
+             return response.data.animalsInHabitat;
+         } catch (error) {
+             this.handleError(error, errorCallback)
          }
      }
 

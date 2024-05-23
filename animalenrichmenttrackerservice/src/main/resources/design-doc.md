@@ -117,6 +117,7 @@ Animal Enrichment Tracker Service will also provide a web interface for users to
 - Accepts PUT requests to /habitats/:habitatId/animals
 - Accepts a habitatId and an animal to be removed.
    - If the habitat is not found, will throw a HabitatNotFoundException
+   - If the animal is not found, will throw an AnimalNotFoundException
 
 ### 6.8. AddEnrichment Endpoint
 
