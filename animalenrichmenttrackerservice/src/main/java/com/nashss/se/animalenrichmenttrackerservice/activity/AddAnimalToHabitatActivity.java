@@ -20,7 +20,7 @@ import javax.inject.Inject;
  * Implementation of the AddAnimalToHabitatActivity for the AnimalEnrichmentTrackerServices's
  * AddAnimalToHabitat API.
  * <p>
- * This API allows a keeper manager to view a habitat's list of animals saved in DDB.
+ * This API allows a keeper manager to add an animal to a habitat's list of animals saved in DDB.
  */
 public class AddAnimalToHabitatActivity {
     private final Logger log = LogManager.getLogger();
@@ -86,7 +86,7 @@ public class AddAnimalToHabitatActivity {
     }
 
     /**
-     * helper method to determine in the animal being added is already present in the habitat's current
+     * helper method to determine if the animal being added is already present in the habitat's current
      * list of animals. Case Insensitive.
      *
      * @param animals list of animals in a habitat.
