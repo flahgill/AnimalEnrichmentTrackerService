@@ -13,7 +13,7 @@ public class RemoveHabitatResult {
      *
      * @param habitat to be removed.
      */
-    public RemoveHabitatResult(HabitatModel habitat) {
+    private RemoveHabitatResult(HabitatModel habitat) {
         this.habitat = habitat;
     }
 

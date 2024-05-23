@@ -26,7 +26,7 @@ public class HabitatTestHelper {
             enrichments.add(EnrichmentTestHelper.generateEnrichment(i));
         }
         habitat.setCompletedEnrichments(enrichments);
-        habitat.setTotalAnimals(5);
+        habitat.setTotalAnimals(0);
         habitat.setAcceptableEnrichmentIds(List.of("01", "02", "06"));
 
         return habitat;

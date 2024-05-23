@@ -83,7 +83,7 @@ Animal Enrichment Tracker Service will also provide a web interface for users to
 - For security concerns, we will validate the provided habitat and species name does not contain any invalid characters: " ' \
    - If the habitat or species name contains any of the invalid characters, will throw an InvalidCharacterException.
 
-### 6.3. RemoveHabitat Endpoint
+### 6.3. RemoveHabitat Endpoint (Hard Delete)
 
 - Accepts DELETE requests to /habitats/:habitatId
 - accepts a habitat to be removed, habitat is specified by habitatId
@@ -101,13 +101,16 @@ Animal Enrichment Tracker Service will also provide a web interface for users to
 
 - Accepts GET requests to /habitats/:habitatId
 - accepts a habitat id and returns corresponding HabitatModel
-   - will throw HabitatNotFoundException if the given habitatId is not found
+   - If the habitat is not found, will throw a HabitatNotFoundException
 
 ### 6.6. AddAnimalToHabitat Endpoint
 
 - Accepts PUT requests to /habitats/:habitatId/animals
 - Accepts a habitatId and an animal to be added.
    - If the habitat is not found, will throw a HabitatNotFoundException
+   - If the animal to be added is already present within the habitat, will throw a DuplicateAnimalException
+  - For security concerns, we will validate the provided animal name does not contain any invalid characters: " ' \
+    - If the animal name contains any of the invalid characters, will throw an InvalidCharacterException.
 
 ### 6.7. RemoveAnimalFromHabitat Endpoint
 

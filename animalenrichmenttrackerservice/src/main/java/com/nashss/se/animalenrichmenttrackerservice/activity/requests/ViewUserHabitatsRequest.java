@@ -11,7 +11,7 @@ public class ViewUserHabitatsRequest {
      *
      * @param keeperManagerId the keeper's Id used to retrieve a list of habitats
      */
-    public ViewUserHabitatsRequest(String keeperManagerId) {
+    private ViewUserHabitatsRequest(String keeperManagerId) {
         this.keeperManagerId = keeperManagerId;
     }
 
