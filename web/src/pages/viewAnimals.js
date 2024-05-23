@@ -9,7 +9,7 @@ import DataStore from "../util/DataStore";
 class ViewAnimals extends BindingClass {
     constructor() {
         super();
-        this.bindClassMethods(['clientLoaded', 'mount', 'addAnimalsToPage', 'addAnimal'], this);
+        this.bindClassMethods(['clientLoaded', 'mount', 'addAnimalsToPage', 'addAnimal', 'removeAnimal'], this);
         this.dataStore = new DataStore();
         this.dataStore.addChangeListener(this.addAnimalsToPage);
         this.header = new Header(this.dataStore);
@@ -35,6 +35,7 @@ class ViewAnimals extends BindingClass {
      */
     mount() {
         document.getElementById('add-animal-btn').addEventListener('click', this.addAnimal);
+        document.getElementById('animals').addEventListener('click', this.removeAnimal);
 
         this.header.addHeaderToPage();
 
@@ -63,12 +64,14 @@ class ViewAnimals extends BindingClass {
         }
         document.getElementById('species').innerHTML = speciesHtml;
 
-        let animalsHtml = '<table id="animals-table"><tr><th>Animal Name</th></tr>';
+        let animalsHtml = '<table id="animals-table"><tr><th>Animal Name</th><th>Remove</th></tr>';
         let animal;
         for (animal of animals) {
+            const safeAnimalName = animal.replace(/[\s]/g, '_');
             animalsHtml += `
-               <tr>
+               <tr id="animal-${safeAnimalName}">
                    <td>${animal}</td>
+                   <td><button data-animal-name="${animal}" class="button remove-animal">Remove</button></td>
                </tr>`;
         }
 
@@ -76,8 +79,9 @@ class ViewAnimals extends BindingClass {
         document.getElementById('animals').innerHTML = animalsHtml;
     }
 
+
     /*
-    * method to run when the add book submit button is pressed. Call the AnimalEnrichmentTrackerClient to add
+    * method to run when the add animal submit button is pressed. Call the AnimalEnrichmentTrackerClient to add
     * an animal to a habitat's list of animals.
     */
     async addAnimal() {
@@ -94,8 +98,6 @@ class ViewAnimals extends BindingClass {
         const animalToBeAdded = document.getElementById('animal-name').value;
         const habitatId = habitat.habitatId;
 
-        let shouldReload = false;
-
          const animals = await this.client.addAnimalToHabitat(habitatId, animalToBeAdded, (error) => {
             errorMessageDisplay.innerText = `Error: ${error.message}`;
             errorMessageDisplay.classList.remove('hidden');
@@ -104,6 +106,46 @@ class ViewAnimals extends BindingClass {
          this.dataStore.set('animals', animals);
 
          document.getElementById('add-animal-btn').innerText = 'Add';
+         location.reload();
+    }
+
+    /*
+    * method to run when the remove animal button is pressed. Call the AnimalEnrichmentTrackerClient to remove
+    * an animal from a habitat's list of animals.
+    */
+    async removeAnimal(e) {
+        const errorMessageDisplay = document.getElementById('error-message');
+        errorMessageDisplay.innerText = ``;
+        errorMessageDisplay.classList.add('hidden');
+
+        const habitat = this.dataStore.get('habitat');
+        if (habitat == null) {
+            return;
+        }
+
+        const removeButton = e.target;
+        if (!removeButton.classList.contains("remove-animal")) {
+            return;
+        }
+
+        removeButton.innerText = "Removing...";
+        const habitatId = habitat.habitatId;
+
+        try {
+            const animalName = removeButton.dataset.animalName;
+            const animals = await this.client.removeAnimalFromHabitat(habitatId, animalName);
+            this.dataStore.set('animals', animals);
+
+            const safeAnimalName = animalName.replace(/[\s]/g, '_');
+            document.getElementById(`animal-${safeAnimalName}`).remove();
+        } catch (error) {
+            errorMessageDisplay.innerText = `Error: ${error.message}`;
+            errorMessageDisplay.classList.remove('hidden');
+        } finally {
+            removeButton.innerText = "Remove";
+        }
+
+        location.reload();
     }
 
 }
