@@ -16,7 +16,7 @@ export default class AnimalEnrichmentTrackerClient extends BindingClass {
         super();
 
         const methodsToBind = ['clientLoaded', 'getIdentity', 'login', 'logout', 'getHabitat', 'createHabitat', 'getUserHabitats',
-        'removeHabitat', 'updateHabitat', 'getAnimalsForHabitat'];
+        'removeHabitat', 'updateHabitat', 'getAnimalsForHabitat', 'addAnimalToHabitat'];
         this.bindClassMethods(methodsToBind, this);
 
         this.authenticator = new Authenticator();;
@@ -173,7 +173,7 @@ export default class AnimalEnrichmentTrackerClient extends BindingClass {
                     Authorization: `Bearer ${token}`
                 }
             });
-            return response.data.habiat;
+            return response.data.habitat;
          } catch (error) {
             this.handleError(error, errorCallback)
          }
@@ -191,6 +191,29 @@ export default class AnimalEnrichmentTrackerClient extends BindingClass {
              return response.data.animalsInHabitat;
          } catch (error) {
              this.handleError(error, errorCallback)
+         }
+     }
+
+     /**
+      * Add an animal to an existing Habitat.
+      * @param habitatId the Id of the habitat to update.
+      * @param errorCallback (Optional) A function to execute if the call fails.
+      * @returns {Promise<string[]>} The habitat's list of animals.
+      */
+     async addAnimalToHabitat(habitatId, animalToAdd, errorCallback) {
+     try {
+            const token = await this.getTokenOrThrow("Only authenticated users can update their habitat");
+            const response = await this.axiosClient.put(`habitats/${habitatId}/animals`, {
+                habitatId: habitatId,
+                animalToAdd: animalToAdd
+            }, {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            });
+            return response.data.animalsInHabitat;
+         } catch (error) {
+            this.handleError(error, errorCallback)
          }
      }
 
