@@ -23,11 +23,13 @@ public class RemoveHabitatLambda
             () -> {
                 RemoveHabitatRequest unAuthRequest = input.fromUserClaims(claims ->
                         RemoveHabitatRequest.builder()
+                                .withKeeperManagerId(claims.get("email"))
                                 .build());
 
                 return input.fromPath(path ->
                         RemoveHabitatRequest.builder()
                                 .withHabitatId(path.get("habitatId"))
+                                .withKeeperManagerId(unAuthRequest.getKeeperManagerId())
                                 .build());
             },
             (request, serviceComponent) ->

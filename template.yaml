@@ -358,7 +358,7 @@ Resources:
           Type: Api
           Properties:
             Path: /habitats/{habitatId}/animals
-            Method: put
+            Method: post
 
   RemoveAnimalFromHabitatLambda:
     Type: AWS::Serverless::Function

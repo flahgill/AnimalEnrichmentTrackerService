@@ -204,7 +204,7 @@ export default class AnimalEnrichmentTrackerClient extends BindingClass {
      async addAnimalToHabitat(habitatId, animalToAdd, errorCallback) {
      try {
             const token = await this.getTokenOrThrow("Only authenticated users can update their habitat");
-            const response = await this.axiosClient.put(`habitats/${habitatId}/animals`, {
+            const response = await this.axiosClient.post(`habitats/${habitatId}/animals`, {
                 habitatId: habitatId,
                 animalToAdd: animalToAdd
             }, {
