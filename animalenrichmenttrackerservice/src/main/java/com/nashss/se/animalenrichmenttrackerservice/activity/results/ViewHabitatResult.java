@@ -13,7 +13,7 @@ public class ViewHabitatResult {
      *
      * @param habitat the HabitatModel as a result of retrieving the habitat from DDB
      */
-    public ViewHabitatResult(HabitatModel habitat) {
+    private ViewHabitatResult(HabitatModel habitat) {
         this.habitat = habitat;
     }
 

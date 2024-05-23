@@ -15,7 +15,7 @@ public class ViewUserHabitatsResult {
      *
      * @param habitats the list of habitats associated with a certain keeper's Id
      */
-    public ViewUserHabitatsResult(List<HabitatModel> habitats) {
+    private ViewUserHabitatsResult(List<HabitatModel> habitats) {
         this.habitats = habitats;
     }
 
