@@ -229,7 +229,7 @@ paths:
                 type: array
                 items:
                   type: string
-    put:
+    post:
       tags:
         - Animals
       summary: add an animal to animalsInHabitat (AddAnimalToHabitatLambda)
