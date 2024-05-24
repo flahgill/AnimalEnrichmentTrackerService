@@ -50,6 +50,7 @@ class ViewHabitat extends BindingClass {
         document.getElementById('habitat-name').innerText = habitat.habitatName;
         document.getElementById('habitat-owner').innerText = habitat.keeperManagerId;
         document.getElementById('habitat-id').innerText = habitat.habitatId;
+        document.getElementById('total-animals').innerText = habitat.totalAnimals;
 
         let speciesHtml = '';
         let spec;
