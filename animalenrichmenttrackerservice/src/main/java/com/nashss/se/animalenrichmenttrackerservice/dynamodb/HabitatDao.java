@@ -112,9 +112,9 @@ public class HabitatDao {
     /**
      * Perform a search (via a "scan") of the habitats table for habitats matching the given criteria.
      *
-     * Both "habitatName" and "species" attributes are searched.
+     * "habitatName", "animalsInHabitat" and "species" attributes are searched.
      * The criteria are an array of Strings. Each element of the array is search individually.
-     * ALL elements of the criteria array must appear in the habitatName or the species (or both).
+     * ALL elements of the criteria array must appear in the habitatName, animalsInHabitat, or the species (or all).
      * Searches are CASE SENSITIVE.
      *
      * @param criteria an array of String containing search criteria.
@@ -129,6 +129,7 @@ public class HabitatDao {
 
             StringBuilder nameFilterExpression = new StringBuilder();
             StringBuilder speciesFilterExpression = new StringBuilder();
+            StringBuilder animalsFilterExpression = new StringBuilder();
 
             for (int i = 0; i < criteria.length; i++) {
                 valueMap.put(valueMapNamePrefix + i,
@@ -137,11 +138,14 @@ public class HabitatDao {
                         filterExpressionPart("habitatName", valueMapNamePrefix, i));
                 speciesFilterExpression.append(
                         filterExpressionPart("species", valueMapNamePrefix, i));
+                animalsFilterExpression.append(
+                        filterExpressionPart("animalsInHabitat", valueMapNamePrefix, i));
             }
 
             dynamoDBScanExpression.setExpressionAttributeValues(valueMap);
             dynamoDBScanExpression.setFilterExpression(
-                    "(" + nameFilterExpression + ") or (" + speciesFilterExpression + ")");
+                    "(" + nameFilterExpression + ") or (" + speciesFilterExpression +
+                            ") or (" + animalsFilterExpression + ")");
         }
 
         return this.dynamoDBMapper.scan(Habitat.class, dynamoDBScanExpression);
