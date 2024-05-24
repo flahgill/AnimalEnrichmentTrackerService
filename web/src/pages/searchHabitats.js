@@ -23,9 +23,9 @@ const EMPTY_DATASTORE_STATE = {
 
 
 /**
- * Logic needed for the view playlist page of the website.
+ * Logic needed for the search habitats page of the website.
  */
-class SearchPlaylists extends BindingClass {
+class SearchHabitats extends BindingClass {
     constructor() {
         super();
 
@@ -35,15 +35,15 @@ class SearchPlaylists extends BindingClass {
         this.dataStore = new DataStore(EMPTY_DATASTORE_STATE);
         this.header = new Header(this.dataStore);
         this.dataStore.addChangeListener(this.displaySearchResults);
-        console.log("searchPlaylists constructor");
+        console.log("searchHabitats constructor");
     }
 
     /**
-     * Add the header to the page and load the MusicPlaylistClient.
+     * Add the header to the page and load the AnimalEnrichmentTrackerClient.
      */
     mount() {
         // Wire up the form's 'submit' event and the button's 'click' event to the search method.
-        document.getElementById('search-playlists-form').addEventListener('submit', this.search);
+        document.getElementById('search-habitats-form').addEventListener('submit', this.search);
         document.getElementById('search-btn').addEventListener('click', this.search);
 
         this.header.addHeaderToPage();
@@ -104,7 +104,7 @@ class SearchPlaylists extends BindingClass {
 
     /**
      * Create appropriate HTML for displaying searchResults on the page.
-     * @param searchResults An array of playlists objects to be displayed on the page.
+     * @param searchResults An array of habitats objects to be displayed on the page.
      * @returns A string of HTML suitable for being dropped on the page.
      */
     getHTMLForSearchResults(searchResults) {
@@ -112,18 +112,21 @@ class SearchPlaylists extends BindingClass {
             return '<h4>No results found</h4>';
         }
 
-        let html = '<table><tr><th>Name</th><th>Song Count</th><th>Tags</th></tr>';
+        let html = '<table><tr><th>Habitat</th><th>Total Animals</th><th>Species</th><th>Habitat Id</th></tr>';
         for (const res of searchResults) {
             html += `
             <tr>
                 <td>
-                    <a href="playlist.html?id=${res.id}">${res.name}</a>
+                    <a href="habitat.html?habitatId=${res.habitatId}">${res.habitatName}</a>
                 </td>
-                <td>${res.songCount}</td>
-                <td>${res.tags?.join(', ')}</td>
+                <td>${res.totalAnimals}</td>
+                <td>${res.species?.join(', ')}</td>
+                <td>${res.habitatId}</td>
             </tr>`;
         }
         html += '</table>';
+
+        return html;
 
         return html;
     }
@@ -134,8 +137,8 @@ class SearchPlaylists extends BindingClass {
  * Main method to run when the page contents have loaded.
  */
 const main = async () => {
-    const searchPlaylists = new SearchPlaylists();
-    searchPlaylists.mount();
+    const searchHabitats = new SearchHabitats();
+    searchHabitats.mount();
 };
 
 window.addEventListener('DOMContentLoaded', main);

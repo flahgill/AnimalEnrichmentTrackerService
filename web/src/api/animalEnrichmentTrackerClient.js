@@ -73,6 +73,25 @@ export default class AnimalEnrichmentTrackerClient extends BindingClass {
     }
 
     /**
+     * Search for a habitat.
+     * @param criteria A string containing search criteria to pass to the API.
+     * @returns The habitats that match the search criteria.
+     */
+    async search(criteria, errorCallback) {
+        try {
+            const queryParams = new URLSearchParams({ q: criteria })
+            const queryString = queryParams.toString();
+
+            const response = await this.axiosClient.get(`habitats/search?${queryString}`);
+
+            return response.data.habitats;
+        } catch (error) {
+            this.handleError(error, errorCallback)
+        }
+
+    }
+
+    /**
      * Gets the habitat for the given ID.
      * @param id Unique identifier for a habitat
      * @param errorCallback (Optional) A function to execute if the call fails.
