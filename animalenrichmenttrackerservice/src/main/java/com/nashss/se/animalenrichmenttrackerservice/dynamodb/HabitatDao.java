@@ -7,6 +7,7 @@ import com.nashss.se.animalenrichmenttrackerservice.metrics.MetricsPublisher;
 
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBMapper;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBQueryExpression;
+import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBScanExpression;
 import com.amazonaws.services.dynamodbv2.model.AttributeValue;
 
 import java.util.HashMap;
@@ -106,5 +107,54 @@ public class HabitatDao {
                 .withExpressionAttributeValues(valueMap);
 
         return this.dynamoDBMapper.query(Habitat.class, queryExpression);
+    }
+
+    /**
+     * Perform a search (via a "scan") of the habitats table for habitats matching the given criteria.
+     *
+     * Both "habitatName" and "species" attributes are searched.
+     * The criteria are an array of Strings. Each element of the array is search individually.
+     * ALL elements of the criteria array must appear in the habitatName or the species (or both).
+     * Searches are CASE SENSITIVE.
+     *
+     * @param criteria an array of String containing search criteria.
+     * @return a List of Habitat objects that match the search criteria.
+     */
+    public List<Habitat> searchHabitats(String[] criteria) {
+        DynamoDBScanExpression dynamoDBScanExpression = new DynamoDBScanExpression();
+
+        if (criteria.length > 0) {
+            Map<String, AttributeValue> valueMap = new HashMap<>();
+            String valueMapNamePrefix = ":c";
+
+            StringBuilder nameFilterExpression = new StringBuilder();
+            StringBuilder speciesFilterExpression = new StringBuilder();
+
+            for (int i = 0; i < criteria.length; i++) {
+                valueMap.put(valueMapNamePrefix + i,
+                        new AttributeValue().withS(criteria[i]));
+                nameFilterExpression.append(
+                        filterExpressionPart("habitatName", valueMapNamePrefix, i));
+                speciesFilterExpression.append(
+                        filterExpressionPart("species", valueMapNamePrefix, i));
+            }
+
+            dynamoDBScanExpression.setExpressionAttributeValues(valueMap);
+            dynamoDBScanExpression.setFilterExpression(
+                    "(" + nameFilterExpression + ") or (" + speciesFilterExpression + ")");
+        }
+
+        return this.dynamoDBMapper.scan(Habitat.class, dynamoDBScanExpression);
+    }
+
+    private StringBuilder filterExpressionPart(String target, String valueMapNamePrefix, int position) {
+        String possiblyAnd = position == 0 ? "" : "and ";
+        return new StringBuilder()
+                .append(possiblyAnd)
+                .append("contains(")
+                .append(target)
+                .append(", ")
+                .append(valueMapNamePrefix).append(position)
+                .append(") ");
     }
 }

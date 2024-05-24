@@ -13,7 +13,7 @@ public class AddAnimalToHabitatRequest {
     private final String animalToAdd;
 
     /**
-     * creates AddAnimalToHabitatRequest object for add to a  habitat's list of animals.
+     * creates AddAnimalToHabitatRequest object to add to a  habitat's list of animals.
      *
      * @param habitatId the habitatId to identify which habitat to add the animal to.
      * @param animalToAdd the animal to add to the habitat.
