@@ -30,12 +30,12 @@ public class SearchHabitatsActivityTest {
     @Test
     public void handleRequest_whenHabitatsMatchSearch_returnsHabitatModelListInResult() {
         // GIVEN
-        String criteria = "good";
+        String criteria = "Benny";
         String[] criteriaArray = {criteria};
 
         List<Habitat> expected = List.of(
-                newHabitat("id1", "a good habitat", List.of("species1", "species2")),
-                newHabitat("id2", "another good habitat", List.of("species1", "species2")));
+                newHabitat("id1", "a good habitat", List.of("species1", "species2"), List.of("Betty", "Benny")),
+                newHabitat("id2", "another good habitat", List.of("species1", "species2"), List.of("Betty", "Benny")));
 
         when(habitatDao.searchHabitats(criteriaArray)).thenReturn(expected);
 
@@ -75,12 +75,13 @@ public class SearchHabitatsActivityTest {
         assertEquals(0, criteriaArray.getValue().length, "Criteria Array should be empty");
     }
 
-    private static Habitat newHabitat(String habitatId, String habitatName, List<String> species) {
+    private static Habitat newHabitat(String habitatId, String habitatName, List<String> species, List<String> animals) {
         Habitat habitat = new Habitat();
 
         habitat.setHabitatId(habitatId);
         habitat.setHabitatName(habitatName);
         habitat.setSpecies(species);
+        habitat.setAnimalsInHabitat(animals);
 
         // the test code doesn't need these properties to be distinct.
         habitat.setKeeperManagerId("a customer id");

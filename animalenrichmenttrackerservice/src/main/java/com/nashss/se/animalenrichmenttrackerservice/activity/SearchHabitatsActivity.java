@@ -37,12 +37,12 @@ public class SearchHabitatsActivity {
     }
 
     /**
-     * This method handles the incoming request by searching for playlist from the database.
+     * This method handles the incoming request by searching for habitats from the database.
      * <p>
-     * It then returns the matching playlists, or an empty result list if none are found.
+     * It then returns the matching habitats, or an empty result list if none are found.
      *
      * @param searchHabitatsRequest request object containing the search criteria
-     * @return searchPlaylistsResult result object containing the playlists that match the
+     * @return searchPlaylistsResult result object containing the habitats that match the
      * search criteria.
      */
     public SearchHabitatsResult handleRequest(final SearchHabitatsRequest searchHabitatsRequest) {
