@@ -327,6 +327,53 @@ paths:
                     items:
                       type: enrichment
 
+  /habitats/search:
+    get:
+      tags:
+        - Habitats
+      parameters:
+        - name: q
+          in: query
+          description: Search term (name or species)
+          required: true
+          schema:
+            type: array
+            items:
+              type: string
+      summary: Search for a Habitat (SearchHabitatLambda)
+      responses:
+        "200":
+          description: a list of habitats
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  habitatId:
+                    type: string
+                  habitatName:
+                    type: string
+                  keeperManagerId:
+                    type: string
+                  totalAnimals:
+                    type: integer
+                  species:
+                    type: array
+                    items:
+                      type: string
+                  animalsInHabitat:
+                    type: array
+                    items:
+                      type: string
+                  acceptableEnrichmentIds:
+                    type: array
+                    items:
+                      type: string
+                  completedEnrichments:
+                    type: array
+                    items:
+                      type: enrichment
+
 
 
 

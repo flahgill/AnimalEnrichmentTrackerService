@@ -146,6 +146,10 @@ Animal Enrichment Tracker Service will also provide a web interface for users to
 - Accepts a habitatId and returns a list of corresponding EnrichmentModels
    - If the habitat is not found, will throw a HabitatNotFoundException
 
+### 6.12. SearchHabitats Endpoint
+- Accepts GET requests to /habitats/search
+- Accepts a search criteria and returns a list of associated Habitats
+
 ## 7. Tables
 
 ### 7.1. Habitats
