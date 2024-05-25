@@ -65,6 +65,7 @@
     border-radius: 25px;
     padding: 20px;
     font-family: Georgia, serif;
+    border: 2px solid var(--tertiary-color);
 }
 
 
