@@ -9,7 +9,8 @@ import DataStore from "../util/DataStore";
 class ViewHabitat extends BindingClass {
     constructor() {
         super();
-        this.bindClassMethods(['clientLoaded', 'mount', 'addHabitatToPage', 'redirectToViewAnimals'], this);
+        this.bindClassMethods(['clientLoaded', 'mount', 'addHabitatToPage', 'redirectToViewAnimals', 'removeHabitat',
+        'redirectToUpdateHabitat'], this);
         this.dataStore = new DataStore();
         this.dataStore.addChangeListener(this.addHabitatToPage);
         this.header = new Header(this.dataStore);
@@ -33,6 +34,8 @@ class ViewHabitat extends BindingClass {
     mount() {
         this.header.addHeaderToPage();
         document.getElementById('view-animals-button').addEventListener("click", this.redirectToViewAnimals);
+        document.getElementById('remove-habitat').addEventListener("click", this.removeHabitat);
+        document.getElementById('update-habitat').addEventListener("click", this.redirectToUpdateHabitat);
 
         this.client = new AnimalEnrichmentTrackerClient();
         this.clientLoaded();
@@ -64,6 +67,43 @@ class ViewHabitat extends BindingClass {
         const habitat = this.dataStore.get('habitat');
         const habitatId = habitat.habitatId;
         window.location.href = `viewAnimals.html?habitatId=${habitatId}`;
+    }
+
+    /**
+    * when remove button is clicked, removes habitat.
+    */
+    async removeHabitat(e) {
+        const habitatId = this.dataStore.get('habitat').habitatId;
+
+        const removeButton = e.target;
+        removeButton.innerText = "Removing...";
+
+        const errorMessageDisplay = document.getElementById('error-message');
+        errorMessageDisplay.innerText = '';
+        errorMessageDisplay.classList.add('hidden');
+
+        try {
+            await this.client.removeHabitat(habitatId);
+            window.location.href = '/index.html';
+        } catch (error) {
+            errorMessageDisplay.innerText = `Error: ${error.message}`;
+            errorMessageDisplay.classList.remove('hidden');
+            removeButton.innerText = "Remove Habitat"; // Reset button text in case of error
+        }
+    }
+
+    /**
+    * when the update button is clicked, redirects to update habitat page.
+    */
+    async redirectToUpdateHabitat(e) {
+        const habitatId = this.dataStore.get('habitat').habitatId;
+        const updateButton = e.target;
+
+        updateButton.innerText = "Loading...";
+
+        if (updateButton != null) {
+            window.location.href = `/updateHabitat.html?habitatId=${habitatId}`;
+        }
     }
 }
 
