@@ -63,12 +63,6 @@ public class UpdateHabitatActivity {
     public UpdateHabitatResult handleRequest(final UpdateHabitatRequest updateHabitatRequest) {
         log.info("Recieved UpdateHabitatRequest {}", updateHabitatRequest);
 
-        if (!ServiceUtils.isValidString(updateHabitatRequest.getHabitatName())) {
-            metricsPublisher.addCount(MetricsConstants.UPDATEHABITAT_INVALIDCHARACTEREXCEPTION, 1);
-            throw new InvalidCharacterException("HabitatName [" + updateHabitatRequest.getHabitatName() +
-                    "] contains invalid characters.");
-        }
-
         Habitat habitat = habitatDao.getHabitat(updateHabitatRequest.getHabitatId());
 
         if (!habitat.getKeeperManagerId().equals(updateHabitatRequest.getKeeperManagerId())) {
@@ -76,13 +70,32 @@ public class UpdateHabitatActivity {
             throw new UserSecurityException("You must own this habitat to update it.");
         }
 
-        List<String> species = null;
-        if (updateHabitatRequest.getSpecies() != null) {
-            species = new ArrayList<>(updateHabitatRequest.getSpecies());
+        String updateName = updateHabitatRequest.getHabitatName();
+
+        if (updateName != null) {
+            if (updateName.isEmpty()) {
+                updateName = habitat.getHabitatName();
+            }
+            if (!ServiceUtils.isValidString(updateName)) {
+                metricsPublisher.addCount(MetricsConstants.UPDATEHABITAT_INVALIDCHARACTEREXCEPTION, 1);
+                throw new InvalidCharacterException("HabitatName [" + updateHabitatRequest.getHabitatName() +
+                        "] contains invalid characters.");
+            }
+
+            habitat.setHabitatName(updateName);
         }
 
-        habitat.setHabitatName(updateHabitatRequest.getHabitatName());
-        habitat.setSpecies(species);
+        List<String> species = updateHabitatRequest.getSpecies();
+
+        if (species != null) {
+            if (species.isEmpty()) {
+                species = habitat.getSpecies();  // Retain original species if the new list is empty
+            } else {
+                species = new ArrayList<>(species);
+            }
+            habitat.setSpecies(species);
+        }
+
         habitat = habitatDao.saveHabitat(habitat);
 
         metricsPublisher.addCount(MetricsConstants.UPDATEHABITAT_INVALIDCHARACTEREXCEPTION, 0);

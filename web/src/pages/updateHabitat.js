@@ -59,7 +59,7 @@ class UpdateHabitat extends BindingClass {
 
     /**
      * Method to run when the update habitat submit button is pressed. Call the AnimalEnrichmentTrackerClient to update the
-     * book.
+     * habitat.
      */
     async submit(evt) {
         evt.preventDefault();
