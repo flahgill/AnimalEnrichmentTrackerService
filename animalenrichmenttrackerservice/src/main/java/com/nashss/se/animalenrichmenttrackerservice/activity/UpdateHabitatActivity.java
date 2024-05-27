@@ -17,7 +17,6 @@ import org.apache.logging.log4j.Logger;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 import javax.inject.Inject;
 
@@ -86,12 +85,15 @@ public class UpdateHabitatActivity {
             habitat.setHabitatName(updateName);
         }
 
-        if(Objects.equals(updateHabitatRequest.getHabitatName(), "")) {
-            habitat.setHabitatName(habitat.getHabitatName());
-        }
+        List<String> species = updateHabitatRequest.getSpecies();
 
-        if (updateHabitatRequest.getSpecies() != null) {
-            habitat.setSpecies(new ArrayList<>(updateHabitatRequest.getSpecies()));
+        if (species != null) {
+            if (species.isEmpty()) {
+                species = habitat.getSpecies();  // Retain original species if the new list is empty
+            } else {
+                species = new ArrayList<>(species);
+            }
+            habitat.setSpecies(species);
         }
 
         habitat = habitatDao.saveHabitat(habitat);
