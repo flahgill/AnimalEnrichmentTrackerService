@@ -89,7 +89,6 @@ class UpdateHabitat extends BindingClass {
             errorMessageDisplay.classList.remove('hidden');
         });
         this.dataStore.set('habitat', habitat);
-        debugger;
         this.redirectToHabitat(this.habitatId);
     }
 
