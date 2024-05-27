@@ -11,8 +11,8 @@ env:
   # STUDENTS: Set these environment variables 
   API_BASE_URL: https://2gqh7tqctd.execute-api.us-east-2.amazonaws.com/Prod/
   COGNITO_DOMAIN: project-animal-enrichment-tracker-gillian-flaherty
-  COGNITO_REDIRECT_SIGNIN: https://d3iz4ij3cq4pii.cloudfront.net
-  COGNITO_REDIRECT_SIGNOUT: https://d3iz4ij3cq4pii.cloudfront.net
+  COGNITO_REDIRECT_SIGNIN: https://d3dqdrysp6je7c.cloudfront.net
+  COGNITO_REDIRECT_SIGNOUT: https://d3dqdrysp6je7c.cloudfront.net
 
   COGNITO_USER_POOL_ID: ${{ secrets.COGNITO_USER_POOL_ID }}
   COGNITO_USER_POOL_CLIENT_ID: ${{ secrets.COGNITO_USER_POOL_CLIENT_ID }}
