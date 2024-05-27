@@ -63,12 +63,6 @@ public class UpdateHabitatActivity {
     public UpdateHabitatResult handleRequest(final UpdateHabitatRequest updateHabitatRequest) {
         log.info("Recieved UpdateHabitatRequest {}", updateHabitatRequest);
 
-        if (!ServiceUtils.isValidString(updateHabitatRequest.getHabitatName())) {
-            metricsPublisher.addCount(MetricsConstants.UPDATEHABITAT_INVALIDCHARACTEREXCEPTION, 1);
-            throw new InvalidCharacterException("HabitatName [" + updateHabitatRequest.getHabitatName() +
-                    "] contains invalid characters.");
-        }
-
         Habitat habitat = habitatDao.getHabitat(updateHabitatRequest.getHabitatId());
 
         if (!habitat.getKeeperManagerId().equals(updateHabitatRequest.getKeeperManagerId())) {
@@ -76,13 +70,20 @@ public class UpdateHabitatActivity {
             throw new UserSecurityException("You must own this habitat to update it.");
         }
 
-        List<String> species = null;
-        if (updateHabitatRequest.getSpecies() != null) {
-            species = new ArrayList<>(updateHabitatRequest.getSpecies());
+        if (updateHabitatRequest.getHabitatName() != null) {
+            if (!ServiceUtils.isValidString(updateHabitatRequest.getHabitatName())) {
+                metricsPublisher.addCount(MetricsConstants.UPDATEHABITAT_INVALIDCHARACTEREXCEPTION, 1);
+                throw new InvalidCharacterException("HabitatName [" + updateHabitatRequest.getHabitatName() +
+                        "] contains invalid characters.");
+            }
+
+            habitat.setHabitatName(updateHabitatRequest.getHabitatName());
         }
 
-        habitat.setHabitatName(updateHabitatRequest.getHabitatName());
-        habitat.setSpecies(species);
+        if (updateHabitatRequest.getSpecies() != null) {
+            habitat.setSpecies(new ArrayList<>(updateHabitatRequest.getSpecies()));
+        }
+
         habitat = habitatDao.saveHabitat(habitat);
 
         metricsPublisher.addCount(MetricsConstants.UPDATEHABITAT_INVALIDCHARACTEREXCEPTION, 0);
