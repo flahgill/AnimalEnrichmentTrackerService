@@ -17,6 +17,7 @@ import org.apache.logging.log4j.Logger;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import javax.inject.Inject;
 
@@ -70,14 +71,23 @@ public class UpdateHabitatActivity {
             throw new UserSecurityException("You must own this habitat to update it.");
         }
 
-        if (updateHabitatRequest.getHabitatName() != null) {
-            if (!ServiceUtils.isValidString(updateHabitatRequest.getHabitatName())) {
+        String updateName = updateHabitatRequest.getHabitatName();
+
+        if (updateName != null) {
+            if (updateName.isEmpty()) {
+                updateName = habitat.getHabitatName();
+            }
+            if (!ServiceUtils.isValidString(updateName)) {
                 metricsPublisher.addCount(MetricsConstants.UPDATEHABITAT_INVALIDCHARACTEREXCEPTION, 1);
                 throw new InvalidCharacterException("HabitatName [" + updateHabitatRequest.getHabitatName() +
                         "] contains invalid characters.");
             }
 
-            habitat.setHabitatName(updateHabitatRequest.getHabitatName());
+            habitat.setHabitatName(updateName);
+        }
+
+        if(Objects.equals(updateHabitatRequest.getHabitatName(), "")) {
+            habitat.setHabitatName(habitat.getHabitatName());
         }
 
         if (updateHabitatRequest.getSpecies() != null) {
