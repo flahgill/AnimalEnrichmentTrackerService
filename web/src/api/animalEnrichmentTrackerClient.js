@@ -16,7 +16,7 @@ export default class AnimalEnrichmentTrackerClient extends BindingClass {
         super();
 
         const methodsToBind = ['clientLoaded', 'getIdentity', 'login', 'logout', 'getHabitat', 'createHabitat', 'getUserHabitats',
-        'removeHabitat', 'updateHabitat', 'getAnimalsForHabitat', 'addAnimalToHabitat', 'removeAnimalFromHabitat'];
+        'removeHabitat', 'updateHabitat', 'getAnimalsForHabitat', 'addAnimalToHabitat', 'removeAnimalFromHabitat', 'getAllHabitats'];
         this.bindClassMethods(methodsToBind, this);
 
         this.authenticator = new Authenticator();;
@@ -88,8 +88,25 @@ export default class AnimalEnrichmentTrackerClient extends BindingClass {
         } catch (error) {
             this.handleError(error, errorCallback)
         }
-
     }
+
+    /**
+     * gets all habitats saved in DB.
+     * @param isActive the requested active status to sort habitats by.
+     * @returns a list of saved habitats.
+     */
+     async getAllHabitats(isActive, errorCallback) {
+        try {
+            const queryParams = new URLSearchParams({ isActive: isActive});
+            const queryString = queryParams.toString();
+
+            const response = await this.axiosClient.get(`habitats?${queryString}`);
+
+            return response.data.habitats;
+        } catch (error) {
+            this.handleError(error, errorCallback)
+        }
+     }
 
     /**
      * Gets the habitat for the given ID.
@@ -243,7 +260,7 @@ export default class AnimalEnrichmentTrackerClient extends BindingClass {
       * removes an animal from a habitat.
       * @param habitatId The id of the habitat.
       * @param animalToRemove the animal to be removed.
-      * @@returns {Promise<string[]>} The habitat's list of animals.
+      * @returns {Promise<string[]>} The habitat's list of animals.
       */
      async removeAnimalFromHabitat(habitatId, animalToRemove, errorCallback) {
          try {

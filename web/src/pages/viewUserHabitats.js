@@ -62,7 +62,7 @@ import DataStore from "../util/DataStore";
             return;
         }
 
-        let habitatsHtml = '<table id="habitats-table"><tr><th>Name</th><th>Total Animals</th><th>Species</th><th>Habitat Id</th><th>Update Habitat</th><th>Delete Habitat</th></tr>';
+        let habitatsHtml = '<table id="habitats-table"><tr><th>Name</th><th>Total Animals</th><th>Species</th><th>Habitat Id</th><th>Update Habitat</th></tr>';
         let habitat;
         for (habitat of habitats) {
             habitatsHtml += `
@@ -74,7 +74,6 @@ import DataStore from "../util/DataStore";
                 <td>${habitat.species?.join(', ')}</td>
                 <td>${habitat.habitatId}</td>
                 <td><button data-id="${habitat.habitatId}" class="button update-habitat">Update</button></td>
-                <td><button data-id="${habitat.habitatId}" class="button remove-habitat">Delete</button></td>
             </tr>`;
         }
 
