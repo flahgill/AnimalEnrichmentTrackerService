@@ -26,6 +26,7 @@ public class UpdateHabitatLambda
                                 .withHabitatId(unauthRequest.getHabitatId())
                                 .withHabitatName(unauthRequest.getHabitatName())
                                 .withSpecies(unauthRequest.getSpecies())
+                                .withIsActive(unauthRequest.getIsActive())
                                 .withKeeperManagerId(claims.get("email"))
                                 .build());
             },

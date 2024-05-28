@@ -72,6 +72,7 @@ public class UpdateHabitatActivityTest {
         String id = "id";
         String expectedKeeperId = "expectedKeeperId";
         String expectedName = "name";
+        String expectedActive = "active";
         List<String> expectedSpecies = List.of("hello", "world");
         int expectedAnimalCount = 5;
 
@@ -80,6 +81,7 @@ public class UpdateHabitatActivityTest {
                 .withKeeperManagerId(expectedKeeperId)
                 .withSpecies(expectedSpecies)
                 .withHabitatName(expectedName)
+                .withIsActive(expectedActive)
                 .build();
 
         Habitat startingHabitat = new Habitat();
@@ -97,6 +99,7 @@ public class UpdateHabitatActivityTest {
         assertEquals(expectedSpecies, result.getHabitat().getSpecies());
         assertEquals(expectedKeeperId, result.getHabitat().getKeeperManagerId());
         assertEquals(expectedAnimalCount, result.getHabitat().getTotalAnimals());
+        assertEquals(expectedActive, result.getHabitat().getIsActive());
     }
 
     @Test

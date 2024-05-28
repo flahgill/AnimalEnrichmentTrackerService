@@ -14,6 +14,7 @@ public class UpdateHabitatRequest {
     private final String habitatName;
     private final List<String> species;
     private final String keeperManagerId;
+    private final String isActive;
 
     /**
      * creates UpdateHabitatRequest object for updating a habitat using the habitatId.
@@ -24,11 +25,12 @@ public class UpdateHabitatRequest {
      * @param keeperManagerId the keeperManagerId to avoid security concerns.
      */
     private UpdateHabitatRequest(String habitatId, String habitatName, List<String> species,
-                                 String keeperManagerId) {
+                                 String keeperManagerId, String isActive) {
         this.habitatId = habitatId;
         this.habitatName = habitatName;
         this.species = species;
         this.keeperManagerId = keeperManagerId;
+        this.isActive = isActive;
     }
 
     public String getHabitatId() {
@@ -47,6 +49,10 @@ public class UpdateHabitatRequest {
         return keeperManagerId;
     }
 
+    public String getIsActive() {
+        return isActive;
+    }
+
     @Override
     public String toString() {
         return "UpdateHabitatRequest{" +
@@ -54,6 +60,7 @@ public class UpdateHabitatRequest {
                 ", habitatName='" + habitatName + '\'' +
                 ", species=" + species +
                 ", keeperManagerId='" + keeperManagerId + '\'' +
+                ", isActive='" + isActive + '\'' +
                 '}';
     }
 
@@ -68,6 +75,7 @@ public class UpdateHabitatRequest {
         private String habitatName;
         private List<String> species;
         private String keeperManagerId;
+        private String isActive;
 
         public Builder withHabitatId(String habitatId) {
             this.habitatId = habitatId;
@@ -85,8 +93,12 @@ public class UpdateHabitatRequest {
             this.keeperManagerId = keeperManagerId;
             return this;
         }
+        public Builder withIsActive(String isActive) {
+            this.isActive = isActive;
+            return this;
+        }
         public UpdateHabitatRequest build() {
-            return new UpdateHabitatRequest(habitatId, habitatName, species, keeperManagerId);
+            return new UpdateHabitatRequest(habitatId, habitatName, species, keeperManagerId, isActive);
         }
 
     }
