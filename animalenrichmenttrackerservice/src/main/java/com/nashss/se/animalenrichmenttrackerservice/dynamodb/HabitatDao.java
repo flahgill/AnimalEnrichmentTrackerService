@@ -109,6 +109,19 @@ public class HabitatDao {
         return this.dynamoDBMapper.query(Habitat.class, queryExpression);
     }
 
+    public List<Habitat> getAllInactiveHabitats(String isActive) {
+        Map<String, AttributeValue> valueMap = new HashMap<>();
+        valueMap.put(":isActive", new AttributeValue().withS(isActive));
+
+        DynamoDBQueryExpression<Habitat> queryExpression = new DynamoDBQueryExpression<Habitat>()
+                .withIndexName("ActiveHabitatsIndex")
+                .withConsistentRead(false)
+                .withKeyConditionExpression("isActive = :isActive")
+                .withExpressionAttributeValues(valueMap);
+
+        return this.dynamoDBMapper.query(Habitat.class, queryExpression);
+    }
+
     /**
      * Perform a search (via a "scan") of the habitats table for habitats matching the given criteria.
      *

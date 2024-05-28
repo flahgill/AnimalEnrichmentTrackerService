@@ -159,6 +159,18 @@ Animal Enrichment Tracker Service will also provide a web interface for users to
 - Accepts GET requests to /habitats/search
 - Accepts a search criteria and returns a list of associated Habitats
 
+### 6.14 DeactivateHabitat Endpoint (Soft Delete)
+
+- Accepts PUT requests to /habitats/:habitatId
+- Accepts data to update a habitat including the active status associated with the habitat. Returns the updated habitat.
+- If the habitatId is not found, will throw a HabitatNotFoundException.
+
+### 6.15 ViewAllHabitats Endpoint
+
+- Accepts GET requests to /habitats
+- Accepts data to update a habitat including the active status associated with the habitat. Returns the updated habitat.
+- If the habitatId is not found, will throw a HabitatNotFoundException.
+
 ## 7. Tables
 
 ### 7.1. Habitats
