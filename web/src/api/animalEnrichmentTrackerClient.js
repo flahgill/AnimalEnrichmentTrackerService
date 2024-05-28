@@ -177,16 +177,18 @@ export default class AnimalEnrichmentTrackerClient extends BindingClass {
       * @param habitatId the Id of the habitat to update.
       * @param habitatName the name of the habitat to update.
       * @param species the species of the habitat to update.
+      * @param isActive the active status of the habitat to update.
       * @param errorCallback (Optional) A function to execute if the call fails.
       * @returns The habitat that has been created.
       */
-     async updateHabitat(habitatId, habitatName, species, errorCallback) {
+     async updateHabitat(habitatId, habitatName, species, isActive, errorCallback) {
      try {
             const token = await this.getTokenOrThrow("Only authenticated users can update their habitat");
             const response = await this.axiosClient.put(`habitats/${habitatId}`, {
                 habitatId: habitatId,
                 habitatName: habitatName,
-                species: species
+                species: species,
+                isActive: isActive
             }, {
                 headers: {
                     Authorization: `Bearer ${token}`

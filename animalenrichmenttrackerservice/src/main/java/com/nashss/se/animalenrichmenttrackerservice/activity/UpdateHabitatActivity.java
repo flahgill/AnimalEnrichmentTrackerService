@@ -96,6 +96,15 @@ public class UpdateHabitatActivity {
             habitat.setSpecies(species);
         }
 
+        String updateActivity = updateHabitatRequest.getIsActive();
+
+        if (updateActivity != null) {
+            if (updateActivity.isEmpty()) {
+                updateActivity = habitat.getIsActive();
+            }
+            habitat.setIsActive(updateActivity);
+        }
+
         habitat = habitatDao.saveHabitat(habitat);
 
         metricsPublisher.addCount(MetricsConstants.UPDATEHABITAT_INVALIDCHARACTEREXCEPTION, 0);

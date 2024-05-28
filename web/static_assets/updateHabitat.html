@@ -21,17 +21,30 @@
     <form class="card-content" id="update-habitat-name-form">
         <p class="hidden error" id="error-message"> </p>
         <p class="form-field">
-            <label>Update Habitat Name</label>
+            <h4>Update Habitat Name</h4>
             <input type="text" class="validated-field" id="new-name" placeholder="Giraffe Barn" autofocus>
             <sub class="tip">*Input the updated habitat name</sub>
         </p>
     </form>
+</div>
+
+<div class="card">
     <form class="card-content" id="update-species-form">
         <p class="form-field">
-            <label>Update Species in Habitat</label>
-            <input type="text" class="validated-field" id="new-species" placeholder="Giraffe, Kangaroo, NileLechwe" autofocus>
-            <sub class="tip">*Input the updated species as a comma separated list</sub>
-            <sub class="tip">*This list will replace the old list completely</sub>
+        <h4>Update Species in Habitat</h4>
+        <input type="text" class="validated-field" id="new-species" placeholder="Giraffe, Kangaroo, NileLechwe" autofocus>
+        <sub class="tip">*Input the updated species as a comma separated list</sub>
+        <sub class="tip">*This list will replace the old list completely</sub>
+        </p>
+    </form>
+</div>
+
+<div class="card">
+    <form class="card-content" id="update-active-form">
+        <p class="check-box">
+            <h4>Deactivate Habitat</h4>
+            <input type="checkbox" class="validated-field" id="active-status" value="false" autofocus>
+            <sub>*Checking this box will mark the habitat as inactive</sub>
         </p>
     </form>
 </div>
