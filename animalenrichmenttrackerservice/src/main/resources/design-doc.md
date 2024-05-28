@@ -168,8 +168,7 @@ Animal Enrichment Tracker Service will also provide a web interface for users to
 ### 6.15 ViewAllHabitats Endpoint
 
 - Accepts GET requests to /habitats
-- Accepts data to update a habitat including the active status associated with the habitat. Returns the updated habitat.
-- If the habitatId is not found, will throw a HabitatNotFoundException.
+- returns a list of Habitats, and user will input the activity status they want to view.
 
 ## 7. Tables
 

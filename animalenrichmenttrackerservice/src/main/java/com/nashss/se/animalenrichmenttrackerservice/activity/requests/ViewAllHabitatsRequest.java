@@ -3,7 +3,7 @@ package com.nashss.se.animalenrichmenttrackerservice.activity.requests;
 /**
  * ViewInactiveHabitatsRequest object class.
  */
-public class ViewInactiveHabitatsRequest {
+public class ViewAllHabitatsRequest {
     private final String isActive;
 
     /**
@@ -11,7 +11,7 @@ public class ViewInactiveHabitatsRequest {
      *
      * @param isActive the active status used to retrieve a list of habitats
      */
-    private ViewInactiveHabitatsRequest(String isActive) {
+    private ViewAllHabitatsRequest(String isActive) {
         this.isActive = isActive;
     }
 
@@ -36,8 +36,8 @@ public class ViewInactiveHabitatsRequest {
             this.isActive = isActive;
             return this;
         }
-        public ViewInactiveHabitatsRequest build() {
-            return new ViewInactiveHabitatsRequest(isActive);
+        public ViewAllHabitatsRequest build() {
+            return new ViewAllHabitatsRequest(isActive);
         }
     }
 }

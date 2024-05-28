@@ -19,6 +19,7 @@ public class HabitatTestHelper {
         habitat.setHabitatId("id");
         habitat.setHabitatName("a habitat");
         habitat.setKeeperManagerId("Keeper123");
+        habitat.setIsActive("active");
         habitat.setSpecies(List.of("Giraffe", "Takin", "Pandas"));
 
         List<Enrichment> enrichments = new ArrayList<>();
