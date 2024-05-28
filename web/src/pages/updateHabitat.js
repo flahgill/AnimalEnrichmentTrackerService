@@ -13,7 +13,7 @@ class UpdateHabitat extends BindingClass {
 
     constructor() {
         super();
-        this.bindClassMethods(['mount', 'clientLoaded', 'submit', 'addHabitatToPage', 'redirectToHabitat'], this);
+        this.bindClassMethods(['mount', 'clientLoaded', 'submit', 'handleCheckboxChange', 'addHabitatToPage', 'redirectToHabitat'], this);
         this.dataStore = new DataStore();
         this.dataStore.addChangeListener(this.addHabitatToPage);
         this.header = new Header(this.dataStore);
@@ -25,6 +25,8 @@ class UpdateHabitat extends BindingClass {
      */
     mount() {
         document.getElementById('update-habitat').addEventListener('click', this.submit);
+        document.getElementById('activate-status').addEventListener('change', this.handleCheckboxChange);
+        document.getElementById('deactivate-status').addEventListener('change', this.handleCheckboxChange);
 
         this.header.addHeaderToPage();
 
@@ -55,6 +57,26 @@ class UpdateHabitat extends BindingClass {
         document.getElementById('habitat-owner').innerText = habitat.keeperManagerId;
         document.getElementById('habitat-id').innerText = habitat.habitatId;
         document.getElementById('species').innerText = habitat.species;
+        document.getElementById('curr-active-status').innerText = habitat.isActive ? "Active" : "Inactive";
+
+        document.getElementById('activate-status').checked = habitat.isActive;
+        document.getElementById('deactivate-status').checked = !habitat.isActive;
+    }
+
+    /**
+     * Ensure only one checkbox is checked at a time.
+     */
+    handleCheckboxChange() {
+        const activateCheckbox = document.getElementById('activate-status');
+        const deactivateCheckbox = document.getElementById('deactivate-status');
+
+        if (activateCheckbox.checked) {
+            deactivateCheckbox.checked = false;
+        }
+
+        if (deactivateCheckbox.checked) {
+            activateCheckbox.checked = false;
+        }
     }
 
     /**
@@ -72,11 +94,9 @@ class UpdateHabitat extends BindingClass {
         const origButtonText = updateButton.innerText;
         updateButton.innerText = 'Loading...';
 
-        const keeperId = document.getElementById('habitat-owner').value;
         const newName = document.getElementById('new-name').value;
         const newSpecies = document.getElementById('new-species').value;
-        const newActive = document.getElementById('active-status').value;
-        const deactivate = newActive.checked ? "active" : "inactive";
+        const newActive = document.getElementById('activate-status').checked ? "active" : "inactive";
 
         let species;
         if (newSpecies.length < 1) {
@@ -85,11 +105,12 @@ class UpdateHabitat extends BindingClass {
             species = newSpecies.split(/\s*,\s*/);
         }
 
-        const habitat = await this.client.updateHabitat(this.habitatId, newName, species, deactivate, (error) => {
+        const habitat = await this.client.updateHabitat(this.habitatId, newName, species, newActive, (error) => {
             updateButton.innerText = origButtonText;
             errorMessageDisplay.innerText = `Error: ${error.message}`;
             errorMessageDisplay.classList.remove('hidden');
         });
+
         this.dataStore.set('habitat', habitat);
         this.redirectToHabitat(this.habitatId);
     }
@@ -98,8 +119,7 @@ class UpdateHabitat extends BindingClass {
      * When the habitat is updated in the datastore, redirect back to the habitat page.
      */
     redirectToHabitat(habitatId) {
-         window.location.href = `/habitat.html?habitatId=${habitatId}`;
-
+        window.location.href = `/habitat.html?habitatId=${habitatId}`;
     }
 }
 

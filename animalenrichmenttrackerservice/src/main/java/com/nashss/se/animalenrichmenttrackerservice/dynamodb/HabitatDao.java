@@ -110,6 +110,23 @@ public class HabitatDao {
     }
 
     /**
+     * Perform a scan of the habitat table for habitats matching the active status in query.
+     *
+     * @param isActive the activity status of a habitat requests.
+     * @return a list of habitats matching the active status requested.
+     */
+    public List<Habitat> getAllHabitats(String isActive) {
+        DynamoDBScanExpression scanExpression = new DynamoDBScanExpression();
+        Map<String, AttributeValue> valueMap = new HashMap<>();
+        valueMap.put(":isActive", new AttributeValue().withS(isActive));
+
+        scanExpression.setExpressionAttributeValues(valueMap);
+        scanExpression.setFilterExpression("isActive = :isActive");
+
+        return this.dynamoDBMapper.scan(Habitat.class, scanExpression);
+    }
+
+    /**
      * Perform a search (via a "scan") of the habitats table for habitats matching the given criteria.
      *
      * "habitatName", "animalsInHabitat" and "species" attributes are searched.
