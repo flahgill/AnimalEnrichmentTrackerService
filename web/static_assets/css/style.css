@@ -1,13 +1,10 @@
 :root {
-    /* css variables: https://developer.mozilla.org/en-US/docs/Web/CSS/var */
     --primary-color: #77AF74; /*light green - main background */
     --secondary-color: #ffffff; /*white - wording */
     --tertiary-color: #3E583D; /*dark green - buttons and header background */
-    --quaternary-color #9C8081;
+    --quaternary-color: #9C8081;
     --error-color: #D4A841; /*orange */
 }
-
-
 
 .background {
     background: url("WildThing.png") var(--primary-color);
@@ -24,7 +21,6 @@
 }
 
 .header {
-    /* Flexbox: https://css-tricks.com/snippets/css/a-guide-to-flexbox/ */
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -35,14 +31,14 @@
 }
 
 .button {
-  background-color: var(--tertiary-color);
-  border: none;
-  letter-spacing: 2px;
-  color: var(--secondary-color);
-  padding: 6px 8px 4px 8px;
-  text-align: center;
-  text-decoration: none;
-  cursor: pointer;
+    background-color: var(--tertiary-color);
+    border: none;
+    letter-spacing: 2px;
+    color: var(--secondary-color);
+    padding: 6px 8px 4px 8px;
+    text-align: center;
+    text-decoration: none;
+    cursor: pointer;
 }
 
 .button-group {
@@ -68,10 +64,9 @@
     border: 2px solid var(--tertiary-color);
 }
 
+.upperCaseHeader { text-transform: uppercase }
 
-.upperCaseHeader { text-transform: uppercase}
-
-h1,h2,h3,h4,h5 { text-transform: uppercase; }
+h1, h2, h3, h4, h5 { text-transform: uppercase; }
 
 .chart-content {
     height: 400px;
@@ -87,9 +82,10 @@ h1,h2,h3,h4,h5 { text-transform: uppercase; }
     padding: 8px;
 }
 
-.validated-field:invalid {
+.validated-field {
     outline: 2px solid var(--tertiary-color);
 }
+
 .validated-field:focus:invalid {
     color: var(--error-color);
 }
@@ -102,6 +98,8 @@ h1,h2,h3,h4,h5 { text-transform: uppercase; }
 .card-content .form-field {
     display: flex;
     flex-direction: column;
+    margin-bottom: 20px;
+    padding-right: 50px;
 }
 
 .card-content .check-box {
@@ -126,71 +124,71 @@ h1,h2,h3,h4,h5 { text-transform: uppercase; }
     align-items: center;
     padding: 20px;
 }
-nav ul{
+
+nav ul {
     flex: 1;
     text-align: right;
 }
-nav ul li{
+
+nav ul li {
     display: inline-block;
     list-style: none;
     margin: 0 20px;
 }
-nav ul li a{
-    text-decoration: none;
-    color: #fff;
-}
-.div ul li a{
+
+nav ul li a {
     text-decoration: none;
     color: #fff;
 }
 
-/* Dropdown Button */
+.div ul li a {
+    text-decoration: none;
+    color: #fff;
+}
+
 .dropbtn {
-  background-color: var(--tertiary-color);
-  border: none;
-  color: var(--secondary-color);
-  padding: 6px 8px 4px 8px;
-  text-align: center;
-  font-weight: bold;
-  text-decoration: none;
-  cursor: pointer;
+    background-color: var(--tertiary-color);
+    border: none;
+    color: var(--secondary-color);
+    padding: 6px 8px 4px 8px;
+    text-align: center;
+    font-weight: bold;
+    text-decoration: none;
+    cursor: pointer;
 }
 
-/* The container <div> - needed to position the dropdown content */
 .dropdown {
-  position: relative;
-  display: inline-block;
+    position: relative;
+    display: inline-block;
 }
 
-/* Dropdown Content (Hidden by Default) */
 .dropdown-content {
-  display: none;
-  position: absolute;
-  background-color: #f1f1f1;
-  min-width: 160px;
-  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-  z-index: 1;
+    display: none;
+    position: absolute;
+    background-color: #f1f1f1;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1;
 }
 
-/* Links inside the dropdown */
 .dropdown-content option {
-  color: black;
-  padding: 12px 16px;
-  text-decoration: none;
-  display: block;
+    color: black;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
 }
 
-/* Change color of dropdown links on hover */
-.dropdown-content option:hover {background-color: #ddd;}
+.dropdown-content option:hover {
+    background-color: #ddd;
+}
 
-/* Show the dropdown menu (use JS to add this class to the .dropdown-content container when the user clicks on the dropdown button) */
-.show {display:block;}
+.show {
+    display: block;
+}
 
 .hidden {
     display: none;
 }
-
-/* table styles */
 
 th, td {
     padding: 10px;
