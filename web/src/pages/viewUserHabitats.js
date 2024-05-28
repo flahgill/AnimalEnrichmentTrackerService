@@ -9,7 +9,7 @@ import DataStore from "../util/DataStore";
      constructor() {
              super();
              this.bindClassMethods(['clientLoaded', 'mount', 'addHabitatsToPage', 'removeHabitat',
-             'redirectToUpdateHabitat'], this);
+             'redirectToUpdateHabitat', 'checkLoginStatus'], this);
              this.dataStore = new DataStore();
              console.log("viewUserHabitats constructor");
      }
@@ -34,7 +34,22 @@ import DataStore from "../util/DataStore";
       document.getElementById('habitats').addEventListener("click", this.redirectToUpdateHabitat);
 
       this.client = new AnimalEnrichmentTrackerClient();
-      this.clientLoaded();
+      this.checkLoginStatus();
+  }
+
+  /**
+  * Check user login status.
+  */
+  async checkLoginStatus() {
+        const user = await this.client.getIdentity();
+        const userHabitatsSection = document.querySelector('.card.hidden');
+
+        if (user) {
+            userHabitatsSection.classList.remove('hidden');
+            this.clientLoaded();
+        } else {
+            userHabitatsSection.classList.add('hidden');
+        }
   }
 
   /**

@@ -1,9 +1,9 @@
 # Design Doc 
-## Animal Enrichment Tracker Service
+## Animal Enrichment Tracker Service (SafariJoy)
 
 ## 1. Problem Statement
 Enrichment activities are essential for the well-being of animals at the St. Louis Zoo, mandated by the zoo's policy to provide at least two activities per week for each animal. The responsibility falls on teams of zookeepers to administer these activities and assess their effectiveness based on a current rating system.
-To streamline this process, the proposed Animal Enrichment Tracker Service aims to automate activity tracking for each animal. This service will empower zookeepers to efficiently monitor animals, select appropriate enrichments, record enrichment activities administered, and evaluate each activity's impact through a rating system.
+To streamline this process, the proposed Animal Enrichment Tracker Service (SafariJoy) aims to automate activity tracking for each animal. This service will empower zookeepers to efficiently monitor animals, select appropriate enrichments, record enrichment activities administered, and evaluate each activity's impact through a rating system.
 
 ## 2. Use Cases
 - U1. As a user, I would like the ability to add a habitat to the system.
@@ -18,11 +18,13 @@ To streamline this process, the proposed Animal Enrichment Tracker Service aims 
 - U10. As a user, I would like the ability to view all enrichments for a habitat.
 - U11. As a user, I would like the ability to view all enrichment activities sorted by date administered.
 - U12. As a user, I would like the ability to view all enrichment activities sorted by ratings and habitat.
+- U13. As a user, I would like the ability to search for habitats by habitat name, species, or animals in the habitat.
+- U14. As a user, I would like the ability to search for enrichments by name.
 - [STRETCH GOALS]
-- U13. As a user, I would like the ability to add an animal object with specific attributes (more than just a string name) to a habitat.
-- U14. As a user, I would like the ability to remove an animal object with specific attributes (more than just a string name) from a habitat.
-- U15. As a user, I would like the ability to update an animal object with specific attributes (more than just a string name) in a habitat.
-- U16. As a user, I would like the ability to view all animal objects in a habitat.
+- U15. As a user, I would like the ability to add an animal object with specific attributes (more than just a string name) to a habitat.
+- U16. As a user, I would like the ability to remove an animal object with specific attributes (more than just a string name) from a habitat.
+- U17. As a user, I would like the ability to update an animal object with specific attributes (more than just a string name) in a habitat.
+- U18. As a user, I would like the ability to view all animal objects in a habitat.
 
 ## 4. Project Scope
 
@@ -44,8 +46,7 @@ To streamline this process, the proposed Animal Enrichment Tracker Service aims 
 ## 5. Proposed Architecture Overview
 
 - This initial iteration will provide the minimum lovable product (MLP) including creating, retrieving, and updating a habitat, as well as adding to and retrieving a saved habitat’s enrichment activities.
-We will use API Gateway and Lambda to create ten endpoints (AddHabitat, RemoveHabitat, UpdateHabitat, viewHabitat, AddAnimalToHabitat, RemoveAnimalFromHabitat, AddEnrichment, RemoveEnrichment, UpdateEnrichment, viewEnrichment) that will handle the creation, update, and retrieval of habitats and enrichments to satisfy our requirements.
-
+- We will use API Gateway and Lambda to create fifteen endpoints (AddHabitat, RemoveHabitat, UpdateHabitat, ViewHabitat, AddAnimalToHabitat, RemoveAnimalFromHabitat, AddEnrichmentToHabitat, RemoveEnrichmentFromHabitat, UpdateHabitatEnrichment, viewUserHabitats, ViewHabitatEnrichments, SearchHabitats, SearchEnrichments, DeactivateHabitat, ViewInactiveHabitats) that will handle the creation, update, and retrieval of habitats and enrichments to satisfy our requirements.
 - We will store newly created enrichment activities and habitats in DynamoDB. For simpler enrichment retrieval, we will store the list of enrichment activities in a given habitat directly in the habitats table.
 Animal Enrichment Tracker Service will also provide a web interface for users to manage habitats and enrichment activities. A main page providing a list view of all the keeper’s habitats will let them add/remove habitats. This will link off to pages per-habitat to update metadata and add/remove animals and/or enrichment activities.
 
@@ -119,7 +120,7 @@ Animal Enrichment Tracker Service will also provide a web interface for users to
    - If the habitat is not found, will throw a HabitatNotFoundException
    - If the animal is not found, will throw an AnimalNotFoundException
 
-### 6.8. AddEnrichment Endpoint
+### 6.8. AddEnrichmentToHabitat Endpoint
 
 - Accepts POST requests to /habitats/:habitatId/enrichments
 - Accepts a habitatId and an enrichment activity to be added, enrichment is specified by enrichmentId.
@@ -127,26 +128,34 @@ Animal Enrichment Tracker Service will also provide a web interface for users to
    - If the enrichment is not found, will throw an EnrichmentActivityNotFoundException
    - If the enrichment is not acceptable for the habitat, will throw an UnsuitableEnrichmentForHabitatException
 
-### 6.9. UpdateEnrichment Endpoint
+### 6.9. UpdateHabitatEnrichment Endpoint
 
 - Accepts POST requests to /habitats/:habitatId/enrichments
 - Accepts data to update an enrichment activity(keeperRating), a habitatId and an enrichment activity to be updated, enrichment is specified by enrichmentId.
    - If the habitat is not found, will throw a HabitatNotFoundException
    - If the enrichment is not found, will throw an EnrichmentActivityNotFoundException
 
-### 6.10. ViewHabitatsforUser Endpoint
+### 6.10. RemoveEnrichmentFromHabitat Endpoint
+
+- Accepts DELETE requests to /habitats/:habitatId/enrichments
+- Accepts data to remove an enrichment activity, enrichment is specified by enrichmentId.
+  - If the habitat is not found, will throw a HabitatNotFoundException
+  - If the enrichment is not found, will throw an EnrichmentActivityNotFoundException
+
+### 6.11. ViewHabitatsforUser Endpoint
 
 - Accepts GET requests to /habitats/:keeperManagerId
 - Accepts a keeperManagerId and returns a list of Habitats created by that manager.
    - If the given manager has not created any habitats, an empty list will be returned
 
+### 6.12. ViewEnrichmentsforHabitat Endpoint
 
-### 6.11. ViewEnrichmentsforHabitat Endpoint
 - Accepts GET requests to /habitats/:habitatId/enrichments
 - Accepts a habitatId and returns a list of corresponding EnrichmentModels
    - If the habitat is not found, will throw a HabitatNotFoundException
 
-### 6.12. SearchHabitats Endpoint
+### 6.13. SearchHabitats Endpoint
+
 - Accepts GET requests to /habitats/search
 - Accepts a search criteria and returns a list of associated Habitats
 
