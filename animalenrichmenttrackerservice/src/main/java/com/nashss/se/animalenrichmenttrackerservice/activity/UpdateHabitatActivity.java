@@ -89,7 +89,7 @@ public class UpdateHabitatActivity {
 
         if (species != null) {
             if (species.isEmpty()) {
-                species = habitat.getSpecies();  // Retain original species if the new list is empty
+                species = habitat.getSpecies();
             } else {
                 species = new ArrayList<>(species);
             }
