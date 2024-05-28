@@ -98,12 +98,14 @@ public class UpdateHabitatActivity {
 
         String updateActivity = updateHabitatRequest.getIsActive();
 
-        if (updateActivity != null) {
-            if (updateActivity.isEmpty()) {
-                updateActivity = habitat.getIsActive();
-            }
-            habitat.setIsActive(updateActivity);
+
+        if (updateActivity == null) {
+            updateActivity = "active";
+        } else if (updateActivity.isEmpty()) {
+            updateActivity = "active";
         }
+        habitat.setIsActive(updateActivity);
+
 
         habitat = habitatDao.saveHabitat(habitat);
 

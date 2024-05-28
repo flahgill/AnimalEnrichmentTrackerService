@@ -14,6 +14,7 @@
     <h3>Name: <span id="habitat-name"></span></h3>
     <h3>Manager: <span id="habitat-owner"></span></h3>
     <h3>Id: <span id="habitat-id"></span></h3>
+    <h3>Status: <span class = "active-status" id="curr-active-status"></span></h3>
     <div class="species" id="species"></div>
 </div>
 
@@ -42,9 +43,9 @@
 <div class="card">
     <form class="card-content" id="update-active-form">
         <p class="check-box">
-            <h4>Deactivate Habitat</h4>
-            <input type="checkbox" class="validated-field" id="active-status" value="false" autofocus>
-            <sub>*Checking this box will mark the habitat as inactive</sub>
+            <h4>Change Active Status</h4>
+            <input type="checkbox" class="validated-field" id="activate-status" value="active" autofocus> Activate
+            <input type="checkbox" class="validated-field" id="deactivate-status" value="inactive" autofocus> Deactivate
         </p>
     </form>
 </div>
