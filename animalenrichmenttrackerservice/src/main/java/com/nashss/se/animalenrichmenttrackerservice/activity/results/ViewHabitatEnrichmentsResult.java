@@ -1,8 +1,9 @@
 package com.nashss.se.animalenrichmenttrackerservice.activity.results;
 
+import com.nashss.se.animalenrichmenttrackerservice.models.EnrichmentModel;
+
 import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import com.nashss.se.animalenrichmenttrackerservice.models.EnrichmentModel;
 
 import java.util.List;
 
