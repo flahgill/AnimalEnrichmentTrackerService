@@ -9,6 +9,7 @@ import com.nashss.se.animalenrichmenttrackerservice.activity.UpdateHabitatActivi
 import com.nashss.se.animalenrichmenttrackerservice.activity.ViewAllHabitatsActivity;
 import com.nashss.se.animalenrichmenttrackerservice.activity.ViewAnimalsForHabitatActivity;
 import com.nashss.se.animalenrichmenttrackerservice.activity.ViewHabitatActivity;
+import com.nashss.se.animalenrichmenttrackerservice.activity.ViewHabitatEnrichmentsActivity;
 import com.nashss.se.animalenrichmenttrackerservice.activity.ViewUserHabitatsActivity;
 
 import dagger.Component;
@@ -78,4 +79,10 @@ public interface ServiceComponent {
      * @return ViewAllHabitatsActivity
      */
     ViewAllHabitatsActivity provideViewAllHabitatsActivity();
+
+    /**
+     * Provides the relevant activity.
+     * @return ViewHabitatEnrichmentsActivity
+     */
+    ViewHabitatEnrichmentsActivity provideViewHabitatEnrichmentsActivity();
 }
