@@ -1,9 +1,11 @@
 package com.nashss.se.animalenrichmenttrackerservice.dynamodb.models;
 
-import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBAttribute;
-import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBHashKey;
-import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBIndexHashKey;
-import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBTable;
+import com.amazonaws.services.dynamodbv2.datamodeling.*;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateDeserializer;
+import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateSerializer;
+import com.nashss.se.animalenrichmenttrackerservice.converters.LocalDateToStringConverter;
 
 import java.time.LocalDate;
 import java.util.Objects;
@@ -58,6 +60,7 @@ public class Enrichment {
     }
 
     @DynamoDBAttribute(attributeName = "dateCompleted")
+    @DynamoDBTypeConverted(converter = LocalDateToStringConverter.class)
     public LocalDate getDateCompleted() {
         return dateCompleted;
     }

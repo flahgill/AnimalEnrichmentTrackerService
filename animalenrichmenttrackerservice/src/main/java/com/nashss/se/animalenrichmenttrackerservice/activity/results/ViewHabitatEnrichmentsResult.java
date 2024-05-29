@@ -1,5 +1,7 @@
 package com.nashss.se.animalenrichmenttrackerservice.activity.results;
 
+import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.nashss.se.animalenrichmenttrackerservice.models.EnrichmentModel;
 
 import java.util.List;
@@ -7,6 +9,7 @@ import java.util.List;
 /**
  * ViewHabitatEnrichmentsResult object class.
  */
+@JsonSerialize()
 public class ViewHabitatEnrichmentsResult {
     private final List<EnrichmentModel> completedEnrichments;
 
@@ -34,6 +37,7 @@ public class ViewHabitatEnrichmentsResult {
     public static Builder builder() {
         return new Builder();
     }
+    @JsonPOJOBuilder
     public static class Builder {
         private List<EnrichmentModel> completedEnrichments;
         public Builder withCompletedEnrichments(List<EnrichmentModel> completedEnrichments) {

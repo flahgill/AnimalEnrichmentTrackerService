@@ -1,8 +1,5 @@
 package com.nashss.se.animalenrichmenttrackerservice.converters;
 
-import com.fasterxml.jackson.databind.SerializationFeature;
-import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateDeserializer;
-import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateSerializer;
 import com.nashss.se.animalenrichmenttrackerservice.dynamodb.models.Enrichment;
 import com.nashss.se.animalenrichmenttrackerservice.exceptions.EnrichmentSerializationException;
 
@@ -13,8 +10,6 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 public class EnrichmentConverter implements DynamoDBTypeConverter<String, List<Enrichment>> {
@@ -25,14 +20,7 @@ public class EnrichmentConverter implements DynamoDBTypeConverter<String, List<E
      */
     public EnrichmentConverter() {
         mapper = new ObjectMapper();
-        JavaTimeModule javaTimeModule = new JavaTimeModule();
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-
-        javaTimeModule.addSerializer(LocalDate.class, new LocalDateSerializer(formatter));
-        javaTimeModule.addDeserializer(LocalDate.class, new LocalDateDeserializer(formatter));
-
-        mapper.registerModule(javaTimeModule);
-        mapper.configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false);
+        mapper.registerModule(new JavaTimeModule());
     }
 
     @Override
@@ -42,6 +30,7 @@ public class EnrichmentConverter implements DynamoDBTypeConverter<String, List<E
             System.out.println("Serialized json: " + json);
             return json;
         } catch (JsonProcessingException e) {
+            System.err.println("Serialization error: " + e.getMessage());
             throw new EnrichmentSerializationException("Enrichment failed to deserialize.", e);
         }
     }
@@ -54,6 +43,7 @@ public class EnrichmentConverter implements DynamoDBTypeConverter<String, List<E
             System.out.println("Deserializing json: " + object);
             return mapper.readValue(object, ref);
         } catch (JsonProcessingException e) {
+            System.err.println("Deserialization error: " + e.getMessage());
             throw new EnrichmentSerializationException("Enrichment failed to be created from " +
                     "String representation.", e);
         }

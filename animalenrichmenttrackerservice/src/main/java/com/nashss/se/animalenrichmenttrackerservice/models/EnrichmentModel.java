@@ -1,5 +1,12 @@
 package com.nashss.se.animalenrichmenttrackerservice.models;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateDeserializer;
+import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateSerializer;
+
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.Objects;
 
@@ -9,6 +16,9 @@ public class EnrichmentModel {
     private String name;
     private int keeperRating;
     private String description;
+
+    @JsonSerialize(using = LocalDateSerializer.class)
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     private LocalDate dateCompleted;
 
     private EnrichmentModel(String enrichmentId, String name, int keeperRating,
@@ -35,7 +45,6 @@ public class EnrichmentModel {
     public String getDescription() {
         return description;
     }
-
     public LocalDate getDateCompleted() {
         return dateCompleted;
     }
