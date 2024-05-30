@@ -30,7 +30,7 @@ public class EnrichmentConverter implements DynamoDBTypeConverter<String, List<E
             System.out.println("Serialized json: " + json);
             return json;
         } catch (JsonProcessingException e) {
-            System.err.println("Serialization error: " + e.getMessage());
+            System.out.println("Serialization error: " + e.getMessage());
             throw new EnrichmentSerializationException("Enrichment failed to deserialize.", e);
         }
     }
@@ -43,7 +43,7 @@ public class EnrichmentConverter implements DynamoDBTypeConverter<String, List<E
             System.out.println("Deserializing json: " + object);
             return mapper.readValue(object, ref);
         } catch (JsonProcessingException e) {
-            System.err.println("Deserialization error: " + e.getMessage());
+            System.out.println("Deserialization error: " + e.getMessage());
             throw new EnrichmentSerializationException("Enrichment failed to be created from " +
                     "String representation.", e);
         }
