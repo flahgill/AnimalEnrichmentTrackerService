@@ -1,9 +1,10 @@
 package com.nashss.se.animalenrichmenttrackerservice.converters;
 
+import com.nashss.se.animalenrichmenttrackerservice.dynamodb.models.Enrichment;
+
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.databind.JsonSerializer;
 import com.fasterxml.jackson.databind.SerializerProvider;
-import com.nashss.se.animalenrichmenttrackerservice.dynamodb.models.Enrichment;
 
 import java.io.IOException;
 
