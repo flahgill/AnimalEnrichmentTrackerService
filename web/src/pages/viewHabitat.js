@@ -10,7 +10,7 @@ class ViewHabitat extends BindingClass {
     constructor() {
         super();
         this.bindClassMethods(['clientLoaded', 'mount', 'addHabitatToPage', 'redirectToViewAnimals', 'removeHabitat',
-        'redirectToUpdateHabitat'], this);
+        'redirectToUpdateHabitat', 'redirectToViewHabitatEnrichments'], this);
         this.dataStore = new DataStore();
         this.dataStore.addChangeListener(this.addHabitatToPage);
         this.header = new Header(this.dataStore);
@@ -36,6 +36,7 @@ class ViewHabitat extends BindingClass {
         document.getElementById('view-animals-button').addEventListener("click", this.redirectToViewAnimals);
         document.getElementById('remove-habitat').addEventListener("click", this.removeHabitat);
         document.getElementById('update-habitat').addEventListener("click", this.redirectToUpdateHabitat);
+        document.getElementById('view-habitat-enrichments-button').addEventListener("click", this.redirectToViewHabitatEnrichments);
 
         this.client = new AnimalEnrichmentTrackerClient();
         this.clientLoaded();
@@ -105,6 +106,12 @@ class ViewHabitat extends BindingClass {
         if (updateButton != null) {
             window.location.href = `/updateHabitat.html?habitatId=${habitatId}`;
         }
+    }
+
+    async redirectToViewHabitatEnrichments(e) {
+        const habitat = this.dataStore.get('habitat');
+        const habitatId = habitat.habitatId;
+        window.location.href = `viewHabitatEnrichments.html?habitatId=${habitatId}`;
     }
 }
 

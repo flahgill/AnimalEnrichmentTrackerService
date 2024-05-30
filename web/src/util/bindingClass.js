@@ -6,7 +6,11 @@ export default class BindingClass {
      */
     bindClassMethods(methods, classInstance) {
         methods.forEach(method => {
-            classInstance[method] = classInstance[method].bind(classInstance);
-        });
+                    if (classInstance[method] === undefined) {
+                        console.error(`Method [${method}] is undefined in classInstance. Make sure it exists and is correctly spelled.`);
+                    } else {
+                        classInstance[method] = classInstance[method].bind(classInstance);
+                    }
+                });
     }
 }

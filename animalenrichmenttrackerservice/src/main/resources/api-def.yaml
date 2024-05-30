@@ -419,6 +419,31 @@ paths:
                     items:
                       type: enrichment
 
+  /habitats/{habitatId}/enrichments:
+    get:
+      tags:
+        - Enrichments
+      parameters:
+        - name: habitatId
+          in: path
+          description: Id to retrieve habitat
+          required: true
+          schema:
+            type: string
+      summary: Retrieves a list of completed enrichments in a habitat (ViewHabitatEnrichmentsLambda)
+      responses:
+        "200":
+          description: a habitat object
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  completedEnrichments:
+                    type: array
+                    items:
+                      type: enrichment
+
 
 
 

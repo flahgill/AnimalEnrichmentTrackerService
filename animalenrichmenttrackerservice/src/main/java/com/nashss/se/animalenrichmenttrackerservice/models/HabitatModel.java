@@ -1,5 +1,9 @@
 package com.nashss.se.animalenrichmenttrackerservice.models;
 
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateSerializer;
+import com.nashss.se.animalenrichmenttrackerservice.converters.CompletedEnrichmentsSerializer;
+import com.nashss.se.animalenrichmenttrackerservice.converters.EnrichmentConverter;
 import com.nashss.se.animalenrichmenttrackerservice.dynamodb.models.Enrichment;
 
 import java.util.List;
@@ -14,6 +18,8 @@ public class HabitatModel {
     private final int totalAnimals;
     private final List<String> animalsInHabitat;
     private final List<String> acceptableEnrichmentIds;
+
+    @JsonSerialize(contentUsing = CompletedEnrichmentsSerializer.class)
     private final List<Enrichment> completedEnrichments;
 
     private HabitatModel(String habitatId, String isActive, String habitatName, List<String> species,

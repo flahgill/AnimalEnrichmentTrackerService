@@ -16,7 +16,8 @@ export default class AnimalEnrichmentTrackerClient extends BindingClass {
         super();
 
         const methodsToBind = ['clientLoaded', 'getIdentity', 'login', 'logout', 'getHabitat', 'createHabitat', 'getUserHabitats',
-        'removeHabitat', 'updateHabitat', 'getAnimalsForHabitat', 'addAnimalToHabitat', 'removeAnimalFromHabitat', 'getAllHabitats'];
+        'removeHabitat', 'updateHabitat', 'getAnimalsForHabitat', 'addAnimalToHabitat', 'removeAnimalFromHabitat', 'getAllHabitats',
+        'getHabitatEnrichments'];
         this.bindClassMethods(methodsToBind, this);
 
         this.authenticator = new Authenticator();;
@@ -279,6 +280,21 @@ export default class AnimalEnrichmentTrackerClient extends BindingClass {
              this.handleError(error, errorCallback)
          }
      }
+
+     /**
+      * Gets the habitat's list of completedEnrichments for the given ID.
+      * @param habitatId Unique identifier for a habitat
+      * @param errorCallback (Optional) A function to execute if the call fails.
+      * @returns the habitat's list of completedEnrichments
+      */
+      async getHabitatEnrichments(habitatId, errorCallback) {
+         try {
+             const response = await this.axiosClient.get(`habitats/${habitatId}/enrichments`);
+             return response.data.completedEnrichments;
+         } catch (error) {
+             this.handleError(error, errorCallback)
+         }
+      }
 
     /**
      * Helper method to log the error and run any error functions.
