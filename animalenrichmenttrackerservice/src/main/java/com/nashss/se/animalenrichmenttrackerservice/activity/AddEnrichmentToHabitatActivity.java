@@ -71,7 +71,7 @@ public class AddEnrichmentToHabitatActivity {
         enrichToAdd.setDateCompleted(addEnrichmentToHabitatRequest.getDateCompleted());
         enrichToAdd.setKeeperRating(addEnrichmentToHabitatRequest.getKeeperRating());
 
-        updatedEnrichments.add(enrichToAdd);
+        updatedEnrichments.add(0, enrichToAdd);
 
         List<EnrichmentModel> updatedEnrichmentModels = new ModelConverter().toEnrichmentModelList(updatedEnrichments);
 

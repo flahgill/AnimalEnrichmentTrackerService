@@ -17,7 +17,7 @@ export default class AnimalEnrichmentTrackerClient extends BindingClass {
 
         const methodsToBind = ['clientLoaded', 'getIdentity', 'login', 'logout', 'getHabitat', 'createHabitat', 'getUserHabitats',
         'removeHabitat', 'updateHabitat', 'getAnimalsForHabitat', 'addAnimalToHabitat', 'removeAnimalFromHabitat', 'getAllHabitats',
-        'getHabitatEnrichments'];
+        'getHabitatEnrichments', 'addEnrichmentToHabitat'];
         this.bindClassMethods(methodsToBind, this);
 
         this.authenticator = new Authenticator();;
@@ -294,6 +294,34 @@ export default class AnimalEnrichmentTrackerClient extends BindingClass {
          } catch (error) {
              this.handleError(error, errorCallback)
          }
+      }
+
+      /**
+       * Add an Enrichment activity to a habitat owned by the current user.
+       * @param habitatId The id of of the habitat to add the enrichment to.
+       * @param enrichmentId the id of the enrichment to add.
+       * @param keeperRating the keeper rating.
+       * @param dateCompleted the date the enrichment activity was completed.
+       * @param errorCallback (Optional) A function to execute if the call fails.
+       * @returns The habitat's updated list of completedEnrichments.
+       */
+      async addEnrichmentToHabitat(habitatId, enrichmentId, keeperRating, dateCompleted, errorCallback) {
+          try {
+              const token = await this.getTokenOrThrow("Only authenticated users can add an enrichment activity to their habitat.");
+              const response = await this.axiosClient.post(`habitats/{habitatId}/enrichments`, {
+                  habitatId: habitatId,
+                  enrichmentId: enrichmentId,
+                  keeperRating: keeperRating,
+                  dateCompleted: dateCompleted
+              }, {
+                  headers: {
+                      Authorization: `Bearer ${token}`
+                  }
+              });
+              return response.data.completedEnrichments;
+          } catch (error) {
+              this.handleError(error, errorCallback)
+          }
       }
 
     /**
