@@ -28,7 +28,8 @@ public class HabitatTestHelper {
         }
         habitat.setCompletedEnrichments(enrichments);
         habitat.setTotalAnimals(0);
-        habitat.setAcceptableEnrichmentIds(List.of("01", "02", "06"));
+        habitat.setAcceptableEnrichmentIds(List.of("01", "02", "06", "fake id"));
+        // added 'fake id' for EnrichmentNotFound testing purposes
 
         return habitat;
     }
