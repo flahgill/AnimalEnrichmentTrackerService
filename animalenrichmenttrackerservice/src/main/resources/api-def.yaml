@@ -443,6 +443,29 @@ paths:
                     type: array
                     items:
                       type: enrichment
+    post:
+      tags:
+        - Enrichments
+      parameters:
+        - name: habitatId
+          in: path
+          description: Id to retrieve habitat
+          required: true
+          schema:
+            type: string
+      summary: Adds enrichment to a list of completed enrichments in a habitat (AddEnrichmentToHabitatLambda)
+      responses:
+        "200":
+          description: a habitat object
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  completedEnrichments:
+                    type: array
+                    items:
+                      type: enrichment
 
 
 

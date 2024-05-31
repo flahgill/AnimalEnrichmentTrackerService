@@ -12,10 +12,41 @@
     <h2 id="habitat-name"></h2>
     <h3>Keeper: <span id="habitat-owner"></span></h3>
     <h3>Id: <span id="habitat-id"></span></h3>
+    <h3 class="accept-ids"><span id="acceptable-enrichment-ids"></span></h3>
     <div class="species" id="species"></div>
     <h2 id="habitat-enrichments-page">Completed Enrichment Activities:</h2>
     <p class="hidden error" id="error-message"></p>
     <ol id="habitat-enrichments"></ol>
+</div>
+
+<div class="card">
+    <h2>Add Enrichment to Habitat</h2>
+    <form class="card-content" id="add-enrichment-form">
+        <p class="form-field">
+            <label>Enrichment Id</label>
+            <input type="text" required class="validated-field" id="enrichment-id" placeholder="01" autofocus>
+        </p>
+        <p class="form-field">
+            <label>Keeper Rating</label>
+            <select id="keeper-rating" autofocus>
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+                <option value="6">6</option>
+                <option value="7">7</option>
+                <option value="8">8</option>
+                <option value="9">9</option>
+                <option value="10">10</option>
+            </select>
+        </p>
+        <p class="form-field">
+        <label>Date Completed</label>
+        <input type="date" id="date-completed">
+    </p>
+    </form>
+    <a href="#" class="button" id="add-enrichment">Add</a>
 </div>
 
 </body>

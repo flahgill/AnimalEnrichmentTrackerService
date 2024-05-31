@@ -9,7 +9,7 @@ import DataStore from "../util/DataStore";
 class ViewHabitatEnrichments extends BindingClass {
     constructor() {
         super();
-        this.bindClassMethods(['clientLoaded', 'mount', 'addEnrichmentsToPage'], this);
+        this.bindClassMethods(['clientLoaded', 'mount', 'addEnrichmentsToPage', 'addEnrichment'], this);
         this.dataStore = new DataStore();
         this.dataStore.addChangeListener(this.addEnrichmentsToPage);
         this.header = new Header(this.dataStore);
@@ -34,6 +34,7 @@ class ViewHabitatEnrichments extends BindingClass {
      * Add the header to the page and load the AnimalEnrichmentTrackerClient.
      */
     mount() {
+        document.getElementById('add-enrichment').addEventListener('click', this.addEnrichment);
         this.header.addHeaderToPage();
 
         this.client = new AnimalEnrichmentTrackerClient();
@@ -61,6 +62,13 @@ class ViewHabitatEnrichments extends BindingClass {
         }
         document.getElementById('species').innerHTML = speciesHtml;
 
+        let acceptEnrichIdHtml = '';
+        let id;
+        for (id of habitat.acceptableEnrichmentIds) {
+            acceptEnrichIdHtml += `<div class="accept-ids">${id}</div>`;
+        }
+        document.getElementById('acceptable-enrichment-ids').innerHTML = 'Acceptable Enrichment Ids:' + acceptEnrichIdHtml;
+
         let enrichHtml = '<table id="enrichments-table"><tr><th>Date Completed</th><th>Activity</th><th>Description</th><th>Enrichment Id</th><th>Rating</th></tr>';
         let enrich;
         for (enrich of completedEnrich) {
@@ -76,6 +84,38 @@ class ViewHabitatEnrichments extends BindingClass {
 
         enrichHtml += '</table>';
         document.getElementById('habitat-enrichments').innerHTML = enrichHtml;
+    }
+
+    /**
+    * Method to run when the add enrichment submit button is clicked. Call the AnimalEnrichmentTrackerService to add
+    * the enrichment to the habitat.
+    */
+    async addEnrichment() {
+        const errorMessageDisplay = document.getElementById('error-message');
+        errorMessageDisplay.innerText = ``;
+        errorMessageDisplay.classList.add('hidden');
+
+        const habitat = this.dataStore.get('habitat');
+        if (habitat == null) {
+            return;
+        }
+
+        document.getElementById('add-enrichment').innerText = 'Adding...';
+        const habitatId = habitat.habitatId;
+        const enrichId = document.getElementById('enrichment-id').value;
+        const keeperRating = document.getElementById('keeper-rating').value;
+        const dateCompleted = document.getElementById('date-completed').value;
+
+        const completedEnrich = await this.client.addEnrichmentToHabitat(habitatId, enrichId, keeperRating,
+        dateCompleted, (error) => {
+            errorMessageDisplay.innerText = `Error: ${error.message}`;
+            errorMessageDisplay.classList.remove('hidden');
+        });
+
+        this.dataStore.set('completed-enrichments', completedEnrich);
+
+        document.getElementById('add-enrichment').innerText = 'Add';
+        document.getElementById('add-enrichment-form').reset();
     }
 
 }
