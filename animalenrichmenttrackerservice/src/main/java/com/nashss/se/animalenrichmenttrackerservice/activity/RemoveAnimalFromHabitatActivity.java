@@ -6,6 +6,7 @@ import com.nashss.se.animalenrichmenttrackerservice.dynamodb.HabitatDao;
 import com.nashss.se.animalenrichmenttrackerservice.dynamodb.models.Habitat;
 import com.nashss.se.animalenrichmenttrackerservice.exceptions.AnimalNotFoundException;
 
+import com.nashss.se.animalenrichmenttrackerservice.exceptions.UserSecurityException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -42,6 +43,8 @@ public class RemoveAnimalFromHabitatActivity {
      * <p>
      * If the animal is not present in the habitat's existing list of animals, throws
      * an AnimalNotFoundException.
+     *<p>
+     * If the keeper adding the animal is not the owner of the habitat, throws a UserSecurityException.
      *
      * @param removeAnimalFromHabitatRequest request object containing the habitatId and animal to be removed.
      * @return removeAnimalFromHabitatResult result object containing the updated list of animals.
@@ -51,6 +54,11 @@ public class RemoveAnimalFromHabitatActivity {
         log.info("Recieved RemoveAnimalFromHabitatRequest {}", removeAnimalFromHabitatRequest);
 
         Habitat habitat = habitatDao.getHabitat(removeAnimalFromHabitatRequest.getHabitatId());
+
+        if (!habitat.getKeeperManagerId().equals(removeAnimalFromHabitatRequest.getKeeperManagerId())) {
+            throw new UserSecurityException("You must own this habitat to add a new animal to it.");
+        }
+
         List<String> currAnimalsInHabitat = habitat.getAnimalsInHabitat();
 
         if (currAnimalsInHabitat == null) {
