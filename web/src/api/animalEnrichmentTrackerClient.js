@@ -155,19 +155,22 @@ export default class AnimalEnrichmentTrackerClient extends BindingClass {
      */
     async removeHabitat(habitatId, errorCallback) {
         try {
-            const token = await this.getTokenOrThrow("Only authenticated users can remove a booklist.");
-            const response = await this.axiosClient.delete(`habitats/${habitatId}`, {
-                headers: {
-                    Authorization: `Bearer ${token}`
-                },
-                data: {
-                    habitatId: habitatId
-                }
+                const token = await this.getTokenOrThrow("Only authenticated users can remove a habitat.");
+                const response = await this.axiosClient.delete(`habitats/${habitatId}`, {
+                    headers: {
+                        Authorization: `Bearer ${token}`
+                    },
+                    data: {
+                        habitatId: habitatId
+                    }
                 });
-            return response.data.habitats;
-        } catch (error) {
-            this.handleError(error, errorCallback)
-        }
+                return response.data.habitats;
+            } catch (error) {
+                if (errorCallback) {
+                    errorCallback(error);
+                }
+                this.handleError(error, errorCallback);
+            }
     }
 
     /**

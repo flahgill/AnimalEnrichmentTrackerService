@@ -40,6 +40,8 @@ class ViewHabitat extends BindingClass {
 
         this.client = new AnimalEnrichmentTrackerClient();
         this.clientLoaded();
+
+        document.getElementById('ok-button').addEventListener("click", this.closeModal);
     }
 
     /**
@@ -80,18 +82,14 @@ class ViewHabitat extends BindingClass {
         const removeButton = e.target;
         removeButton.innerText = "Removing...";
 
-        const errorMessageDisplay = document.getElementById('error-message');
-        errorMessageDisplay.innerText = '';
-        errorMessageDisplay.classList.add('hidden');
 
-        try {
-            await this.client.removeHabitat(habitatId);
-            window.location.href = '/index.html';
-        } catch (error) {
-            errorMessageDisplay.innerText = `Error: ${error.message}`;
-            errorMessageDisplay.classList.remove('hidden');
-            removeButton.innerText = "Remove Habitat"; // Reset button text in case of error
-        }
+        await this.client.removeHabitat(habitatId, (error) => {
+            this.showErrorModal(`Error: ${error.message}`);
+            return;
+        });
+
+        window.location.href = '/index.html';
+        removeButton.innerText = "Delete Habitat";
     }
 
     /**
@@ -112,6 +110,18 @@ class ViewHabitat extends BindingClass {
         const habitat = this.dataStore.get('habitat');
         const habitatId = habitat.habitatId;
         window.location.href = `viewHabitatEnrichments.html?habitatId=${habitatId}`;
+    }
+
+    async showErrorModal(message) {
+        const modal = document.getElementById('error-modal');
+        const modalMessage = document.getElementById('error-modal-message');
+        modalMessage.innerText = message;
+        modal.style.display = "block";
+    }
+
+    async closeModal() {
+        const modal = document.getElementById('error-modal');
+        modal.style.display = "none";
     }
 }
 
