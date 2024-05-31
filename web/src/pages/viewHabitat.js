@@ -82,14 +82,21 @@ class ViewHabitat extends BindingClass {
         const removeButton = e.target;
         removeButton.innerText = "Removing...";
 
+        try {
+            await this.client.removeHabitat(habitatId);
 
-        await this.client.removeHabitat(habitatId, (error) => {
-            this.showErrorModal(`Error: ${error.message}`);
-            return;
-        });
+            const habitat = await this.client.getHabitat(habitatId);
+            if (!habitat) {
+                window.location.href = '/index.html';
+            } else {
+                this.showErrorModal("You must own this habitat to delete it.");
+                removeButton.innerText = "Delete Habitat";
+            }
+        } catch (error) {
+            await this.showErrorModal(`Error: ${error.message}`);
+            removeButton.innerText = "Delete Habitat";
+        }
 
-        window.location.href = '/index.html';
-        removeButton.innerText = "Delete Habitat";
     }
 
     /**
