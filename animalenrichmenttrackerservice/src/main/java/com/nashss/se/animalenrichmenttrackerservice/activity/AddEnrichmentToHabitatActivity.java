@@ -8,6 +8,7 @@ import com.nashss.se.animalenrichmenttrackerservice.dynamodb.HabitatDao;
 import com.nashss.se.animalenrichmenttrackerservice.dynamodb.models.Enrichment;
 import com.nashss.se.animalenrichmenttrackerservice.dynamodb.models.Habitat;
 import com.nashss.se.animalenrichmenttrackerservice.exceptions.UnsuitableEnrichmentForHabitatException;
+import com.nashss.se.animalenrichmenttrackerservice.exceptions.UserSecurityException;
 import com.nashss.se.animalenrichmenttrackerservice.models.EnrichmentModel;
 
 import org.apache.logging.log4j.LogManager;
@@ -48,6 +49,8 @@ public class AddEnrichmentToHabitatActivity {
      * <p>
      * If the enrichment added does not coincide with the habitat's list of acceptableEnrichmentIds,
      * throws an UnsuitableEnrichmentForHabitatException.
+     * <p>
+     * If the keeper adding the enrichment is not the owner of the habitat, throws a UserSecurityException.
      *
      * @param addEnrichmentToHabitatRequest request object containing the habitatId, enrichmentId, and other enrichment
      *                                      attributes.
@@ -58,6 +61,11 @@ public class AddEnrichmentToHabitatActivity {
         log.info("Recieved AddEnrichmentToHabitatRequest {}", addEnrichmentToHabitatRequest);
 
         Habitat habitat = habitatDao.getHabitat(addEnrichmentToHabitatRequest.getHabitatId());
+
+        if (!habitat.getKeeperManagerId().equals(addEnrichmentToHabitatRequest.getKeeperManagerId())) {
+            throw new UserSecurityException("You must own this habitat to add a new enrichment activity to it.");
+        }
+
         String enrichId = addEnrichmentToHabitatRequest.getEnrichmentId();
 
         List<Enrichment> updatedEnrichments = getCurrEnrichmentsAndCopy(habitat, enrichId);
