@@ -6,6 +6,7 @@ import com.nashss.se.animalenrichmenttrackerservice.dynamodb.HabitatDao;
 import com.nashss.se.animalenrichmenttrackerservice.dynamodb.models.Habitat;
 import com.nashss.se.animalenrichmenttrackerservice.exceptions.DuplicateAnimalException;
 import com.nashss.se.animalenrichmenttrackerservice.exceptions.InvalidCharacterException;
+import com.nashss.se.animalenrichmenttrackerservice.exceptions.UserSecurityException;
 import com.nashss.se.animalenrichmenttrackerservice.utils.ServiceUtils;
 
 import org.apache.logging.log4j.LogManager;
@@ -47,6 +48,8 @@ public class AddAnimalToHabitatActivity {
      * <p>
      * If the animal is already present in the habitat's list of animals, throws a
      * DuplicateAnimalException.
+     * <p>
+     * If the keeper adding the animal is not the owner of the habitat, throws a UserSecurityException.
      *
      * @param addAnimalToHabitatRequest request object containing the habitatId and animal to be added.
      * @return addAnimalToHabitatResult result object containing the updated list of animals.
@@ -55,6 +58,11 @@ public class AddAnimalToHabitatActivity {
         log.info("Recieved AddAnimalToHabitatActivity {}", addAnimalToHabitatRequest);
 
         Habitat habitat = habitatDao.getHabitat(addAnimalToHabitatRequest.getHabitatId());
+
+        if (!habitat.getKeeperManagerId().equals(addAnimalToHabitatRequest.getKeeperManagerId())) {
+            throw new UserSecurityException("You must own this habitat to add a new animal to it.");
+        }
+
         List<String> currAnimalsInHabitat = habitat.getAnimalsInHabitat();
 
         if (currAnimalsInHabitat == null) {
