@@ -1,7 +1,9 @@
 package com.nashss.se.animalenrichmenttrackerservice.activity.requests;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
+import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateDeserializer;
 
 import java.time.LocalDate;
 
@@ -75,6 +77,8 @@ public class AddEnrichmentToHabitatRequest {
         private String habitatId;
         private String keeperManagerId;
         private String enrichmentId;
+        @JsonDeserialize(using = LocalDateDeserializer.class)
+        @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
         private LocalDate dateCompleted;
         private int keeperRating;
         public Builder withHabitatId(String habitatId) {
