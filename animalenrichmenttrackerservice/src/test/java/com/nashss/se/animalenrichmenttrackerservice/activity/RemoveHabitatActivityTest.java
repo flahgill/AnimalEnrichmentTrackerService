@@ -10,6 +10,8 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 
+import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
 
@@ -32,10 +34,12 @@ public class RemoveHabitatActivityTest {
         // GIVEN
         Habitat expHabitat = HabitatTestHelper.generateHabitatWithNEnrichments(3);
 
+        when(habitatDao.getHabitat(expHabitat.getHabitatId())).thenReturn(expHabitat);
         when(habitatDao.removeHabitat(expHabitat.getHabitatId())).thenReturn(expHabitat);
 
         RemoveHabitatRequest request = RemoveHabitatRequest.builder()
                 .withHabitatId(expHabitat.getHabitatId())
+                .withKeeperManagerId(expHabitat.getKeeperManagerId())
                 .build();
 
         // WHEN
@@ -51,19 +55,22 @@ public class RemoveHabitatActivityTest {
     @Test
     public void handleRequest_removedHabitat_removedFromHabitats() {
         //GIVEN
-        String expectedId = "expectedId";
-        String expectedKeeperId = "keeperId";
+        Habitat removedHabitat = HabitatTestHelper.generateHabitatWithNEnrichments(3);
 
-        when(habitatDao.removeHabitat(expectedId)).thenReturn(null);
+        when(habitatDao.getHabitat(removedHabitat.getHabitatId())).thenReturn(removedHabitat);
+        when(habitatDao.removeHabitat(removedHabitat.getHabitatId())).thenReturn(removedHabitat);
 
         RemoveHabitatRequest request = RemoveHabitatRequest.builder()
-                .withHabitatId(expectedId)
+                .withHabitatId(removedHabitat.getHabitatId())
+                .withKeeperManagerId(removedHabitat.getKeeperManagerId())
                 .build();
 
         //WHEN
         RemoveHabitatResult result = removeHabitatActivity.handleRequest(request);
 
+        List<Habitat> keepersHabitats = habitatDao.getAllHabitatsForKeeper(removedHabitat.getKeeperManagerId());
+
         //THEN
-        assertNull(result.getHabitat());
+        assertEquals(0, keepersHabitats.size());
     }
 }

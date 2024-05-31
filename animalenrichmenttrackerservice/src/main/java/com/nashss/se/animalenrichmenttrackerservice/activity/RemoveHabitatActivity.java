@@ -5,6 +5,7 @@ import com.nashss.se.animalenrichmenttrackerservice.activity.results.RemoveHabit
 import com.nashss.se.animalenrichmenttrackerservice.converters.ModelConverter;
 import com.nashss.se.animalenrichmenttrackerservice.dynamodb.HabitatDao;
 import com.nashss.se.animalenrichmenttrackerservice.dynamodb.models.Habitat;
+import com.nashss.se.animalenrichmenttrackerservice.exceptions.UserSecurityException;
 import com.nashss.se.animalenrichmenttrackerservice.models.HabitatModel;
 
 import org.apache.logging.log4j.LogManager;
@@ -35,6 +36,8 @@ public class RemoveHabitatActivity {
      * This method handles the incoming request by removing the habitat from the database.
      * <p>
      * If the habitat does not exist, this should throw a HabitatNotFoundException.
+     * <p>
+     * If the keeper removing the habitat is not the owner of the habitat, throws a UserSecurityException.
      *
      * @param removeHabitatRequest request object containing the habitatId and keeperManagerId
      * @return removeHabitatResult result object containing the API defined {@link HabitatModel}
@@ -42,14 +45,15 @@ public class RemoveHabitatActivity {
     public RemoveHabitatResult handleRequest(final RemoveHabitatRequest removeHabitatRequest) {
         log.info("Recieved RemoveHabitatRequest {}", removeHabitatRequest);
 
-        Habitat habitat = habitatDao.removeHabitat(removeHabitatRequest.getHabitatId());
-        HabitatModel habitatModel = null;
+        Habitat habitatToRemove = habitatDao.getHabitat(removeHabitatRequest.getHabitatId());
 
-        if (habitat == null) {
-            log.info("Habitat with id {} not found", removeHabitatRequest.getHabitatId());
-        } else {
-            habitatModel = new ModelConverter().toHabitatModel(habitat);
+        if (!habitatToRemove.getKeeperManagerId().equals(removeHabitatRequest.getKeeperManagerId())) {
+            throw new UserSecurityException("You must own this habitat to delete to it.");
         }
+
+        habitatToRemove = habitatDao.removeHabitat(removeHabitatRequest.getHabitatId());
+
+        HabitatModel habitatModel = new ModelConverter().toHabitatModel(habitatToRemove);
 
         return RemoveHabitatResult.builder()
                 .withHabitat(habitatModel)

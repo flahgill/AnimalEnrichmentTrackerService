@@ -44,7 +44,7 @@ public class RemoveAnimalFromHabitatActivity {
      * If the animal is not present in the habitat's existing list of animals, throws
      * an AnimalNotFoundException.
      *<p>
-     * If the keeper adding the animal is not the owner of the habitat, throws a UserSecurityException.
+     * If the keeper removing the animal is not the owner of the habitat, throws a UserSecurityException.
      *
      * @param removeAnimalFromHabitatRequest request object containing the habitatId and animal to be removed.
      * @return removeAnimalFromHabitatResult result object containing the updated list of animals.
