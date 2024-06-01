@@ -4,6 +4,7 @@ import com.nashss.se.animalenrichmenttrackerservice.converters.CompletedEnrichme
 import com.nashss.se.animalenrichmenttrackerservice.dynamodb.models.Enrichment;
 
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.nashss.se.animalenrichmenttrackerservice.dynamodb.models.EnrichmentActivity;
 
 import java.util.List;
 import java.util.Objects;
@@ -19,11 +20,11 @@ public class HabitatModel {
     private final List<String> acceptableEnrichmentIds;
 
     @JsonSerialize(contentUsing = CompletedEnrichmentsSerializer.class)
-    private final List<Enrichment> completedEnrichments;
+    private final List<EnrichmentActivity> completedEnrichments;
 
     private HabitatModel(String habitatId, String isActive, String habitatName, List<String> species,
                          String keeperManagerId, int totalAnimals, List<String> animalsInHabitat,
-                         List<String> acceptableEnrichmentIds, List<Enrichment> completedEnrichments) {
+                         List<String> acceptableEnrichmentIds, List<EnrichmentActivity> completedEnrichments) {
         this.habitatId = habitatId;
         this.isActive = isActive;
         this.habitatName = habitatName;
@@ -63,7 +64,7 @@ public class HabitatModel {
         return acceptableEnrichmentIds;
     }
 
-    public List<Enrichment> getCompletedEnrichments() {
+    public List<EnrichmentActivity> getCompletedEnrichments() {
         return completedEnrichments;
     }
 
@@ -103,7 +104,7 @@ public class HabitatModel {
         private int totalAnimals;
         private List<String> animalsInHabitat;
         private List<String> acceptableEnrichmentIds;
-        private List<Enrichment> completedEnrichments;
+        private List<EnrichmentActivity> completedEnrichments;
 
         public Builder withHabitatId(String habitatId) {
             this.habitatId = habitatId;
@@ -138,7 +139,7 @@ public class HabitatModel {
             this.acceptableEnrichmentIds = acceptableEnrichmentIds;
             return this;
         }
-        public Builder withCompletedEnrichments(List<Enrichment> completedEnrichments) {
+        public Builder withCompletedEnrichments(List<EnrichmentActivity> completedEnrichments) {
             this.completedEnrichments = completedEnrichments;
             return this;
         }

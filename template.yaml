@@ -219,6 +219,14 @@ Resources:
                 Action: dynamodb:*
                 Resource: !Sub "arn:aws:dynamodb:${AWS::Region}:${AWS::AccountId}:table/Enrichments"
 
+        - PolicyName: 'AccessEnrichmentActivitiesTable'
+          PolicyDocument:
+            Version: '2012-10-17'
+            Statement:
+              - Effect: Allow
+                Action: dynamodb:*
+                Resource: !Sub "arn:aws:dynamodb:${AWS::Region}:${AWS::AccountId}:table/EnrichmentActivities"
+
   #-----------------------------------------------------
   # Lambda Functions Configuration
   #-----------------------------------------------------
@@ -448,7 +456,7 @@ Resources:
         MusicPlaylistService:
           Type: Api
           Properties:
-            Path: /habitats/{habitatId}/enrichments
+            Path: /habitats/{habitatId}/enrichmentActivities
             Method: get
             Auth:
               Authorizer: 'NONE'
@@ -470,7 +478,7 @@ Resources:
         animalenrichmenttrackerservice:
           Type: Api
           Properties:
-            Path: /habitats/{habitatId}/enrichments
+            Path: /habitats/{habitatId}/enrichmentActivities
             Method: post
 
   #-----------------------------------------------------
@@ -499,12 +507,10 @@ Resources:
               KeyType: "HASH"
           Projection:
             ProjectionType: "ALL"
-        - IndexName: "ActiveHabitatsIndex"
+        - IndexName: "HabitatsStatusIndex"
           KeySchema:
-            - AttributeName: "habitatId"
-              KeyType: "HASH"
             - AttributeName: "isActive"
-              KeyType: "RANGE"
+              KeyType: "HASH"
           Projection:
             ProjectionType: "ALL"
         - IndexName: "AcceptableEnrichmentsForHabitatIndex"
@@ -522,13 +528,27 @@ Resources:
       AttributeDefinitions:
         - AttributeName: "enrichmentId"
           AttributeType: "S"
-        - AttributeName: "keeperRating"
-          AttributeType: "N"
       KeySchema:
         - AttributeName: "enrichmentId"
           KeyType: "HASH"
       BillingMode: "PAY_PER_REQUEST"
       TableName: "Enrichments"
+
+  EnrichmentActivitiesTable:
+    Type: AWS::DynamoDB::Table
+    Properties:
+      AttributeDefinitions:
+        - AttributeName: "activityId"
+          AttributeType: "S"
+        - AttributeName: "keeperId"
+          AttributeType: "S"
+        - AttributeName: "enrichmentId"
+          AttributeType: "S"
+      KeySchema:
+        - AttributeName: "activityId"
+          KeyType: "HASH"
+      BillingMode: "PAY-PER-REQUEST"
+      TableName: "EnrichmentActivities"
       GlobalSecondaryIndexes:
         - IndexName: "KeeperRatingsForEnrichmentIdsIndex"
           KeySchema:
@@ -538,6 +558,7 @@ Resources:
               KeyType: "RANGE"
           Projection:
             ProjectionType: "ALL"
+
 
 #-----------------------------------------------------
 # The outputs defined below will be printed

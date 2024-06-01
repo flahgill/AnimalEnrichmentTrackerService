@@ -81,7 +81,7 @@ public class AddEnrichmentToHabitatActivity {
 
         updatedEnrichments.add(0, enrichToAdd);
 
-        List<EnrichmentModel> updatedEnrichmentModels = new ModelConverter().toEnrichmentModelList(updatedEnrichments);
+        List<EnrichmentModel> updatedEnrichmentModels = new ModelConverter().toEnrichmentActivityModelList(updatedEnrichments);
 
         habitat.setCompletedEnrichments(updatedEnrichments);
         habitat = habitatDao.saveHabitat(habitat);

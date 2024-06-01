@@ -1,7 +1,9 @@
 package com.nashss.se.animalenrichmenttrackerservice.converters;
 
 import com.nashss.se.animalenrichmenttrackerservice.dynamodb.models.Enrichment;
+import com.nashss.se.animalenrichmenttrackerservice.dynamodb.models.EnrichmentActivity;
 import com.nashss.se.animalenrichmenttrackerservice.dynamodb.models.Habitat;
+import com.nashss.se.animalenrichmenttrackerservice.models.EnrichmentActivityModel;
 import com.nashss.se.animalenrichmenttrackerservice.models.EnrichmentModel;
 import com.nashss.se.animalenrichmenttrackerservice.models.HabitatModel;
 
@@ -34,7 +36,7 @@ public class ModelConverter {
             acceptableEnrichmentIds = new ArrayList<>(habitat.getAcceptableEnrichmentIds());
         }
 
-        List<Enrichment> completedEnrichments = null;
+        List<EnrichmentActivity> completedEnrichments = null;
         if (habitat.getCompletedEnrichments() != null) {
             completedEnrichments = new ArrayList<>(habitat.getCompletedEnrichments());
         }
@@ -53,32 +55,32 @@ public class ModelConverter {
     }
 
     /**
-     * Converts a provided {@link Enrichment} into a {@link EnrichmentModel} representation.
+     * Converts a provided {@link EnrichmentActivity} into a {@link EnrichmentActivityModel} representation.
      *
-     * @param enrichment the Enrichment to convert to EnrichmentModel
+     * @param enrichmentActivity the Enrichment to convert to EnrichmentModel
      * @return the converted EnrichmentModel with fields mapped from Enrichment
      */
-    public EnrichmentModel toEnrichmentModel(Enrichment enrichment) {
-        return EnrichmentModel.builder()
-                .withEnrichmentId(enrichment.getEnrichmentId())
-                .withName(enrichment.getName())
-                .withKeeperRating(enrichment.getKeeperRating())
-                .withDescription(enrichment.getDescription())
-                .withDateCompleted(enrichment.getDateCompleted())
+    public EnrichmentActivityModel toEnrichmentActivityModel(EnrichmentActivity enrichmentActivity) {
+        return EnrichmentActivityModel.builder()
+                .withEnrichmentId(enrichmentActivity.getEnrichmentId())
+                .withName(enrichmentActivity.getName())
+                .withKeeperRating(enrichmentActivity.getKeeperRating())
+                .withDescription(enrichmentActivity.getDescription())
+                .withDateCompleted(enrichmentActivity.getDateCompleted())
                 .build();
     }
 
     /**
-     * Converts a list of Enrichments to a list of EnrichmentModels.
+     * Converts a list of EnrichmentActivities to a list of EnrichmentActivityModels.
      *
-     * @param enrichments The Enrichments to convert to EnrichmentModels
-     * @return The converted list of EnricmentModels
+     * @param enrichmentActivities The EnrichmentActivity's to convert to EnrichmentActivityModels
+     * @return The converted list of EnrichmentActivityModels
      */
-    public List<EnrichmentModel> toEnrichmentModelList(List<Enrichment> enrichments) {
-        List<EnrichmentModel> enrichmentModels = new ArrayList<>();
+    public List<EnrichmentActivityModel> toEnrichmentActivityModelList(List<EnrichmentActivity> enrichmentActivities) {
+        List<EnrichmentActivityModel> enrichmentModels = new ArrayList<>();
 
-        for (Enrichment enrichment : enrichments) {
-            enrichmentModels.add(toEnrichmentModel(enrichment));
+        for (EnrichmentActivity activity : enrichmentActivities) {
+            enrichmentModels.add(toEnrichmentActivityModel(activity));
         }
 
         return enrichmentModels;

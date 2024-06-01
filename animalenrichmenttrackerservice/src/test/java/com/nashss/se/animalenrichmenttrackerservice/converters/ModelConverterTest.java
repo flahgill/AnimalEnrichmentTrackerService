@@ -52,7 +52,7 @@ public class ModelConverterTest {
         Enrichment enrichment = EnrichmentTestHelper.generateEnrichment(1);
 
         // WHEN
-        EnrichmentModel enrichmentModel = modelConverter.toEnrichmentModel(enrichment);
+        EnrichmentModel enrichmentModel = modelConverter.toEnrichmentActivityModel(enrichment);
 
         // THEN
         assertEquals(enrichment.getEnrichmentId(), enrichmentModel.getEnrichmentId());
@@ -72,7 +72,7 @@ public class ModelConverterTest {
         }
 
         // WHEN
-        List<EnrichmentModel> enrichmentModelList = modelConverter.toEnrichmentModelList(enrichmentsList);
+        List<EnrichmentModel> enrichmentModelList = modelConverter.toEnrichmentActivityModelList(enrichmentsList);
 
         // THEN
         assertEquals(enrichmentModelList.size(), enrichmentsList.size());
