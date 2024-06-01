@@ -292,7 +292,7 @@ export default class AnimalEnrichmentTrackerClient extends BindingClass {
       */
       async getHabitatEnrichments(habitatId, errorCallback) {
          try {
-             const response = await this.axiosClient.get(`habitats/${habitatId}/enrichments`);
+             const response = await this.axiosClient.get(`habitats/${habitatId}/enrichmentActivities`);
              return response.data.completedEnrichments;
          } catch (error) {
              this.handleError(error, errorCallback)
@@ -311,7 +311,7 @@ export default class AnimalEnrichmentTrackerClient extends BindingClass {
       async addEnrichmentToHabitat(habitatId, enrichmentId, keeperRating, dateCompleted, errorCallback) {
           try {
               const token = await this.getTokenOrThrow("Only authenticated users can add an enrichment activity to their habitat.");
-              const response = await this.axiosClient.post(`habitats/{habitatId}/enrichments`, {
+              const response = await this.axiosClient.post(`habitats/{habitatId}/enrichmentActivities`, {
                   habitatId: habitatId,
                   enrichmentId: enrichmentId,
                   keeperRating: keeperRating,

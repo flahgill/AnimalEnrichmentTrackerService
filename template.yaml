@@ -541,7 +541,7 @@ Resources:
         - AttributeName: "activityId"
           AttributeType: "S"
         - AttributeName: "keeperRating"
-          AttributeType: "S"
+          AttributeType: "N"
         - AttributeName: "enrichmentId"
           AttributeType: "S"
       KeySchema:
