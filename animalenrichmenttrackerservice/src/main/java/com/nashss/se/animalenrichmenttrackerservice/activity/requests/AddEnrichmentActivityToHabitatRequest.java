@@ -8,10 +8,10 @@ import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateDeserializer;
 import java.time.LocalDate;
 
 /**
- * AddEnrichmentToHabitatRequest object class.
+ * AddEnrichmentActivityToHabitatRequest object class.
  */
-@JsonDeserialize(builder = AddEnrichmentToHabitatRequest.Builder.class)
-public class AddEnrichmentToHabitatRequest {
+@JsonDeserialize(builder = AddEnrichmentActivityToHabitatRequest.Builder.class)
+public class AddEnrichmentActivityToHabitatRequest {
     private final String habitatId;
     private final String keeperManagerId;
     private final String enrichmentId;
@@ -19,7 +19,7 @@ public class AddEnrichmentToHabitatRequest {
     private final int keeperRating;
 
     /**
-     * creates AddEnrichmentToHabitatRequest object for adding to a habitat's list of completedEnrichments.
+     * creates AddEnrichmentActivityToHabitatRequest object for adding to a habitat's list of completedEnrichments.
      *
      * @param habitatId the habitatId to specify which habitat to add the enrichment to.
      * @param keeperManagerId the keeperManagerId to authenticate the user.
@@ -27,8 +27,8 @@ public class AddEnrichmentToHabitatRequest {
      * @param dateCompleted the dateCompleted which user will input.
      * @param keeperRating the keeperRating which user will input.
      */
-    private AddEnrichmentToHabitatRequest(String habitatId, String keeperManagerId,
-                                          String enrichmentId, LocalDate dateCompleted, int keeperRating) {
+    private AddEnrichmentActivityToHabitatRequest(String habitatId, String keeperManagerId,
+                                                  String enrichmentId, LocalDate dateCompleted, int keeperRating) {
         this.habitatId = habitatId;
         this.keeperManagerId = keeperManagerId;
         this.enrichmentId = enrichmentId;
@@ -101,8 +101,8 @@ public class AddEnrichmentToHabitatRequest {
             this.keeperRating = keeperRating;
             return this;
         }
-        public AddEnrichmentToHabitatRequest build() {
-            return new AddEnrichmentToHabitatRequest(habitatId, keeperManagerId, enrichmentId,
+        public AddEnrichmentActivityToHabitatRequest build() {
+            return new AddEnrichmentActivityToHabitatRequest(habitatId, keeperManagerId, enrichmentId,
                     dateCompleted, keeperRating);
         }
     }

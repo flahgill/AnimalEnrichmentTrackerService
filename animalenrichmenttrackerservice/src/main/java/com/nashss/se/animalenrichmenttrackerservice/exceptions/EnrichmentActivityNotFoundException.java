@@ -1,6 +1,6 @@
 package com.nashss.se.animalenrichmenttrackerservice.exceptions;
 
-public class EnrichmentActivityNotFoundException extends RuntimeException{
+public class EnrichmentActivityNotFoundException extends RuntimeException {
     private static final long serialVersionUID = -76682998390223753L;
     /**
      * Exception with no message or cause.

@@ -7,7 +7,8 @@ public class ViewHabitatEnrichmentActivitesRequest {
     private final String habitatId;
 
     /**
-     * creates ViewHabitatEnrichmentActivitesRequest object for retrieving a habitat's list of completed enrichment activities.
+     * creates ViewHabitatEnrichmentActivitesRequest object for retrieving a habitat's list of
+     * completed enrichment activities.
      *
      * @param habitatId the habitatId to look up.
      */

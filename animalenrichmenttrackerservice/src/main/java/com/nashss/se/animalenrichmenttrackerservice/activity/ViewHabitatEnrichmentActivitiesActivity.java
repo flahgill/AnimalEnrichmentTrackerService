@@ -56,7 +56,8 @@ public class ViewHabitatEnrichmentActivitiesActivity {
 
         Habitat habitat = habitatDao.getHabitat(viewHabitatEnrichmentActivitesRequest.getHabitatId());
         List<EnrichmentActivity> completedEnrichments = habitat.getCompletedEnrichments();
-        List<EnrichmentActivityModel> enrichmentActivityModels = new ModelConverter().toEnrichmentActivityModelList(completedEnrichments);
+        List<EnrichmentActivityModel> enrichmentActivityModels =
+                new ModelConverter().toEnrichmentActivityModelList(completedEnrichments);
 
         enrichmentActivityModels.sort(new EnrichmentActivityDateComparator());
         Collections.reverse(enrichmentActivityModels);

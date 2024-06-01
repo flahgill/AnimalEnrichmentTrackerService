@@ -1,10 +1,9 @@
 package com.nashss.se.animalenrichmenttrackerservice.models;
 
 import com.nashss.se.animalenrichmenttrackerservice.converters.CompletedEnrichmentsSerializer;
-import com.nashss.se.animalenrichmenttrackerservice.dynamodb.models.Enrichment;
+import com.nashss.se.animalenrichmenttrackerservice.dynamodb.models.EnrichmentActivity;
 
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import com.nashss.se.animalenrichmenttrackerservice.dynamodb.models.EnrichmentActivity;
 
 import java.util.List;
 import java.util.Objects;

@@ -57,10 +57,19 @@ public class EnrichmentActivityModel {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
         EnrichmentActivityModel that = (EnrichmentActivityModel) o;
-        return keeperRating == that.keeperRating && Objects.equals(activityId, that.activityId) && Objects.equals(enrichmentId, that.enrichmentId) && Objects.equals(name, that.name) && Objects.equals(description, that.description) && Objects.equals(dateCompleted, that.dateCompleted);
+        return keeperRating == that.keeperRating &&
+                Objects.equals(activityId, that.activityId) &&
+                Objects.equals(enrichmentId, that.enrichmentId) &&
+                Objects.equals(name, that.name) &&
+                Objects.equals(description, that.description) &&
+                Objects.equals(dateCompleted, that.dateCompleted);
     }
 
     @Override

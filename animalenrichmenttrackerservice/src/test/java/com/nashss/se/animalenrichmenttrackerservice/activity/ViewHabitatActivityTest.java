@@ -4,7 +4,9 @@ import com.nashss.se.animalenrichmenttrackerservice.activity.requests.ViewHabita
 import com.nashss.se.animalenrichmenttrackerservice.activity.results.ViewHabitatResult;
 import com.nashss.se.animalenrichmenttrackerservice.dynamodb.HabitatDao;
 import com.nashss.se.animalenrichmenttrackerservice.dynamodb.models.Enrichment;
+import com.nashss.se.animalenrichmenttrackerservice.dynamodb.models.EnrichmentActivity;
 import com.nashss.se.animalenrichmenttrackerservice.dynamodb.models.Habitat;
+import com.nashss.se.animalenrichmenttrackerservice.helper.EnrichmentActivityTestHelper;
 import com.nashss.se.animalenrichmenttrackerservice.helper.EnrichmentTestHelper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -37,7 +39,7 @@ public class ViewHabitatActivityTest {
         List<String> expectedSpecies = List.of("Giraffe");
         List<String> expectedAnimals = List.of("G1", "G2");
         List<String> expAccEnrichments = List.of("01", "02");
-        List<Enrichment> expCompletedEnrichments = List.of(EnrichmentTestHelper.generateEnrichment(1));
+        List<EnrichmentActivity> expCompletedEnrichments = List.of(EnrichmentActivityTestHelper.generateEnrichmentActivity(1));
 
         Habitat habitat = new Habitat();
         habitat.setHabitatId(expectedId);

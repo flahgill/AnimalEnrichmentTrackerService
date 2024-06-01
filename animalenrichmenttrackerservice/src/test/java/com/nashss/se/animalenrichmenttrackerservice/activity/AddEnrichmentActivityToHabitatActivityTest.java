@@ -1,14 +1,17 @@
 package com.nashss.se.animalenrichmenttrackerservice.activity;
 
-import com.nashss.se.animalenrichmenttrackerservice.activity.requests.AddEnrichmentToHabitatRequest;
-import com.nashss.se.animalenrichmenttrackerservice.activity.results.AddEnrichmentToHabitatResult;
+import com.nashss.se.animalenrichmenttrackerservice.activity.requests.AddEnrichmentActivityToHabitatRequest;
+import com.nashss.se.animalenrichmenttrackerservice.activity.results.AddEnrichmentActivityToHabitatResult;
+import com.nashss.se.animalenrichmenttrackerservice.dynamodb.EnrichmentActivityDao;
 import com.nashss.se.animalenrichmenttrackerservice.dynamodb.EnrichmentDao;
 import com.nashss.se.animalenrichmenttrackerservice.dynamodb.HabitatDao;
 import com.nashss.se.animalenrichmenttrackerservice.dynamodb.models.Enrichment;
+import com.nashss.se.animalenrichmenttrackerservice.dynamodb.models.EnrichmentActivity;
 import com.nashss.se.animalenrichmenttrackerservice.dynamodb.models.Habitat;
 import com.nashss.se.animalenrichmenttrackerservice.exceptions.EnrichmentNotFoundException;
 import com.nashss.se.animalenrichmenttrackerservice.exceptions.HabitatNotFoundException;
 import com.nashss.se.animalenrichmenttrackerservice.exceptions.UnsuitableEnrichmentForHabitatException;
+import com.nashss.se.animalenrichmenttrackerservice.helper.EnrichmentActivityTestHelper;
 import com.nashss.se.animalenrichmenttrackerservice.helper.EnrichmentTestHelper;
 import com.nashss.se.animalenrichmenttrackerservice.helper.HabitatTestHelper;
 import org.junit.jupiter.api.BeforeEach;
@@ -23,21 +26,24 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.mockito.MockitoAnnotations.initMocks;
 
-public class AddEnrichmentToHabitatActivityTest {
+public class AddEnrichmentActivityToHabitatActivityTest {
     @Mock
     private HabitatDao habitatDao;
     @Mock
     private EnrichmentDao enrichmentDao;
-    private AddEnrichmentToHabitatActivity addEnrichmentToHabitatActivity;
+    @Mock
+    private EnrichmentActivityDao enrichmentActivityDao;
+
+    private AddEnrichmentActivityToHabitatActivity addEnrichmentActivityToHabitatActivity;
 
     @BeforeEach
     public void setup() {
         initMocks(this);
-        addEnrichmentToHabitatActivity = new AddEnrichmentToHabitatActivity(habitatDao, enrichmentDao);
+        addEnrichmentActivityToHabitatActivity = new AddEnrichmentActivityToHabitatActivity(habitatDao, enrichmentDao, enrichmentActivityDao);
     }
 
     @Test
-    void handleRequest_validRequest_addsEnrichmentToHabitat() {
+    void handleRequest_validRequest_addsEnrichmentActivityToHabitat() {
         // GIVEN
         // hbaitat with 3 enrichments to start
         Habitat habitat = HabitatTestHelper.generateHabitatWithNEnrichments(3);
@@ -45,13 +51,15 @@ public class AddEnrichmentToHabitatActivityTest {
         String keeperId = habitat.getKeeperManagerId();
 
         Enrichment enrichment = EnrichmentTestHelper.generateEnrichment(1);
-        String enrichId = enrichment.getEnrichmentId();
+
+        EnrichmentActivity activity = EnrichmentActivityTestHelper.generateEnrichmentActivity(1);
+        String enrichId = activity.getEnrichmentId();
 
         when(habitatDao.getHabitat(habitatId)).thenReturn(habitat);
         when(habitatDao.saveHabitat(habitat)).thenReturn(habitat);
         when(enrichmentDao.getEnrichment(enrichId)).thenReturn(enrichment);
 
-        AddEnrichmentToHabitatRequest request = AddEnrichmentToHabitatRequest.builder()
+        AddEnrichmentActivityToHabitatRequest request = AddEnrichmentActivityToHabitatRequest.builder()
                 .withHabitatId(habitatId)
                 .withEnrichmentId(enrichId)
                 .withKeeperManagerId(keeperId)
@@ -60,11 +68,10 @@ public class AddEnrichmentToHabitatActivityTest {
                 .build();
 
         // WHEN
-        AddEnrichmentToHabitatResult result = addEnrichmentToHabitatActivity.handleRequest(request);
+        AddEnrichmentActivityToHabitatResult result = addEnrichmentActivityToHabitatActivity.handleRequest(request);
 
         // THEN
         verify(habitatDao).saveHabitat(habitat);
-
         assertEquals(4, result.getCompletedEnrichments().size());
     }
 
@@ -72,7 +79,7 @@ public class AddEnrichmentToHabitatActivityTest {
     public void handleRequest_noHabitatFound_throwsHabitatNotFoundException() {
         // GIVEN
         String habitatId = "fake id";
-        AddEnrichmentToHabitatRequest request = AddEnrichmentToHabitatRequest.builder()
+        AddEnrichmentActivityToHabitatRequest request = AddEnrichmentActivityToHabitatRequest.builder()
                 .withHabitatId(habitatId)
                 .withEnrichmentId("123")
                 .withKeeperManagerId("12345")
@@ -82,7 +89,7 @@ public class AddEnrichmentToHabitatActivityTest {
         when(habitatDao.getHabitat(habitatId)).thenThrow(new HabitatNotFoundException());
 
         // WHEN + THEN
-        assertThrows(HabitatNotFoundException.class, () -> addEnrichmentToHabitatActivity.handleRequest(request));
+        assertThrows(HabitatNotFoundException.class, () -> addEnrichmentActivityToHabitatActivity.handleRequest(request));
     }
 
     @Test
@@ -94,7 +101,7 @@ public class AddEnrichmentToHabitatActivityTest {
         String keeperId = habitat.getKeeperManagerId();
         String enrichmentId = "fake id";
 
-        AddEnrichmentToHabitatRequest request = AddEnrichmentToHabitatRequest.builder()
+        AddEnrichmentActivityToHabitatRequest request = AddEnrichmentActivityToHabitatRequest.builder()
                 .withHabitatId(habitatId)
                 .withEnrichmentId(enrichmentId)
                 .withKeeperManagerId(keeperId)
@@ -107,7 +114,7 @@ public class AddEnrichmentToHabitatActivityTest {
         when(enrichmentDao.getEnrichment(enrichmentId)).thenThrow(new EnrichmentNotFoundException());
 
         // THEN
-        assertThrows(EnrichmentNotFoundException.class, () -> addEnrichmentToHabitatActivity.handleRequest(request));
+        assertThrows(EnrichmentNotFoundException.class, () -> addEnrichmentActivityToHabitatActivity.handleRequest(request));
     }
 
     @Test
@@ -117,11 +124,11 @@ public class AddEnrichmentToHabitatActivityTest {
         String habitatId = habitat.getHabitatId();
         String keeperId = habitat.getKeeperManagerId();
 
-        Enrichment enrichment = EnrichmentTestHelper.generateEnrichment(9);
+        EnrichmentActivity activity = EnrichmentActivityTestHelper.generateEnrichmentActivity(9);
         // 09 is not in HabitatTestHelper::generateHabitat list of acceptableEnrichmentIds.
-        String enrichmentId = enrichment.getEnrichmentId();
+        String enrichmentId = activity.getEnrichmentId();
 
-        AddEnrichmentToHabitatRequest request = AddEnrichmentToHabitatRequest.builder()
+        AddEnrichmentActivityToHabitatRequest request = AddEnrichmentActivityToHabitatRequest.builder()
                 .withHabitatId(habitatId)
                 .withEnrichmentId(enrichmentId)
                 .withKeeperManagerId(keeperId)
@@ -134,6 +141,6 @@ public class AddEnrichmentToHabitatActivityTest {
         when(enrichmentDao.getEnrichment(enrichmentId)).thenThrow(new UnsuitableEnrichmentForHabitatException());
 
         // THEN
-        assertThrows(UnsuitableEnrichmentForHabitatException.class, () -> addEnrichmentToHabitatActivity.handleRequest(request));
+        assertThrows(UnsuitableEnrichmentForHabitatException.class, () -> addEnrichmentActivityToHabitatActivity.handleRequest(request));
     }
 }

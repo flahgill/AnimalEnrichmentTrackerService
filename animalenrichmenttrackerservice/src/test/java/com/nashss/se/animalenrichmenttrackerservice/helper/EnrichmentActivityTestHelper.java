@@ -12,7 +12,7 @@ public class EnrichmentActivityTestHelper {
 
     public static EnrichmentActivity generateEnrichmentActivity(int sequenceNumber) {
         EnrichmentActivity activity = new EnrichmentActivity();
-        activity.setActivityId("00" + sequenceNumber);
+        activity.setActivityId("123");
         activity.setEnrichmentId("0" + sequenceNumber);
         activity.setName("test enrich name");
         activity.setDescription("new test description for enrichment");

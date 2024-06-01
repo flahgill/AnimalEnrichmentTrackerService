@@ -1,6 +1,5 @@
 package com.nashss.se.animalenrichmenttrackerservice.converters;
 
-import com.nashss.se.animalenrichmenttrackerservice.dynamodb.models.Enrichment;
 import com.nashss.se.animalenrichmenttrackerservice.dynamodb.models.EnrichmentActivity;
 import com.nashss.se.animalenrichmenttrackerservice.exceptions.EnrichmentSerializationException;
 

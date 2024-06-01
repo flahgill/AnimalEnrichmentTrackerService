@@ -2,25 +2,21 @@ package com.nashss.se.animalenrichmenttrackerservice.activity.results;
 
 import com.nashss.se.animalenrichmenttrackerservice.models.EnrichmentActivityModel;
 
-import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-
 import java.util.List;
 
 /**
- * ViewHabitatEnrichmentActivitesResult object class.
+ * AddEnrichmentActivityToHabitatResult object class.
  */
-@JsonSerialize()
-public class ViewHabitatEnrichmentActivitesResult {
+public class AddEnrichmentActivityToHabitatResult {
     private final List<EnrichmentActivityModel> completedEnrichments;
 
     /**
-     * creates ViewHabitatEnrichmentActivitesResult object containing a habitat's list of completed enrichment
-     * activities.
+     * creates AddEnrichmentActivityToHabitatResult object persisting the list of completedEnrichments of a habitat
+     * after a new addition.
      *
-     * @param completedEnrichments the list of completed enrichment activities for a given habitat.
+     * @param completedEnrichments the list of completedEnrichments for a given habitat.
      */
-    private ViewHabitatEnrichmentActivitesResult(List<EnrichmentActivityModel> completedEnrichments) {
+    private AddEnrichmentActivityToHabitatResult(List<EnrichmentActivityModel> completedEnrichments) {
         this.completedEnrichments = completedEnrichments;
     }
 
@@ -30,7 +26,7 @@ public class ViewHabitatEnrichmentActivitesResult {
 
     @Override
     public String toString() {
-        return "ViewHabitatEnrichmentsResult{" +
+        return "AddEnrichmentToHabitatResult{" +
                 "completedEnrichments=" + completedEnrichments +
                 '}';
     }
@@ -39,15 +35,14 @@ public class ViewHabitatEnrichmentActivitesResult {
     public static Builder builder() {
         return new Builder();
     }
-    @JsonPOJOBuilder
     public static class Builder {
         private List<EnrichmentActivityModel> completedEnrichments;
         public Builder withCompletedEnrichments(List<EnrichmentActivityModel> completedEnrichments) {
             this.completedEnrichments = completedEnrichments;
             return this;
         }
-        public ViewHabitatEnrichmentActivitesResult build() {
-            return new ViewHabitatEnrichmentActivitesResult(completedEnrichments);
+        public AddEnrichmentActivityToHabitatResult build() {
+            return new AddEnrichmentActivityToHabitatResult(completedEnrichments);
         }
     }
 }
