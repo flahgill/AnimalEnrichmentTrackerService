@@ -18,8 +18,6 @@
             { "S": "01" }, { "S": "02" }, { "S": "04" }, { "S":  "05" }, { "S":  "06" }, { "S":  "10" }, { "S":  "11" }, { "S":  "12" }, { "S":  "15" }, { "S":  "16" }, { "S":  "19" }
           ] },
           "completedEnrichments": { "L": [
-            { "M": { "enrichmentId": {"S": "01" }, "name": { "S": "Amazing Graze" }, "keeperRating": { "N": "8" }, "description": { "S": "grazing tube" }, "dateCompleted": { "S": "05-13-2024" } } },
-            { "M": { "enrichmentId": {"S": "02" }, "name": { "S": "Boomer Ball" }, "keeperRating": { "N": "6" }, "description": { "S": "ball no handle" }, "dateCompleted": { "S": "05-08-2024" } } }
           ] }
         }
       }
@@ -31,9 +29,7 @@
         "Item": {
           "enrichmentId": { "S": "01" },
           "name": { "S": "Amazing Graze" },
-          "keeperRating": { "N": "0"},
-          "description": { "S": "grazing tube"},
-          "dateCompleted": { "S": ""}
+          "description": { "S": "grazing tube"}
         }
       }
     },
@@ -42,9 +38,7 @@
         "Item": {
           "enrichmentId": { "S": "02" },
           "name": { "S": "Boomer Ball" },
-          "keeperRating": { "N": "0"},
-          "description": { "S": "ball no handle"},
-          "dateCompleted": { "S": ""}
+          "description": { "S": "ball no handle"}
         }
       }
     },
@@ -53,9 +47,7 @@
         "Item": {
           "enrichmentId": { "S": "03" },
           "name": { "S": "Jolly Ball" },
-          "keeperRating": { "N": "0"},
-          "description": { "S": "ball with handle"},
-          "dateCompleted": { "S": ""}
+          "description": { "S": "ball with handle"}
         }
       }
     },
@@ -64,9 +56,7 @@
         "Item": {
           "enrichmentId": { "S": "04" },
           "name": { "S": "Bubbles" },
-          "keeperRating": { "N": "0"},
-          "description": { "S": "bubble machine"},
-          "dateCompleted": { "S": ""}
+          "description": { "S": "bubble machine"}
         }
       }
     },
@@ -75,9 +65,7 @@
         "Item": {
           "enrichmentId": { "S": "05" },
           "name": { "S": "Chalk Drawings" },
-          "keeperRating": { "N": "0"},
-          "description": { "S": "use in stalls"},
-          "dateCompleted": { "S": ""}
+          "description": { "S": "use in stalls"}
         }
       }
     },
@@ -86,9 +74,7 @@
         "Item": {
           "enrichmentId": { "S": "06" },
           "name": { "S": "Cup Feeder" },
-          "keeperRating": { "N": "0"},
-          "description": { "S": "grain swivel feeder"},
-          "dateCompleted": { "S": ""}
+          "description": { "S": "grain swivel feeder"}
         }
       }
     },
@@ -97,9 +83,7 @@
         "Item": {
           "enrichmentId": { "S": "07" },
           "name": { "S": "Hay Play Feeder" },
-          "keeperRating": { "N": "0"},
-          "description": { "S": "fill with feed, can roll or hang"},
-          "dateCompleted": { "S": ""}
+          "description": { "S": "fill with feed, can roll or hang"}
         }
       }
     },
@@ -108,9 +92,7 @@
         "Item": {
           "enrichmentId": { "S": "08" },
           "name": { "S": "Honeycomb Feeder" },
-          "keeperRating": { "N": "0"},
-          "description": { "S": "hanging box feeder"},
-          "dateCompleted": { "S": ""}
+          "description": { "S": "hanging box feeder"}
         }
       }
     },
@@ -119,9 +101,7 @@
         "Item": {
           "enrichmentId": { "S": "09" },
           "name": { "S": "Jolly Stall" },
-          "keeperRating": { "N": "0"},
-          "description": { "S": "hanging stall ball toy"},
-          "dateCompleted": { "S": ""}
+          "description": { "S": "hanging stall ball toy"}
         }
       }
     },
@@ -130,9 +110,7 @@
         "Item": {
           "enrichmentId": { "S": "10" },
           "name": { "S": "Keg" },
-          "keeperRating": { "N": "0"},
-          "description": { "S": "hang or leave free to roll, can have feed or treats"},
-          "dateCompleted": { "S": ""}
+          "description": { "S": "hang or leave free to roll, can have feed or treats"}
         }
       }
     },
@@ -141,9 +119,7 @@
         "Item": {
           "enrichmentId": { "S": "11" },
           "name": { "S": "Looks Lou" },
-          "keeperRating": { "N": "0"},
-          "description": { "S": "mirror to be hung or left free"},
-          "dateCompleted": { "S": ""}
+          "description": { "S": "mirror to be hung or left free"}
         }
       }
     },
@@ -152,9 +128,7 @@
         "Item": {
           "enrichmentId": { "S": "12" },
           "name": { "S": "Paper Chains" },
-          "keeperRating": { "N": "0"},
-          "description": { "S": "hang in stalls or habitat"},
-          "dateCompleted": { "S": ""}
+          "description": { "S": "hang in stalls or habitat"}
         }
       }
     },
@@ -163,9 +137,7 @@
         "Item": {
           "enrichmentId": { "S": "13" },
           "name": { "S": "Planter Bucket" },
-          "keeperRating": { "N": "0"},
-          "description": { "S": "fill with feed or treats"},
-          "dateCompleted": { "S": ""}
+          "description": { "S": "fill with feed or treats"}
         }
       }
     },
@@ -174,9 +146,7 @@
         "Item": {
           "enrichmentId": { "S": "14" },
           "name": { "S": "PVC Roller" },
-          "keeperRating": { "N": "0"},
-          "description": { "S": "fill with grain and put in difficult locations to reach"},
-          "dateCompleted": { "S": ""}
+          "description": { "S": "fill with grain and put in difficult locations to reach"}
         }
       }
     },
@@ -185,9 +155,7 @@
         "Item": {
           "enrichmentId": { "S": "15" },
           "name": { "S": "Slow Feeder Bowls" },
-          "keeperRating": { "N": "0"},
-          "description": { "S": "fill with grain or peanut butter"},
-          "dateCompleted": { "S": ""}
+          "description": { "S": "fill with grain or peanut butter"}
         }
       }
     },
@@ -196,9 +164,7 @@
         "Item": {
           "enrichmentId": { "S": "16" },
           "name": { "S": "Scents and Spices" },
-          "keeperRating": { "N": "0"},
-          "description": { "S": "in habitats and stalls"},
-          "dateCompleted": { "S": ""}
+          "description": { "S": "in habitats and stalls"}
         }
       }
     },
@@ -207,9 +173,7 @@
         "Item": {
           "enrichmentId": { "S": "17" },
           "name": { "S": "Sprinkler" },
-          "keeperRating": { "N": "0"},
-          "description": { "S": "water play and wallows"},
-          "dateCompleted": { "S": ""}
+          "description": { "S": "water play and wallows"}
         }
       }
     },
@@ -218,9 +182,7 @@
         "Item": {
           "enrichmentId": { "S": "18" },
           "name": { "S": "Wiffle Ball Feeder" },
-          "keeperRating": { "N": "0"},
-          "description": { "S": "fill with treats, must be hung"},
-          "dateCompleted": { "S": ""}
+          "description": { "S": "fill with treats, must be hung"}
         }
       }
     },
@@ -229,9 +191,7 @@
         "Item": {
           "enrichmentId": { "S": "19" },
           "name": { "S": "Weeble" },
-          "keeperRating": { "N": "0"},
-          "description": { "S": "leave free in habitat"},
-          "dateCompleted": { "S": ""}
+          "description": { "S": "leave free in habitat"}
         }
       }
     },
@@ -240,9 +200,21 @@
         "Item": {
           "enrichmentId": { "S": "20" },
           "name": { "S": "Squiggle Feeder" },
-          "keeperRating": { "N": "0"},
-          "description": { "S": "add treats, put objects in that are too big for added difficulty"},
-          "dateCompleted": { "S": ""}
+          "description": { "S": "add treats, put objects in that are too big for added difficulty"}
+        }
+      }
+    }
+  ],
+  "EnrichmentActivities": [
+    {
+      "PutRequest": {
+        "Item": {
+          "activityId": { "S": "001"},
+          "enrichmentId": { "S": "01" },
+          "name": { "S": "Amazing Graze" },
+          "keeperRating": {"N": 8},
+          "description": { "S": "grazing tube"},
+          "dateCompleted": { "S": "2024-05-31"}
         }
       }
     }
