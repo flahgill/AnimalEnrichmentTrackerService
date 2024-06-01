@@ -60,6 +60,7 @@ public class ModelConverter {
      */
     public EnrichmentActivityModel toEnrichmentActivityModel(EnrichmentActivity enrichmentActivity) {
         return EnrichmentActivityModel.builder()
+                .withActivityId(enrichmentActivity.getActivityId())
                 .withEnrichmentId(enrichmentActivity.getEnrichmentId())
                 .withName(enrichmentActivity.getName())
                 .withKeeperRating(enrichmentActivity.getKeeperRating())
