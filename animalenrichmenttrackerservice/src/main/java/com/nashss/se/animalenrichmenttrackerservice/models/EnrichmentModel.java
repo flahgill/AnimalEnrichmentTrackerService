@@ -1,32 +1,17 @@
 package com.nashss.se.animalenrichmenttrackerservice.models;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateSerializer;
-
-import java.time.LocalDate;
 import java.util.Objects;
 
 public class EnrichmentModel {
 
     private final String enrichmentId;
     private final String name;
-    private final int keeperRating;
     private final String description;
 
-    @JsonSerialize(using = LocalDateSerializer.class)
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
-    @JsonInclude(JsonInclude.Include.NON_EMPTY)
-    private LocalDate dateCompleted;
-
-    private EnrichmentModel(String enrichmentId, String name, int keeperRating,
-                            String description, LocalDate dateCompleted) {
+    private EnrichmentModel(String enrichmentId, String name, String description) {
         this.enrichmentId = enrichmentId;
         this.name = name;
-        this.keeperRating = keeperRating;
         this.description = description;
-        this.dateCompleted = dateCompleted;
     }
 
     public String getEnrichmentId() {
@@ -37,15 +22,8 @@ public class EnrichmentModel {
         return name;
     }
 
-    public int getKeeperRating() {
-        return keeperRating;
-    }
-
     public String getDescription() {
         return description;
-    }
-    public LocalDate getDateCompleted() {
-        return dateCompleted;
     }
 
     @Override
@@ -73,9 +51,7 @@ public class EnrichmentModel {
     public static class Builder {
         private String enrichmentId;
         private String name;
-        private int keeperRating;
         private String description;
-        private LocalDate dateCompleted;
 
         public Builder withEnrichmentId(String enrichmentId) {
             this.enrichmentId = enrichmentId;
@@ -85,21 +61,13 @@ public class EnrichmentModel {
             this.name = name;
             return this;
         }
-        public Builder withKeeperRating(int keeperRating) {
-            this.keeperRating = keeperRating;
-            return this;
-        }
         public Builder withDescription(String description) {
             this.description = description;
             return this;
         }
-        public Builder withDateCompleted(LocalDate dateCompleted) {
-            this.dateCompleted = dateCompleted;
-            return this;
-        }
+
         public EnrichmentModel build() {
-            return new EnrichmentModel(enrichmentId, name, keeperRating,
-                    description, dateCompleted);
+            return new EnrichmentModel(enrichmentId, name, description);
         }
     }
 }

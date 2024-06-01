@@ -1,6 +1,7 @@
 package com.nashss.se.animalenrichmenttrackerservice.helper;
 
 import com.nashss.se.animalenrichmenttrackerservice.dynamodb.models.Enrichment;
+import com.nashss.se.animalenrichmenttrackerservice.dynamodb.models.EnrichmentActivity;
 import com.nashss.se.animalenrichmenttrackerservice.dynamodb.models.Habitat;
 
 import java.util.ArrayList;
@@ -22,11 +23,11 @@ public class HabitatTestHelper {
         habitat.setIsActive("active");
         habitat.setSpecies(List.of("Giraffe", "Takin", "Pandas"));
 
-        List<Enrichment> enrichments = new ArrayList<>();
+        List<EnrichmentActivity> activities = new ArrayList<>();
         for (int i = 0; i < numOfEnrichments; i++) {
-            enrichments.add(EnrichmentTestHelper.generateEnrichment(i));
+            activities.add(EnrichmentActivityTestHelper.generateEnrichmentActivity(i));
         }
-        habitat.setCompletedEnrichments(enrichments);
+        habitat.setCompletedEnrichments(activities);
         habitat.setTotalAnimals(0);
         habitat.setAcceptableEnrichmentIds(List.of("01", "02", "06", "fake id"));
         // added 'fake id' for EnrichmentNotFound testing purposes

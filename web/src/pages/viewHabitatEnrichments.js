@@ -4,7 +4,7 @@ import BindingClass from "../util/bindingClass";
 import DataStore from "../util/DataStore";
 
 /**
- * Logic needed for the view a habitat's enrichments page of the website.
+ * Logic needed for the view a habitat's enrichment activites page of the website.
  */
 class ViewHabitatEnrichments extends BindingClass {
     constructor() {
@@ -28,6 +28,7 @@ class ViewHabitatEnrichments extends BindingClass {
         document.getElementById('habitat-enrichments').innerText = "(loading enrichments...)"
         const completedEnrich = await this.client.getHabitatEnrichments(habitatId);
         this.dataStore.set('completed-enrichments', completedEnrich);
+        console.log('Completed Enrichments:', completedEnrich);
     }
 
     /**
@@ -69,7 +70,7 @@ class ViewHabitatEnrichments extends BindingClass {
         }
         document.getElementById('acceptable-enrichment-ids').innerHTML = 'Acceptable Enrichment Ids:' + acceptEnrichIdHtml;
 
-        let enrichHtml = '<table id="enrichments-table"><tr><th>Date Completed</th><th>Activity</th><th>Description</th><th>Enrichment Id</th><th>Rating</th></tr>';
+        let enrichHtml = '<table id="enrichments-table"><tr><th>Date Completed</th><th>Activity</th><th>Description</th><th>Enrichment Id</th><th>Rating</th><th>Activity Id</th></tr>';
         let enrich;
         for (enrich of completedEnrich) {
             enrichHtml += `
@@ -79,6 +80,7 @@ class ViewHabitatEnrichments extends BindingClass {
                    <td>${enrich.description}</td>
                    <td>${enrich.enrichmentId}</td>
                    <td>${enrich.keeperRating}</td>
+                   <td>${enrich.activityId}</td>
                </tr>`;
         }
 

@@ -1,9 +1,12 @@
 package com.nashss.se.animalenrichmenttrackerservice.converters;
 
 import com.nashss.se.animalenrichmenttrackerservice.dynamodb.models.Enrichment;
+import com.nashss.se.animalenrichmenttrackerservice.dynamodb.models.EnrichmentActivity;
 import com.nashss.se.animalenrichmenttrackerservice.dynamodb.models.Habitat;
+import com.nashss.se.animalenrichmenttrackerservice.helper.EnrichmentActivityTestHelper;
 import com.nashss.se.animalenrichmenttrackerservice.helper.EnrichmentTestHelper;
 import com.nashss.se.animalenrichmenttrackerservice.helper.HabitatTestHelper;
+import com.nashss.se.animalenrichmenttrackerservice.models.EnrichmentActivityModel;
 import com.nashss.se.animalenrichmenttrackerservice.models.EnrichmentModel;
 import com.nashss.se.animalenrichmenttrackerservice.models.HabitatModel;
 import org.junit.jupiter.api.Test;
@@ -47,37 +50,37 @@ public class ModelConverterTest {
     }
 
     @Test
-    void toEnrichment_withAttributes_convertsToEnrichmentModel() {
+    void toEnrichmentActivity_withAttributes_convertsToEnrichmentActivityModel() {
         // GIVEN
-        Enrichment enrichment = EnrichmentTestHelper.generateEnrichment(1);
+        EnrichmentActivity activity = EnrichmentActivityTestHelper.generateEnrichmentActivity(1);
 
         // WHEN
-        EnrichmentModel enrichmentModel = modelConverter.toEnrichmentModel(enrichment);
+        EnrichmentActivityModel model = modelConverter.toEnrichmentActivityModel(activity);
 
         // THEN
-        assertEquals(enrichment.getEnrichmentId(), enrichmentModel.getEnrichmentId());
-        assertEquals(enrichment.getDescription(), enrichmentModel.getDescription());
-        assertEquals(enrichment.getName(), enrichmentModel.getName());
-        assertEquals(enrichment.getDateCompleted(), enrichmentModel.getDateCompleted());
-        assertEquals(enrichment.getKeeperRating(), enrichmentModel.getKeeperRating());
+        assertEquals(activity.getEnrichmentId(), model.getEnrichmentId());
+        assertEquals(activity.getDescription(), model.getDescription());
+        assertEquals(activity.getName(), model.getName());
+        assertEquals(activity.getDateCompleted(), model.getDateCompleted());
+        assertEquals(activity.getKeeperRating(), model.getKeeperRating());
     }
 
     @Test
-    void toEnrichmentModelList_withEnrichments_convertsToEnrichmentModelList() {
+    void toEnrichmentActivityModelList_withEnrichmentActivities_convertsToEnrichmentActivityModelList() {
         // GIVEN
-        List<Enrichment> enrichmentsList = new ArrayList<>();
+        List<EnrichmentActivity> activities = new ArrayList<>();
         int numOfEnrich = 3;
         for (int i = 0; i < numOfEnrich; i++) {
-            enrichmentsList.add(EnrichmentTestHelper.generateEnrichment(i));
+            activities.add(EnrichmentActivityTestHelper.generateEnrichmentActivity(i));
         }
 
         // WHEN
-        List<EnrichmentModel> enrichmentModelList = modelConverter.toEnrichmentModelList(enrichmentsList);
+        List<EnrichmentActivityModel> modelList = modelConverter.toEnrichmentActivityModelList(activities);
 
         // THEN
-        assertEquals(enrichmentModelList.size(), enrichmentsList.size());
-        Enrichment firstEnrich = enrichmentsList.get(0);
-        EnrichmentModel firstEnrichModel = enrichmentModelList.get(0);
+        assertEquals(modelList.size(), activities.size());
+        EnrichmentActivity firstEnrich = activities.get(0);
+        EnrichmentActivityModel firstEnrichModel = modelList.get(0);
         assertEquals(firstEnrich.getEnrichmentId(), firstEnrichModel.getEnrichmentId());
         assertEquals(firstEnrich.getName(), firstEnrichModel.getName());
         assertEquals(firstEnrich.getKeeperRating(), firstEnrichModel.getKeeperRating());

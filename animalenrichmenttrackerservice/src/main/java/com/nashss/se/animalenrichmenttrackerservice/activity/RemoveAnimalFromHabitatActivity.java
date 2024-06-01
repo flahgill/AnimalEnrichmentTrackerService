@@ -5,8 +5,8 @@ import com.nashss.se.animalenrichmenttrackerservice.activity.results.RemoveAnima
 import com.nashss.se.animalenrichmenttrackerservice.dynamodb.HabitatDao;
 import com.nashss.se.animalenrichmenttrackerservice.dynamodb.models.Habitat;
 import com.nashss.se.animalenrichmenttrackerservice.exceptions.AnimalNotFoundException;
-
 import com.nashss.se.animalenrichmenttrackerservice.exceptions.UserSecurityException;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 

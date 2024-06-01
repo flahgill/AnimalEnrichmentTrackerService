@@ -13,8 +13,6 @@ public class EnrichmentTestHelper {
         enrichment.setEnrichmentId("0" + sequenceNumber);
         enrichment.setName("test enrich name");
         enrichment.setDescription("new test description for enrichment");
-        enrichment.setDateCompleted(LocalDate.now());
-        enrichment.setKeeperRating(8);
         return enrichment;
     }
 

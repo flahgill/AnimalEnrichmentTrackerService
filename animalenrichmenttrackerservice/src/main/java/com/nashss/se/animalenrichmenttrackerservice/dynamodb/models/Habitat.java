@@ -1,6 +1,6 @@
 package com.nashss.se.animalenrichmenttrackerservice.dynamodb.models;
 
-import com.nashss.se.animalenrichmenttrackerservice.converters.EnrichmentConverter;
+import com.nashss.se.animalenrichmenttrackerservice.converters.EnrichmentActivityConverter;
 
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBAttribute;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBHashKey;
@@ -27,7 +27,7 @@ public class Habitat {
     private int totalAnimals;
     private List<String> animalsInHabitat;
     private List<String> acceptableEnrichmentIds = new ArrayList<>();
-    private List<Enrichment> completedEnrichments = new ArrayList<>();
+    private List<EnrichmentActivity> completedEnrichments = new ArrayList<>();
 
     @DynamoDBHashKey(attributeName = "habitatId")
     @DynamoDBIndexHashKey(globalSecondaryIndexNames = {"AcceptableEnrichmentsForHabitatIndex",
@@ -103,8 +103,8 @@ public class Habitat {
     }
 
     @DynamoDBAttribute(attributeName = "completedEnrichments")
-    @DynamoDBTypeConverted(converter = EnrichmentConverter.class)
-    public List<Enrichment> getCompletedEnrichments() {
+    @DynamoDBTypeConverted(converter = EnrichmentActivityConverter.class)
+    public List<EnrichmentActivity> getCompletedEnrichments() {
         return completedEnrichments;
     }
 
@@ -113,7 +113,7 @@ public class Habitat {
      * ensures list can't be null.
      * @param completedEnrichments list of completed enrichments.
      */
-    public void setCompletedEnrichments(List<Enrichment> completedEnrichments) {
+    public void setCompletedEnrichments(List<EnrichmentActivity> completedEnrichments) {
         if (completedEnrichments == null) {
             this.completedEnrichments = new ArrayList<>();
         }

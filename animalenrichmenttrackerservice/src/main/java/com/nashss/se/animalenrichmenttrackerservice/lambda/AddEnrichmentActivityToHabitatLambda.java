@@ -1,23 +1,24 @@
 package com.nashss.se.animalenrichmenttrackerservice.lambda;
 
-import com.nashss.se.animalenrichmenttrackerservice.activity.requests.AddEnrichmentToHabitatRequest;
-import com.nashss.se.animalenrichmenttrackerservice.activity.results.AddEnrichmentToHabitatResult;
+import com.nashss.se.animalenrichmenttrackerservice.activity.requests.AddEnrichmentActivityToHabitatRequest;
+import com.nashss.se.animalenrichmenttrackerservice.activity.results.AddEnrichmentActivityToHabitatResult;
 
 import com.amazonaws.services.lambda.runtime.Context;
 import com.amazonaws.services.lambda.runtime.RequestHandler;
 
-public class AddEnrichmentToHabitatLambda extends LambdaActivityRunner<AddEnrichmentToHabitatRequest,
-        AddEnrichmentToHabitatResult>
-        implements RequestHandler<AuthenticatedLambdaRequest<AddEnrichmentToHabitatRequest>, LambdaResponse> {
+public class AddEnrichmentActivityToHabitatLambda extends LambdaActivityRunner<AddEnrichmentActivityToHabitatRequest,
+        AddEnrichmentActivityToHabitatResult>
+        implements RequestHandler<AuthenticatedLambdaRequest<AddEnrichmentActivityToHabitatRequest>, LambdaResponse> {
 
     @Override
-    public LambdaResponse handleRequest(AuthenticatedLambdaRequest<AddEnrichmentToHabitatRequest> input,
+    public LambdaResponse handleRequest(AuthenticatedLambdaRequest<AddEnrichmentActivityToHabitatRequest> input,
                                         Context context) {
         return super.runActivity(
             () -> {
-                AddEnrichmentToHabitatRequest unauthReq = input.fromBody(AddEnrichmentToHabitatRequest.class);
+                AddEnrichmentActivityToHabitatRequest unauthReq =
+                        input.fromBody(AddEnrichmentActivityToHabitatRequest.class);
                 return input.fromUserClaims(claims ->
-                        AddEnrichmentToHabitatRequest.builder()
+                        AddEnrichmentActivityToHabitatRequest.builder()
                                 .withHabitatId(unauthReq.getHabitatId())
                                 .withEnrichmentId(unauthReq.getEnrichmentId())
                                 .withDateCompleted(unauthReq.getDateCompleted())
