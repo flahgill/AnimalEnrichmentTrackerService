@@ -439,7 +439,7 @@ Resources:
             Auth:
               Authorizer: 'NONE'
 
-  ViewHabitatEnrichmentsLambda:
+  ViewHabitatEnrichmentActivitiesLambda:
     Type: AWS::Serverless::Function
     Properties:
       Role: !GetAtt AccessRole.Arn

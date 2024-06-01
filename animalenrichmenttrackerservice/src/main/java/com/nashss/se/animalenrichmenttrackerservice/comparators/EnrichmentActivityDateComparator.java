@@ -1,14 +1,14 @@
 package com.nashss.se.animalenrichmenttrackerservice.comparators;
 
-import com.nashss.se.animalenrichmenttrackerservice.models.EnrichmentModel;
+import com.nashss.se.animalenrichmenttrackerservice.models.EnrichmentActivityModel;
 
 import java.time.LocalDate;
 import java.util.Comparator;
 
-public class EnrichmentDateComparator implements Comparator<EnrichmentModel> {
+public class EnrichmentActivityDateComparator implements Comparator<EnrichmentActivityModel> {
 
     @Override
-    public int compare(EnrichmentModel e1, EnrichmentModel e2) {
+    public int compare(EnrichmentActivityModel e1, EnrichmentActivityModel e2) {
         LocalDate e1Date = e1.getDateCompleted();
         LocalDate e2Date = e2.getDateCompleted();
 

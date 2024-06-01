@@ -1,17 +1,17 @@
 package com.nashss.se.animalenrichmenttrackerservice.activity.requests;
 
 /**
- * ViewHabitatEnrichmentsRequest object class.
+ * ViewHabitatEnrichmentActivitesRequest object class.
  */
-public class ViewHabitatEnrichmentsRequest {
+public class ViewHabitatEnrichmentActivitesRequest {
     private final String habitatId;
 
     /**
-     * creates ViewHabitatEnrichmentsRequest object for retrieving a habitat's list of completed enrichment activities.
+     * creates ViewHabitatEnrichmentActivitesRequest object for retrieving a habitat's list of completed enrichment activities.
      *
      * @param habitatId the habitatId to look up.
      */
-    private ViewHabitatEnrichmentsRequest(String habitatId) {
+    private ViewHabitatEnrichmentActivitesRequest(String habitatId) {
         this.habitatId = habitatId;
     }
 
@@ -36,8 +36,8 @@ public class ViewHabitatEnrichmentsRequest {
             this.habitatId = habitatId;
             return this;
         }
-        public ViewHabitatEnrichmentsRequest build() {
-            return new ViewHabitatEnrichmentsRequest(habitatId);
+        public ViewHabitatEnrichmentActivitesRequest build() {
+            return new ViewHabitatEnrichmentActivitesRequest(habitatId);
         }
     }
 
