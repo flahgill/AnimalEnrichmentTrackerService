@@ -444,7 +444,7 @@ Resources:
     Properties:
       Role: !GetAtt AccessRole.Arn
       CodeUri: animalenrichmenttrackerservice
-      Handler: com.nashss.se.animalenrichmenttrackerservice.lambda.ViewHabitatEnrichmentsLambda::handleRequest
+      Handler: com.nashss.se.animalenrichmenttrackerservice.lambda.ViewHabitatEnrichmentActivitiesLambda::handleRequest
       Runtime: java11
       Architectures:
         - x86_64
@@ -461,12 +461,12 @@ Resources:
             Auth:
               Authorizer: 'NONE'
 
-  AddEnrichmentToHabitatLambda:
+  AddEnrichmentActivityToHabitatLambda:
     Type: AWS::Serverless::Function
     Properties:
       Role: !GetAtt AccessRole.Arn
       CodeUri: animalenrichmenttrackerservice
-      Handler: com.nashss.se.animalenrichmenttrackerservice.lambda.AddEnrichmentToHabitatLambda::handleRequest
+      Handler: com.nashss.se.animalenrichmenttrackerservice.lambda.AddEnrichmentActivityToHabitatLambda::handleRequest
       Runtime: java11
       Architectures:
         - x86_64
@@ -540,14 +540,14 @@ Resources:
       AttributeDefinitions:
         - AttributeName: "activityId"
           AttributeType: "S"
-        - AttributeName: "keeperId"
+        - AttributeName: "keeperRating"
           AttributeType: "S"
         - AttributeName: "enrichmentId"
           AttributeType: "S"
       KeySchema:
         - AttributeName: "activityId"
           KeyType: "HASH"
-      BillingMode: "PAY-PER-REQUEST"
+      BillingMode: "PAY_PER_REQUEST"
       TableName: "EnrichmentActivities"
       GlobalSecondaryIndexes:
         - IndexName: "KeeperRatingsForEnrichmentIdsIndex"
