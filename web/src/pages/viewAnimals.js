@@ -41,6 +41,9 @@ class ViewAnimals extends BindingClass {
 
         this.client = new AnimalEnrichmentTrackerClient();
         this.clientLoaded();
+
+        document.getElementById('ok-button').addEventListener("click", this.closeModal);
+
     }
 
     /**
@@ -67,9 +70,8 @@ class ViewAnimals extends BindingClass {
         let animalsHtml = '<table id="animals-table"><tr><th>Animal Name</th><th>Remove</th></tr>';
         let animal;
         for (animal of animals) {
-            const safeAnimalName = animal.replace(/[\s]/g, '_');
             animalsHtml += `
-               <tr id="animal-${safeAnimalName}">
+               <tr id="animal-${animal}">
                    <td>${animal}</td>
                    <td><button data-animal-name="${animal}" class="button remove-animal">Remove</button></td>
                </tr>`;
@@ -98,15 +100,16 @@ class ViewAnimals extends BindingClass {
         const animalToBeAdded = document.getElementById('animal-name').value;
         const habitatId = habitat.habitatId;
 
-         const animals = await this.client.addAnimalToHabitat(habitatId, animalToBeAdded, (error) => {
-            errorMessageDisplay.innerText = `Error: ${error.message}`;
-            errorMessageDisplay.classList.remove('hidden');
-         });
+        const animals = await this.client.addAnimalToHabitat(habitatId, animalToBeAdded, (error) => {
+           errorMessageDisplay.innerText = `Error: ${error.message}`;
+           errorMessageDisplay.classList.remove('hidden');
+           this.showErrorModal(error.message);
+        });
 
-         this.dataStore.set('animals', animals);
+        this.dataStore.set('animals', animals);
+        document.getElementById('add-animal-btn').innerText = 'Add';
+        location.reload();
 
-         document.getElementById('add-animal-btn').innerText = 'Add';
-         location.reload();
     }
 
     /*
@@ -131,21 +134,28 @@ class ViewAnimals extends BindingClass {
         removeButton.innerText = "Removing...";
         const habitatId = habitat.habitatId;
 
-        try {
-            const animalName = removeButton.dataset.animalName;
-            const animals = await this.client.removeAnimalFromHabitat(habitatId, animalName);
-            this.dataStore.set('animals', animals);
+        const animalName = removeButton.dataset.animalName;
+        const animals = await this.client.removeAnimalFromHabitat(habitatId, animalName, (error) => {
+           errorMessageDisplay.innerText = `Error: ${error.message}`;
+           errorMessageDisplay.classList.remove('hidden');
+           this.showErrorModal(error.message);
+        });
 
-            const safeAnimalName = animalName.replace(/[\s]/g, '_');
-            document.getElementById(`animal-${safeAnimalName}`).remove();
-        } catch (error) {
-            errorMessageDisplay.innerText = `Error: ${error.message}`;
-            errorMessageDisplay.classList.remove('hidden');
-        } finally {
-            removeButton.innerText = "Remove";
-        }
-
+        this.dataStore.set('animals', animals);
+        removeButton.innerText = "Remove";
         location.reload();
+    }
+
+    async showErrorModal(message) {
+        const modal = document.getElementById('error-modal');
+        const modalMessage = document.getElementById('error-modal-message');
+        modalMessage.innerText = message;
+        modal.style.display = "block";
+    }
+
+    async closeModal() {
+        const modal = document.getElementById('error-modal');
+        modal.style.display = "none";
     }
 
 }
