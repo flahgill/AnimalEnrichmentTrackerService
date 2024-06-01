@@ -116,14 +116,16 @@ public class HabitatDao {
      * @return a list of habitats matching the active status requested.
      */
     public List<Habitat> getAllHabitats(String isActive) {
-        DynamoDBScanExpression scanExpression = new DynamoDBScanExpression();
         Map<String, AttributeValue> valueMap = new HashMap<>();
         valueMap.put(":isActive", new AttributeValue().withS(isActive));
 
-        scanExpression.setExpressionAttributeValues(valueMap);
-        scanExpression.setFilterExpression("isActive = :isActive");
+        DynamoDBQueryExpression<Habitat> queryExpression = new DynamoDBQueryExpression<Habitat>()
+                .withIndexName("HabitatsStatusIndex")
+                .withConsistentRead(false)
+                .withKeyConditionExpression("isActive = :isActive")
+                .withExpressionAttributeValues(valueMap);
 
-        return this.dynamoDBMapper.scan(Habitat.class, scanExpression);
+        return this.dynamoDBMapper.query(Habitat.class, queryExpression);
     }
 
     /**

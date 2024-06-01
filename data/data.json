@@ -1,28 +1,4 @@
 {
-  "Habitats": [
-    {
-      "PutRequest": {
-        "Item": {
-          "habitatId": { "S": "001" },
-          "isActive": { "S": "active" },
-          "habitatName": { "S": "Antelope House" },
-          "species": { "L": [
-            { "S": "Giraffe" }, { "S": "Kangaroo" }, { "S": "Nile Lechwe" }
-          ] },
-          "keeperManagerId": { "S": "123" },
-          "totalAnimals": { "N": "5" },
-          "animalsInHabitat": { "L": [
-            { "S": "G1" }, { "S": "G2" }, { "S": "K1" }, { "S": "K2" }, { "S": "NL1" }
-          ] },
-          "acceptableEnrichmentIds": { "L": [
-            { "S": "01" }, { "S": "02" }, { "S": "04" }, { "S":  "05" }, { "S":  "06" }, { "S":  "10" }, { "S":  "11" }, { "S":  "12" }, { "S":  "15" }, { "S":  "16" }, { "S":  "19" }
-          ] },
-          "completedEnrichments": { "L": [
-          ] }
-        }
-      }
-    }
-  ],
   "Enrichments": [
     {
       "PutRequest": {
@@ -201,20 +177,6 @@
           "enrichmentId": { "S": "20" },
           "name": { "S": "Squiggle Feeder" },
           "description": { "S": "add treats, put objects in that are too big for added difficulty"}
-        }
-      }
-    }
-  ],
-  "EnrichmentActivities": [
-    {
-      "PutRequest": {
-        "Item": {
-          "activityId": { "S": "001"},
-          "enrichmentId": { "S": "01" },
-          "name": { "S": "Amazing Graze" },
-          "keeperRating": {"N": 8},
-          "description": { "S": "grazing tube"},
-          "dateCompleted": { "S": "2024-05-31"}
         }
       }
     }
