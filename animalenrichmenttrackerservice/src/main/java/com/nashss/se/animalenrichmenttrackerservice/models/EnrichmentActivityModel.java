@@ -20,15 +20,19 @@ public class EnrichmentActivityModel {
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     @JsonInclude(JsonInclude.Include.NON_EMPTY)
     private final LocalDate dateCompleted;
+    private final String habitatId;
+    private final String isComplete;
 
     private EnrichmentActivityModel(String activityId, String enrichmentId, String name, int keeperRating,
-                                    String description, LocalDate dateCompleted) {
+                                    String description, LocalDate dateCompleted, String habitatId, String isComplete) {
         this.activityId = activityId;
         this.enrichmentId = enrichmentId;
         this.name = name;
         this.keeperRating = keeperRating;
         this.description = description;
         this.dateCompleted = dateCompleted;
+        this.habitatId = habitatId;
+        this.isComplete = isComplete;
     }
 
     public String getActivityId() {
@@ -55,6 +59,14 @@ public class EnrichmentActivityModel {
         return dateCompleted;
     }
 
+    public String getHabitatId() {
+        return habitatId;
+    }
+
+    public String getIsComplete() {
+        return isComplete;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) {
@@ -69,12 +81,15 @@ public class EnrichmentActivityModel {
                 Objects.equals(enrichmentId, that.enrichmentId) &&
                 Objects.equals(name, that.name) &&
                 Objects.equals(description, that.description) &&
-                Objects.equals(dateCompleted, that.dateCompleted);
+                Objects.equals(dateCompleted, that.dateCompleted) &&
+                Objects.equals(habitatId, that.habitatId) &&
+                Objects.equals(isComplete, that.isComplete);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(activityId, enrichmentId, name, keeperRating, description, dateCompleted);
+        return Objects.hash(activityId, enrichmentId, name, keeperRating,
+                description, dateCompleted, habitatId, isComplete);
     }
 
     //CHECKSTYLE:OFF:Builder
@@ -89,6 +104,8 @@ public class EnrichmentActivityModel {
         private int keeperRating;
         private String description;
         private LocalDate dateCompleted;
+        private String habitatId;
+        private String isComplete;
         public Builder withActivityId(String activityId) {
             this.activityId = activityId;
             return this;
@@ -113,9 +130,17 @@ public class EnrichmentActivityModel {
             this.dateCompleted = dateCompleted;
             return this;
         }
+        public Builder withHabitatId(String habitatId) {
+            this.habitatId = habitatId;
+            return this;
+        }
+        public Builder withIsComplete(String isComplete) {
+            this.isComplete = isComplete;
+            return this;
+        }
         public EnrichmentActivityModel build() {
             return new EnrichmentActivityModel(activityId, enrichmentId, name, keeperRating,
-                    description, dateCompleted);
+                    description, dateCompleted, habitatId, isComplete);
         }
     }
 }

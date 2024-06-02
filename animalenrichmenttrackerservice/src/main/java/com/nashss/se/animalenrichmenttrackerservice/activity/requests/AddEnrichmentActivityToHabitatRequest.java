@@ -17,6 +17,7 @@ public class AddEnrichmentActivityToHabitatRequest {
     private final String enrichmentId;
     private final LocalDate dateCompleted;
     private final int keeperRating;
+    private final String isComplete;
 
     /**
      * creates AddEnrichmentActivityToHabitatRequest object for adding to a habitat's list of completedEnrichments.
@@ -27,13 +28,14 @@ public class AddEnrichmentActivityToHabitatRequest {
      * @param dateCompleted the dateCompleted which user will input.
      * @param keeperRating the keeperRating which user will input.
      */
-    private AddEnrichmentActivityToHabitatRequest(String habitatId, String keeperManagerId,
-                                                  String enrichmentId, LocalDate dateCompleted, int keeperRating) {
+    private AddEnrichmentActivityToHabitatRequest(String habitatId, String keeperManagerId, String enrichmentId,
+                                                  LocalDate dateCompleted, int keeperRating, String isComplete) {
         this.habitatId = habitatId;
         this.keeperManagerId = keeperManagerId;
         this.enrichmentId = enrichmentId;
         this.dateCompleted = dateCompleted;
         this.keeperRating = keeperRating;
+        this.isComplete = isComplete;
     }
 
     public String getHabitatId() {
@@ -56,6 +58,10 @@ public class AddEnrichmentActivityToHabitatRequest {
         return keeperRating;
     }
 
+    public String getIsComplete() {
+        return isComplete;
+    }
+
     @Override
     public String toString() {
         return "AddEnrichmentToHabitatRequest{" +
@@ -64,6 +70,7 @@ public class AddEnrichmentActivityToHabitatRequest {
                 ", enrichmentId='" + enrichmentId + '\'' +
                 ", dateCompleted=" + dateCompleted +
                 ", keeperRating=" + keeperRating +
+                ", isComplete=" + isComplete +
                 '}';
     }
 
@@ -81,6 +88,7 @@ public class AddEnrichmentActivityToHabitatRequest {
         @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
         private LocalDate dateCompleted;
         private int keeperRating;
+        private String isComplete;
         public Builder withHabitatId(String habitatId) {
             this.habitatId = habitatId;
             return this;
@@ -101,9 +109,13 @@ public class AddEnrichmentActivityToHabitatRequest {
             this.keeperRating = keeperRating;
             return this;
         }
+        public Builder withIsComplete(String isComplete) {
+            this.isComplete = isComplete;
+            return this;
+        }
         public AddEnrichmentActivityToHabitatRequest build() {
             return new AddEnrichmentActivityToHabitatRequest(habitatId, keeperManagerId, enrichmentId,
-                    dateCompleted, keeperRating);
+                    dateCompleted, keeperRating, isComplete);
         }
     }
 }
