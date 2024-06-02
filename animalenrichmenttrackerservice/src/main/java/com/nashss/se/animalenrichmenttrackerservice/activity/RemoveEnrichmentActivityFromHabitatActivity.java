@@ -7,6 +7,7 @@ import com.nashss.se.animalenrichmenttrackerservice.dynamodb.EnrichmentActivityD
 import com.nashss.se.animalenrichmenttrackerservice.dynamodb.HabitatDao;
 import com.nashss.se.animalenrichmenttrackerservice.dynamodb.models.EnrichmentActivity;
 import com.nashss.se.animalenrichmenttrackerservice.dynamodb.models.Habitat;
+import com.nashss.se.animalenrichmenttrackerservice.exceptions.EnrichmentActivityNotFoundException;
 import com.nashss.se.animalenrichmenttrackerservice.exceptions.UserSecurityException;
 import com.nashss.se.animalenrichmenttrackerservice.models.EnrichmentActivityModel;
 
@@ -15,6 +16,7 @@ import org.apache.logging.log4j.Logger;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import javax.inject.Inject;
 
@@ -70,9 +72,16 @@ public class RemoveEnrichmentActivityFromHabitatActivity {
             String activityIdToRemove = removeEnrichmentActivityFromHabitatRequest.getActivityId();
             if (activity.getActivityId().equals(activityIdToRemove)) {
                 activityToRemove = activity;
-                activityList.remove(activity);
             }
         }
+
+        if (Objects.isNull(activityToRemove)) {
+            throw new EnrichmentActivityNotFoundException("Activity with id [" +
+                    removeEnrichmentActivityFromHabitatRequest.getActivityId() + "] does not exist in habitat[" +
+                    removeEnrichmentActivityFromHabitatRequest.getHabitatId() + "].");
+        }
+
+        activityList.remove(activityToRemove);
 
         activityToRemove.setIsComplete("incomplete");
         enrichmentActivityDao.saveEnrichmentActivity(activityToRemove);
