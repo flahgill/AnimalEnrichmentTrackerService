@@ -210,6 +210,9 @@ Resources:
               - Effect: Allow
                 Action: dynamodb:query
                 Resource: !Sub "arn:aws:dynamodb:${AWS::Region}:${AWS::AccountId}:table/Habitats/index/HabitatsForKeeperManagerIdIndex"
+              - Effect: Allow
+                Action: dynamodb:query
+                Resource: !Sub "arn:aws:dynamodb:${AWS::Region}:${AWS::AccountId}:table/Habitats/index/HabitatsStatusIndex"
 
         - PolicyName: 'AccessEnrichmentsTable'
           PolicyDocument:
