@@ -308,14 +308,15 @@ export default class AnimalEnrichmentTrackerClient extends BindingClass {
        * @param errorCallback (Optional) A function to execute if the call fails.
        * @returns The habitat's updated list of completedEnrichments.
        */
-      async addEnrichmentToHabitat(habitatId, enrichmentId, keeperRating, dateCompleted, errorCallback) {
+      async addEnrichmentToHabitat(habitatId, enrichmentId, keeperRating, dateCompleted, isComplete, errorCallback) {
           try {
               const token = await this.getTokenOrThrow("Only authenticated users can add an enrichment activity to their habitat.");
               const response = await this.axiosClient.post(`habitats/{habitatId}/enrichmentActivities`, {
                   habitatId: habitatId,
                   enrichmentId: enrichmentId,
                   keeperRating: keeperRating,
-                  dateCompleted: dateCompleted
+                  dateCompleted: dateCompleted,
+                  isComplete: isComplete
               }, {
                   headers: {
                       Authorization: `Bearer ${token}`

@@ -70,7 +70,7 @@ class ViewHabitatEnrichments extends BindingClass {
         }
         document.getElementById('acceptable-enrichment-ids').innerHTML = 'Acceptable Enrichment Ids:' + acceptEnrichIdHtml;
 
-        let enrichHtml = '<table id="enrichments-table"><tr><th>Date Completed</th><th>Activity</th><th>Description</th><th>Enrichment Id</th><th>Rating</th><th>Activity Id</th></tr>';
+        let enrichHtml = '<table id="enrichments-table"><tr><th>Date Completed</th><th>Activity</th><th>Description</th><th>Enrichment Id</th><th>Rating</th><th>Activity Id</th><th>Completed</th></tr>';
         let enrich;
         for (enrich of completedEnrich) {
             enrichHtml += `
@@ -81,6 +81,7 @@ class ViewHabitatEnrichments extends BindingClass {
                    <td>${enrich.enrichmentId}</td>
                    <td>${enrich.keeperRating}</td>
                    <td>${enrich.activityId}</td>
+                   <td>${enrich.isComplete}</td>
                </tr>`;
         }
 
@@ -107,9 +108,10 @@ class ViewHabitatEnrichments extends BindingClass {
         const enrichId = document.getElementById('enrichment-id').value;
         const keeperRating = document.getElementById('keeper-rating').value;
         const dateCompleted = document.getElementById('date-completed').value;
+        const isComplete = document.getElementById('is-complete').value;
 
         const completedEnrich = await this.client.addEnrichmentToHabitat(habitatId, enrichId, keeperRating,
-        dateCompleted, (error) => {
+        dateCompleted, isComplete, (error) => {
             errorMessageDisplay.innerText = `Error: ${error.message}`;
             errorMessageDisplay.classList.remove('hidden');
         });

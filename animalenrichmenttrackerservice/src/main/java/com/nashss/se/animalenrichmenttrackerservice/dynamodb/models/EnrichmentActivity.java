@@ -39,7 +39,7 @@ public class EnrichmentActivity {
 
     @DynamoDBAttribute(attributeName = "enrichmentId")
     @DynamoDBIndexRangeKey(globalSecondaryIndexName = "KeeperRatingsForEnrichmentIdsIndex",
-            attributeName = "enrichementId")
+            attributeName = "enrichmentId")
     public String getEnrichmentId() {
         return enrichmentId;
     }
