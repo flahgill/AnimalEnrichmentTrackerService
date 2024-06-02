@@ -23,6 +23,7 @@ public class AddEnrichmentActivityToHabitatLambda extends LambdaActivityRunner<A
                                 .withEnrichmentId(unauthReq.getEnrichmentId())
                                 .withDateCompleted(unauthReq.getDateCompleted())
                                 .withKeeperRating(unauthReq.getKeeperRating())
+                                .withIsComplete(unauthReq.getIsComplete())
                                 .withKeeperManagerId(claims.get("email"))
                                 .build());
             },
