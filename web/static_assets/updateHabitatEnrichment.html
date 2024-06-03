@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <script type="text/javascript" src="assets/updateHabitatEnrichment.js"></script>
+    <link rel="stylesheet" type="text/css" href="css/style.css">
+</head>
+
+<body class="background">
+
+<header class="header" id="header"></header>
+<div class="card">
+    <h2 id="update-enrichment-activity-form">Update Enrichment Activity</h2>
+    <h3>Activity Name: <span id="activity-name"></span></h3>
+    <h3>Description: <span id="activity-description"></span></h3>
+    <h3>Date Completed: <span id="activity-date"></span></h3>
+    <h3>Completion Status: <span id="activity-complete"></span></h3>
+    <h3>Rating: <span id="activity-rating"></span></h3>
+    <h3>Activity Id: <span id="activity-id"></span></h3>
+    <p class="hidden error" id="error-message"> </p>
+</div>
+
+<div class="card">
+    <form class="card-content" id="update-date-form">
+        <p class="form-field">
+            <h4>Date Completed</h4>
+            <input type="date" id="date-completed">
+        </p>
+    </form>
+</div>
+
+<div class="card">
+    <form class="card-content" id="update-complete-form">
+        <p class="form-field">
+            <h4>Administered to Habitat</h4>
+            <select id="is-complete" autofocus>
+                <option value="complete">yes</option>
+                <option value="incomplete">no</option>
+            </select>
+        </p>
+    </form>
+</div>
+
+<div class="card">
+    <form class="card-content" id="update-rating-form">
+        <p class="form-field">
+            <h4>Keeper Rating</h4>
+            <select id="keeper-rating" autofocus>
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+                <option value="6">6</option>
+                <option value="7">7</option>
+                <option value="8">8</option>
+                <option value="9">9</option>
+                <option value="10">10</option>
+            </select>
+        </p>
+    </form>
+</div>
+
+<div class="card">
+    <a href="#" class="button" id="update-activity">Submit</a>
+</div>
+</body>
+
+</html>

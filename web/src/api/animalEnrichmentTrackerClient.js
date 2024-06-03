@@ -352,6 +352,36 @@ export default class AnimalEnrichmentTrackerClient extends BindingClass {
           }
       }
 
+      /**
+       * Update an existing EnrichmentActivity on a habitat.
+       * @param habitatId the Id of the habitat's list of completedEnrichments to update.
+       * @param activityId the Id of EnichmentActivity to update.
+       * @param dateCompleted the date to update.
+       * @param isComplete the completion status to update.
+       * @param keeperRating the rating to update.
+       * @param errorCallback (Optional) A function to execute if the call fails.
+       * @returns The habitat's updated list of completedEnrichments.
+       */
+      async updateHabitatEnrichmentActivity(habitatId, activityId, keeperRating, dateCompleted, isComplete, errorCallback) {
+      try {
+             const token = await this.getTokenOrThrow("Only authenticated users can update their habitat");
+             const response = await this.axiosClient.put(`habitats/${habitatId}/enrichmentActivities`, {
+                 habitatId: habitatId,
+                 activityId: activityId,
+                 keeperRating: keeperRating,
+                 dateCompleted: dateCompleted,
+                 isComplete: isComplete
+             }, {
+                 headers: {
+                     Authorization: `Bearer ${token}`
+                 }
+             });
+             return response.data.completedEnrichments;
+          } catch (error) {
+             this.handleError(error, errorCallback)
+          }
+      }
+
     /**
      * Helper method to log the error and run any error functions.
      * @param error The error received from the server.

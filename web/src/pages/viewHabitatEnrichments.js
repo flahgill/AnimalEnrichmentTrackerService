@@ -9,7 +9,8 @@ import DataStore from "../util/DataStore";
 class ViewHabitatEnrichments extends BindingClass {
     constructor() {
         super();
-        this.bindClassMethods(['clientLoaded', 'mount', 'addEnrichmentsToPage', 'addEnrichment', 'removeEnrichment'], this);
+        this.bindClassMethods(['clientLoaded', 'mount', 'addEnrichmentsToPage', 'addEnrichment', 'removeEnrichment',
+        'redirectToUpdateActivity'], this);
         this.dataStore = new DataStore();
         this.dataStore.addChangeListener(this.addEnrichmentsToPage);
         this.header = new Header(this.dataStore);
@@ -36,6 +37,7 @@ class ViewHabitatEnrichments extends BindingClass {
     mount() {
         document.getElementById('add-enrichment').addEventListener('click', this.addEnrichment);
         document.getElementById('habitat-enrichments').addEventListener('click', this.removeEnrichment);
+        document.getElementById('habitat-enrichments').addEventListener('click', this.redirectToUpdateActivity);
         this.header.addHeaderToPage();
 
         this.client = new AnimalEnrichmentTrackerClient();
@@ -70,7 +72,7 @@ class ViewHabitatEnrichments extends BindingClass {
         }
         document.getElementById('acceptable-enrichment-ids').innerHTML = 'Acceptable Enrichment Ids:' + acceptEnrichIdHtml;
 
-        let enrichHtml = '<table id="enrichments-table"><tr><th>Date Completed</th><th>Activity</th><th>Description</th><th>Enrichment Id</th><th>Rating</th><th>Activity Id</th><th>Completed</th><th>Remove From Habitat</th></tr>';
+        let enrichHtml = '<table id="enrichments-table"><tr><th>Date Completed</th><th>Activity</th><th>Description</th><th>Enrichment Id</th><th>Rating</th><th>Activity Id</th><th>Completed</th><th>Update Activity</th><th>Remove From Habitat</th></tr>';
         let enrich;
         for (enrich of completedEnrich) {
             enrichHtml += `
@@ -82,6 +84,7 @@ class ViewHabitatEnrichments extends BindingClass {
                    <td>${enrich.keeperRating}</td>
                    <td>${enrich.activityId}</td>
                    <td>${enrich.isComplete}</td>
+                   <td><button data-activity-id="${enrich.activityId}"  data-habitat-id="${enrich.habitatId}" class ="button update-enrich">Update</td>
                    <td><button data-activity-id="${enrich.activityId}"  data-habitat-id="${enrich.habitatId}" class ="button remove-enrich">Remove</td>
                </tr>`;
         }
@@ -145,6 +148,22 @@ class ViewHabitatEnrichments extends BindingClass {
         });
 
         document.getElementById(removeButton.dataset.activityId + removeButton.dataset.habitatId).remove();
+    }
+
+    /**
+    * when the update button is clicked, redirects to update activity page.
+    */
+    async redirectToUpdateActivity(e) {
+        const updateButton = e.target;
+        if (!updateButton.classList.contains("update-enrich")) {
+            return;
+        }
+
+        updateButton.innerText = "Loading...";
+
+        if (updateButton != null) {
+            window.location.href = `/updateHabitatEnrichment.html?habitatId=${updateButton.dataset.activityId + updateButton.dataset.habitatId}`;
+        }
     }
 }
 
