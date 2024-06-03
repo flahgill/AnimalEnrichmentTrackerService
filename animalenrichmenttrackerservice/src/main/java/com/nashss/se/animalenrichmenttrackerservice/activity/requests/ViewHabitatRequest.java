@@ -7,7 +7,7 @@ public class ViewHabitatRequest {
     private final String habitatId;
     
     /**
-     * creates viewHabitatRequest object for retrieving a habitat using the habitatId and keeperManagerId.
+     * creates viewHabitatRequest object for retrieving a habitat using the habitatId.
      *
      * @param habitatId the habitatId used to retrieve the habitat
      */
