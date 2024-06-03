@@ -490,6 +490,30 @@ paths:
                     items:
                       type: enrichment
 
+    put:
+      tags:
+        - EnrichmentActivities
+      parameters:
+        - name: habitatId
+          in: path
+          description: Id to retrieve habitat
+          required: true
+          schema:
+            type: string
+      summary: Updates enrichment activity in a list of complete enrichments in a habitat && in the master list of EnrichmentActivities in DDB (UpdateHabitatEnrichmentActivityLambda)
+      responses:
+        "200":
+          description: a habitat object
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  completedEnrichments:
+                    type: array
+                    items:
+                      type: enrichment
+
 
 
 

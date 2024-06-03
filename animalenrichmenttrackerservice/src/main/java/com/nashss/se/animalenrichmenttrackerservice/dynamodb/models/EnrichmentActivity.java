@@ -6,8 +6,10 @@ import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBAttribute;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBHashKey;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBIndexHashKey;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBIndexRangeKey;
+import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBMapperFieldModel;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBTable;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBTypeConverted;
+import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBTyped;
 
 import java.time.LocalDate;
 import java.util.Objects;
@@ -27,6 +29,7 @@ public class EnrichmentActivity {
     private LocalDate dateCompleted;
     private String habitatId;
     private String isComplete;
+    private Boolean onHabitat;
 
     @DynamoDBHashKey(attributeName = "activityId")
     public String getActivityId() {
@@ -105,6 +108,16 @@ public class EnrichmentActivity {
         this.isComplete = isComplete;
     }
 
+    @DynamoDBAttribute(attributeName = "onHabitat")
+    @DynamoDBTyped(DynamoDBMapperFieldModel.DynamoDBAttributeType.BOOL)
+    public Boolean getOnHabitat() {
+        return onHabitat;
+    }
+
+    public void setOnHabitat(Boolean onHabitat) {
+        this.onHabitat = onHabitat;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) {
@@ -121,13 +134,14 @@ public class EnrichmentActivity {
                 Objects.equals(description, activity.description) &&
                 Objects.equals(dateCompleted, activity.dateCompleted) &&
                 Objects.equals(habitatId, activity.habitatId) &&
-                Objects.equals(isComplete, activity.isComplete);
+                Objects.equals(isComplete, activity.isComplete) &&
+                Objects.equals(onHabitat, activity.onHabitat);
     }
 
     @Override
     public int hashCode() {
         return Objects.hash(activityId, enrichmentId, name, keeperRating,
-                description, dateCompleted, habitatId, isComplete);
+                description, dateCompleted, habitatId, isComplete, onHabitat);
     }
 
     @Override
@@ -141,6 +155,7 @@ public class EnrichmentActivity {
                 ", dateCompleted=" + dateCompleted +
                 ", habitatId='" + habitatId + '\'' +
                 ", isComplete='" + isComplete + '\'' +
+                ", onHabitat='" + onHabitat + '\'' +
                 '}';
     }
 }

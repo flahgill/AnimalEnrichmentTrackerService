@@ -68,6 +68,7 @@ public class ModelConverter {
                 .withDateCompleted(enrichmentActivity.getDateCompleted())
                 .withHabitatId(enrichmentActivity.getHabitatId())
                 .withIsComplete(enrichmentActivity.getIsComplete())
+                .withOnHabitat(enrichmentActivity.getOnHabitat())
                 .build();
     }
 

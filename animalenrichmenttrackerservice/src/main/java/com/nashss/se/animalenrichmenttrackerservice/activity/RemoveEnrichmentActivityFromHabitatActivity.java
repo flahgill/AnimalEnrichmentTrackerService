@@ -84,6 +84,7 @@ public class RemoveEnrichmentActivityFromHabitatActivity {
         activityList.remove(activityToRemove);
 
         activityToRemove.setIsComplete("incomplete");
+        activityToRemove.setOnHabitat(false);
         enrichmentActivityDao.saveEnrichmentActivity(activityToRemove);
 
         List<EnrichmentActivityModel> activityModelList =

@@ -39,7 +39,7 @@ public class AddEnrichmentActivityToHabitatActivity {
      * Instantiates new AddEnrichmentToHabitatActivity.
      * @param habitatDao data access object to access habitats table.
      * @param enrichmentDao data access object to access enrichments table.
-     * @param enrichmentActivityDao data acces object to access enrichmentActivities table
+     * @param enrichmentActivityDao data access object to access enrichmentActivities table.
      */
     @Inject
     public AddEnrichmentActivityToHabitatActivity(HabitatDao habitatDao, EnrichmentDao enrichmentDao,
@@ -91,6 +91,7 @@ public class AddEnrichmentActivityToHabitatActivity {
         activityToAdd.setKeeperRating(addEnrichmentActivityToHabitatRequest.getKeeperRating());
         activityToAdd.setHabitatId(habitatId);
         activityToAdd.setIsComplete(addEnrichmentActivityToHabitatRequest.getIsComplete());
+        activityToAdd.setOnHabitat(true);
 
         enrichmentActivityDao.saveEnrichmentActivity(activityToAdd);
 
