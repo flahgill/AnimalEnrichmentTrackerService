@@ -17,7 +17,7 @@ export default class AnimalEnrichmentTrackerClient extends BindingClass {
 
         const methodsToBind = ['clientLoaded', 'getIdentity', 'login', 'logout', 'getHabitat', 'createHabitat', 'getUserHabitats',
         'removeHabitat', 'updateHabitat', 'getAnimalsForHabitat', 'addAnimalToHabitat', 'removeAnimalFromHabitat', 'getAllHabitats',
-        'getHabitatEnrichments', 'addEnrichmentToHabitat'];
+        'getHabitatEnrichments', 'addEnrichmentToHabitat', 'removeEnrichmentActivityFromHabitat'];
         this.bindClassMethods(methodsToBind, this);
 
         this.authenticator = new Authenticator();;
@@ -311,7 +311,7 @@ export default class AnimalEnrichmentTrackerClient extends BindingClass {
       async addEnrichmentToHabitat(habitatId, enrichmentId, keeperRating, dateCompleted, isComplete, errorCallback) {
           try {
               const token = await this.getTokenOrThrow("Only authenticated users can add an enrichment activity to their habitat.");
-              const response = await this.axiosClient.post(`habitats/{habitatId}/enrichmentActivities`, {
+              const response = await this.axiosClient.post(`habitats/${habitatId}/enrichmentActivities`, {
                   habitatId: habitatId,
                   enrichmentId: enrichmentId,
                   keeperRating: keeperRating,
@@ -322,6 +322,30 @@ export default class AnimalEnrichmentTrackerClient extends BindingClass {
                       Authorization: `Bearer ${token}`
                   }
               });
+              return response.data.completedEnrichments;
+          } catch (error) {
+              this.handleError(error, errorCallback)
+          }
+      }
+
+      /**
+       * removes an Enrichment Activity from a habitat (soft delete).
+       * @param habitatId The id of the habitat.
+       * @param activityId the id of the activity to be removed.
+       * @returns The habitat's updated list of completedEnrichments.
+       */
+      async removeEnrichmentActivityFromHabitat(habitatId, activityId, errorCallback) {
+          try {
+              const token = await this.getTokenOrThrow("Only authenticated users can remove an animal from a habitat.");
+              const response = await this.axiosClient.delete(`habitats/${habitatId}/enrichmentActivities`, {
+                  headers: {
+                      Authorization: `Bearer ${token}`
+                  },
+                  data: {
+                      habitatId: habitatId,
+                      activityId: activityId
+                  }
+                  });
               return response.data.completedEnrichments;
           } catch (error) {
               this.handleError(error, errorCallback)
