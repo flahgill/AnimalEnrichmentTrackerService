@@ -17,7 +17,7 @@ export default class AnimalEnrichmentTrackerClient extends BindingClass {
 
         const methodsToBind = ['clientLoaded', 'getIdentity', 'login', 'logout', 'getHabitat', 'createHabitat', 'getUserHabitats',
         'removeHabitat', 'updateHabitat', 'getAnimalsForHabitat', 'addAnimalToHabitat', 'removeAnimalFromHabitat', 'getAllHabitats',
-        'getHabitatEnrichments', 'addEnrichmentToHabitat', 'removeEnrichmentActivityFromHabitat'];
+        'getHabitatEnrichments', 'addEnrichmentToHabitat', 'removeEnrichmentActivityFromHabitat', 'getEnrichmentActivity'];
         this.bindClassMethods(methodsToBind, this);
 
         this.authenticator = new Authenticator();;
@@ -365,7 +365,7 @@ export default class AnimalEnrichmentTrackerClient extends BindingClass {
       async updateHabitatEnrichmentActivity(habitatId, activityId, keeperRating, dateCompleted, isComplete, errorCallback) {
       try {
              const token = await this.getTokenOrThrow("Only authenticated users can update their habitat");
-             const response = await this.axiosClient.put(`habitats/${habitatId}/enrichmentActivities`, {
+             const response = await this.axiosClient.put(`habitats/${habitatId}/enrichmentActivities/${activityId}`, {
                  habitatId: habitatId,
                  activityId: activityId,
                  keeperRating: keeperRating,
@@ -379,6 +379,21 @@ export default class AnimalEnrichmentTrackerClient extends BindingClass {
              return response.data.completedEnrichments;
           } catch (error) {
              this.handleError(error, errorCallback)
+          }
+      }
+
+      /**
+       * Gets the EnrichmentActivity for the given ID.
+       * @param activityId Unique identifier for an activity.
+       * @param errorCallback (Optional) A function to execute if the call fails.
+       * @returns The EnrichmentActivity's metadata.
+       */
+      async getEnrichmentActivity(activityId, errorCallback) {
+          try {
+              const response = await this.axiosClient.get(`enrichmentActivities/${activityId}`);
+              return response.data.enrichmentActivity;
+          } catch (error) {
+              this.handleError(error, errorCallback)
           }
       }
 

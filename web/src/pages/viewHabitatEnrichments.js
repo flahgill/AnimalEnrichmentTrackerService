@@ -78,7 +78,9 @@ class ViewHabitatEnrichments extends BindingClass {
             enrichHtml += `
                <tr id="${enrich.activityId + enrich.habitatId}">
                    <td>${enrich.dateCompleted}</td>
-                   <td>${enrich.name}</td>
+                   <td>
+                       <a href="enrichmentActivity.html?activityId=${enrich.activityId}">${enrich.name}</a>
+                   </td>
                    <td>${enrich.description}</td>
                    <td>${enrich.enrichmentId}</td>
                    <td>${enrich.keeperRating}</td>
@@ -162,7 +164,7 @@ class ViewHabitatEnrichments extends BindingClass {
         updateButton.innerText = "Loading...";
 
         if (updateButton != null) {
-            window.location.href = `/updateHabitatEnrichment.html?habitatId=${updateButton.dataset.activityId + updateButton.dataset.habitatId}`;
+            window.location.href = `/updateHabitatEnrichment.html?habitatId=${updateButton.dataset.habitatId}&activityId=${updateButton.dataset.activityId}`;
         }
     }
 }

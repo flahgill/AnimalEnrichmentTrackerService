@@ -31,6 +31,7 @@ module.exports = {
     viewAllHabitats: path.resolve(__dirname, 'src', 'pages', 'ViewAllHabitats.js'),
     viewHabitatEnrichments: path.resolve(__dirname, 'src', 'pages', 'viewHabitatEnrichments.js'),
     updateHabitatEnrichment: path.resolve(__dirname, 'src', 'pages', 'updateHabitatEnrichment.js'),
+    viewEnrichmentActivity: path.resolve(__dirname, 'src', 'pages', 'viewEnrichmentActivity.js'),
     searchHabitats: path.resolve(__dirname, 'src', 'pages', 'searchHabitats.js')
   },
   output: {

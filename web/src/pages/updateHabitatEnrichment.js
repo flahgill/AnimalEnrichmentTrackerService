@@ -10,6 +10,7 @@ class UpdateHabitatEnrichment extends BindingClass {
 
     urlParams = new URLSearchParams(window.location.search);
     habitatId = this.urlParams.get('habitatId');
+    activityId = this.urlParams.get('activityId');
 
     constructor() {
         super();
@@ -38,25 +39,26 @@ class UpdateHabitatEnrichment extends BindingClass {
     async clientLoaded() {
         document.getElementById('activity-name').innerText = "Loading Activity ...";
 
-        const enrichmentActivity = await this.client.getEnrichmentActivity(this.enrichmentActivity);
-        this.dataStore.set('enrichment-activity', enrichmentActivity);
+        const enrichmentActivity = await this.client.getEnrichmentActivity(this.activityId);
+        this.dataStore.set('enrichmentActivity', enrichmentActivity);
     }
 
     /**
      * When the habitat is updated in the datastore, update the habitat metadata on the page.
      */
     addEnrichmentToPage() {
-        const activity = this.dataStore.get('enrichment-activity');
+        const activity = this.dataStore.get('enrichmentActivity');
         if (activity == null) {
             return;
         }
 
-        document.getElementById('activity-name').innerText = enrichmentActivity.name;
-        document.getElementById('activity-description').innerText = enrichmentActivity.getDescription;
-        document.getElementById('activity-date').innerText = enrichmentActivity.dateCompleted;
-        document.getElementById('activity-complete').innerText = enrichmentActivity.isComplete;
-        document.getElementById('activity-rating').innerText = enrichmentActivity.keeperRating;
-        document.getElementById('activity-id').innerText = enrichmentActivity.activityId;
+        document.getElementById('activity-name').innerText = activity.name;
+        document.getElementById('activity-description').innerText = activity.description;
+        document.getElementById('activity-date').innerText = activity.dateCompleted;
+        document.getElementById('activity-complete').innerText = activity.isComplete;
+        document.getElementById('activity-rating').innerText = activity.keeperRating;
+        document.getElementById('activity-id').innerText = this.activityId;
+        console.log(activity.habitatId);
     }
 
     /**
@@ -77,16 +79,19 @@ class UpdateHabitatEnrichment extends BindingClass {
         const newDate = document.getElementById('date-completed').value;
         const newComplete = document.getElementById('is-complete').value;
         const newRating = document.getElementById('keeper-rating').value;
-        const activityId = document.getElementById('activity-id').innerText = enrichmentActivity.activityId;
 
-        const enrichmentActivity = await this.client.updateHabitatEnrichmentActivity(this.habitatId, activityId, newRating, newDate, newComplete, (error) => {
+        const activity = this.dataStore.get('enrichmentActivity');
+        const habitatId = activity.habitatId;
+
+
+        const enrichmentActivity = await this.client.updateHabitatEnrichmentActivity(habitatId, this.activityId, newRating, newDate, newComplete, (error) => {
             updateButton.innerText = origButtonText;
             errorMessageDisplay.innerText = `Error: ${error.message}`;
             errorMessageDisplay.classList.remove('hidden');
         });
 
         this.dataStore.set('enrichment-activity', enrichmentActivity);
-        this.redirectToHabitatEnrichments(this.habitatId);
+        this.redirectToHabitatEnrichments(habitatId);
     }
 
     /**

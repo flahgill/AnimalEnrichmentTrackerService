@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <script type="text/javascript" src="assets/viewEnrichmentActivity.js"></script>
+    <link rel="stylesheet" type="text/css" href="css/style.css">
+</head>
+
+<body class="background">
+<header class="header" id="header"></header>
+<div class="card">
+    <h2>Activity Name: <span id="activity-name"></span></h2>
+    <h3>Description: <span id="activity-description"></span></h3>
+    <h3>Date Completed: <span id="activity-date"></span></h3>
+    <h3>Completion Status: <span id="activity-complete"></span></h3>
+    <h3>Rating: <span id="activity-rating"></span></h3>
+    <h3>Activity Id: <span id="activity-id"></span></h3>
+    <p class="hidden error" id="error-message"> </p>
+</div>
+
+<div class="card">
+    <a href='#' class="button" id="update-activity">Update Activity</a>
+</div>
+
+<div id="error-modal" class="modal">
+    <div class="modal-content">
+        <p id="error-modal-message"></p>
+        <button id="ok-button" class="ok-button">OK</button>
+    </div>
+</div>
+
+</body>
+
+</html>
