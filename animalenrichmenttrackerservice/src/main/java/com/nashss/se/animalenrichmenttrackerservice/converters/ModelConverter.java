@@ -66,6 +66,8 @@ public class ModelConverter {
                 .withKeeperRating(enrichmentActivity.getKeeperRating())
                 .withDescription(enrichmentActivity.getDescription())
                 .withDateCompleted(enrichmentActivity.getDateCompleted())
+                .withHabitatId(enrichmentActivity.getHabitatId())
+                .withIsComplete(enrichmentActivity.getIsComplete())
                 .build();
     }
 

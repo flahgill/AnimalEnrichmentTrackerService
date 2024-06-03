@@ -69,7 +69,8 @@ public class AddEnrichmentActivityToHabitatActivity {
                                                               addEnrichmentActivityToHabitatRequest) {
         log.info("Recieved AddEnrichmentActivityToHabitatRequest {}", addEnrichmentActivityToHabitatRequest);
 
-        Habitat habitat = habitatDao.getHabitat(addEnrichmentActivityToHabitatRequest.getHabitatId());
+        String habitatId = addEnrichmentActivityToHabitatRequest.getHabitatId();
+        Habitat habitat = habitatDao.getHabitat(habitatId);
 
         if (!habitat.getKeeperManagerId().equals(addEnrichmentActivityToHabitatRequest.getKeeperManagerId())) {
             throw new UserSecurityException("You must own this habitat to add a new enrichment activity to it.");
@@ -88,6 +89,8 @@ public class AddEnrichmentActivityToHabitatActivity {
         activityToAdd.setDescription(enrichToPull.getDescription());
         activityToAdd.setDateCompleted(addEnrichmentActivityToHabitatRequest.getDateCompleted());
         activityToAdd.setKeeperRating(addEnrichmentActivityToHabitatRequest.getKeeperRating());
+        activityToAdd.setHabitatId(habitatId);
+        activityToAdd.setIsComplete(addEnrichmentActivityToHabitatRequest.getIsComplete());
 
         enrichmentActivityDao.saveEnrichmentActivity(activityToAdd);
 

@@ -9,7 +9,7 @@ import DataStore from "../util/DataStore";
 class ViewHabitatEnrichments extends BindingClass {
     constructor() {
         super();
-        this.bindClassMethods(['clientLoaded', 'mount', 'addEnrichmentsToPage', 'addEnrichment'], this);
+        this.bindClassMethods(['clientLoaded', 'mount', 'addEnrichmentsToPage', 'addEnrichment', 'removeEnrichment'], this);
         this.dataStore = new DataStore();
         this.dataStore.addChangeListener(this.addEnrichmentsToPage);
         this.header = new Header(this.dataStore);
@@ -28,7 +28,6 @@ class ViewHabitatEnrichments extends BindingClass {
         document.getElementById('habitat-enrichments').innerText = "(loading enrichments...)"
         const completedEnrich = await this.client.getHabitatEnrichments(habitatId);
         this.dataStore.set('completed-enrichments', completedEnrich);
-        console.log('Completed Enrichments:', completedEnrich);
     }
 
     /**
@@ -36,6 +35,7 @@ class ViewHabitatEnrichments extends BindingClass {
      */
     mount() {
         document.getElementById('add-enrichment').addEventListener('click', this.addEnrichment);
+        document.getElementById('habitat-enrichments').addEventListener('click', this.removeEnrichment);
         this.header.addHeaderToPage();
 
         this.client = new AnimalEnrichmentTrackerClient();
@@ -70,17 +70,19 @@ class ViewHabitatEnrichments extends BindingClass {
         }
         document.getElementById('acceptable-enrichment-ids').innerHTML = 'Acceptable Enrichment Ids:' + acceptEnrichIdHtml;
 
-        let enrichHtml = '<table id="enrichments-table"><tr><th>Date Completed</th><th>Activity</th><th>Description</th><th>Enrichment Id</th><th>Rating</th><th>Activity Id</th></tr>';
+        let enrichHtml = '<table id="enrichments-table"><tr><th>Date Completed</th><th>Activity</th><th>Description</th><th>Enrichment Id</th><th>Rating</th><th>Activity Id</th><th>Completed</th><th>Remove From Habitat</th></tr>';
         let enrich;
         for (enrich of completedEnrich) {
             enrichHtml += `
-               <tr>
+               <tr id="${enrich.activityId + enrich.habitatId}">
                    <td>${enrich.dateCompleted}</td>
                    <td>${enrich.name}</td>
                    <td>${enrich.description}</td>
                    <td>${enrich.enrichmentId}</td>
                    <td>${enrich.keeperRating}</td>
                    <td>${enrich.activityId}</td>
+                   <td>${enrich.isComplete}</td>
+                   <td><button data-activity-id="${enrich.activityId}"  data-habitat-id="${enrich.habitatId}" class ="button remove-enrich">Remove</td>
                </tr>`;
         }
 
@@ -107,9 +109,10 @@ class ViewHabitatEnrichments extends BindingClass {
         const enrichId = document.getElementById('enrichment-id').value;
         const keeperRating = document.getElementById('keeper-rating').value;
         const dateCompleted = document.getElementById('date-completed').value;
+        const isComplete = document.getElementById('is-complete').value;
 
         const completedEnrich = await this.client.addEnrichmentToHabitat(habitatId, enrichId, keeperRating,
-        dateCompleted, (error) => {
+        dateCompleted, isComplete, (error) => {
             errorMessageDisplay.innerText = `Error: ${error.message}`;
             errorMessageDisplay.classList.remove('hidden');
         });
@@ -120,6 +123,29 @@ class ViewHabitatEnrichments extends BindingClass {
         document.getElementById('add-enrichment-form').reset();
     }
 
+    /**
+    * Method to run when the remove enrichment button is clicked. Call the AnimalEnrichmentTrackerService to remove
+    * the enrichment from the habitat.
+    */
+    async removeEnrichment(e) {
+        const removeButton = e.target;
+        if (!removeButton.classList.contains("remove-enrich")) {
+            return;
+        }
+
+        removeButton.innerText = "Removing...";
+
+        const errorMessageDisplay = document.getElementById('error-message');
+        errorMessageDisplay.innerText = ``;
+        errorMessageDisplay.classList.add('hidden');
+
+        await this.client.removeEnrichmentActivityFromHabitat(removeButton.dataset.habitatId, removeButton.dataset.activityId, (error) => {
+            errorMessageDisplay.innerText = `Error: ${error.message}`;
+            errorMessageDisplay.classList.remove('hidden');
+        });
+
+        document.getElementById(removeButton.dataset.activityId + removeButton.dataset.habitatId).remove();
+    }
 }
 
 /**

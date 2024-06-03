@@ -419,10 +419,10 @@ paths:
                     items:
                       type: enrichment
 
-  /habitats/{habitatId}/enrichments:
+  /habitats/{habitatId}/enrichmentActivities:
     get:
       tags:
-        - Enrichments
+        - EnrichmentActivities
       parameters:
         - name: habitatId
           in: path
@@ -430,7 +430,7 @@ paths:
           required: true
           schema:
             type: string
-      summary: Retrieves a list of completed enrichments in a habitat (ViewHabitatEnrichmentsLambda)
+      summary: Retrieves a list of completed EnrichmentActivity in a habitat (ViewHabitatEnrichmentActivitiesLambda)
       responses:
         "200":
           description: a habitat object
@@ -445,7 +445,7 @@ paths:
                       type: enrichment
     post:
       tags:
-        - Enrichments
+        - EnrichmentActivities
       parameters:
         - name: habitatId
           in: path
@@ -453,7 +453,30 @@ paths:
           required: true
           schema:
             type: string
-      summary: Adds enrichment to a list of completed enrichments in a habitat (AddEnrichmentToHabitatLambda)
+      summary: Adds enrichment activity to a list of completed enrichments in a habitat (AddEnrichmentActivityToHabitatLambda)
+      responses:
+        "200":
+          description: a habitat object
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  completedEnrichments:
+                    type: array
+                    items:
+                      type: enrichment
+    delete:
+      tags:
+        - EnrichmentActivities
+      parameters:
+        - name: habitatId
+          in: path
+          description: Id to retrieve habitat
+          required: true
+          schema:
+            type: string
+      summary: Removes enrichment activity from a list of complete enrichments in a habitat (RemoveEnrichmentActivityFromHabitatLambda)
       responses:
         "200":
           description: a habitat object

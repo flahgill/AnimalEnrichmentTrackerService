@@ -25,6 +25,8 @@ public class EnrichmentActivity {
     private int keeperRating;
     private String description;
     private LocalDate dateCompleted;
+    private String habitatId;
+    private String isComplete;
 
     @DynamoDBHashKey(attributeName = "activityId")
     public String getActivityId() {
@@ -37,7 +39,7 @@ public class EnrichmentActivity {
 
     @DynamoDBAttribute(attributeName = "enrichmentId")
     @DynamoDBIndexRangeKey(globalSecondaryIndexName = "KeeperRatingsForEnrichmentIdsIndex",
-            attributeName = "enrichementId")
+            attributeName = "enrichmentId")
     public String getEnrichmentId() {
         return enrichmentId;
     }
@@ -85,6 +87,24 @@ public class EnrichmentActivity {
         this.dateCompleted = dateCompleted;
     }
 
+    @DynamoDBAttribute(attributeName = "habitatId")
+    public String getHabitatId() {
+        return habitatId;
+    }
+
+    public void setHabitatId(String habitatId) {
+        this.habitatId = habitatId;
+    }
+
+    @DynamoDBAttribute(attributeName = "isComplete")
+    public String getIsComplete() {
+        return isComplete;
+    }
+
+    public void setIsComplete(String isComplete) {
+        this.isComplete = isComplete;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) {
@@ -93,18 +113,21 @@ public class EnrichmentActivity {
         if (o == null || getClass() != o.getClass()) {
             return false;
         }
-        EnrichmentActivity that = (EnrichmentActivity) o;
-        return keeperRating == that.keeperRating &&
-                Objects.equals(activityId, that.activityId) &&
-                Objects.equals(enrichmentId, that.enrichmentId) &&
-                Objects.equals(name, that.name) &&
-                Objects.equals(description, that.description) &&
-                Objects.equals(dateCompleted, that.dateCompleted);
+        EnrichmentActivity activity = (EnrichmentActivity) o;
+        return keeperRating == activity.keeperRating &&
+                Objects.equals(activityId, activity.activityId) &&
+                Objects.equals(enrichmentId, activity.enrichmentId) &&
+                Objects.equals(name, activity.name) &&
+                Objects.equals(description, activity.description) &&
+                Objects.equals(dateCompleted, activity.dateCompleted) &&
+                Objects.equals(habitatId, activity.habitatId) &&
+                Objects.equals(isComplete, activity.isComplete);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(activityId, enrichmentId, name, keeperRating, description, dateCompleted);
+        return Objects.hash(activityId, enrichmentId, name, keeperRating,
+                description, dateCompleted, habitatId, isComplete);
     }
 
     @Override
@@ -116,6 +139,8 @@ public class EnrichmentActivity {
                 ", keeperRating=" + keeperRating +
                 ", description='" + description + '\'' +
                 ", dateCompleted=" + dateCompleted +
+                ", habitatId='" + habitatId + '\'' +
+                ", isComplete='" + isComplete + '\'' +
                 '}';
     }
 }
