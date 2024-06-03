@@ -490,6 +490,71 @@ paths:
                     items:
                       type: enrichment
 
+    put:
+      tags:
+        - EnrichmentActivities
+      parameters:
+        - name: habitatId
+          in: path
+          description: Id to retrieve habitat
+          required: true
+          schema:
+            type: string
+      summary: Updates enrichment activity in a list of complete enrichments in a habitat && in the master list of EnrichmentActivities in DDB (UpdateHabitatEnrichmentActivityLambda)
+      responses:
+        "200":
+          description: a habitat object
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  completedEnrichments:
+                    type: array
+                    items:
+                      type: enrichment
+
+  /enrichmentActivities/{activityId}:
+    get:
+      tags:
+        - EnrichmentActivities
+      summary: Get an existing EnrichmentActivity (ViewEnrichmentActivityLambda)
+      parameters:
+        - name: activityId
+          in: path
+          description: ID of EnrichmentActivity to retrieve
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: An EnrichmentActivity object
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  activityId:
+                    type: string
+                  enrichmentId:
+                    type: string
+                  name:
+                    type: string
+                  keeperRating:
+                    type: integer
+                  description:
+                    type: string
+                  dateCompleted:
+                    type: LocalDate
+                  habitatId:
+                    type: string
+                  isComplete:
+                    type: string
+                  onHabitat:
+                    type: boolean
+        "500":
+          description: "Invalid input parameters"
+
 
 
 

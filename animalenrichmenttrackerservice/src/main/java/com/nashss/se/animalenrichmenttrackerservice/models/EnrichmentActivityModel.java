@@ -22,9 +22,11 @@ public class EnrichmentActivityModel {
     private final LocalDate dateCompleted;
     private final String habitatId;
     private final String isComplete;
+    private final Boolean onHabitat;
 
     private EnrichmentActivityModel(String activityId, String enrichmentId, String name, int keeperRating,
-                                    String description, LocalDate dateCompleted, String habitatId, String isComplete) {
+                                    String description, LocalDate dateCompleted, String habitatId, String isComplete,
+                                    Boolean onHabitat) {
         this.activityId = activityId;
         this.enrichmentId = enrichmentId;
         this.name = name;
@@ -33,6 +35,7 @@ public class EnrichmentActivityModel {
         this.dateCompleted = dateCompleted;
         this.habitatId = habitatId;
         this.isComplete = isComplete;
+        this.onHabitat = onHabitat;
     }
 
     public String getActivityId() {
@@ -67,6 +70,10 @@ public class EnrichmentActivityModel {
         return isComplete;
     }
 
+    public Boolean getOnHabitat() {
+        return onHabitat;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) {
@@ -83,13 +90,14 @@ public class EnrichmentActivityModel {
                 Objects.equals(description, that.description) &&
                 Objects.equals(dateCompleted, that.dateCompleted) &&
                 Objects.equals(habitatId, that.habitatId) &&
-                Objects.equals(isComplete, that.isComplete);
+                Objects.equals(isComplete, that.isComplete) &&
+                Objects.equals(onHabitat, that.onHabitat);
     }
 
     @Override
     public int hashCode() {
         return Objects.hash(activityId, enrichmentId, name, keeperRating,
-                description, dateCompleted, habitatId, isComplete);
+                description, dateCompleted, habitatId, isComplete, onHabitat);
     }
 
     //CHECKSTYLE:OFF:Builder
@@ -106,6 +114,7 @@ public class EnrichmentActivityModel {
         private LocalDate dateCompleted;
         private String habitatId;
         private String isComplete;
+        private Boolean onHabitat;
         public Builder withActivityId(String activityId) {
             this.activityId = activityId;
             return this;
@@ -138,9 +147,13 @@ public class EnrichmentActivityModel {
             this.isComplete = isComplete;
             return this;
         }
+        public Builder withOnHabitat(Boolean onHabitat) {
+            this.onHabitat = onHabitat;
+            return this;
+        }
         public EnrichmentActivityModel build() {
             return new EnrichmentActivityModel(activityId, enrichmentId, name, keeperRating,
-                    description, dateCompleted, habitatId, isComplete);
+                    description, dateCompleted, habitatId, isComplete, onHabitat);
         }
     }
 }
