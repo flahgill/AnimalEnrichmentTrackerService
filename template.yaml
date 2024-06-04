@@ -586,7 +586,7 @@ Resources:
           Type: Api
           Properties:
             Path: /enrichmentActivities/{activityId}
-            Method: get
+            Method: delete
 
   #-----------------------------------------------------
   # DynamoDB Configuration

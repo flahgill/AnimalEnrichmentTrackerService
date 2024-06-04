@@ -47,7 +47,7 @@ public class RemoveEnrichmentActivityActivity {
         log.info("Recieved RemoveEnrichmentActivityRequest {}", removeEnrichmentActivityRequest);
 
         String activityId = removeEnrichmentActivityRequest.getActivityId();
-        EnrichmentActivity eaToRemove = enrichmentActivityDao.removeEnrichmentActivity(activityId);
+        EnrichmentActivity eaToRemove = enrichmentActivityDao.getEnrichmentActivity(activityId);
 
         if (eaToRemove.getOnHabitat()) {
             throw new EnrichmentActivityCurrentlyOnHabitatException("activity with id [" + activityId + "] is " +
