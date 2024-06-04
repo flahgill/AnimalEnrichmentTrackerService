@@ -102,9 +102,10 @@ h1, h2, h3, h4, h5 { text-transform: uppercase; }
     padding-right: 50px;
 }
 
-.card-content .check-box {
+.card-content .checkbox {
     max-width: 200px;
     flex-direction: column;
+    background-color: var(--tertiary-color);
 }
 
 .species {
