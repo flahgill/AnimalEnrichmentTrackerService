@@ -17,7 +17,8 @@ export default class AnimalEnrichmentTrackerClient extends BindingClass {
 
         const methodsToBind = ['clientLoaded', 'getIdentity', 'login', 'logout', 'getHabitat', 'createHabitat', 'getUserHabitats',
         'removeHabitat', 'updateHabitat', 'getAnimalsForHabitat', 'addAnimalToHabitat', 'removeAnimalFromHabitat', 'getAllHabitats',
-        'getHabitatEnrichments', 'addEnrichmentToHabitat', 'removeEnrichmentActivityFromHabitat', 'getEnrichmentActivity', 'getAllEnrichmentActivities'];
+        'getHabitatEnrichments', 'addEnrichmentToHabitat', 'removeEnrichmentActivityFromHabitat', 'getEnrichmentActivity', 'getAllEnrichmentActivities',
+        'removeEnrichmentActivity'];
         this.bindClassMethods(methodsToBind, this);
 
         this.authenticator = new Authenticator();;
@@ -413,6 +414,31 @@ export default class AnimalEnrichmentTrackerClient extends BindingClass {
           } catch (error) {
               this.handleError(error, errorCallback)
           }
+       }
+
+       /**
+        * removes an enrichment activity.
+        * @param activityId The id of the activity to remove.
+        * @returns the list of enrichment activities.
+        */
+       async removeEnrichmentActivity(activityId, errorCallback) {
+           try {
+                   const token = await this.getTokenOrThrow("Only authenticated users can remove an enrichment activity.");
+                   const response = await this.axiosClient.delete(`enrichmentActivities/${activityId}`, {
+                       headers: {
+                           Authorization: `Bearer ${token}`
+                       },
+                       data: {
+                           activityId: activityId
+                       }
+                   });
+                   return response.data.enrichmentActivities;
+               } catch (error) {
+                   if (errorCallback) {
+                       errorCallback(error);
+                   }
+                   this.handleError(error, errorCallback);
+               }
        }
 
     /**
