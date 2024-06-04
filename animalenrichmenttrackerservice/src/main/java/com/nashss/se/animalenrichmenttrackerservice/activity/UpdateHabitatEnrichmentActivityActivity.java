@@ -72,7 +72,7 @@ public class UpdateHabitatEnrichmentActivityActivity {
         Habitat habitat = habitatDao.getHabitat(habitatId);
 
         if (!habitat.getKeeperManagerId().equals(updateHabitatEnrichmentActivityRequest.getKeeperManagerId())) {
-            throw new UserSecurityException("You must own this habitat to add a new enrichment activity to it.");
+            throw new UserSecurityException("You must own this habitat to update it's enrichment activity.");
         }
 
         String activityId = updateHabitatEnrichmentActivityRequest.getActivityId();

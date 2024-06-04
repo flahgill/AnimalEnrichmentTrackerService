@@ -9,7 +9,8 @@ import DataStore from "../util/DataStore";
 class ViewHabitat extends BindingClass {
     constructor() {
         super();
-        this.bindClassMethods(['clientLoaded', 'mount', 'addActivityToPage', 'redirectToUpdateActivity'], this);
+        this.bindClassMethods(['clientLoaded', 'mount', 'addActivityToPage', 'redirectToUpdateActivity',
+        'removeActivity'], this);
         this.dataStore = new DataStore();
         this.dataStore.addChangeListener(this.addActivityToPage);
         this.header = new Header(this.dataStore);
@@ -33,6 +34,7 @@ class ViewHabitat extends BindingClass {
     mount() {
         this.header.addHeaderToPage();
         document.getElementById('update-activity').addEventListener("click", this.redirectToUpdateActivity);
+        document.getElementById('remove-activity').addEventListener("click", this.removeActivity);
 
         this.client = new AnimalEnrichmentTrackerClient();
         this.clientLoaded();
@@ -71,6 +73,41 @@ class ViewHabitat extends BindingClass {
         if (updateButton != null) {
             window.location.href = `/updateHabitatEnrichment.html?habitatId=${habitatId}&activityId=${activityId}`;
         }
+    }
+
+    async removeActivity(e) {
+        const errorMessageDisplay = document.getElementById('error-message');
+        errorMessageDisplay.innerText = ``;
+        errorMessageDisplay.classList.add('hidden');
+
+        const activity = this.dataStore.get('enrichmentActivity');
+        const activityId = activity.activityId;
+
+        const removeButton = e.target;
+        removeButton.innerText = "Removing...";
+//
+//        try {
+//            await this.client.removeEnrichmentActivity(activityId);
+//
+//            const reloadActivity = await this.client.getEnrichmentActivity(activityId);
+//            if (!reloadActivity) {
+//                window.location.href = 'index.html';
+//            } else {
+//                this.showErrorModal(`Error: ${error.message}`);
+//                removeButton.innerText = "Delete Activity";
+//            }
+//        } catch (error) {
+//            await this.showErrorModal(`Error: ${error.message}`);
+//            removeButton.innerText = "Delete Activity"
+//        }
+
+        await this.client.removeEnrichmentActivity(activityId, (error) => {
+            errorMessageDisplay.innerText = `Error: ${error.message}`;
+            errorMessageDisplay.classList.remove('hidden');
+            this.showErrorModal(error.message);
+        });
+
+        removeButton.innerText = "Delete Activity";
     }
 
     async showErrorModal(message) {

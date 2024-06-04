@@ -57,7 +57,7 @@ class UpdateHabitat extends BindingClass {
         document.getElementById('habitat-owner').innerText = habitat.keeperManagerId;
         document.getElementById('habitat-id').innerText = habitat.habitatId;
         document.getElementById('species').innerText = habitat.species;
-        document.getElementById('curr-active-status').innerText = habitat.isActive ? "Active" : "Inactive";
+        document.getElementById('curr-active-status').innerText = habitat.isActive;
 
         document.getElementById('activate-status').checked = habitat.isActive;
         document.getElementById('deactivate-status').checked = !habitat.isActive;

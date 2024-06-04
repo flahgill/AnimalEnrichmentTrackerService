@@ -21,7 +21,7 @@ public class RemoveHabitatLambda
 
         return super.runActivity(
             () -> {
-                RemoveHabitatRequest unAuthRequest = input.fromUserClaims(claims ->
+                RemoveHabitatRequest authRequest = input.fromUserClaims(claims ->
                         RemoveHabitatRequest.builder()
                                 .withKeeperManagerId(claims.get("email"))
                                 .build());
@@ -29,7 +29,7 @@ public class RemoveHabitatLambda
                 return input.fromPath(path ->
                         RemoveHabitatRequest.builder()
                                 .withHabitatId(path.get("habitatId"))
-                                .withKeeperManagerId(unAuthRequest.getKeeperManagerId())
+                                .withKeeperManagerId(authRequest.getKeeperManagerId())
                                 .build());
             },
             (request, serviceComponent) ->
