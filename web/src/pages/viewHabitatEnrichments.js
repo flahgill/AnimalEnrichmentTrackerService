@@ -93,6 +93,15 @@ class ViewHabitatEnrichments extends BindingClass {
 
         enrichHtml += '</table>';
         document.getElementById('habitat-enrichments').innerHTML = enrichHtml;
+
+        const enrichIdsSelect = document.getElementById('enrichment-id');
+        enrichIdsSelect.innerHtml = '';
+        for (id of habitat.acceptableEnrichmentIds) {
+            const option = document.createElement('option');
+            option.value = id;
+            option.textContent = id;
+            enrichIdsSelect.appendChild(option);
+        }
     }
 
     /**

@@ -61,7 +61,9 @@ class ViewHabitat extends BindingClass {
     * when the update button is clicked, redirects to update habitat page.
     */
     async redirectToUpdateActivity(e) {
-        const activityId = this.dataStore.get('enrichmentActivity').activityId;
+        const activity = this.dataStore.get('enrichmentActivity');
+        const activityId = activity.activityId;
+        const habitatId = activity.habitatId;
         const updateButton = e.target;
 
         updateButton.innerText = "Loading...";
