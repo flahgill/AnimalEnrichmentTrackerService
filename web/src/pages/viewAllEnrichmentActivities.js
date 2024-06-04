@@ -107,7 +107,12 @@ class ViewAllEnrichmentActivities extends BindingClass {
                    <td>
                        <a href="habitat.html?habitatId=${enrich.habitatId}">${enrich.habitatId}</a>
                    </td>
-                   <td><input type="checkbox" ${enrich.onHabitat ? 'checked' : ''} disabled></td>
+                   <td>
+                   <label class="container">
+                   <input type="checkbox" ${enrich.onHabitat ? 'checked' : ''} disabled>
+                   <span class="checkmark"></span>
+                   </label>
+                   </td>
                </tr>`;
         }
 
