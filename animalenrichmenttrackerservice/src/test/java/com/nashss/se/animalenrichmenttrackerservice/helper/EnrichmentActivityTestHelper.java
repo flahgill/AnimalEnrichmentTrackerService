@@ -18,6 +18,8 @@ public class EnrichmentActivityTestHelper {
         activity.setDescription("new test description for enrichment");
         activity.setKeeperRating(5);
         activity.setDateCompleted(LocalDate.of(2024, 5, 31));
+        activity.setIsComplete("complete");
+        activity.setOnHabitat(true);
         return activity;
     }
 }

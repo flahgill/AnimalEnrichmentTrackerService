@@ -17,7 +17,7 @@ export default class AnimalEnrichmentTrackerClient extends BindingClass {
 
         const methodsToBind = ['clientLoaded', 'getIdentity', 'login', 'logout', 'getHabitat', 'createHabitat', 'getUserHabitats',
         'removeHabitat', 'updateHabitat', 'getAnimalsForHabitat', 'addAnimalToHabitat', 'removeAnimalFromHabitat', 'getAllHabitats',
-        'getHabitatEnrichments', 'addEnrichmentToHabitat', 'removeEnrichmentActivityFromHabitat', 'getEnrichmentActivity'];
+        'getHabitatEnrichments', 'addEnrichmentToHabitat', 'removeEnrichmentActivityFromHabitat', 'getEnrichmentActivity', 'getAllEnrichmentActivities'];
         this.bindClassMethods(methodsToBind, this);
 
         this.authenticator = new Authenticator();;
@@ -396,6 +396,24 @@ export default class AnimalEnrichmentTrackerClient extends BindingClass {
               this.handleError(error, errorCallback)
           }
       }
+
+      /**
+       * gets all Enrichment Activities saved in DB.
+       * @param isActive the requested completion status to sort activities by.
+       * @returns a list of saved enrichment activities.
+       */
+       async getAllEnrichmentActivities(isComplete, errorCallback) {
+          try {
+              const queryParams = new URLSearchParams({ isComplete: isComplete});
+              const queryString = queryParams.toString();
+
+              const response = await this.axiosClient.get(`enrichmentActivities?${queryString}`);
+
+              return response.data.enrichmentActivities;
+          } catch (error) {
+              this.handleError(error, errorCallback)
+          }
+       }
 
     /**
      * Helper method to log the error and run any error functions.

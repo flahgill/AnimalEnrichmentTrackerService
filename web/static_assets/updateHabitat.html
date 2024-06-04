@@ -44,8 +44,14 @@
     <form class="card-content" id="update-active-form">
         <p class="check-box">
             <h4>Change Active Status</h4>
-            <input type="checkbox" class="validated-field" id="activate-status" value="active" autofocus> Activate
-            <input type="checkbox" class="validated-field" id="deactivate-status" value="inactive" autofocus> Deactivate
+            <label class="radio-container">
+                <input type="radio" class="validated-field" id="activate-status" value="active" checked="checked" autofocus> Activate
+                <span class="radio-checkmark"></span>
+            </label>
+            <label class="radio-container">
+                <input type="radio" class="validated-field" id="deactivate-status" value="inactive" checked="checked" autofocus> Deactivate
+                <span class="radio-checkmark"></span>
+            </label>
         </p>
     </form>
 </div>
