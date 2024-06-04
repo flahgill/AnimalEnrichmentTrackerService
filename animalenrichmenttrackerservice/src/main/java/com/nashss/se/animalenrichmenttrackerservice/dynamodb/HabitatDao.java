@@ -110,7 +110,7 @@ public class HabitatDao {
     }
 
     /**
-     * Perform a scan of the habitat table for habitats matching the active status in query.
+     * Perform a query of the habitat table (GSI) for habitats matching the active status in query.
      *
      * @param isActive the activity status of a habitat requests.
      * @return a list of habitats matching the active status requested.

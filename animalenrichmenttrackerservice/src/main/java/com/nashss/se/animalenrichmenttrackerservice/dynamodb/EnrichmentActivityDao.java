@@ -5,7 +5,12 @@ import com.nashss.se.animalenrichmenttrackerservice.exceptions.EnrichmentActivit
 import com.nashss.se.animalenrichmenttrackerservice.metrics.MetricsPublisher;
 
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBMapper;
+import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBScanExpression;
+import com.amazonaws.services.dynamodbv2.model.AttributeValue;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 
 import javax.inject.Inject;
@@ -56,5 +61,22 @@ public class EnrichmentActivityDao {
         }
 
         return enrichmentActivity;
+    }
+
+    /**
+     * Perform a scan of the EnrichmentActivities table for activities matching the completion status in query.
+     *
+     * @param isComplete the completion status of the activity.
+     * @return a list of enrichment activities matching the status requested.
+     */
+    public List<EnrichmentActivity> getAllEnrichmentActivities(String isComplete) {
+        DynamoDBScanExpression scanExpression = new DynamoDBScanExpression();
+        Map<String, AttributeValue> valueMap = new HashMap<>();
+        valueMap.put(":isComplete", new AttributeValue().withS(isComplete));
+
+        scanExpression.setExpressionAttributeValues(valueMap);
+        scanExpression.setFilterExpression("isComplete = :isComplete");
+
+        return this.dynamoDBMapper.scan(EnrichmentActivity.class, scanExpression);
     }
 }
