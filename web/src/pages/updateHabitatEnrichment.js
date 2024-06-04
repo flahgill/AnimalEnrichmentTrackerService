@@ -58,7 +58,6 @@ class UpdateHabitatEnrichment extends BindingClass {
         document.getElementById('activity-complete').innerText = activity.isComplete;
         document.getElementById('activity-rating').innerText = activity.keeperRating;
         document.getElementById('activity-id').innerText = this.activityId;
-        console.log(activity.habitatId);
     }
 
     /**
