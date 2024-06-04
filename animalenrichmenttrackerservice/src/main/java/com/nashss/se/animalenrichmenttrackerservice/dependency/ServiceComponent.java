@@ -4,6 +4,7 @@ import com.nashss.se.animalenrichmenttrackerservice.activity.AddAnimalToHabitatA
 import com.nashss.se.animalenrichmenttrackerservice.activity.AddEnrichmentActivityToHabitatActivity;
 import com.nashss.se.animalenrichmenttrackerservice.activity.AddHabitatActivity;
 import com.nashss.se.animalenrichmenttrackerservice.activity.RemoveAnimalFromHabitatActivity;
+import com.nashss.se.animalenrichmenttrackerservice.activity.RemoveEnrichmentActivityActivity;
 import com.nashss.se.animalenrichmenttrackerservice.activity.RemoveEnrichmentActivityFromHabitatActivity;
 import com.nashss.se.animalenrichmenttrackerservice.activity.RemoveHabitatActivity;
 import com.nashss.se.animalenrichmenttrackerservice.activity.SearchHabitatsActivity;
@@ -120,4 +121,10 @@ public interface ServiceComponent {
      * @return ViewAllEnrichmentActivitiesActivity
      */
     ViewAllEnrichmentActivitiesActivity provideViewAllEnrichmentActivitiesActivity();
+
+    /**
+     * Provides the relevant activity.
+     * @return RemoveEnrichmentActivityActivity
+     */
+    RemoveEnrichmentActivityActivity provideRemoveEnrichmentActivityActivity();
 }

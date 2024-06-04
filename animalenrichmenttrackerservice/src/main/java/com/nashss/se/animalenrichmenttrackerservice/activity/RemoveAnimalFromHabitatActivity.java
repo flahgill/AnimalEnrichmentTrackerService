@@ -56,7 +56,7 @@ public class RemoveAnimalFromHabitatActivity {
         Habitat habitat = habitatDao.getHabitat(removeAnimalFromHabitatRequest.getHabitatId());
 
         if (!habitat.getKeeperManagerId().equals(removeAnimalFromHabitatRequest.getKeeperManagerId())) {
-            throw new UserSecurityException("You must own this habitat to add a new animal to it.");
+            throw new UserSecurityException("You must own this habitat to remove an animal from it.");
         }
 
         List<String> currAnimalsInHabitat = habitat.getAnimalsInHabitat();

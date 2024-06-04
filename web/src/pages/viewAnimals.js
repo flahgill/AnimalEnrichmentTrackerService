@@ -101,6 +101,7 @@ class ViewAnimals extends BindingClass {
         const habitatId = habitat.habitatId;
 
         const animals = await this.client.addAnimalToHabitat(habitatId, animalToBeAdded, (error) => {
+            debugger;
            errorMessageDisplay.innerText = `Error: ${error.message}`;
            errorMessageDisplay.classList.remove('hidden');
            this.showErrorModal(error.message);
@@ -108,8 +109,10 @@ class ViewAnimals extends BindingClass {
 
         this.dataStore.set('animals', animals);
         document.getElementById('add-animal-btn').innerText = 'Add';
-        location.reload();
 
+        if (animals.includes(animalToBeAdded)) {
+            location.reload();
+        }
     }
 
     /*
@@ -143,7 +146,6 @@ class ViewAnimals extends BindingClass {
 
         this.dataStore.set('animals', animals);
         removeButton.innerText = "Remove";
-        location.reload();
     }
 
     async showErrorModal(message) {

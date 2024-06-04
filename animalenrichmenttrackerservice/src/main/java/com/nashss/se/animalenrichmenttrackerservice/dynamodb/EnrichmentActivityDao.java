@@ -64,6 +64,23 @@ public class EnrichmentActivityDao {
     }
 
     /**
+     * Hard deletes the associated {@link EnrichmentActivity} with associated activityId.
+     *
+     * @param activityId the activityId to designate which EnrichmentActivity to delete.
+     * @return the enrichmentActivity being removed from DDB.
+     */
+    public EnrichmentActivity removeEnrichmentActivity(String activityId) {
+        EnrichmentActivity enrichmentActivity = this.dynamoDBMapper.load(EnrichmentActivity.class, activityId);
+
+        if (Objects.isNull(enrichmentActivity)) {
+            throw new EnrichmentActivityNotFoundException("Could not find activity with id [" + activityId + "].");
+        }
+
+        this.dynamoDBMapper.delete(enrichmentActivity);
+        return enrichmentActivity;
+    }
+
+    /**
      * Perform a scan of the EnrichmentActivities table for activities matching the completion status in query.
      *
      * @param isComplete the completion status of the activity.
