@@ -673,6 +673,8 @@ Resources:
           AttributeType: "N"
         - AttributeName: "enrichmentId"
           AttributeType: "S"
+        - AttributeName: "isComplete"
+          AttributeType: "S"
       KeySchema:
         - AttributeName: "activityId"
           KeyType: "HASH"
@@ -687,7 +689,12 @@ Resources:
               KeyType: "RANGE"
           Projection:
             ProjectionType: "ALL"
-
+        - IndexName: "ActivityCompletionStatusIndex"
+          KeySchema:
+            - AttributeName: "isComplete"
+              KeyType: "HASH"
+          Projection:
+            ProjectionType: "ALL"
 
 #-----------------------------------------------------
 # The outputs defined below will be printed
