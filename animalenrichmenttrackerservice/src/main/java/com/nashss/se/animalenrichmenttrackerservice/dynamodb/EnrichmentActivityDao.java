@@ -123,11 +123,11 @@ public class EnrichmentActivityDao {
                 valueMap.put(valueMapPrefix + i,
                         new AttributeValue().withS(criteria[i]));
                 nameFilterExpression.append(
-                        filterExpressionPart("name", valueMapPrefix, i));
+                        filterExpressionPart("activityName", valueMapPrefix, i));
                 idFilterExpression.append(
                         filterExpressionPart("enrichmentId", valueMapPrefix, i));
                 descFilterExpression.append(
-                        filterExpressionPart("getDescription", valueMapPrefix, i));
+                        filterExpressionPart("description", valueMapPrefix, i));
             }
 
             dynamoDBScanExpression.setExpressionAttributeValues(valueMap);

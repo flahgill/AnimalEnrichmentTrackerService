@@ -97,7 +97,7 @@ class ViewAllEnrichmentActivities extends BindingClass {
                <tr id="${enrich.activityId + enrich.habitatId}">
                    <td>${enrich.dateCompleted}</td>
                    <td>
-                       <a href="enrichmentActivity.html?activityId=${enrich.activityId}">${enrich.name}</a>
+                       <a href="enrichmentActivity.html?activityId=${enrich.activityId}">${enrich.activityName}</a>
                    </td>
                    <td>${enrich.description}</td>
                    <td>${enrich.enrichmentId}</td>
