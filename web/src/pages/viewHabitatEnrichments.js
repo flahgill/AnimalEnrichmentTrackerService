@@ -4,13 +4,13 @@ import BindingClass from "../util/bindingClass";
 import DataStore from "../util/DataStore";
 
 /**
- * Logic needed for the view a habitat's enrichment activites page of the website.
+ * Logic needed for the view a habitat's enrichment activities page of the website.
  */
 class ViewHabitatEnrichments extends BindingClass {
     constructor() {
         super();
         this.bindClassMethods(['clientLoaded', 'mount', 'addEnrichmentsToPage', 'addEnrichment', 'removeEnrichment',
-        'redirectToUpdateActivity'], this);
+            'redirectToUpdateActivity'], this);
         this.dataStore = new DataStore();
         this.dataStore.addChangeListener(this.addEnrichmentsToPage);
         this.header = new Header(this.dataStore);
@@ -26,7 +26,7 @@ class ViewHabitatEnrichments extends BindingClass {
         document.getElementById('habitat-name').innerText = "Loading Habitat ...";
         const habitat = await this.client.getHabitat(habitatId);
         this.dataStore.set('habitat', habitat);
-        document.getElementById('habitat-enrichments').innerText = "(loading enrichments...)"
+        document.getElementById('habitat-enrichments').innerText = "(loading enrichments...)";
         const completedEnrich = await this.client.getHabitatEnrichments(habitatId);
         this.dataStore.set('completed-enrichments', completedEnrich);
     }
@@ -45,7 +45,7 @@ class ViewHabitatEnrichments extends BindingClass {
     }
 
     /**
-     * When the list of enrichments activites are updated in the datastore, update the enrichments metadata on the page.
+     * When the list of enrichments activities are updated in the datastore, update the enrichments metadata on the page.
      */
     addEnrichmentsToPage() {
         const completedEnrich = this.dataStore.get('completed-enrichments');
@@ -59,22 +59,19 @@ class ViewHabitatEnrichments extends BindingClass {
         document.getElementById('habitat-id').innerText = habitat.habitatId;
 
         let speciesHtml = '';
-        let spec;
-        for (spec of habitat.species) {
+        for (const spec of habitat.species) {
             speciesHtml += `<div class="species">${spec}</div>`;
         }
         document.getElementById('species').innerHTML = speciesHtml;
 
         let acceptEnrichIdHtml = '';
-        let id;
-        for (id of habitat.acceptableEnrichmentIds) {
+        for (const id of habitat.acceptableEnrichmentIds) {
             acceptEnrichIdHtml += `<div class="accept-ids">${id}</div>`;
         }
         document.getElementById('acceptable-enrichment-ids').innerHTML = 'Acceptable Enrichment Ids:' + acceptEnrichIdHtml;
 
         let enrichHtml = '<table id="enrichments-table"><tr><th>Date Completed</th><th>Activity</th><th>Description</th><th>Enrichment Id</th><th>Rating</th><th>Activity Id</th><th>Completed</th><th>Update Activity</th><th>Remove From Habitat</th></tr>';
-        let enrich;
-        for (enrich of completedEnrich) {
+        for (const enrich of completedEnrich) {
             enrichHtml += `
                <tr id="${enrich.activityId + enrich.habitatId}">
                    <td>${enrich.dateCompleted}</td>
@@ -86,17 +83,19 @@ class ViewHabitatEnrichments extends BindingClass {
                    <td>${enrich.keeperRating}</td>
                    <td>${enrich.activityId}</td>
                    <td>${enrich.isComplete}</td>
-                   <td><button data-activity-id="${enrich.activityId}"  data-habitat-id="${enrich.habitatId}" class ="button update-enrich">Update</td>
-                   <td><button data-activity-id="${enrich.activityId}"  data-habitat-id="${enrich.habitatId}" class ="button remove-enrich">Remove</td>
+                   <td><button data-activity-id="${enrich.activityId}"  data-habitat-id="${enrich.habitatId}" class ="button update-enrich">Update</button></td>
+                   <td><button data-activity-id="${enrich.activityId}"  data-habitat-id="${enrich.habitatId}" class ="button remove-enrich">Remove</button></td>
                </tr>`;
         }
 
         enrichHtml += '</table>';
         document.getElementById('habitat-enrichments').innerHTML = enrichHtml;
 
-        const enrichIdsSelect = document.getElementById('enrichment-id');
-        enrichIdsSelect.innerHtml = '';
-        for (id of habitat.acceptableEnrichmentIds) {
+        const enrichIdsSelect = document.getElementById('accept-enrichment-id');
+        enrichIdsSelect.innerHTML = '';
+
+        const uniqueSortedIds = Array.from(new Set(habitat.acceptableEnrichmentIds)).sort();
+        for (const id of uniqueSortedIds) {
             const option = document.createElement('option');
             option.value = id;
             option.textContent = id;
@@ -120,13 +119,12 @@ class ViewHabitatEnrichments extends BindingClass {
 
         document.getElementById('add-enrichment').innerText = 'Adding...';
         const habitatId = habitat.habitatId;
-        const enrichId = document.getElementById('enrichment-id').value;
+        const enrichId = document.getElementById('accept-enrichment-id').value;
         const keeperRating = document.getElementById('keeper-rating').value;
         const dateCompleted = document.getElementById('date-completed').value;
         const isComplete = document.getElementById('is-complete').value;
 
-        const completedEnrich = await this.client.addEnrichmentToHabitat(habitatId, enrichId, keeperRating,
-        dateCompleted, isComplete, (error) => {
+        const completedEnrich = await this.client.addEnrichmentToHabitat(habitatId, enrichId, keeperRating, dateCompleted, isComplete, (error) => {
             errorMessageDisplay.innerText = `Error: ${error.message}`;
             errorMessageDisplay.classList.remove('hidden');
         });
@@ -135,6 +133,7 @@ class ViewHabitatEnrichments extends BindingClass {
 
         document.getElementById('add-enrichment').innerText = 'Add';
         document.getElementById('add-enrichment-form').reset();
+        this.addEnrichmentsToPage();
     }
 
     /**
@@ -162,7 +161,7 @@ class ViewHabitatEnrichments extends BindingClass {
     }
 
     /**
-    * when the update button is clicked, redirects to update activity page.
+    * When the update button is clicked, redirects to update activity page.
     */
     async redirectToUpdateActivity(e) {
         const updateButton = e.target;
