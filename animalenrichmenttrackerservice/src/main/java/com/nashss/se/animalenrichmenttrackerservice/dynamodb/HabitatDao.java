@@ -131,7 +131,7 @@ public class HabitatDao {
     /**
      * Perform a search (via a "scan") of the habitats table for habitats matching the given criteria.
      *
-     * "habitatName", "animalsInHabitat" and "species" attributes are searched.
+     * "habitatName", "animalsInHabitat", "habitatId" and "species" attributes are searched.
      * The criteria are an array of Strings. Each element of the array is search individually.
      * ALL elements of the criteria array must appear in the habitatName, animalsInHabitat, or the species (or all).
      * Searches are CASE SENSITIVE.
@@ -149,6 +149,7 @@ public class HabitatDao {
             StringBuilder nameFilterExpression = new StringBuilder();
             StringBuilder speciesFilterExpression = new StringBuilder();
             StringBuilder animalsFilterExpression = new StringBuilder();
+            StringBuilder idFilterExpression = new StringBuilder();
 
             for (int i = 0; i < criteria.length; i++) {
                 valueMap.put(valueMapNamePrefix + i,
@@ -159,12 +160,16 @@ public class HabitatDao {
                         filterExpressionPart("species", valueMapNamePrefix, i));
                 animalsFilterExpression.append(
                         filterExpressionPart("animalsInHabitat", valueMapNamePrefix, i));
+                idFilterExpression.append(
+                        filterExpressionPart("habitatId", valueMapNamePrefix, i));
             }
 
             dynamoDBScanExpression.setExpressionAttributeValues(valueMap);
             dynamoDBScanExpression.setFilterExpression(
-                    "(" + nameFilterExpression + ") or (" + speciesFilterExpression +
-                            ") or (" + animalsFilterExpression + ")");
+                    "(" + nameFilterExpression +
+                            ") or (" + speciesFilterExpression +
+                            ") or (" + animalsFilterExpression +
+                            ") or (" + idFilterExpression + ")");
         }
 
         return this.dynamoDBMapper.scan(Habitat.class, dynamoDBScanExpression);

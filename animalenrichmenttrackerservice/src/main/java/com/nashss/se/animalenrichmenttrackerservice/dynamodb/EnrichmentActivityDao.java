@@ -100,7 +100,7 @@ public class EnrichmentActivityDao {
     /**
      * Performs a search (via a "scan") of the EnrichmentActivities table for activities matching the given criteria.
      *
-     * "name", "id" and "description" attributes are searched.
+     * "activityName", "activityId" and "description" attributes are searched.
      * The criteria are an array of Strings. each element of the array is searched individually.
      * ALL elements of the criteria array must appear in the name, id, or description (or all).
      * Searches are CASE SENSITIVE.
