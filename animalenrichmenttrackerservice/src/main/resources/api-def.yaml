@@ -661,7 +661,7 @@ paths:
                     type: string
                   enrichmentId:
                     type: string
-                  name:
+                  activityName:
                     type: string
                   keeperRating:
                     type: integer
@@ -675,6 +675,36 @@ paths:
                     type: string
                   onHabitat:
                     type: boolean
+
+  /enrichments/search:
+    get:
+      tags:
+        - Enrichments
+      parameters:
+        - name: q
+          in: query
+          description: Search term (name, id, or description)
+          required: true
+          schema:
+            type: array
+            items:
+              type: string
+      summary: Search for an Enrichment (SearchEnrichmentsLambda)
+      responses:
+        "200":
+          description: a list of enrichments
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  enrichmentId:
+                    type: string
+                  activityName:
+                    type: string
+                  description:
+                    type: string
+
 
 
 
