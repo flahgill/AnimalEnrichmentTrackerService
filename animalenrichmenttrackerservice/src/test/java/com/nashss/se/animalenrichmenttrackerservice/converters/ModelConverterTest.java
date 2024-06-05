@@ -1,13 +1,10 @@
 package com.nashss.se.animalenrichmenttrackerservice.converters;
 
-import com.nashss.se.animalenrichmenttrackerservice.dynamodb.models.Enrichment;
 import com.nashss.se.animalenrichmenttrackerservice.dynamodb.models.EnrichmentActivity;
 import com.nashss.se.animalenrichmenttrackerservice.dynamodb.models.Habitat;
 import com.nashss.se.animalenrichmenttrackerservice.helper.EnrichmentActivityTestHelper;
-import com.nashss.se.animalenrichmenttrackerservice.helper.EnrichmentTestHelper;
 import com.nashss.se.animalenrichmenttrackerservice.helper.HabitatTestHelper;
 import com.nashss.se.animalenrichmenttrackerservice.models.EnrichmentActivityModel;
-import com.nashss.se.animalenrichmenttrackerservice.models.EnrichmentModel;
 import com.nashss.se.animalenrichmenttrackerservice.models.HabitatModel;
 import org.junit.jupiter.api.Test;
 
@@ -60,7 +57,7 @@ public class ModelConverterTest {
         // THEN
         assertEquals(activity.getEnrichmentId(), model.getEnrichmentId());
         assertEquals(activity.getDescription(), model.getDescription());
-        assertEquals(activity.getName(), model.getName());
+        assertEquals(activity.getActivityName(), model.getActivityName());
         assertEquals(activity.getDateCompleted(), model.getDateCompleted());
         assertEquals(activity.getKeeperRating(), model.getKeeperRating());
     }
@@ -82,7 +79,7 @@ public class ModelConverterTest {
         EnrichmentActivity firstEnrich = activities.get(0);
         EnrichmentActivityModel firstEnrichModel = modelList.get(0);
         assertEquals(firstEnrich.getEnrichmentId(), firstEnrichModel.getEnrichmentId());
-        assertEquals(firstEnrich.getName(), firstEnrichModel.getName());
+        assertEquals(firstEnrich.getActivityName(), firstEnrichModel.getActivityName());
         assertEquals(firstEnrich.getKeeperRating(), firstEnrichModel.getKeeperRating());
         assertEquals(firstEnrich.getDateCompleted(), firstEnrichModel.getDateCompleted());
         assertEquals(firstEnrich.getDescription(), firstEnrichModel.getDescription());

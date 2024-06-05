@@ -23,7 +23,7 @@ public class EnrichmentActivity {
 
     private String activityId;
     private String enrichmentId;
-    private String name;
+    private String activityName;
     private int keeperRating;
     private String description;
     private LocalDate dateCompleted;
@@ -51,13 +51,13 @@ public class EnrichmentActivity {
         this.enrichmentId = enrichmentId;
     }
 
-    @DynamoDBAttribute(attributeName = "name")
-    public String getName() {
-        return name;
+    @DynamoDBAttribute(attributeName = "activityName")
+    public String getActivityName() {
+        return activityName;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setActivityName(String activityName) {
+        this.activityName = activityName;
     }
 
     @DynamoDBAttribute(attributeName = "keeperRating")
@@ -71,7 +71,7 @@ public class EnrichmentActivity {
         this.keeperRating = keeperRating;
     }
 
-    @DynamoDBAttribute(attributeName = "getDescription")
+    @DynamoDBAttribute(attributeName = "description")
     public String getDescription() {
         return description;
     }
@@ -130,7 +130,7 @@ public class EnrichmentActivity {
         return keeperRating == activity.keeperRating &&
                 Objects.equals(activityId, activity.activityId) &&
                 Objects.equals(enrichmentId, activity.enrichmentId) &&
-                Objects.equals(name, activity.name) &&
+                Objects.equals(activityName, activity.activityName) &&
                 Objects.equals(description, activity.description) &&
                 Objects.equals(dateCompleted, activity.dateCompleted) &&
                 Objects.equals(habitatId, activity.habitatId) &&
@@ -140,7 +140,7 @@ public class EnrichmentActivity {
 
     @Override
     public int hashCode() {
-        return Objects.hash(activityId, enrichmentId, name, keeperRating,
+        return Objects.hash(activityId, enrichmentId, activityName, keeperRating,
                 description, dateCompleted, habitatId, isComplete, onHabitat);
     }
 
@@ -149,7 +149,7 @@ public class EnrichmentActivity {
         return "EnrichmentActivity{" +
                 "activityId='" + activityId + '\'' +
                 ", enrichmentId='" + enrichmentId + '\'' +
-                ", name='" + name + '\'' +
+                ", activityName='" + activityName + '\'' +
                 ", keeperRating=" + keeperRating +
                 ", description='" + description + '\'' +
                 ", dateCompleted=" + dateCompleted +

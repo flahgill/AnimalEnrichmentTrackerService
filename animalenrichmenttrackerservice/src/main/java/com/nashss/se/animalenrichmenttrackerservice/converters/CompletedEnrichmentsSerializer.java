@@ -14,7 +14,7 @@ public class CompletedEnrichmentsSerializer extends JsonSerializer<EnrichmentAct
             throws IOException {
         gen.writeStartObject();
         gen.writeStringField("enrichmentId", enrichment.getEnrichmentId());
-        gen.writeStringField("name", enrichment.getName());
+        gen.writeStringField("name", enrichment.getActivityName());
         gen.writeNumberField("keeperRating", enrichment.getKeeperRating());
         gen.writeStringField("description", enrichment.getDescription());
         gen.writeStringField("dateCompleted", enrichment.getDateCompleted().toString());

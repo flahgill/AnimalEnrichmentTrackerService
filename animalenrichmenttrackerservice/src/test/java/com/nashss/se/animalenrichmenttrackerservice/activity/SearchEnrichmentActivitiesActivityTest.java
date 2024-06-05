@@ -51,7 +51,7 @@ public class SearchEnrichmentActivitiesActivityTest {
 
         for (int i=0; i<expected.size(); i++) {
             assertEquals(expected.get(i).getActivityId(), resultModels.get(i).getActivityId());
-            assertEquals(expected.get(i).getName(), resultModels.get(i).getName());
+            assertEquals(expected.get(i).getActivityName(), resultModels.get(i).getActivityName());
         }
     }
 
@@ -77,7 +77,7 @@ public class SearchEnrichmentActivitiesActivityTest {
     private static EnrichmentActivity newEA(String id, String name, String description) {
         EnrichmentActivity ea = new EnrichmentActivity();
 
-        ea.setName(name);
+        ea.setActivityName(name);
         ea.setEnrichmentId(id);
         ea.setDescription(description);
 

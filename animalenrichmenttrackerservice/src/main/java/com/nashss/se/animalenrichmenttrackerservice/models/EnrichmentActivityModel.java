@@ -12,7 +12,7 @@ public class EnrichmentActivityModel {
 
     private final String activityId;
     private final String enrichmentId;
-    private final String name;
+    private final String activityName;
     private final int keeperRating;
     private final String description;
 
@@ -24,12 +24,12 @@ public class EnrichmentActivityModel {
     private final String isComplete;
     private final Boolean onHabitat;
 
-    private EnrichmentActivityModel(String activityId, String enrichmentId, String name, int keeperRating,
+    private EnrichmentActivityModel(String activityId, String enrichmentId, String activityName, int keeperRating,
                                     String description, LocalDate dateCompleted, String habitatId, String isComplete,
                                     Boolean onHabitat) {
         this.activityId = activityId;
         this.enrichmentId = enrichmentId;
-        this.name = name;
+        this.activityName = activityName;
         this.keeperRating = keeperRating;
         this.description = description;
         this.dateCompleted = dateCompleted;
@@ -46,8 +46,8 @@ public class EnrichmentActivityModel {
         return enrichmentId;
     }
 
-    public String getName() {
-        return name;
+    public String getActivityName() {
+        return activityName;
     }
 
     public int getKeeperRating() {
@@ -86,7 +86,7 @@ public class EnrichmentActivityModel {
         return keeperRating == that.keeperRating &&
                 Objects.equals(activityId, that.activityId) &&
                 Objects.equals(enrichmentId, that.enrichmentId) &&
-                Objects.equals(name, that.name) &&
+                Objects.equals(activityName, that.activityName) &&
                 Objects.equals(description, that.description) &&
                 Objects.equals(dateCompleted, that.dateCompleted) &&
                 Objects.equals(habitatId, that.habitatId) &&
@@ -96,7 +96,7 @@ public class EnrichmentActivityModel {
 
     @Override
     public int hashCode() {
-        return Objects.hash(activityId, enrichmentId, name, keeperRating,
+        return Objects.hash(activityId, enrichmentId, activityName, keeperRating,
                 description, dateCompleted, habitatId, isComplete, onHabitat);
     }
 
@@ -108,7 +108,7 @@ public class EnrichmentActivityModel {
     public static class Builder {
         private String activityId;
         private String enrichmentId;
-        private String name;
+        private String activityName;
         private int keeperRating;
         private String description;
         private LocalDate dateCompleted;
@@ -123,8 +123,8 @@ public class EnrichmentActivityModel {
             this.enrichmentId = enrichmentId;
             return this;
         }
-        public Builder withName(String name) {
-            this.name = name;
+        public Builder withActivityName(String activityName) {
+            this.activityName = activityName;
             return this;
         }
         public Builder withKeeperRating(int keeperRating) {
@@ -152,7 +152,7 @@ public class EnrichmentActivityModel {
             return this;
         }
         public EnrichmentActivityModel build() {
-            return new EnrichmentActivityModel(activityId, enrichmentId, name, keeperRating,
+            return new EnrichmentActivityModel(activityId, enrichmentId, activityName, keeperRating,
                     description, dateCompleted, habitatId, isComplete, onHabitat);
         }
     }

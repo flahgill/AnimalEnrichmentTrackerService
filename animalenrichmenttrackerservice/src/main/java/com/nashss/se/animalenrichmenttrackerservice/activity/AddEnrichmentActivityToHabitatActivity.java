@@ -85,7 +85,7 @@ public class AddEnrichmentActivityToHabitatActivity {
         EnrichmentActivity activityToAdd = new EnrichmentActivity();
         activityToAdd.setActivityId(ServiceUtils.generateId());
         activityToAdd.setEnrichmentId(enrichToPull.getEnrichmentId());
-        activityToAdd.setName(enrichToPull.getName());
+        activityToAdd.setActivityName(enrichToPull.getActivityName());
         activityToAdd.setDescription(enrichToPull.getDescription());
         activityToAdd.setDateCompleted(addEnrichmentActivityToHabitatRequest.getDateCompleted());
         activityToAdd.setKeeperRating(addEnrichmentActivityToHabitatRequest.getKeeperRating());
