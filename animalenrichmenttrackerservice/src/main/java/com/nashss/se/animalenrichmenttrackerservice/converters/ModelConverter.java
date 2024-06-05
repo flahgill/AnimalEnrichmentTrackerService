@@ -1,8 +1,10 @@
 package com.nashss.se.animalenrichmenttrackerservice.converters;
 
+import com.nashss.se.animalenrichmenttrackerservice.dynamodb.models.Enrichment;
 import com.nashss.se.animalenrichmenttrackerservice.dynamodb.models.EnrichmentActivity;
 import com.nashss.se.animalenrichmenttrackerservice.dynamodb.models.Habitat;
 import com.nashss.se.animalenrichmenttrackerservice.models.EnrichmentActivityModel;
+import com.nashss.se.animalenrichmenttrackerservice.models.EnrichmentModel;
 import com.nashss.se.animalenrichmenttrackerservice.models.HabitatModel;
 
 import java.util.ArrayList;
@@ -83,6 +85,36 @@ public class ModelConverter {
 
         for (EnrichmentActivity activity : enrichmentActivities) {
             enrichmentModels.add(toEnrichmentActivityModel(activity));
+        }
+
+        return enrichmentModels;
+    }
+
+    /**
+     * converts a provided {@link Enrichment} into a {@link EnrichmentModel} representation.
+     *
+     * @param enrichment the enrichment to convert to a enrichmentModel.
+     * @return the converted enrichmentModel.
+     */
+    public EnrichmentModel toEnrichmentModel(Enrichment enrichment) {
+        return EnrichmentModel.builder()
+                .withEnrichmentId(enrichment.getEnrichmentId())
+                .withActivityName(enrichment.getActivityName())
+                .withDescription(enrichment.getDescription())
+                .build();
+    }
+
+    /**
+     * converts a list of enrichments to a list of enrichmentModels.
+     *
+     * @param enrichments the list of enrichments to convert to enrichmentModels.
+     * @return the converted list of enrichmentModels.
+     */
+    public List<EnrichmentModel> toEnrichmentModelList(List<Enrichment> enrichments) {
+        List<EnrichmentModel> enrichmentModels = new ArrayList<>();
+
+        for (Enrichment enrichment : enrichments) {
+            enrichmentModels.add(toEnrichmentModel(enrichment));
         }
 
         return enrichmentModels;

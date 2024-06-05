@@ -1,6 +1,5 @@
 package com.nashss.se.animalenrichmenttrackerservice.activity;
 
-import com.nashss.se.animalenrichmenttrackerservice.activity.requests.AddEnrichmentActivityToHabitatRequest;
 import com.nashss.se.animalenrichmenttrackerservice.activity.requests.RemoveEnrichmentActivityFromHabitatRequest;
 import com.nashss.se.animalenrichmenttrackerservice.activity.results.RemoveEnrichmentActivityFromHabitatResult;
 import com.nashss.se.animalenrichmenttrackerservice.converters.ModelConverter;
@@ -9,7 +8,6 @@ import com.nashss.se.animalenrichmenttrackerservice.dynamodb.HabitatDao;
 import com.nashss.se.animalenrichmenttrackerservice.dynamodb.models.EnrichmentActivity;
 import com.nashss.se.animalenrichmenttrackerservice.dynamodb.models.Habitat;
 import com.nashss.se.animalenrichmenttrackerservice.exceptions.EnrichmentActivityNotFoundException;
-import com.nashss.se.animalenrichmenttrackerservice.exceptions.EnrichmentNotFoundException;
 import com.nashss.se.animalenrichmenttrackerservice.exceptions.HabitatNotFoundException;
 import com.nashss.se.animalenrichmenttrackerservice.helper.EnrichmentActivityTestHelper;
 import com.nashss.se.animalenrichmenttrackerservice.helper.HabitatTestHelper;
@@ -18,7 +16,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 
-import java.time.LocalDate;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
