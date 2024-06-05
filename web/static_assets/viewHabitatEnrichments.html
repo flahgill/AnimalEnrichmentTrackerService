@@ -3,6 +3,7 @@
 
 <head>
     <script type="text/javascript" src="assets/viewHabitatEnrichments.js"></script>
+    <script type="text/javascript" src="assets/searchEnrichments.js"></script>
     <link rel="stylesheet" type="text/css" href="css/style.css">
 </head>
 
@@ -56,6 +57,26 @@
         </p>
     </form>
     <a href="#" class="button" id="add-enrichment">Add</a>
+</div>
+
+<div class="card">
+    <h2>Search Enrichments</h2>
+    <form class="card-content" id="search-enrichments-form">
+        <p class="form-field">
+            <label>Search by name, id, or description</label>
+            <input type="text" class="validated-field" id="search-enrichments-criteria" placeholder="Amazing Graze" autofocus>
+            <sub>Search is case-sensitive and must match exactly.</sub>
+        </p>
+    </form>
+    <p class="button-group">
+        <a href="#" class="button" id="search-enrichments-btn">Search</a>
+    </p>
+</div>
+
+<div class="card hidden" id='search-enrichments-results-container'>
+    <h3>Results for <span id="search-enrichments-criteria-display"></span></h3>
+    <div id="search-enrichments-results-display">
+    </div>
 </div>
 
 </body>
