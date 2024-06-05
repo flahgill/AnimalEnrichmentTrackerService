@@ -18,7 +18,8 @@ class ViewAllEnrichmentActivities extends BindingClass {
     constructor() {
         super();
 
-        this.bindClassMethods(['mount', 'toggleComplete', 'displayActivitiesResults', 'getHTMLForCompleteResults'], this);
+        this.bindClassMethods(['mount', 'toggleComplete', 'displayActivitiesResults', 'getHTMLForCompleteResults',
+         'removeActivity'], this);
 
         // Create a new datastore with an initial "empty" state.
         this.dataStore = new DataStore(EMPTY_DATASTORE_STATE);
@@ -31,10 +32,12 @@ class ViewAllEnrichmentActivities extends BindingClass {
      */
     mount() {
         document.getElementById('toggle-complete-btn').addEventListener('click', this.toggleComplete);
+        document.getElementById('all-activities').addEventListener("click", this.removeActivity);
 
         this.client = new AnimalEnrichmentTrackerClient();
 
         this.toggleComplete();
+        document.getElementById('ok-button').addEventListener("click", this.closeModal);
     }
 
     /**
@@ -90,14 +93,14 @@ class ViewAllEnrichmentActivities extends BindingClass {
             return '<h4>No Activities found</h4>';
         }
 
-        let enrichHtml = '<table id="enrichments-table"><tr><th>Date Completed</th><th>Activity</th><th>Description</th><th>Enrichment Id</th><th>Rating</th><th>Activity Id</th><th>Completed</th><th>Habitat Id</th><th>Currently On Habitat</th></tr>';
+        let enrichHtml = '<table id="enrichments-table"><tr><th>Date Completed</th><th>Activity</th><th>Description</th><th>Enrichment Id</th><th>Rating</th><th>Activity Id</th><th>Completed</th><th>Habitat Id</th><th>Currently On Habitat</th><th>Delete Permanently</th></tr>';
         let enrich;
         for (enrich of completeResults) {
             enrichHtml += `
                <tr id="${enrich.activityId + enrich.habitatId}">
                    <td>${enrich.dateCompleted}</td>
                    <td>
-                       <a href="enrichmentActivity.html?activityId=${enrich.activityId}">${enrich.name}</a>
+                       <a href="enrichmentActivity.html?activityId=${enrich.activityId}">${enrich.activityName}</a>
                    </td>
                    <td>${enrich.description}</td>
                    <td>${enrich.enrichmentId}</td>
@@ -113,10 +116,56 @@ class ViewAllEnrichmentActivities extends BindingClass {
                    <span class="checkmark"></span>
                    </label>
                    </td>
+                   <td><button data-activity-id="${enrich.activityId}" class="button remove-activity">Delete</button></td>
                </tr>`;
         }
 
         return enrichHtml;
+    }
+
+    /**
+    * when delete button is clicked, deletes activity permanently
+    */
+    async removeActivity(e) {
+        const removeButton = e.target;
+
+        if (!removeButton.classList.contains('remove-activity')) {
+            return;
+        }
+
+        const activityId = removeButton.dataset.activityId;
+        const rowId = activityId + removeButton.closest('tr').querySelector('a[href*="habitat.html"]').href.split('habitatId=')[1];
+
+        removeButton.innerText = "DELETING..."
+
+        const errorMessageDisplay = document.getElementById('error-message');
+        errorMessageDisplay.innerText = ``;
+        errorMessageDisplay.classList.add('hidden');
+
+        let errorOccured = false;
+        const updatedActivities = await this.client.removeEnrichmentActivity(activityId, (error) => {
+            errorMessageDisplay.innerText = `Error: ${error.message}`;
+            errorMessageDisplay.classList.remove('hidden');
+            errorOccured = true;
+            this.showErrorModal(error.message);
+            removeButton.innerText = "Delete";
+        });
+
+        if (!errorOccured) {
+            document.getElementById(rowId).remove();
+        }
+    }
+
+    async showErrorModal(message) {
+        const modal = document.getElementById('error-modal');
+        const modalMessage = document.getElementById('error-modal-message');
+        modalMessage.innerText = message;
+        modal.style.display = "block";
+    }
+
+    async closeModal() {
+        const modal = document.getElementById('error-modal');
+        modal.style.display = "none";
     }
 
 }

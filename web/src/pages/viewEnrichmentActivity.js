@@ -51,7 +51,7 @@ class ViewHabitat extends BindingClass {
             return;
         }
 
-        document.getElementById('activity-name').innerText = enrichmentActivity.name;
+        document.getElementById('activity-name').innerText = enrichmentActivity.activityName;
         document.getElementById('activity-description').innerText = enrichmentActivity.description;
         document.getElementById('activity-date').innerText = enrichmentActivity.dateCompleted;
         document.getElementById('activity-complete').innerText = enrichmentActivity.isComplete;
@@ -85,21 +85,6 @@ class ViewHabitat extends BindingClass {
 
         const removeButton = e.target;
         removeButton.innerText = "Removing...";
-//
-//        try {
-//            await this.client.removeEnrichmentActivity(activityId);
-//
-//            const reloadActivity = await this.client.getEnrichmentActivity(activityId);
-//            if (!reloadActivity) {
-//                window.location.href = 'index.html';
-//            } else {
-//                this.showErrorModal(`Error: ${error.message}`);
-//                removeButton.innerText = "Delete Activity";
-//            }
-//        } catch (error) {
-//            await this.showErrorModal(`Error: ${error.message}`);
-//            removeButton.innerText = "Delete Activity"
-//        }
 
         await this.client.removeEnrichmentActivity(activityId, (error) => {
             errorMessageDisplay.innerText = `Error: ${error.message}`;

@@ -1,19 +1,14 @@
 package com.nashss.se.animalenrichmenttrackerservice.activity;
 
 import com.nashss.se.animalenrichmenttrackerservice.activity.requests.ViewEnrichmentActivityRequest;
-import com.nashss.se.animalenrichmenttrackerservice.activity.requests.ViewHabitatRequest;
 import com.nashss.se.animalenrichmenttrackerservice.activity.results.ViewEnrichmentActivityResult;
-import com.nashss.se.animalenrichmenttrackerservice.activity.results.ViewHabitatResult;
 import com.nashss.se.animalenrichmenttrackerservice.dynamodb.EnrichmentActivityDao;
 import com.nashss.se.animalenrichmenttrackerservice.dynamodb.models.EnrichmentActivity;
-import com.nashss.se.animalenrichmenttrackerservice.dynamodb.models.Habitat;
-import com.nashss.se.animalenrichmenttrackerservice.helper.EnrichmentActivityTestHelper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 
 import java.time.LocalDate;
-import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.when;
@@ -49,7 +44,7 @@ public class ViewEnrichmentActivityActivityTest {
         activity.setEnrichmentId(enrichId);
         activity.setKeeperRating(rating);
         activity.setDescription(desc);
-        activity.setName(name);
+        activity.setActivityName(name);
 
         when(enrichmentActivityDao.getEnrichmentActivity(activityId)).thenReturn(activity);
 
@@ -68,6 +63,6 @@ public class ViewEnrichmentActivityActivityTest {
         assertEquals(enrichId, result.getEnrichmentActivity().getEnrichmentId());
         assertEquals(rating, result.getEnrichmentActivity().getKeeperRating());
         assertEquals(desc, result.getEnrichmentActivity().getDescription());
-        assertEquals(name, result.getEnrichmentActivity().getName());
+        assertEquals(name, result.getEnrichmentActivity().getActivityName());
     }
 }

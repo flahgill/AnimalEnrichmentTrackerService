@@ -5,12 +5,12 @@ import java.util.Objects;
 public class EnrichmentModel {
 
     private final String enrichmentId;
-    private final String name;
+    private final String activityName;
     private final String description;
 
-    private EnrichmentModel(String enrichmentId, String name, String description) {
+    private EnrichmentModel(String enrichmentId, String activityName, String description) {
         this.enrichmentId = enrichmentId;
-        this.name = name;
+        this.activityName = activityName;
         this.description = description;
     }
 
@@ -18,8 +18,8 @@ public class EnrichmentModel {
         return enrichmentId;
     }
 
-    public String getName() {
-        return name;
+    public String getActivityName() {
+        return activityName;
     }
 
     public String getDescription() {
@@ -35,12 +35,12 @@ public class EnrichmentModel {
             return false;
         }
         EnrichmentModel that = (EnrichmentModel) o;
-        return Objects.equals(enrichmentId, that.enrichmentId) && Objects.equals(name, that.name);
+        return Objects.equals(enrichmentId, that.enrichmentId) && Objects.equals(activityName, that.activityName);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(enrichmentId, name);
+        return Objects.hash(enrichmentId, activityName);
     }
 
     //CHECKSTYLE:OFF:Builder
@@ -50,15 +50,15 @@ public class EnrichmentModel {
 
     public static class Builder {
         private String enrichmentId;
-        private String name;
+        private String activityName;
         private String description;
 
         public Builder withEnrichmentId(String enrichmentId) {
             this.enrichmentId = enrichmentId;
             return this;
         }
-        public Builder withName(String name) {
-            this.name = name;
+        public Builder withActivityName(String activityName) {
+            this.activityName = activityName;
             return this;
         }
         public Builder withDescription(String description) {
@@ -67,7 +67,7 @@ public class EnrichmentModel {
         }
 
         public EnrichmentModel build() {
-            return new EnrichmentModel(enrichmentId, name, description);
+            return new EnrichmentModel(enrichmentId, activityName, description);
         }
     }
 }

@@ -62,7 +62,7 @@ public class ModelConverter {
         return EnrichmentActivityModel.builder()
                 .withActivityId(enrichmentActivity.getActivityId())
                 .withEnrichmentId(enrichmentActivity.getEnrichmentId())
-                .withName(enrichmentActivity.getName())
+                .withActivityName(enrichmentActivity.getActivityName())
                 .withKeeperRating(enrichmentActivity.getKeeperRating())
                 .withDescription(enrichmentActivity.getDescription())
                 .withDateCompleted(enrichmentActivity.getDateCompleted())

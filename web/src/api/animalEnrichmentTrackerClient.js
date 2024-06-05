@@ -18,7 +18,7 @@ export default class AnimalEnrichmentTrackerClient extends BindingClass {
         const methodsToBind = ['clientLoaded', 'getIdentity', 'login', 'logout', 'getHabitat', 'createHabitat', 'getUserHabitats',
         'removeHabitat', 'updateHabitat', 'getAnimalsForHabitat', 'addAnimalToHabitat', 'removeAnimalFromHabitat', 'getAllHabitats',
         'getHabitatEnrichments', 'addEnrichmentToHabitat', 'removeEnrichmentActivityFromHabitat', 'getEnrichmentActivity', 'getAllEnrichmentActivities',
-        'removeEnrichmentActivity'];
+        'removeEnrichmentActivity', 'searchEnrichmentActivities'];
         this.bindClassMethods(methodsToBind, this);
 
         this.authenticator = new Authenticator();;
@@ -87,6 +87,24 @@ export default class AnimalEnrichmentTrackerClient extends BindingClass {
             const response = await this.axiosClient.get(`habitats/search?${queryString}`);
 
             return response.data.habitats;
+        } catch (error) {
+            this.handleError(error, errorCallback)
+        }
+    }
+
+    /**
+     * Search for an enrichment activity.
+     * @param criteria A string containing search criteria to pass to the API.
+     * @returns The activities that match the search criteria.
+     */
+    async searchEnrichmentActivities(criteria, errorCallback) {
+        try {
+            const queryParams = new URLSearchParams({ q: criteria })
+            const queryString = queryParams.toString();
+
+            const response = await this.axiosClient.get(`enrichmentActivities/search?${queryString}`);
+
+            return response.data.enrichmentActivities;
         } catch (error) {
             this.handleError(error, errorCallback)
         }

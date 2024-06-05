@@ -12,7 +12,7 @@ import java.util.Objects;
 @DynamoDBTable(tableName = "Enrichments")
 public class Enrichment {
     private String enrichmentId;
-    private String name;
+    private String activityName;
     private String description;
 
     @DynamoDBHashKey(attributeName = "enrichmentId")
@@ -24,13 +24,13 @@ public class Enrichment {
         this.enrichmentId = enrichmentId;
     }
 
-    @DynamoDBAttribute(attributeName = "name")
-    public String getName() {
-        return name;
+    @DynamoDBAttribute(attributeName = "activityName")
+    public String getActivityName() {
+        return activityName;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setActivityName(String activityName) {
+        this.activityName = activityName;
     }
 
     @DynamoDBAttribute(attributeName = "description")
@@ -51,19 +51,19 @@ public class Enrichment {
             return false;
         }
         Enrichment that = (Enrichment) o;
-        return Objects.equals(enrichmentId, that.enrichmentId) && Objects.equals(name, that.name);
+        return Objects.equals(enrichmentId, that.enrichmentId) && Objects.equals(activityName, that.activityName);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(enrichmentId, name);
+        return Objects.hash(enrichmentId, activityName);
     }
 
     @Override
     public String toString() {
         return "Enrichment{" +
                 "enrichmentId='" + enrichmentId + '\'' +
-                ", name='" + name + '\'' +
+                ", activityName='" + activityName + '\'' +
                 ", description='" + description + '\'' +
                 '}';
     }

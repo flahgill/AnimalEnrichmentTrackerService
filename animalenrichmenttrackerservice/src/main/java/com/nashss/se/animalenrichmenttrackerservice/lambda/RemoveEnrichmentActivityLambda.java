@@ -23,7 +23,7 @@ public class RemoveEnrichmentActivityLambda
                                 .withActivityId(path.get("activityId"))
                                 .withKeeperManagerId(authReq.getKeeperManagerId())
                                 .build());
-                },
+            },
             (request, serviceComponent) ->
                     serviceComponent.provideRemoveEnrichmentActivityActivity().handleRequest(request)
         );

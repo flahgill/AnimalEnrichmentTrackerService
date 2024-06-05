@@ -635,6 +635,47 @@ paths:
                   onHabitat:
                     type: boolean
 
+  /enrichmentActivities/search:
+    get:
+      tags:
+        - EnrichmentActivities
+      parameters:
+        - name: q
+          in: query
+          description: Search term (name, id, or description)
+          required: true
+          schema:
+            type: array
+            items:
+              type: string
+      summary: Search for an EnrichmentActivity (SearchEnrichmentActivitiesLambda)
+      responses:
+        "200":
+          description: a list of enrichmentActivities
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  activityId:
+                    type: string
+                  enrichmentId:
+                    type: string
+                  name:
+                    type: string
+                  keeperRating:
+                    type: integer
+                  description:
+                    type: string
+                  dateCompleted:
+                    type: LocalDate
+                  habitatId:
+                    type: string
+                  isComplete:
+                    type: string
+                  onHabitat:
+                    type: boolean
+
 
 
 
