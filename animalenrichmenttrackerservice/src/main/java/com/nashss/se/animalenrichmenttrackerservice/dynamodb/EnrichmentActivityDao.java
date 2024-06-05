@@ -125,7 +125,7 @@ public class EnrichmentActivityDao {
                 nameFilterExpression.append(
                         filterExpressionPart("activityName", valueMapPrefix, i));
                 idFilterExpression.append(
-                        filterExpressionPart("enrichmentId", valueMapPrefix, i));
+                        filterExpressionPart("activityId", valueMapPrefix, i));
                 descFilterExpression.append(
                         filterExpressionPart("description", valueMapPrefix, i));
             }

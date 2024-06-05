@@ -4,7 +4,7 @@
       "PutRequest": {
         "Item": {
           "enrichmentId": { "S": "01" },
-          "name": { "S": "Amazing Graze" },
+          "activityName": { "S": "Amazing Graze" },
           "description": { "S": "grazing tube"}
         }
       }
@@ -13,7 +13,7 @@
       "PutRequest": {
         "Item": {
           "enrichmentId": { "S": "02" },
-          "name": { "S": "Boomer Ball" },
+          "activityName": { "S": "Boomer Ball" },
           "description": { "S": "ball no handle"}
         }
       }
@@ -22,7 +22,7 @@
       "PutRequest": {
         "Item": {
           "enrichmentId": { "S": "03" },
-          "name": { "S": "Jolly Ball" },
+          "activityName": { "S": "Jolly Ball" },
           "description": { "S": "ball with handle"}
         }
       }
@@ -31,7 +31,7 @@
       "PutRequest": {
         "Item": {
           "enrichmentId": { "S": "04" },
-          "name": { "S": "Bubbles" },
+          "activityName": { "S": "Bubbles" },
           "description": { "S": "bubble machine"}
         }
       }
@@ -40,7 +40,7 @@
       "PutRequest": {
         "Item": {
           "enrichmentId": { "S": "05" },
-          "name": { "S": "Chalk Drawings" },
+          "activityName": { "S": "Chalk Drawings" },
           "description": { "S": "use in stalls"}
         }
       }
@@ -49,7 +49,7 @@
       "PutRequest": {
         "Item": {
           "enrichmentId": { "S": "06" },
-          "name": { "S": "Cup Feeder" },
+          "activityName": { "S": "Cup Feeder" },
           "description": { "S": "grain swivel feeder"}
         }
       }
@@ -58,7 +58,7 @@
       "PutRequest": {
         "Item": {
           "enrichmentId": { "S": "07" },
-          "name": { "S": "Hay Play Feeder" },
+          "activityName": { "S": "Hay Play Feeder" },
           "description": { "S": "fill with feed, can roll or hang"}
         }
       }
@@ -67,7 +67,7 @@
       "PutRequest": {
         "Item": {
           "enrichmentId": { "S": "08" },
-          "name": { "S": "Honeycomb Feeder" },
+          "activityName": { "S": "Honeycomb Feeder" },
           "description": { "S": "hanging box feeder"}
         }
       }
@@ -76,7 +76,7 @@
       "PutRequest": {
         "Item": {
           "enrichmentId": { "S": "09" },
-          "name": { "S": "Jolly Stall" },
+          "activityName": { "S": "Jolly Stall" },
           "description": { "S": "hanging stall ball toy"}
         }
       }
@@ -85,7 +85,7 @@
       "PutRequest": {
         "Item": {
           "enrichmentId": { "S": "10" },
-          "name": { "S": "Keg" },
+          "activityName": { "S": "Keg" },
           "description": { "S": "hang or leave free to roll, can have feed or treats"}
         }
       }
@@ -94,7 +94,7 @@
       "PutRequest": {
         "Item": {
           "enrichmentId": { "S": "11" },
-          "name": { "S": "Looks Lou" },
+          "activityName": { "S": "Looks Lou" },
           "description": { "S": "mirror to be hung or left free"}
         }
       }
@@ -103,7 +103,7 @@
       "PutRequest": {
         "Item": {
           "enrichmentId": { "S": "12" },
-          "name": { "S": "Paper Chains" },
+          "activityName": { "S": "Paper Chains" },
           "description": { "S": "hang in stalls or habitat"}
         }
       }
@@ -112,7 +112,7 @@
       "PutRequest": {
         "Item": {
           "enrichmentId": { "S": "13" },
-          "name": { "S": "Planter Bucket" },
+          "activityName": { "S": "Planter Bucket" },
           "description": { "S": "fill with feed or treats"}
         }
       }
@@ -121,7 +121,7 @@
       "PutRequest": {
         "Item": {
           "enrichmentId": { "S": "14" },
-          "name": { "S": "PVC Roller" },
+          "activityName": { "S": "PVC Roller" },
           "description": { "S": "fill with grain and put in difficult locations to reach"}
         }
       }
@@ -130,7 +130,7 @@
       "PutRequest": {
         "Item": {
           "enrichmentId": { "S": "15" },
-          "name": { "S": "Slow Feeder Bowls" },
+          "activityName": { "S": "Slow Feeder Bowls" },
           "description": { "S": "fill with grain or peanut butter"}
         }
       }
@@ -139,7 +139,7 @@
       "PutRequest": {
         "Item": {
           "enrichmentId": { "S": "16" },
-          "name": { "S": "Scents and Spices" },
+          "activityName": { "S": "Scents and Spices" },
           "description": { "S": "in habitats and stalls"}
         }
       }
@@ -148,7 +148,7 @@
       "PutRequest": {
         "Item": {
           "enrichmentId": { "S": "17" },
-          "name": { "S": "Sprinkler" },
+          "activityName": { "S": "Sprinkler" },
           "description": { "S": "water play and wallows"}
         }
       }
@@ -157,7 +157,7 @@
       "PutRequest": {
         "Item": {
           "enrichmentId": { "S": "18" },
-          "name": { "S": "Wiffle Ball Feeder" },
+          "activityName": { "S": "Wiffle Ball Feeder" },
           "description": { "S": "fill with treats, must be hung"}
         }
       }
@@ -166,7 +166,7 @@
       "PutRequest": {
         "Item": {
           "enrichmentId": { "S": "19" },
-          "name": { "S": "Weeble" },
+          "activityName": { "S": "Weeble" },
           "description": { "S": "leave free in habitat"}
         }
       }
@@ -175,7 +175,7 @@
       "PutRequest": {
         "Item": {
           "enrichmentId": { "S": "20" },
-          "name": { "S": "Squiggle Feeder" },
+          "activityName": { "S": "Squiggle Feeder" },
           "description": { "S": "add treats, put objects in that are too big for added difficulty"}
         }
       }
