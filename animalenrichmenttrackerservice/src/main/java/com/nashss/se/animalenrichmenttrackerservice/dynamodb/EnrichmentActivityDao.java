@@ -96,4 +96,65 @@ public class EnrichmentActivityDao {
 
         return this.dynamoDBMapper.scan(EnrichmentActivity.class, scanExpression);
     }
+
+    /**
+     * Performs a search (via a "scan") of the EnrichmentActivities table for activities matching the given criteria.
+     *
+     * "name", "id" and "description" attributes are searched.
+     * The criteria are an array of Strings. each element of the array is searched individually.
+     * ALL elements of the criteria array must appear in the name, id, or description (or all).
+     * Searches are CASE SENSITIVE.
+     *
+     * @param criteria an array of String containing search criteria.
+     * @return a List of EnrichmentActivity objects that match the search criteria.
+     */
+    public List<EnrichmentActivity> searchEnrichmentActivities(String[] criteria) {
+        DynamoDBScanExpression dynamoDBScanExpression = new DynamoDBScanExpression();
+
+        if (criteria.length > 0) {
+            Map<String, AttributeValue> valueMap = new HashMap<>();
+            String valueMapPrefix = ":c";
+
+            StringBuilder nameFilterExpression = new StringBuilder();
+            StringBuilder idFilterExpression = new StringBuilder();
+            StringBuilder descFilterExpression = new StringBuilder();
+
+            for (int i = 0; i < criteria.length; i++) {
+                valueMap.put(valueMapPrefix + i,
+                        new AttributeValue().withS(criteria[i]));
+                nameFilterExpression.append(
+                        filterExpressionPart("name", valueMapPrefix, i));
+                idFilterExpression.append(
+                        filterExpressionPart("enrichmentId", valueMapPrefix, i));
+                descFilterExpression.append(
+                        filterExpressionPart("getDescription", valueMapPrefix, i));
+            }
+
+            dynamoDBScanExpression.setExpressionAttributeValues(valueMap);
+            dynamoDBScanExpression.setFilterExpression(
+                    "(" + nameFilterExpression + ") or (" + idFilterExpression +
+                            ") or (" + descFilterExpression + ")");
+        }
+
+        return this.dynamoDBMapper.scan(EnrichmentActivity.class, dynamoDBScanExpression);
+    }
+
+    /**
+     * private helper method to parse filter expressions.
+     *
+     * @param target the targeted attribute of the searched table.
+     * @param valueMapNamePrefix prefix of the value map.
+     * @param position position to parse.
+     * @return StringBuilder to append to the filter expression.
+     */
+    private StringBuilder filterExpressionPart(String target, String valueMapNamePrefix, int position) {
+        String possiblyAnd = position == 0 ? "" : "and ";
+        return new StringBuilder()
+                .append(possiblyAnd)
+                .append("contains(")
+                .append(target)
+                .append(", ")
+                .append(valueMapNamePrefix).append(position)
+                .append(") ");
+    }
 }

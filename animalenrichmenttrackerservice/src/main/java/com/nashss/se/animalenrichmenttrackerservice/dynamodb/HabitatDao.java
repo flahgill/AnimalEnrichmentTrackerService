@@ -170,6 +170,14 @@ public class HabitatDao {
         return this.dynamoDBMapper.scan(Habitat.class, dynamoDBScanExpression);
     }
 
+    /**
+     * private helper method to parse filter expressions.
+     *
+     * @param target the targeted attribute of the searched table.
+     * @param valueMapNamePrefix prefix of the value map.
+     * @param position position to parse.
+     * @return StringBuilder to append to the filter expression.
+     */
     private StringBuilder filterExpressionPart(String target, String valueMapNamePrefix, int position) {
         String possiblyAnd = position == 0 ? "" : "and ";
         return new StringBuilder()
