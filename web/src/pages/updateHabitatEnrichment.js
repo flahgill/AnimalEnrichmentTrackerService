@@ -31,6 +31,8 @@ class UpdateHabitatEnrichment extends BindingClass {
 
         this.client = new AnimalEnrichmentTrackerClient();
         this.clientLoaded();
+
+        document.getElementById('ok-button').addEventListener("click", this.closeModal);
     }
 
     /**
@@ -52,12 +54,13 @@ class UpdateHabitatEnrichment extends BindingClass {
             return;
         }
 
-        document.getElementById('activity-name').innerText = activity.name;
+        document.getElementById('activity-name').innerText = activity.activityName;
         document.getElementById('activity-description').innerText = activity.description;
         document.getElementById('activity-date').innerText = activity.dateCompleted;
         document.getElementById('activity-complete').innerText = activity.isComplete;
         document.getElementById('activity-rating').innerText = activity.keeperRating;
         document.getElementById('activity-id').innerText = this.activityId;
+        document.getElementById('habitat-id').innerText = this.habitatId;
     }
 
     /**
@@ -82,15 +85,19 @@ class UpdateHabitatEnrichment extends BindingClass {
         const activity = this.dataStore.get('enrichmentActivity');
         const habitatId = activity.habitatId;
 
-
+        let errorOccured = false;
         const enrichmentActivity = await this.client.updateHabitatEnrichmentActivity(habitatId, this.activityId, newRating, newDate, newComplete, (error) => {
-            updateButton.innerText = origButtonText;
             errorMessageDisplay.innerText = `Error: ${error.message}`;
             errorMessageDisplay.classList.remove('hidden');
+            errorOccured = true;
+            this.showErrorModal(error.message);
+            updateButton.innerText = origButtonText;
         });
 
-        this.dataStore.set('enrichment-activity', enrichmentActivity);
-        this.redirectToHabitatEnrichments(this.activityId);
+        if (!errorOccured) {
+            this.dataStore.set('enrichment-activity', enrichmentActivity);
+            this.redirectToHabitatEnrichments(this.activityId);
+        }
     }
 
     /**
@@ -98,6 +105,18 @@ class UpdateHabitatEnrichment extends BindingClass {
      */
     redirectToHabitatEnrichments(activityId) {
         window.location.href = `/enrichmentActivity.html?activityId=${activityId}`;
+    }
+
+    async showErrorModal(message) {
+        const modal = document.getElementById('error-modal');
+        const modalMessage = document.getElementById('error-modal-message');
+        modalMessage.innerText = message;
+        modal.style.display = "block";
+    }
+
+    async closeModal() {
+        const modal = document.getElementById('error-modal');
+        modal.style.display = "none";
     }
 }
 

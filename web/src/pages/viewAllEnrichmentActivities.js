@@ -19,7 +19,7 @@ class ViewAllEnrichmentActivities extends BindingClass {
         super();
 
         this.bindClassMethods(['mount', 'toggleComplete', 'displayActivitiesResults', 'getHTMLForCompleteResults',
-         'removeActivity', 'reAddActivity'], this);
+         'removeActivity', 'reAddActivity', 'redirectToUpdateActivity'], this);
 
         // Create a new datastore with an initial "empty" state.
         this.dataStore = new DataStore(EMPTY_DATASTORE_STATE);
@@ -34,6 +34,7 @@ class ViewAllEnrichmentActivities extends BindingClass {
         document.getElementById('toggle-complete-btn').addEventListener('click', this.toggleComplete);
         document.getElementById('all-activities').addEventListener("click", this.removeActivity);
         document.getElementById('all-activities').addEventListener("click", this.reAddActivity);
+        document.getElementById('all-activities').addEventListener("click", this.redirectToUpdateActivity);
 
         this.client = new AnimalEnrichmentTrackerClient();
 
@@ -94,7 +95,7 @@ class ViewAllEnrichmentActivities extends BindingClass {
             return '<h4>No Activities found</h4>';
         }
 
-        let enrichHtml = '<table id="enrichments-table"><tr><th>Date Completed</th><th>Activity</th><th>Description</th><th>Enrichment Id</th><th>Rating</th><th>Activity Id</th><th>Completed</th><th>Habitat Id</th><th>Currently On Habitat</th><th>Restore To Habitat</th><th>Delete Permanently</th></tr>';
+        let enrichHtml = '<table id="enrichments-table"><tr><th>Date Completed</th><th>Activity</th><th>Description</th><th>Enrichment Id</th><th>Rating</th><th>Activity Id</th><th>Completed</th><th>Habitat Id</th><th>Currently On Habitat</th><th>Update Activity</th><th>Restore To Habitat</th><th>Delete Permanently</th></tr>';
         let enrich;
         for (enrich of completeResults) {
             enrichHtml += `
@@ -117,6 +118,7 @@ class ViewAllEnrichmentActivities extends BindingClass {
                    <span class="checkmark"></span>
                    </label>
                    </td>
+                   <td><button data-activity-id="${enrich.activityId}" data-habitat-id="${enrich.habitatId}" class="button update-activity">Update</button></td>
                    <td><button data-activity-id="${enrich.activityId}" data-habitat-id="${enrich.habitatId}" class="button readd-activity">Restore</button></td>
                    <td><button data-activity-id="${enrich.activityId}" class="button remove-activity">Delete</button></td>
                </tr>`;
@@ -192,6 +194,21 @@ class ViewAllEnrichmentActivities extends BindingClass {
         }
     }
 
+    /**
+    * When the update button is clicked, redirects to update activity page.
+    */
+    async redirectToUpdateActivity(e) {
+        const updateButton = e.target;
+        if (!updateButton.classList.contains("update-activity")) {
+            return;
+        }
+
+        updateButton.innerText = "Loading...";
+
+        if (updateButton != null) {
+            window.location.href = `/updateHabitatEnrichment.html?habitatId=${updateButton.dataset.habitatId}&activityId=${updateButton.dataset.activityId}`;
+        }
+    }
 
     async showErrorModal(message) {
         const modal = document.getElementById('error-modal');
