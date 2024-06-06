@@ -19,7 +19,7 @@ class ViewAllEnrichmentActivities extends BindingClass {
         super();
 
         this.bindClassMethods(['mount', 'toggleComplete', 'displayActivitiesResults', 'getHTMLForCompleteResults',
-         'removeActivity'], this);
+         'removeActivity', 'reAddActivity'], this);
 
         // Create a new datastore with an initial "empty" state.
         this.dataStore = new DataStore(EMPTY_DATASTORE_STATE);
@@ -33,6 +33,7 @@ class ViewAllEnrichmentActivities extends BindingClass {
     mount() {
         document.getElementById('toggle-complete-btn').addEventListener('click', this.toggleComplete);
         document.getElementById('all-activities').addEventListener("click", this.removeActivity);
+        document.getElementById('all-activities').addEventListener("click", this.reAddActivity);
 
         this.client = new AnimalEnrichmentTrackerClient();
 
@@ -93,7 +94,7 @@ class ViewAllEnrichmentActivities extends BindingClass {
             return '<h4>No Activities found</h4>';
         }
 
-        let enrichHtml = '<table id="enrichments-table"><tr><th>Date Completed</th><th>Activity</th><th>Description</th><th>Enrichment Id</th><th>Rating</th><th>Activity Id</th><th>Completed</th><th>Habitat Id</th><th>Currently On Habitat</th><th>Delete Permanently</th></tr>';
+        let enrichHtml = '<table id="enrichments-table"><tr><th>Date Completed</th><th>Activity</th><th>Description</th><th>Enrichment Id</th><th>Rating</th><th>Activity Id</th><th>Completed</th><th>Habitat Id</th><th>Currently On Habitat</th><th>Restore To Habitat</th><th>Delete Permanently</th></tr>';
         let enrich;
         for (enrich of completeResults) {
             enrichHtml += `
@@ -116,6 +117,7 @@ class ViewAllEnrichmentActivities extends BindingClass {
                    <span class="checkmark"></span>
                    </label>
                    </td>
+                   <td><button data-activity-id="${enrich.activityId}" data-habitat-id="${enrich.habitatId}" class="button readd-activity">Restore</button></td>
                    <td><button data-activity-id="${enrich.activityId}" class="button remove-activity">Delete</button></td>
                </tr>`;
         }
@@ -155,6 +157,41 @@ class ViewAllEnrichmentActivities extends BindingClass {
             document.getElementById(rowId).remove();
         }
     }
+
+    /**
+    * when re-add button is clicked, re-establishes activity to habitat
+    */
+    async reAddActivity(e) {
+        const reAddButton = e.target;
+        if (!reAddButton.classList.contains('readd-activity')) {
+            return;
+        }
+
+        const activityId = reAddButton.dataset.activityId;
+        const habitatId = reAddButton.dataset.habitatId;
+        console.log(activityId);
+        console.log(habitatId);
+
+        reAddButton.innerText = "Adding...";
+
+        const errorMessageDisplay = document.getElementById('error-message');
+        errorMessageDisplay.innerText = ``;
+        errorMessageDisplay.classList.add('hidden');
+
+        let errorOccured = false;
+        const updatedActivities = await this.client.reAddActivityToHabitat(habitatId, activityId, (error) => {
+            errorMessageDisplay.innerText = `Error: ${error.message}`;
+            errorMessageDisplay.classList.remove('hidden');
+            errorOccured = true;
+            this.showErrorModal(error.message);
+            reAddButton.innerText = "Restore";
+        });
+
+        if (!errorOccured) {
+            window.location.href = `/viewHabitatEnrichments.html?habitatId=${habitatId}`;
+        }
+    }
+
 
     async showErrorModal(message) {
         const modal = document.getElementById('error-modal');
