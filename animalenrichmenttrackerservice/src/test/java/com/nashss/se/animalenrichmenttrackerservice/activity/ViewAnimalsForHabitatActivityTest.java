@@ -33,7 +33,7 @@ public class ViewAnimalsForHabitatActivityTest {
     public void handleRequest_savedHabitatFound_returnsHabitatListOfAnimalsInResult() {
         // GIVEN
         Habitat habitat = HabitatTestHelper.generateHabitatWithNEnrichments(3);
-        habitat.setAnimalsInHabitat(List.of("Jim", "Dwight", "Pam"));
+        habitat.setAnimalsInHabitat(List.of("Dwight", "Jim", "Pam"));
 
         when(habitatDao.getHabitat(habitat.getHabitatId())).thenReturn(habitat);
 
