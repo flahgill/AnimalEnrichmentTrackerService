@@ -7,6 +7,8 @@ import com.nashss.se.animalenrichmenttrackerservice.dynamodb.EnrichmentActivityD
 import com.nashss.se.animalenrichmenttrackerservice.dynamodb.HabitatDao;
 import com.nashss.se.animalenrichmenttrackerservice.dynamodb.models.EnrichmentActivity;
 import com.nashss.se.animalenrichmenttrackerservice.dynamodb.models.Habitat;
+import com.nashss.se.animalenrichmenttrackerservice.exceptions.EnrichmentActivityCurrentlyOnHabitatException;
+import com.nashss.se.animalenrichmenttrackerservice.exceptions.IncompatibleHabitatIdException;
 import com.nashss.se.animalenrichmenttrackerservice.exceptions.UserSecurityException;
 import com.nashss.se.animalenrichmenttrackerservice.models.EnrichmentActivityModel;
 
@@ -50,6 +52,11 @@ public class ReAddEnrichmentActivityToHabitatActivity {
      * <p>
      * returns the saved habitat's updated list of enrichments
      * <p>
+     * If the activity is already on a habitat, throws EnrichmentActivityCurrentlyOnHabitatException.
+     * <p>
+     * If the habitatId does not match the habitatId that the activity was originally removed from,
+     * throws IncompatibleHabitatIdException.
+     * <p>
      * If the keeper adding the enrichment is not the owner of the habitat, throws a UserSecurityException.
      *
      * @param reAddEnrichmentActivityToHabitatRequest request object containing the habitatId,
@@ -72,6 +79,17 @@ public class ReAddEnrichmentActivityToHabitatActivity {
 
         String activityId = reAddEnrichmentActivityToHabitatRequest.getActivityId();
         EnrichmentActivity eaToReAdd = enrichmentActivityDao.getEnrichmentActivity(activityId);
+
+        if (eaToReAdd.getOnHabitat()) {
+            throw new EnrichmentActivityCurrentlyOnHabitatException("Activity with Id [" + activityId + "] is " +
+                    "already on a habitat[" + eaToReAdd.getHabitatId() + "].");
+        }
+
+        if (!habitat.getHabitatId().equals(eaToReAdd.getHabitatId())) {
+            throw new IncompatibleHabitatIdException("Incompatible Habitat Id [" + habitatId + "]." +
+                    "Activity with Id [" + activityId + "] can only be re-added to " +
+                    "the original habitat with Id [" + eaToReAdd.getHabitatId() + "].");
+        }
 
         eaToReAdd.setOnHabitat(true);
 

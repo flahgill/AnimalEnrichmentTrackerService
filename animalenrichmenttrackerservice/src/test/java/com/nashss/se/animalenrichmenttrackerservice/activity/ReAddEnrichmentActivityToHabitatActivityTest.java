@@ -6,14 +6,15 @@ import com.nashss.se.animalenrichmenttrackerservice.dynamodb.EnrichmentActivityD
 import com.nashss.se.animalenrichmenttrackerservice.dynamodb.HabitatDao;
 import com.nashss.se.animalenrichmenttrackerservice.dynamodb.models.EnrichmentActivity;
 import com.nashss.se.animalenrichmenttrackerservice.dynamodb.models.Habitat;
+import com.nashss.se.animalenrichmenttrackerservice.exceptions.EnrichmentActivityCurrentlyOnHabitatException;
+import com.nashss.se.animalenrichmenttrackerservice.exceptions.IncompatibleHabitatIdException;
 import com.nashss.se.animalenrichmenttrackerservice.helper.EnrichmentActivityTestHelper;
 import com.nashss.se.animalenrichmenttrackerservice.helper.HabitatTestHelper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.mockito.MockitoAnnotations.initMocks;
@@ -38,6 +39,8 @@ public class ReAddEnrichmentActivityToHabitatActivityTest {
         String keeperId = habitat.getKeeperManagerId();
 
         EnrichmentActivity activity = EnrichmentActivityTestHelper.generateEnrichmentActivity(1);
+        activity.setOnHabitat(false);
+        activity.setHabitatId(habitatId);
         String activityId = activity.getActivityId();
 
         when(habitatDao.getHabitat(habitatId)).thenReturn(habitat);
@@ -60,5 +63,53 @@ public class ReAddEnrichmentActivityToHabitatActivityTest {
         assertEquals(4, result.getCompletedEnrichments().size());
         assertEquals(activityId, result.getCompletedEnrichments().get(0).getActivityId());
         assertTrue(result.getCompletedEnrichments().get(0).getOnHabitat());
+    }
+
+    @Test
+    public void handleRequest_activityCurrentlyOnHabitat_throwsEnrichmentActivityCurrentlyOnHabitatException() {
+        // GIVEN
+        Habitat habitat = HabitatTestHelper.generateHabitatWithNEnrichments(3);
+        String habitatId = habitat.getHabitatId();
+        String keeperId = habitat.getKeeperManagerId();
+
+        EnrichmentActivity activity = EnrichmentActivityTestHelper.generateEnrichmentActivity(1);
+        activity.setHabitatId(habitatId);
+        String activityId = activity.getActivityId();
+
+        when(habitatDao.getHabitat(habitatId)).thenReturn(habitat);
+        when(enrichmentActivityDao.getEnrichmentActivity(activityId)).thenReturn(activity);
+
+        ReAddEnrichmentActivityToHabitatRequest request = ReAddEnrichmentActivityToHabitatRequest.builder()
+                .withHabitatId(habitatId)
+                .withActivityId(activityId)
+                .withKeeperManagerId(keeperId)
+                .build();
+
+        // WHEN
+        assertThrows(EnrichmentActivityCurrentlyOnHabitatException.class, ()-> reAddEnrichmentActivityToHabitatActivity.handleRequest(request));
+    }
+
+    @Test
+    public void handleRequest_incompatibleHabitatId_throwsIncompatibleHabitatIdException() {
+        // GIVEN
+        Habitat habitat = HabitatTestHelper.generateHabitatWithNEnrichments(3);
+        String habitatId = habitat.getHabitatId();
+        String keeperId = habitat.getKeeperManagerId();
+
+        EnrichmentActivity activity = EnrichmentActivityTestHelper.generateEnrichmentActivity(1);
+        activity.setOnHabitat(false);
+        String activityId = activity.getActivityId();
+
+        when(habitatDao.getHabitat(habitatId)).thenReturn(habitat);
+        when(enrichmentActivityDao.getEnrichmentActivity(activityId)).thenReturn(activity);
+
+        ReAddEnrichmentActivityToHabitatRequest request = ReAddEnrichmentActivityToHabitatRequest.builder()
+                .withHabitatId(habitatId)
+                .withActivityId(activityId)
+                .withKeeperManagerId(keeperId)
+                .build();
+
+        // WHEN
+        assertThrows(IncompatibleHabitatIdException.class, ()-> reAddEnrichmentActivityToHabitatActivity.handleRequest(request));
     }
 }
