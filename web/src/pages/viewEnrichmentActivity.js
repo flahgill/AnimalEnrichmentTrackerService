@@ -10,7 +10,7 @@ class ViewHabitat extends BindingClass {
     constructor() {
         super();
         this.bindClassMethods(['clientLoaded', 'mount', 'addActivityToPage', 'redirectToUpdateActivity',
-        'removeActivity'], this);
+        'removeActivity', 'redirectToHabitat'], this);
         this.dataStore = new DataStore();
         this.dataStore.addChangeListener(this.addActivityToPage);
         this.header = new Header(this.dataStore);
@@ -35,6 +35,7 @@ class ViewHabitat extends BindingClass {
         this.header.addHeaderToPage();
         document.getElementById('update-activity').addEventListener("click", this.redirectToUpdateActivity);
         document.getElementById('remove-activity').addEventListener("click", this.removeActivity);
+        document.getElementById('view-habitat').addEventListener("click", this.redirectToHabitat);
 
         this.client = new AnimalEnrichmentTrackerClient();
         this.clientLoaded();
@@ -57,6 +58,7 @@ class ViewHabitat extends BindingClass {
         document.getElementById('activity-complete').innerText = enrichmentActivity.isComplete;
         document.getElementById('activity-rating').innerText = enrichmentActivity.keeperRating;
         document.getElementById('activity-id').innerText = enrichmentActivity.activityId;
+        document.getElementById('habitat-id').innerText = enrichmentActivity.habitatId;
     }
 
     /**
@@ -93,6 +95,20 @@ class ViewHabitat extends BindingClass {
         });
 
         removeButton.innerText = "Delete Activity";
+    }
+
+    async redirectToHabitat(e) {
+        const errorMessageDisplay = document.getElementById('error-message');
+        errorMessageDisplay.innerText = ``;
+        errorMessageDisplay.classList.add('hidden');
+
+        const activity = this.dataStore.get('enrichmentActivity');
+        const habitatId = activity.habitatId;
+
+        const habitatButton = e.target;
+        habitatButton.innerText = "Redirecting...";
+
+        window.location.href = `/habitat.html?habitatId=${habitatId}`;
     }
 
     async showErrorModal(message) {

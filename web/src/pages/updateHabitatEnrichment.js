@@ -90,14 +90,14 @@ class UpdateHabitatEnrichment extends BindingClass {
         });
 
         this.dataStore.set('enrichment-activity', enrichmentActivity);
-        this.redirectToHabitatEnrichments(habitatId);
+        this.redirectToHabitatEnrichments(this.activityId);
     }
 
     /**
      * When the habitat is updated in the datastore, redirect back to the habitat page.
      */
-    redirectToHabitatEnrichments(habitatId) {
-        window.location.href = `/viewHabitatEnrichments.html?habitatId=${habitatId}`;
+    redirectToHabitatEnrichments(activityId) {
+        window.location.href = `/enrichmentActivity.html?activityId=${activityId}`;
     }
 }
 
