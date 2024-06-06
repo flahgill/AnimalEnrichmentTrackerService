@@ -8,7 +8,6 @@ import com.nashss.se.animalenrichmenttrackerservice.dynamodb.HabitatDao;
 import com.nashss.se.animalenrichmenttrackerservice.dynamodb.models.EnrichmentActivity;
 import com.nashss.se.animalenrichmenttrackerservice.dynamodb.models.Habitat;
 import com.nashss.se.animalenrichmenttrackerservice.exceptions.EnrichmentActivityNotFoundException;
-import com.nashss.se.animalenrichmenttrackerservice.exceptions.EnrichmentActivityNotOnHabitatException;
 import com.nashss.se.animalenrichmenttrackerservice.exceptions.UserSecurityException;
 import com.nashss.se.animalenrichmenttrackerservice.models.EnrichmentActivityModel;
 
@@ -54,8 +53,6 @@ public class UpdateHabitatEnrichmentActivityActivity {
      * <p>
      * If the keeper adding the enrichment is not the owner of the habitat, throws a UserSecurityException.
      * <p>
-     * If the activity to be updated is not currently on a habitat, throws EnrichmentActivityNotOnHabitatException.
-     * <p>
      * If the activityId does not exist in the habitat's list of completedEnrichments, throws an
      * EnrichmentActivityNotFoundException.
      *
@@ -72,16 +69,12 @@ public class UpdateHabitatEnrichmentActivityActivity {
         Habitat habitat = habitatDao.getHabitat(habitatId);
 
         if (!habitat.getKeeperManagerId().equals(updateHabitatEnrichmentActivityRequest.getKeeperManagerId())) {
-            throw new UserSecurityException("You must own this habitat to update it's enrichment activity.");
+            throw new UserSecurityException("You must own the habitat this activity is associated with " +
+                    "to update the activity.");
         }
 
         String activityId = updateHabitatEnrichmentActivityRequest.getActivityId();
         EnrichmentActivity activityToUpdate = enrichmentActivityDao.getEnrichmentActivity(activityId);
-
-        if (!activityToUpdate.getOnHabitat()) {
-            throw new EnrichmentActivityNotOnHabitatException("Activity with id [" + activityId + "] is not " +
-                    "currently on a habitat, and cannot be updated.");
-        }
 
         activityToUpdate.setIsComplete(updateHabitatEnrichmentActivityRequest.getIsComplete());
         activityToUpdate.setKeeperRating(updateHabitatEnrichmentActivityRequest.getKeeperRating());

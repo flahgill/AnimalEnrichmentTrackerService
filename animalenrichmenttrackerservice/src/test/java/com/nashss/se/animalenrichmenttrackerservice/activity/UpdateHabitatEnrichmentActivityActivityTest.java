@@ -85,44 +85,44 @@ public class UpdateHabitatEnrichmentActivityActivityTest {
         assertEquals(expDate, result.getCompletedEnrichments().get(0).getDateCompleted());
     }
 
-    @Test
-    public void handleRequest_activityNotOnHabitat_throwsEnrichmentActivityNotOnHabitatException() {
-        // GIVEN
-        Habitat habitat = HabitatTestHelper.generateHabitatWithNEnrichments(3);
-        String habitatId = habitat.getHabitatId();
-        String keeperId = habitat.getKeeperManagerId();
-        String activityId = "456";
-        String expIsComplete = "isComplete";
-        int expKeeperRating = 10;
-        LocalDate expDate = LocalDate.of(2024, 06, 03);
-
-        EnrichmentActivity activityToUpdate = EnrichmentActivityTestHelper.generateEnrichmentActivity(1);
-        activityToUpdate.setActivityId(activityId);
-        activityToUpdate.setOnHabitat(false);
-        EnrichmentActivityModel updatedActivityModel = new ModelConverter().toEnrichmentActivityModel(activityToUpdate);
-
-        List<EnrichmentActivity> currActivityList = habitat.getCompletedEnrichments();
-        currActivityList.add(activityToUpdate);
-
-        habitat.setCompletedEnrichments(currActivityList);
-
-        when(habitatDao.getHabitat(habitatId)).thenReturn(habitat);
-        when(habitatDao.saveHabitat(habitat)).thenReturn(habitat);
-        when(enrichmentActivityDao.getEnrichmentActivity(activityId)).thenReturn(activityToUpdate);
-        when(enrichmentActivityDao.saveEnrichmentActivity(activityToUpdate)).thenReturn(activityToUpdate);
-
-        UpdateHabitatEnrichmentActivityRequest request = UpdateHabitatEnrichmentActivityRequest.builder()
-                .withHabitatId(habitatId)
-                .withKeeperManagerId(keeperId)
-                .withActivityId(activityId)
-                .withIsComplete(expIsComplete)
-                .withKeeperRating(expKeeperRating)
-                .withDateCompleted(expDate)
-                .build();
-
-        // WHEN && THEN
-        assertThrows(EnrichmentActivityNotOnHabitatException.class, () -> updateHabitatEnrichmentActivityActivity.handleRequest(request));
-    }
+//    @Test
+//    public void handleRequest_activityNotOnHabitat_throwsEnrichmentActivityNotOnHabitatException() {
+//        // GIVEN
+//        Habitat habitat = HabitatTestHelper.generateHabitatWithNEnrichments(3);
+//        String habitatId = habitat.getHabitatId();
+//        String keeperId = habitat.getKeeperManagerId();
+//        String activityId = "456";
+//        String expIsComplete = "isComplete";
+//        int expKeeperRating = 10;
+//        LocalDate expDate = LocalDate.of(2024, 06, 03);
+//
+//        EnrichmentActivity activityToUpdate = EnrichmentActivityTestHelper.generateEnrichmentActivity(1);
+//        activityToUpdate.setActivityId(activityId);
+//        activityToUpdate.setOnHabitat(false);
+//        EnrichmentActivityModel updatedActivityModel = new ModelConverter().toEnrichmentActivityModel(activityToUpdate);
+//
+//        List<EnrichmentActivity> currActivityList = habitat.getCompletedEnrichments();
+//        currActivityList.add(activityToUpdate);
+//
+//        habitat.setCompletedEnrichments(currActivityList);
+//
+//        when(habitatDao.getHabitat(habitatId)).thenReturn(habitat);
+//        when(habitatDao.saveHabitat(habitat)).thenReturn(habitat);
+//        when(enrichmentActivityDao.getEnrichmentActivity(activityId)).thenReturn(activityToUpdate);
+//        when(enrichmentActivityDao.saveEnrichmentActivity(activityToUpdate)).thenReturn(activityToUpdate);
+//
+//        UpdateHabitatEnrichmentActivityRequest request = UpdateHabitatEnrichmentActivityRequest.builder()
+//                .withHabitatId(habitatId)
+//                .withKeeperManagerId(keeperId)
+//                .withActivityId(activityId)
+//                .withIsComplete(expIsComplete)
+//                .withKeeperRating(expKeeperRating)
+//                .withDateCompleted(expDate)
+//                .build();
+//
+//        // WHEN && THEN
+//        assertThrows(EnrichmentActivityNotOnHabitatException.class, () -> updateHabitatEnrichmentActivityActivity.handleRequest(request));
+//    }
 
     @Test
     public void handleRequest_noHabitatFound_throwsHabitatNotFoundException() {
