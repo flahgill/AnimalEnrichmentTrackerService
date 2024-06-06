@@ -1,8 +1,12 @@
 package com.nashss.se.animalenrichmenttrackerservice.activity.requests;
 
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
+
 /**
  * ReAddEnrichmentActivityToHabitatRequest object class.
  */
+@JsonDeserialize(builder = ReAddEnrichmentActivityToHabitatRequest.Builder.class)
 public class ReAddEnrichmentActivityToHabitatRequest {
     private final String habitatId;
     private final String activityId;
@@ -47,6 +51,7 @@ public class ReAddEnrichmentActivityToHabitatRequest {
     public static Builder builder() {
         return new Builder();
     }
+    @JsonPOJOBuilder
     public static class Builder {
         private String habitatId;
         private String activityId;
