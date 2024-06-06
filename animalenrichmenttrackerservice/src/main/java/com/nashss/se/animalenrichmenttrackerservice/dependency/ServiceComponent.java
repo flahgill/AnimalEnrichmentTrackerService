@@ -3,6 +3,7 @@ package com.nashss.se.animalenrichmenttrackerservice.dependency;
 import com.nashss.se.animalenrichmenttrackerservice.activity.AddAnimalToHabitatActivity;
 import com.nashss.se.animalenrichmenttrackerservice.activity.AddEnrichmentActivityToHabitatActivity;
 import com.nashss.se.animalenrichmenttrackerservice.activity.AddHabitatActivity;
+import com.nashss.se.animalenrichmenttrackerservice.activity.ReAddEnrichmentActivityToHabitatActivity;
 import com.nashss.se.animalenrichmenttrackerservice.activity.RemoveAnimalFromHabitatActivity;
 import com.nashss.se.animalenrichmenttrackerservice.activity.RemoveEnrichmentActivityActivity;
 import com.nashss.se.animalenrichmenttrackerservice.activity.RemoveEnrichmentActivityFromHabitatActivity;
@@ -141,4 +142,10 @@ public interface ServiceComponent {
      * @return SearchEnrichmentsActivity
      */
     SearchEnrichmentsActivity provideSearchEnrichmentsActivity();
+
+    /**
+     * Provides the relevant activity.
+     * @return ReAddEnrichmentActivityToHabitatActivity
+     */
+    ReAddEnrichmentActivityToHabitatActivity provideReAddEnrichmentActivityToHabitatActivity();
 }
