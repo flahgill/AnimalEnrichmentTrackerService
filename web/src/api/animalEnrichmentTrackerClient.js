@@ -18,7 +18,7 @@ export default class AnimalEnrichmentTrackerClient extends BindingClass {
         const methodsToBind = ['clientLoaded', 'getIdentity', 'login', 'logout', 'getHabitat', 'createHabitat', 'getUserHabitats',
         'removeHabitat', 'updateHabitat', 'getAnimalsForHabitat', 'addAnimalToHabitat', 'removeAnimalFromHabitat', 'getAllHabitats',
         'getHabitatEnrichments', 'addEnrichmentToHabitat', 'removeEnrichmentActivityFromHabitat', 'getEnrichmentActivity', 'getAllEnrichmentActivities',
-        'removeEnrichmentActivity', 'searchEnrichmentActivities', 'searchEnrichments'];
+        'removeEnrichmentActivity', 'searchEnrichmentActivities', 'searchEnrichments', 'reAddActivityToHabitat'];
         this.bindClassMethods(methodsToBind, this);
 
         this.authenticator = new Authenticator();;
@@ -475,6 +475,30 @@ export default class AnimalEnrichmentTrackerClient extends BindingClass {
                    }
                    this.handleError(error, errorCallback);
                }
+       }
+
+       /**
+        * Re-adds an existing activity back to it's associated habitat.
+        * @param habitatId the Id of the habitat to add back to.
+        * @param activityId the Id of the activity to add.
+        * @param errorCallback (Optional) A function to execute if the call fails.
+        * @returns The habitat that has been created.
+        */
+       async reAddActivityToHabitat(habitatId, activityId, errorCallback) {
+       try {
+              const token = await this.getTokenOrThrow("Only authenticated users can update their habitat");
+              const response = await this.axiosClient.put(`habitats/${habitatId}/enrichmentActivities`, {
+                  habitatId: habitatId,
+                  activityId: activityId
+              }, {
+                  headers: {
+                      Authorization: `Bearer ${token}`
+                  }
+              });
+              return response.data.completedEnrichments;
+           } catch (error) {
+              this.handleError(error, errorCallback)
+           }
        }
 
     /**
