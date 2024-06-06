@@ -8,6 +8,8 @@ import com.nashss.se.animalenrichmenttrackerservice.dynamodb.models.Habitat;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -47,8 +49,12 @@ public class ViewAnimalsForHabitatActivity {
         Habitat habitat = habitatDao.getHabitat(viewAnimalsForHabitatRequest.getHabitatId());
         List<String> animalsInHabitat = habitat.getAnimalsInHabitat();
 
+        List<String> sortedAnimals = new ArrayList<>(animalsInHabitat);
+
+        Collections.sort(sortedAnimals);
+
         return ViewAnimalsForHabitatResult.builder()
-                .withAnimalsInHabitat(animalsInHabitat)
+                .withAnimalsInHabitat(sortedAnimals)
                 .build();
     }
 }

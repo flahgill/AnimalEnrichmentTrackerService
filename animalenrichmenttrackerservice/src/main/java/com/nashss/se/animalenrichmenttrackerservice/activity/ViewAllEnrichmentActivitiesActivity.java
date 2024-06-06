@@ -2,6 +2,7 @@ package com.nashss.se.animalenrichmenttrackerservice.activity;
 
 import com.nashss.se.animalenrichmenttrackerservice.activity.requests.ViewAllEnrichmentActivitiesRequest;
 import com.nashss.se.animalenrichmenttrackerservice.activity.results.ViewAllEnrichmentActivitiesResult;
+import com.nashss.se.animalenrichmenttrackerservice.comparators.EnrichmentActivityDateComparator;
 import com.nashss.se.animalenrichmenttrackerservice.converters.ModelConverter;
 import com.nashss.se.animalenrichmenttrackerservice.dynamodb.EnrichmentActivityDao;
 
@@ -11,6 +12,7 @@ import com.nashss.se.animalenrichmenttrackerservice.models.EnrichmentActivityMod
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import java.util.Collections;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -56,6 +58,8 @@ public class ViewAllEnrichmentActivitiesActivity {
 
         List<EnrichmentActivity> activities = enrichmentActivityDao.getAllEnrichmentActivities(completeStatusRequest);
         List<EnrichmentActivityModel> activityModels = new ModelConverter().toEnrichmentActivityModelList(activities);
+        activityModels.sort(new EnrichmentActivityDateComparator());
+        Collections.reverse(activityModels);
 
         return ViewAllEnrichmentActivitiesResult.builder()
                 .withEnrichmentActivities(activityModels)
