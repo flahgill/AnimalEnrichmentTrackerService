@@ -750,6 +750,26 @@ paths:
                 type: array
                 items:
                   type: string
+    put:
+      tags:
+        - AcceptableEnrichmentIds
+      summary: add an id to a list of acceptableEnrichmentsIds (AddAcceptableIdLambda)
+      parameters:
+        - name: habitatId
+          in: path
+          description: ID of habitat
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: A list of acceptableEnrichmentIds
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: string
 
 
 
