@@ -18,7 +18,7 @@ export default class AnimalEnrichmentTrackerClient extends BindingClass {
         const methodsToBind = ['clientLoaded', 'getIdentity', 'login', 'logout', 'getHabitat', 'createHabitat', 'getUserHabitats',
         'removeHabitat', 'updateHabitat', 'getAnimalsForHabitat', 'addAnimalToHabitat', 'removeAnimalFromHabitat', 'getAllHabitats',
         'getHabitatEnrichments', 'addEnrichmentToHabitat', 'removeEnrichmentActivityFromHabitat', 'getEnrichmentActivity', 'getAllEnrichmentActivities',
-        'removeEnrichmentActivity', 'searchEnrichmentActivities', 'searchEnrichments', 'reAddActivityToHabitat'];
+        'removeEnrichmentActivity', 'searchEnrichmentActivities', 'searchEnrichments', 'reAddActivityToHabitat', 'getAcceptableIds'];
         this.bindClassMethods(methodsToBind, this);
 
         this.authenticator = new Authenticator();;
@@ -498,6 +498,21 @@ export default class AnimalEnrichmentTrackerClient extends BindingClass {
               return response.data.completedEnrichments;
            } catch (error) {
               this.handleError(error, errorCallback)
+           }
+       }
+
+       /**
+        * Gets the habitat's list of acceptable enrichment Ids for the given ID.
+        * @param habitatId Unique identifier for a habitat
+        * @param errorCallback (Optional) A function to execute if the call fails.
+        * @returns {Promise<string[]>} The habitat's list of acceptable enrichment Ids.
+        */
+       async getAcceptableIds(habitatId, errorCallback) {
+           try {
+               const response = await this.axiosClient.get(`habitats/${habitatId}/acceptableIds`);
+               return response.data.acceptableEnrichmentIds;
+           } catch (error) {
+               this.handleError(error, errorCallback)
            }
        }
 
