@@ -9,7 +9,7 @@ import DataStore from "../util/DataStore";
 class ViewAcceptableIds extends BindingClass {
     constructor() {
         super();
-        this.bindClassMethods(['clientLoaded', 'mount', 'addAnimalsToPage'], this);
+        this.bindClassMethods(['clientLoaded', 'mount', 'addAnimalsToPage', 'addId'], this);
         this.dataStore = new DataStore();
         this.dataStore.addChangeListener(this.addAnimalsToPage);
         this.header = new Header(this.dataStore);
@@ -34,6 +34,7 @@ class ViewAcceptableIds extends BindingClass {
      * Add the header to the page and load the AnimalEnrichmentTrackerClient.
      */
     mount() {
+        document.getElementById('add-id-btn').addEventListener('click', this.addId);
         this.header.addHeaderToPage();
 
         this.client = new AnimalEnrichmentTrackerClient();
@@ -75,6 +76,38 @@ class ViewAcceptableIds extends BindingClass {
 
         idsHtml += '</table>';
         document.getElementById('acceptable-ids').innerHTML = idsHtml;
+    }
+
+    /*
+    * method to run when the add id submit button is pressed. Call the AnimalEnrichmentTrackerClient to add
+    * an id to a habitat's list of acceptable enrichment ids.
+    */
+    async addId() {
+        const errorMessageDisplay = document.getElementById('add-id-error-message');
+        errorMessageDisplay.innerText = ``;
+        errorMessageDisplay.classList.add('hidden');
+
+        const habitat = this.dataStore.get('habitat');
+        if (habitat == null) {
+            return;
+        }
+
+        document.getElementById('add-id-btn').innerText = 'Adding...';
+        const idToBeAdded = document.getElementById('acceptable-id').value;
+        const habitatId = habitat.habitatId;
+
+        const acceptableIds = await this.client.addAcceptableId(habitatId, idToBeAdded, (error) => {
+           errorMessageDisplay.innerText = `Error: ${error.message}`;
+           errorMessageDisplay.classList.remove('hidden');
+           this.showErrorModal(error.message);
+        });
+
+        this.dataStore.set('acceptableIds', acceptableIds);
+        document.getElementById('add-id-btn').innerText = 'Add';
+
+        if (acceptableIds.includes(idToBeAdded)) {
+            location.reload();
+        }
     }
 
     async showErrorModal(message) {

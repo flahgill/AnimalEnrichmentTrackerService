@@ -18,7 +18,7 @@ export default class AnimalEnrichmentTrackerClient extends BindingClass {
         const methodsToBind = ['clientLoaded', 'getIdentity', 'login', 'logout', 'getHabitat', 'createHabitat', 'getUserHabitats',
         'removeHabitat', 'updateHabitat', 'getAnimalsForHabitat', 'addAnimalToHabitat', 'removeAnimalFromHabitat', 'getAllHabitats',
         'getHabitatEnrichments', 'addEnrichmentToHabitat', 'removeEnrichmentActivityFromHabitat', 'getEnrichmentActivity', 'getAllEnrichmentActivities',
-        'removeEnrichmentActivity', 'searchEnrichmentActivities', 'searchEnrichments', 'reAddActivityToHabitat', 'getAcceptableIds'];
+        'removeEnrichmentActivity', 'searchEnrichmentActivities', 'searchEnrichments', 'reAddActivityToHabitat', 'getAcceptableIds', 'addAcceptableId'];
         this.bindClassMethods(methodsToBind, this);
 
         this.authenticator = new Authenticator();;
@@ -276,7 +276,7 @@ export default class AnimalEnrichmentTrackerClient extends BindingClass {
      /**
       * Add an animal to an existing Habitat.
       * @param habitatId the Id of the habitat to update.
-      * @param animalToAdd the animal to be removed
+      * @param animalToAdd the animal to be added
       * @param errorCallback (Optional) A function to execute if the call fails.
       * @returns {Promise<string[]>} The habitat's list of animals.
       */
@@ -515,6 +515,30 @@ export default class AnimalEnrichmentTrackerClient extends BindingClass {
                this.handleError(error, errorCallback)
            }
        }
+
+       /**
+        * Add an acceptable enrichment id to an existing Habitat.
+        * @param habitatId the Id of the habitat to update.
+        * @param idToAdd the id to be added
+        * @param errorCallback (Optional) A function to execute if the call fails.
+        * @returns {Promise<string[]>} The habitat's list of acceptable enrichment ids.
+        */
+        async addAcceptableId(habitatId, idToAdd, errorCallback) {
+            try {
+                const token = await this.getTokenOrThrow("Only authenticated users can update their habitat");
+                const response = await this.axiosClient.put(`habitats/${habitatId}/acceptableIds`, {
+                    habitatId: habitatId,
+                    idToAdd: idToAdd
+                }, {
+                    headers: {
+                        Authorization: `Bearer ${token}`
+                    }
+                });
+                return response.data.acceptableEnrichmentIds;
+            } catch (error) {
+               this.handleError(error, errorCallback)
+            }
+        }
 
     /**
      * Helper method to log the error and run any error functions.
