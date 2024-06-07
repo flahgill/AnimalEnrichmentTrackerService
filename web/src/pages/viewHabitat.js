@@ -10,7 +10,7 @@ class ViewHabitat extends BindingClass {
     constructor() {
         super();
         this.bindClassMethods(['clientLoaded', 'mount', 'addHabitatToPage', 'redirectToViewAnimals', 'removeHabitat',
-        'redirectToUpdateHabitat', 'redirectToViewHabitatEnrichments'], this);
+        'redirectToUpdateHabitat', 'redirectToViewHabitatEnrichments', 'redirectToViewAcceptableIds'], this);
         this.dataStore = new DataStore();
         this.dataStore.addChangeListener(this.addHabitatToPage);
         this.header = new Header(this.dataStore);
@@ -34,6 +34,7 @@ class ViewHabitat extends BindingClass {
     mount() {
         this.header.addHeaderToPage();
         document.getElementById('view-animals-button').addEventListener("click", this.redirectToViewAnimals);
+        document.getElementById('view-acceptable-ids-button').addEventListener("click", this.redirectToViewAcceptableIds)
         document.getElementById('remove-habitat').addEventListener("click", this.removeHabitat);
         document.getElementById('update-habitat').addEventListener("click", this.redirectToUpdateHabitat);
         document.getElementById('view-habitat-enrichments-button').addEventListener("click", this.redirectToViewHabitatEnrichments);
@@ -58,6 +59,7 @@ class ViewHabitat extends BindingClass {
         document.getElementById('habitat-id').innerText = habitat.habitatId;
         document.getElementById('total-animals').innerText = habitat.totalAnimals;
         document.getElementById('active-status').innerText = habitat.isActive;
+        document.getElementById('acceptable-ids').innerText = habitat.acceptableEnrichmentIds;
 
         let speciesHtml = '';
         let spec;
@@ -67,10 +69,22 @@ class ViewHabitat extends BindingClass {
         document.getElementById('species').innerHTML = speciesHtml;
     }
 
+    /**
+    * when view animals button is clicked, redirects to view animals page.
+    */
     async redirectToViewAnimals(e) {
         const habitat = this.dataStore.get('habitat');
         const habitatId = habitat.habitatId;
         window.location.href = `viewAnimals.html?habitatId=${habitatId}`;
+    }
+
+    /**
+    * when view acceptable ids button is clicked, redirects to view Acceptable Ids page.
+    */
+    async redirectToViewAcceptableIds(e) {
+        const habitat = this.dataStore.get('habitat');
+        const habitatId = habitat.habitatId;
+        window.location.href = `viewAcceptableIds.html?habitatId=${habitatId}`;
     }
 
     /**
