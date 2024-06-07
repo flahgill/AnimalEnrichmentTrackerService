@@ -41,7 +41,7 @@ public class ViewAnimalsForHabitatActivity {
      * returns the saved habitat's list of animals
      *
      * @param viewAnimalsForHabitatRequest request object containing the habitatId
-     * @return viewAnimalsForHabitatResult result object containing the list of animals
+     * @return viewAnimalsForHabitatResult result object containing the list of animals, sorted.
      */
     public ViewAnimalsForHabitatResult handleRequest(final ViewAnimalsForHabitatRequest viewAnimalsForHabitatRequest) {
         log.info("Recieved ViewAnimalsInHabitatRequest {}", viewAnimalsForHabitatRequest);
