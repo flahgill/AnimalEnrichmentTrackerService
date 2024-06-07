@@ -101,7 +101,6 @@ class ViewAnimals extends BindingClass {
         const habitatId = habitat.habitatId;
 
         const animals = await this.client.addAnimalToHabitat(habitatId, animalToBeAdded, (error) => {
-            debugger;
            errorMessageDisplay.innerText = `Error: ${error.message}`;
            errorMessageDisplay.classList.remove('hidden');
            this.showErrorModal(error.message);

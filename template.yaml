@@ -671,6 +671,8 @@ Resources:
           Properties:
             Path: /habitats/{habitatId}/acceptableIds
             Method: get
+            Auth:
+              Authorizer: 'NONE'
 
   AddAcceptableIdLambda:
     Type: AWS::Serverless::Function
@@ -691,6 +693,7 @@ Resources:
           Properties:
             Path: /habitats/{habitatId}/acceptableIds
             Method: put
+
 
   #-----------------------------------------------------
   # DynamoDB Configuration
