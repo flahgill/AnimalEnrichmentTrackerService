@@ -17,14 +17,15 @@ To streamline this process, the proposed Animal Enrichment Tracker Service (Safa
 - U9. As a user, I would like the ability to update an enrichment activity.
 - U10. As a user, I would like the ability to view all enrichments for a habitat.
 - U11. As a user, I would like the ability to view all enrichment activities sorted by date administered.
-- U12. As a user, I would like the ability to view all enrichment activities sorted by ratings and habitat.
-- U13. As a user, I would like the ability to search for habitats by habitat name, species, or animals in the habitat.
-- U14. As a user, I would like the ability to search for enrichments by name.
+- U12. As a user, I would like the ability to search for habitats by habitat name, species, or animals in the habitat.
+- U13. As a user, I would like the ability to search for enrichments by name.
 - [STRETCH GOALS]
-- U15. As a user, I would like the ability to add an animal object with specific attributes (more than just a string name) to a habitat.
-- U16. As a user, I would like the ability to remove an animal object with specific attributes (more than just a string name) from a habitat.
-- U17. As a user, I would like the ability to update an animal object with specific attributes (more than just a string name) in a habitat.
-- U18. As a user, I would like the ability to view all animal objects in a habitat.
+- U14. As a user, I would like the ability to add an animal object with specific attributes (more than just a string name) to a habitat.
+- U15. As a user, I would like the ability to remove an animal object with specific attributes (more than just a string name) from a habitat.
+- U16. As a user, I would like the ability to update an animal object with specific attributes (more than just a string name) in a habitat.
+- U17. As a user, I would like the ability to view all animal objects in a habitat.
+- U18. As a user, I would like the ability to view all enrichment activities sorted by ratings and habitat.
+
 
 ## 4. Project Scope
 
@@ -39,14 +40,13 @@ To streamline this process, the proposed Animal Enrichment Tracker Service (Safa
 ### 4.2. Out of Scope
 
 - Keeping track of the number of enrichment activities completed in a given week, and clearing that at the start of every week.
-- Scheduling enrichment activities for specific habitats in advance for a team of keepers to access.
 - Giving managers of keeper teams the ability to accept/deny scheduled enrichments posted by a member of the keeper team.
 - Giving multiple keepers access to add/remove enrichment activities to habitats they work on instead of just manager per habitat.
 
 ## 5. Proposed Architecture Overview
 
 - This initial iteration will provide the minimum lovable product (MLP) including creating, retrieving, and updating a habitat, as well as adding to and retrieving a saved habitat’s enrichment activities.
-- We will use API Gateway and Lambda to create fifteen endpoints (AddHabitat, RemoveHabitat, UpdateHabitat, ViewHabitat, AddAnimalToHabitat, RemoveAnimalFromHabitat, AddEnrichmentToHabitat, RemoveEnrichmentFromHabitat, UpdateHabitatEnrichment, viewUserHabitats, ViewHabitatEnrichments, SearchHabitats, SearchEnrichments, DeactivateHabitat, ViewInactiveHabitats) that will handle the creation, update, and retrieval of habitats and enrichments to satisfy our requirements.
+- We will use API Gateway and Lambda to create multiple endpoints (AddHabitat, RemoveHabitat, UpdateHabitat, ViewHabitat, AddAnimalToHabitat, RemoveAnimalFromHabitat, AddEnrichmentActivityToHabitat, RemoveEnrichmentActivityFromHabitat, UpdateHabitatEnrichmentActivity, ViewUserHabitats, ViewHabitatEnrichments, SearchHabitats, DeactivateHabitat, ViewAllHabitats, RemoveEnrichmentActivity, SearchEnrichmentActivities, SearchEnrichments, ViewAllEnrichmentActivities, ViewAcceptableEnrichmentIds, AddAcceptableId, RemoveAcceptableId, ReAddEnrichmentActivityToHabitat) that will handle the creation, update, and retrieval of habitats and enrichments to satisfy our requirements.
 - We will store newly created enrichment activities and habitats in DynamoDB. For simpler enrichment retrieval, we will store the list of enrichment activities in a given habitat directly in the habitats table.
 Animal Enrichment Tracker Service will also provide a web interface for users to manage habitats and enrichment activities. A main page providing a list view of all the keeper’s habitats will let them add/remove habitats. This will link off to pages per-habitat to update metadata and add/remove animals and/or enrichment activities.
 
@@ -56,31 +56,36 @@ Animal Enrichment Tracker Service will also provide a web interface for users to
 ### 6.1. Public Models
 
 // HabitatModel
-
 - String habitatId;
 - String habitatName;
 - String isActive;
 - List<String> species;
-- String keeperManagerName;
 - String keeperManagerId;
 - Int totalAnimals;
 - List<String> animalsInHabitat;
 - List<String> acceptableEnrichmentIds;
 - List<Enrichment> completedEnrichments;
 
-
 // EnrichmentModel
-
 - String enrichmentId;
-- String name;
-- Integer keeperRating;
+- String activityName;
+- String description;
+
+// EnrichmentActivityModel
+- String activityId;
+- String enrichmentId;
+- String activityName;
+- String keeperRating;
 - String description;
 - LocalDate dateCompleted;
+- String habitatId;
+- String isComplete;
+- Boolean onHabitat;
 
 ### 6.2. AddHabitat Endpoint
 
 - Accepts POST requests to /habitats
-- Accepts data to create a new habitat(habitatName, species, list of Animals). Returns the new habitat, including a unique habitat Id assigned by the Animal Enrichment Tracker Service.
+- Accepts data to create a new habitat(habitatName, species). Returns the new habitat, including a unique habitat Id assigned by the Animal Enrichment Tracker Service.
 - For security concerns, we will validate the provided habitat and species name does not contain any invalid characters: " ' \
    - If the habitat or species name contains any of the invalid characters, will throw an InvalidCharacterException.
 
@@ -88,13 +93,15 @@ Animal Enrichment Tracker Service will also provide a web interface for users to
 
 - Accepts DELETE requests to /habitats/:habitatId
 - accepts a habitat to be removed, habitat is specified by habitatId
-   - will throw HabitatNotFoundException if the given habitat id is not found
+   - If the given habitatId is not found, will throw HabitatNotFoundException
+   - If the keeper removing the habitat is not the owner, will throw UserSecurityException
 
 ### 6.4. UpdateHabitat Endpoint
 
 - Accepts PUT requests to /habitats/:habitatId
-- Accepts data to update a habitat including an updated habitat name and updated species name associated with the habitat. Returns the updated habitat.
+- Accepts data to update a habitat(name, species, active status(soft delete)). Returns the updated habitat.
    - If the habitatId is not found, will throw a HabitatNotFoundException
+   - If the keeper updating the habitat is not the owner, will throw UserSecurityException
    - For security concerns, we will validate the provided habitat and species name does not contain any invalid characters: " ' \
       - If the habitat or species name contains any of the invalid characters, will throw an InvalidCharacterException.
 
@@ -106,41 +113,46 @@ Animal Enrichment Tracker Service will also provide a web interface for users to
 
 ### 6.6. AddAnimalToHabitat Endpoint
 
-- Accepts PUT requests to /habitats/:habitatId/animals
+- Accepts POST requests to /habitats/:habitatId/animals
 - Accepts a habitatId and an animal to be added.
    - If the habitat is not found, will throw a HabitatNotFoundException
    - If the animal to be added is already present within the habitat, will throw a DuplicateAnimalException
+   - If the keeper adding the animal is not the owner of the habitat, will throw UserSecurityException
   - For security concerns, we will validate the provided animal name does not contain any invalid characters: " ' \
     - If the animal name contains any of the invalid characters, will throw an InvalidCharacterException.
 
 ### 6.7. RemoveAnimalFromHabitat Endpoint
 
-- Accepts PUT requests to /habitats/:habitatId/animals
+- Accepts DELETE requests to /habitats/:habitatId/animals
 - Accepts a habitatId and an animal to be removed.
+   - If the keeper removing the animal is not the owner of the habitat, will throw a UserSecurityException
    - If the habitat is not found, will throw a HabitatNotFoundException
    - If the animal is not found, will throw an AnimalNotFoundException
 
-### 6.8. AddEnrichmentToHabitat Endpoint
+### 6.8. AddEnrichmentActivityToHabitat Endpoint
 
-- Accepts POST requests to /habitats/:habitatId/enrichments
+- Accepts POST requests to /habitats/:habitatId/enrichmentActivities
 - Accepts a habitatId and an enrichment activity to be added, enrichment is specified by enrichmentId.
+   - If the keeper adding the activity to the habitat is not the owner, will throw UserSecurityException
    - If the habitat is not found, will throw a HabitatNotFoundException
-   - If the enrichment is not found, will throw an EnrichmentActivityNotFoundException
+   - If the enrichment is not found, will throw an EnrichmentNotFoundException
    - If the enrichment is not acceptable for the habitat, will throw an UnsuitableEnrichmentForHabitatException
 
-### 6.9. UpdateHabitatEnrichment Endpoint
+### 6.9. UpdateHabitatEnrichmentActivity Endpoint
 
-- Accepts POST requests to /habitats/:habitatId/enrichments
-- Accepts data to update an enrichment activity(keeperRating), a habitatId and an enrichment activity to be updated, enrichment is specified by enrichmentId.
+- Accepts POST requests to /habitats/:habitatId/enrichmentActivities
+- Accepts data to update an enrichment activity(keeperRating, dateCompleted, completion status), a habitatId and an enrichment activity to be updated, enrichment is specified by activityId.
+   - If the keeper updating the activity is not the owner of the habitat it is on or was originally added to, will throw UserSecurityException
    - If the habitat is not found, will throw a HabitatNotFoundException
-   - If the enrichment is not found, will throw an EnrichmentActivityNotFoundException
+   - If the enrichment activity is not found, will throw an EnrichmentActivityNotFoundException
 
-### 6.10. RemoveEnrichmentFromHabitat Endpoint
+### 6.10. RemoveEnrichmentActivityFromHabitat Endpoint (Soft Delete)
 
-- Accepts DELETE requests to /habitats/:habitatId/enrichments
-- Accepts data to remove an enrichment activity, enrichment is specified by enrichmentId.
+- Accepts DELETE requests to /habitats/:habitatId/enrichmentActivities
+- Accepts data to remove an enrichment activity, enrichment is specified by activityId.
+  - If the keeper removing the activity from the habitat is not the owner, will throw UserSecurityException
   - If the habitat is not found, will throw a HabitatNotFoundException
-  - If the enrichment is not found, will throw an EnrichmentActivityNotFoundException
+  - If the enrichment activity is not found, will throw an EnrichmentActivityNotFoundException
 
 ### 6.11. ViewHabitatsforUser Endpoint
 
@@ -148,27 +160,77 @@ Animal Enrichment Tracker Service will also provide a web interface for users to
 - Accepts a keeperManagerId and returns a list of Habitats created by that manager.
    - If the given manager has not created any habitats, an empty list will be returned
 
-### 6.12. ViewEnrichmentsforHabitat Endpoint
+### 6.12. ViewHabitatEnrichments Endpoint
 
-- Accepts GET requests to /habitats/:habitatId/enrichments
-- Accepts a habitatId and returns a list of corresponding EnrichmentModels
+- Accepts GET requests to /habitats/:habitatId/enrichmentActivities
+- Accepts a habitatId and returns a list of corresponding EnrichmentActivityModels
    - If the habitat is not found, will throw a HabitatNotFoundException
+   - If the given habitat does not have any enrichment activities, an empty list will be returned
 
 ### 6.13. SearchHabitats Endpoint
 
 - Accepts GET requests to /habitats/search
 - Accepts a search criteria and returns a list of associated Habitats
+  - If none of the habitats match the search criteria, an empty list will be returned
 
-### 6.14 DeactivateHabitat Endpoint (Soft Delete)
-
-- Accepts PUT requests to /habitats/:habitatId
-- Accepts data to update a habitat including the active status associated with the habitat. Returns the updated habitat.
-- If the habitatId is not found, will throw a HabitatNotFoundException.
-
-### 6.15 ViewAllHabitats Endpoint
+### 6.14 ViewAllHabitats Endpoint
 
 - Accepts GET requests to /habitats
-- returns a list of Habitats, and user will input the activity status they want to view.
+- Accepts habitat activity status and returns a list of HabitatModels that have that activity status
+
+### 6.15 RemoveEnrichmentActivity Endpoint (Hard Delete)
+
+- Accepts DELETE requests to /enrichmentActivities/:activityId
+- Accepts data to remove an enrichment activity, activity is specified by activityId.
+  - If the enrichmentActivity is not found, will thrown an EnrichmentActivityNotFoundException
+
+### 6.16 SearchEnrichmentActivities Endpoint
+
+- Accepts GET requests to /enrichmentActivities/search
+- Accepts a search criteria and returns a list of associated EnrichmentActivityModels
+  - If none of the enrichment activities match the search criteria, an empty list will be returned
+
+### 6.17 SearchEnrichments Endpoint
+
+- Accepts GET requests to /enrichments/search
+- Accepts a search criteria and returns a list of associated EnrichmentModels
+  - If none of the enrichment match the search criteria, an empty list will be returned
+
+### 6.18 ViewAllEnrichmentActivities Endpoint
+
+- Accepts GET requests to /enrichmentActivities
+- Accepts activity completion status and returns a list of EnrichmentActivityModels that have that completion status
+
+### 6.19 ViewAcceptableEnrichmentIds Endpoint
+
+- Accepts GET requests to /habitats/:habitatId/acceptableIds
+- Accepts a habitatId and returns a habitat's saved list of acceptableEnrichmentIds
+  - If the given habitatId is not found, throws HabitatNotFoundException
+
+### 6.20 AddAcceptableId Endpoint
+
+- Accepts PUT requests to /habitats/:habitatId/acceptableIds
+- Accepts a habitatId and an enrichmentId to add. Returns a habitat's saved list of acceptableEnrichmentIds
+  - If the keeper adding the acceptableId to the habitat is not the owner, will throw UserSecurityException
+  - If the given habitatId is not found, throws HabitatNotFoundException
+
+### 6.21 RemoveAcceptableId Endpoint
+
+- Accepts DELETE requests to /habitats/:habitatId/acceptableIds
+- Accepts a habitatId and an enrichmentId to remove. Returns a habitat's saved list of acceptableEnrichmentIds
+  - If the keeper removing the acceptableId from the habitat is not the owner, will throw UserSecurityException
+  - If the given habitatId is not found, throws HabitatNotFoundException
+  - If the acceptableId being removed is not in the habitat's saved list, will throw AcceptableIdNotFoundException
+
+### 6.22 ReAddEnrichmentActivityToHabitat Endpoint
+
+- Accepts PUT requests to /habitats/:habitatId/enrichmentActivities
+- Accepts a habitatId and activityId to re-add to the habitat. Returns a list of completedEnrichments on habitat.
+  - If the keeper reintroducing the activity is not the owner of the habitat, will throw UserSecurityException
+  - If the enrichment activity is not found, will throw an EnrichmentActivityNotFoundException
+  - If the habitatId is not found, will throw a HabitatNotFoundException.
+  - If the activity is already on a habitat, will throw a EnrichmentActivityCurrentlyOnHabitatException.
+  - If the habitatId does not match the habitatId that the activity was originally added to, will throw a IncompatibleHabitatIdException.
 
 ## 7. Tables
 
@@ -192,12 +254,25 @@ Animal Enrichment Tracker Service will also provide a web interface for users to
 ### 7.2. Enrichments
 
 - enrichmentId // partition key, string 
-- name // string  
-- keeperRating // number (keeperRating-enrichmentId-index)
+- activityName // string  
 - description // string  
-- dateCompleted // string
 
   * keeperRating-enrichmentId-index includes ALL attributes
+
+### 7.3. EnrichmentActivities
+
+- activityId // partition key, string
+- enrichmentId // string
+- activityName // string
+- keeperRating // number (keeperRating-enrichmentId-index)
+- description // string
+- dateCompleted // string
+- habitatId // string
+- isCompleted // string (activityId-isComplete-index)
+- onHabitat // bool
+
+  * keeperRating-enrichmentId-index includes ALL attributes
+  * activityId-isComplete-index includes ALL attributes
 
 ## 8. Link to Google doc with images
 [FULL DESIGN DOC](https://docs.google.com/document/d/1qD5lhMVNko6C9FZJOiNMof6X5cuzQFkSKtgWBlDoVaY/edit)
