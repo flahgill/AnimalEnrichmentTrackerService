@@ -9,7 +9,7 @@ import DataStore from "../util/DataStore";
 class ViewAcceptableIds extends BindingClass {
     constructor() {
         super();
-        this.bindClassMethods(['clientLoaded', 'mount', 'addAnimalsToPage', 'addId'], this);
+        this.bindClassMethods(['clientLoaded', 'mount', 'addAnimalsToPage', 'addId', 'removeId'], this);
         this.dataStore = new DataStore();
         this.dataStore.addChangeListener(this.addAnimalsToPage);
         this.header = new Header(this.dataStore);
@@ -35,6 +35,8 @@ class ViewAcceptableIds extends BindingClass {
      */
     mount() {
         document.getElementById('add-id-btn').addEventListener('click', this.addId);
+        document.getElementById('acceptable-ids').addEventListener('click', this.removeId);
+
         this.header.addHeaderToPage();
 
         this.client = new AnimalEnrichmentTrackerClient();
@@ -65,12 +67,13 @@ class ViewAcceptableIds extends BindingClass {
         }
         document.getElementById('species').innerHTML = speciesHtml;
 
-        let idsHtml = '<table id="animals-table"><tr><th>Id</th></tr>';
+        let idsHtml = '<table id="animals-table"><tr><th>Id</th><th>Remove</th></tr>';
         let id;
         for (id of acceptableIds) {
             idsHtml += `
                <tr id="id-${id}">
                    <td>${id}</td>
+                   <td><button data-id="${id}" class="button remove-id">Remove</button></td>
                </tr>`;
         }
 
@@ -108,6 +111,40 @@ class ViewAcceptableIds extends BindingClass {
         if (acceptableIds.includes(idToBeAdded)) {
             location.reload();
         }
+    }
+
+    /*
+    * method to run when the remove id button is clicked. Call the AnimalEnrichmentTrackerClient to remove
+    * an id from a habitat's list of acceptable enrichment ids.
+    */
+    async removeId(e) {
+        const errorMessageDisplay = document.getElementById('error-message');
+        errorMessageDisplay.innerText = ``;
+        errorMessageDisplay.classList.add('hidden');
+
+        const habitat = this.dataStore.get('habitat');
+        if (habitat == null) {
+            return;
+        }
+
+        const removeButton = e.target;
+        if (!removeButton.classList.contains("remove-id")) {
+            return;
+        }
+
+        removeButton.innerText = "Removing...";
+        const habitatId = habitat.habitatId;
+
+        const idToRemove = removeButton.dataset.id;
+
+        const acceptableIds = await this.client.removeAcceptableId(habitatId, idToRemove, (error) => {
+           errorMessageDisplay.innerText = `Error: ${error.message}`;
+           errorMessageDisplay.classList.remove('hidden');
+           this.showErrorModal(error.message);
+        });
+
+        this.dataStore.set('acceptableIds', acceptableIds);
+        removeButton.innerText = "Remove";
     }
 
     async showErrorModal(message) {

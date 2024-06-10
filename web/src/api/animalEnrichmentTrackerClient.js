@@ -18,7 +18,8 @@ export default class AnimalEnrichmentTrackerClient extends BindingClass {
         const methodsToBind = ['clientLoaded', 'getIdentity', 'login', 'logout', 'getHabitat', 'createHabitat', 'getUserHabitats',
         'removeHabitat', 'updateHabitat', 'getAnimalsForHabitat', 'addAnimalToHabitat', 'removeAnimalFromHabitat', 'getAllHabitats',
         'getHabitatEnrichments', 'addEnrichmentToHabitat', 'removeEnrichmentActivityFromHabitat', 'getEnrichmentActivity', 'getAllEnrichmentActivities',
-        'removeEnrichmentActivity', 'searchEnrichmentActivities', 'searchEnrichments', 'reAddActivityToHabitat', 'getAcceptableIds', 'addAcceptableId'];
+        'removeEnrichmentActivity', 'searchEnrichmentActivities', 'searchEnrichments', 'reAddActivityToHabitat', 'getAcceptableIds', 'addAcceptableId',
+        'removeAcceptableId'];
         this.bindClassMethods(methodsToBind, this);
 
         this.authenticator = new Authenticator();;
@@ -539,6 +540,30 @@ export default class AnimalEnrichmentTrackerClient extends BindingClass {
                this.handleError(error, errorCallback)
             }
         }
+
+        /**
+         * removes an acceptable Id from a habitat.
+         * @param habitatId The id of the habitat.
+         * @param idToRemove the id to be removed.
+         * @returns {Promise<string[]>} The habitat's list of acceptable enrichment ids.
+         */
+         async removeAcceptableId(habitatId, idToRemove, errorCallback) {
+            try {
+                const token = await this.getTokenOrThrow("Only authenticated users can remove an acceptable Id from a habitat.");
+                const response = await this.axiosClient.delete(`habitats/${habitatId}/acceptableIds`, {
+                    headers: {
+                        Authorization: `Bearer ${token}`
+                    },
+                    data: {
+                        habitatId: habitatId,
+                        idToRemove: idToRemove
+                    }
+                    });
+                return response.data.acceptableEnrichmentIds;
+            } catch (error) {
+                this.handleError(error, errorCallback)
+            }
+         }
 
     /**
      * Helper method to log the error and run any error functions.
