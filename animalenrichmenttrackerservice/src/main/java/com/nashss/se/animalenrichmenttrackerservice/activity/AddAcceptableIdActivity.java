@@ -11,6 +11,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -73,6 +74,7 @@ public class AddAcceptableIdActivity {
         }
 
         updatedIds.add(idToAdd);
+        Collections.sort(updatedIds);
         habitat.setAcceptableEnrichmentIds(updatedIds);
         habitat = habitatDao.saveHabitat(habitat);
 
