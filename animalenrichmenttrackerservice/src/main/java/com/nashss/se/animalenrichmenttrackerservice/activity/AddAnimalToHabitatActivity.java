@@ -13,6 +13,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -84,6 +85,7 @@ public class AddAnimalToHabitatActivity {
 
         updatedAnimalsList.add(animalToAdd);
         totalAnimals += 1;
+        Collections.sort(updatedAnimalsList);
         habitat.setAnimalsInHabitat(updatedAnimalsList);
         habitat.setTotalAnimals(totalAnimals);
         habitat = habitatDao.saveHabitat(habitat);
