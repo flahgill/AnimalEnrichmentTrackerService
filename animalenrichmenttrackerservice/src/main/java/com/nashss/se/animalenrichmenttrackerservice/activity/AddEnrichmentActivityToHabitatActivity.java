@@ -2,7 +2,6 @@ package com.nashss.se.animalenrichmenttrackerservice.activity;
 
 import com.nashss.se.animalenrichmenttrackerservice.activity.requests.AddEnrichmentActivityToHabitatRequest;
 import com.nashss.se.animalenrichmenttrackerservice.activity.results.AddEnrichmentActivityToHabitatResult;
-import com.nashss.se.animalenrichmenttrackerservice.comparators.EnrichmentActivityDateComparator;
 import com.nashss.se.animalenrichmenttrackerservice.converters.ModelConverter;
 import com.nashss.se.animalenrichmenttrackerservice.dynamodb.EnrichmentActivityDao;
 import com.nashss.se.animalenrichmenttrackerservice.dynamodb.EnrichmentDao;
@@ -19,7 +18,6 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 import javax.inject.Inject;

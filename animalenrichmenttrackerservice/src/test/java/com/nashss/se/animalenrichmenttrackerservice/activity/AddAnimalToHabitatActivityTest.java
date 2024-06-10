@@ -75,7 +75,7 @@ public class AddAnimalToHabitatActivityTest {
 
         // THEN
         assertEquals(3, result.getAnimalsInHabitat().size());
-        assertEquals(expectedAnimal, result.getAnimalsInHabitat().get(2));
+        assertEquals(expectedAnimal, result.getAnimalsInHabitat().get(0));
         assertEquals(3, habitat.getTotalAnimals());
     }
 
