@@ -6,6 +6,18 @@
     --error-color: #D4A841; /*orange */
 }
 
+/* fixing bug issue with displaying habitat name link on view all habitats page */
+#filter-results-display a,
+#habitats-table a,
+#user-habitats-table a,
+#search-results-display a,
+#complete-results-display a,
+#search-activities-results-display a,
+#habitat-enrichments a{
+    color: var(--tertiary-color);
+    text-decoration: none;
+}
+
 .background {
     background: url("WildThing.png") var(--primary-color);
     background-size: 500px 800px;
@@ -15,24 +27,53 @@
     font-family: Georgia, serif;
 }
 
-.header-img {
-    width: 500px;
-    padding: 4px 20px;
-}
-
 .header {
     display: flex;
+    font-family: Georgia, serif;
     justify-content: space-between;
     align-items: center;
     background-color: var(--tertiary-color);
     color: var(--secondary-color);
     padding: 10px 20px;
-    height: 50px;
+    height: 30px;
+}
+
+.site-title {
+    flex: 1;
+}
+
+.menu_list {
+    text-decoration: none;
+    list-style: none;
+    margin: 0 20px;
+    font-size: 20px;
+    display: flex;
+    align-items: center;
+    padding: 0 20px;
+    font-family: Georgia, serif;
+    color: var(--secondary-color);
+}
+
+.menu_item {
+    padding: 10px 20px;
+    color: var(--secondary-color);
+    border: outset var(--secondary-color);
+}
+
+.menu_item a {
+    color: var(--secondary-color);
+    text-decoration: none;
+}
+
+.user {
+    display: flex;
+    align-items: center;
 }
 
 .button {
     background-color: var(--tertiary-color);
     border: none;
+    font-family: Georgia, serif;
     letter-spacing: 2px;
     color: var(--secondary-color);
     padding: 6px 8px 4px 8px;
@@ -47,7 +88,7 @@
 }
 
 .header_home {
-    font-size: 50px;
+    font-size: 40px;
     line-height: 40px;
     height: 100px;
     text-decoration: none;
@@ -100,6 +141,30 @@ h1, h2, h3, h4, h5 { text-transform: uppercase; }
     flex-direction: column;
     margin-bottom: 20px;
     padding-right: 50px;
+}
+
+#search-activities-results-display,
+#search-results-display,
+#search-enrichments-results-display,
+#complete-results-display,
+#filter-results-display,
+#habitat-enrichments {
+    max-width: 100%;
+    overflow-x: auto;
+}
+
+#enrichments-table,
+#habitats-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+#enrichments-table th, #enrichments-table td,
+#habitats-table th, #habitats-table td {
+    border-right: 1px solid var(--primary-color);
+    border-bottom: 1px solid var(--primary-color);
+    padding: 8px;
+    text-align: left;
 }
 
 /* the container for non-action check boxes */
@@ -261,6 +326,7 @@ nav ul li {
 nav ul li a {
     text-decoration: none;
     color: #fff;
+    border: solid 1px var(--secondary-color);
 }
 
 .div ul li a {
@@ -322,7 +388,7 @@ th {
 }
 
 a {
-    color: var(--tertiary-color);
+    color: var(--secondary-color);
     text-decoration: none;
 }
 

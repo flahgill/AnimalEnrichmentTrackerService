@@ -5,18 +5,16 @@
     <script type="text/javascript" src="assets/searchHabitats.js"></script>
     <script type="text/javascript" src="assets/searchEnrichmentActivities.js"></script>
     <script type="text/javascript" src="assets/searchEnrichments.js"></script>
-    <script type="text/javascript" src="assets/viewAllHabitats.js"></script>
-    <script type="text/javascript" src="assets/viewAllEnrichmentActivities.js"></script>
     <script type="text/javascript" src="assets/viewUserHabitats.js"></script>
     <link rel="stylesheet" type="text/css" href="css/style.css">
 </head>
 
 <body class="background">
 <header class="header" id="header"></header>
+<p class="hidden error" id="error-message"></p>
 <div class="card hidden">
     <h2 id="habitats-page">My Habitats</h2>
     <h3>Keeper: <span id="habitat-owner"></span></h3>
-    <p class="hidden error" id="error-message"></p>
     <ol id="habitats"></ol>
     <p class="button-group">
         <a href="createHabitat.html" class="button">New Habitat</a>
@@ -81,28 +79,6 @@
     <h3>Results for <span id="search-enrichments-criteria-display"></span></h3>
     <div id="search-enrichments-results-display">
     </div>
-</div>
-
-<div class="card">
-    <h2>All Habitats</h2>
-    <p class="button-group">
-        <a href="#" class="button" id="toggle-filter-btn">Active/Inactive</a>
-    </p>
-    <p id='filter-results-container'>
-        <span id="filter-criteria-display"></span>
-    <div id="filter-results-display"></div>
-    </p>
-</div>
-
-<div class="card" id="all-activities">
-    <h2>All Enrichment Activities</h2>
-    <p class="button-group">
-        <a href="#" class="button" id="toggle-complete-btn">Complete/Incomplete</a>
-    </p>
-    <p id='complete-results-container'>
-        <span id="complete-criteria-display"></span>
-    <div id="complete-results-display"></div>
-    </p>
 </div>
 
 <div id="error-modal" class="modal">

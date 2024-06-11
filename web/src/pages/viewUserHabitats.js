@@ -3,131 +3,122 @@ import BindingClass from "../util/bindingClass";
 import DataStore from "../util/DataStore";
 
 /**
- * Logic needed for the view user habitats page of the website.
- */
-  class ViewUserHabitats extends BindingClass {
+* Logic needed for the view user habitats page of the website.
+*/
+class ViewUserHabitats extends BindingClass {
      constructor() {
-             super();
-             this.bindClassMethods(['clientLoaded', 'mount', 'addHabitatsToPage', 'removeHabitat',
-             'redirectToUpdateHabitat', 'checkLoginStatus'], this);
-             this.dataStore = new DataStore();
-             console.log("viewUserHabitats constructor");
+         super();
+         this.bindClassMethods(['clientLoaded', 'mount', 'addHabitatsToPage',
+         'redirectToUpdateHabitat', 'checkLoginStatus'], this);
+         this.dataStore = new DataStore();
+         console.log("viewUserHabitats constructor");
      }
 
- /**
-  * Once the client is loaded, get the habitat metadata and habitat list.
-  */
- async clientLoaded() {
-     const urlParams = new URLSearchParams(window.location.search);
-     const keeperManagerId = urlParams.get('email');
-     document.getElementById('habitats').innerText = "Loading Habitats ...";
-     const habitats = await this.client.getUserHabitats(keeperManagerId);
-     this.dataStore.set('habitats', habitats);
-     this.addHabitatsToPage();
- }
+     /**
+      * Once the client is loaded, get the habitat metadata and habitat list.
+      */
+     async clientLoaded() {
+         const urlParams = new URLSearchParams(window.location.search);
+         const keeperManagerId = urlParams.get('email');
+         document.getElementById('habitats').innerText = "Loading Habitats ...";
+         const habitats = await this.client.getUserHabitats(keeperManagerId);
+         this.dataStore.set('habitats', habitats);
+         this.addHabitatsToPage();
+     }
 
- /**
-  * Load the AnimalEnrichmentTrackerClient.
-  */
-  mount() {
-      document.getElementById('habitats').addEventListener("click", this.removeHabitat);
-      document.getElementById('habitats').addEventListener("click", this.redirectToUpdateHabitat);
+     /**
+      * Load the AnimalEnrichmentTrackerClient.
+      */
+      mount() {
+          document.getElementById('habitats').addEventListener("click", this.redirectToUpdateHabitat);
 
-      this.client = new AnimalEnrichmentTrackerClient();
-      this.checkLoginStatus();
-  }
+          this.client = new AnimalEnrichmentTrackerClient();
+          this.checkLoginStatus();
 
-  /**
-  * Check user login status.
-  */
-  async checkLoginStatus() {
-        const user = await this.client.getIdentity();
-        const userHabitatsSection = document.querySelector('.card.hidden');
+          document.getElementById('ok-button').addEventListener("click", this.closeModal);
+      }
 
-        if (user) {
-            userHabitatsSection.classList.remove('hidden');
-            this.clientLoaded();
-        } else {
-            userHabitatsSection.classList.add('hidden');
-        }
-  }
+      /**
+      * Check user login status.
+      */
+      async checkLoginStatus() {
+            const user = await this.client.getIdentity();
+            const userHabitatsSection = document.querySelector('.card.hidden');
 
-  /**
-   * When the habitat is updated in the datastore, update the habitat metadata on the page.
-   */
-   addHabitatsToPage() {
-        const habitats = this.dataStore.get('habitats');
+            if (user) {
+                userHabitatsSection.classList.remove('hidden');
+                await this.clientLoaded();
+            } else {
+                userHabitatsSection.classList.add('hidden');
+            }
+      }
 
-        if (habitats == null) {
-            return;
-        }
+      /**
+       * When the habitat is updated in the datastore, update the habitat metadata on the page.
+       */
+       addHabitatsToPage() {
+            const habitats = this.dataStore.get('habitats');
 
-        let habitatsHtml = '<table id="habitats-table"><tr><th>Name</th><th>Total Animals</th><th>Species</th><th>Habitat Id</th><th>Update Habitat</th></tr>';
-        let habitat;
-        for (habitat of habitats) {
-            habitatsHtml += `
-            <tr id= "${habitat.habitatId}">
-                <td>
-                    <a href="habitat.html?habitatId=${habitat.habitatId}">${habitat.habitatName}</a>
-                </td>
-                <td>${habitat.totalAnimals}</td>
-                <td>${habitat.species?.join(', ')}</td>
-                <td>${habitat.habitatId}</td>
-                <td><button data-id="${habitat.habitatId}" class="button update-habitat">Update</button></td>
-            </tr>`;
-        }
+            if (habitats == null) {
+                return;
+            }
 
-        document.getElementById('habitats').innerHTML = habitatsHtml;
+            let habitatsHtml = '<table id="user-habitats-table"><tr><th>Name</th><th>Habitat ID</th><th>Species</th><th>Total Animals</th><th>Animals</th><th>Update Habitat</th></tr>';
+            let habitat;
+            for (habitat of habitats) {
+                habitatsHtml += `
+                <tr id= "${habitat.habitatId}">
+                    <td>
+                        <a href="habitat.html?habitatId=${habitat.habitatId}">${habitat.habitatName}</a>
+                    </td>
+                    <td>${habitat.habitatId}</td>
+                    <td>${habitat.species?.join(', ')}</td>
+                    <td>${habitat.totalAnimals}</td>
+                    <td>${habitat.animalsInHabitat?.join(', ')}</td>
+                    <td><button data-id="${habitat.habitatId}" class="button update-habitat">Update</button></td>
+                </tr>`;
+            }
 
-        document.getElementById('habitat-owner').innerText = habitat.keeperManagerId;
-   }
+            document.getElementById('habitats').innerHTML = habitatsHtml;
 
-   /**
-    * when remove button is clicked, removes habitat.
-    */
-    async removeHabitat(e) {
-        const removeButton = e.target;
-        if (!removeButton.classList.contains('remove-habitat')) {
-             return;
-        }
+            document.getElementById('habitat-owner').innerText = habitat.keeperManagerId;
+       }
 
-        removeButton.innerText = "Removing...";
+        /**
+        * when the update button is clicked, redirects to update habitat page.
+        */
+        async redirectToUpdateHabitat(e) {
+            const updateButton = e.target;
+            if (!updateButton.classList.contains("update-habitat")) {
+                return;
+            }
 
-        const errorMessageDisplay = document.getElementById('error-message');
-        errorMessageDisplay.innerText = ``;
-        errorMessageDisplay.classList.add('hidden');
+            updateButton.innerText = "Loading...";
 
-        await this.client.removeHabitat(removeButton.dataset.id, (error) => {
-            errorMessageDisplay.innerText = `Error: ${error.message}`;
-            errorMessageDisplay.classList.remove('hidden');
-        });
-
-        document.getElementById(removeButton.dataset.id).remove();
-    }
-
-    /**
-    * when the update button is clicked, redirects to update habitat page.
-    */
-    async redirectToUpdateHabitat(e) {
-        const updateButton = e.target;
-        if (!updateButton.classList.contains("update-habitat")) {
-            return;
+            if (updateButton != null) {
+                window.location.href = `/updateHabitat.html?habitatId=${updateButton.dataset.id}`;
+            }
         }
 
-        updateButton.innerText = "Loading...";
-
-        if (updateButton != null) {
-            window.location.href = `/updateHabitat.html?habitatId=${updateButton.dataset.id}`;
+        async showErrorModal(message) {
+            const modal = document.getElementById('error-modal');
+            const modalMessage = document.getElementById('error-modal-message');
+            modalMessage.innerText = message;
+            modal.style.display = "block";
         }
-    }
+
+        async closeModal() {
+            const modal = document.getElementById('error-modal');
+            modal.style.display = "none";
+        }
 }
 
- /**
-  * Main method to run when the page contents have loaded.
-  */
-  const main = async () => {
-        const viewUserHabitats = new ViewUserHabitats();
-        viewUserHabitats.mount();
-  };
+/**
+* Main method to run when the page contents have loaded.
+*/
+const main = async () => {
+      const viewUserHabitats = new ViewUserHabitats();
+      viewUserHabitats.mount();
+};
 
-  window.addEventListener('DOMContentLoaded', main);
+window.addEventListener('DOMContentLoaded', main);

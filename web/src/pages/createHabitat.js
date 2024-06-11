@@ -25,6 +25,7 @@ class CreateHabitat extends BindingClass {
         this.header.addHeaderToPage();
 
         this.client = new AnimalEnrichmentTrackerClient();
+        document.getElementById('ok-button').addEventListener("click", this.closeModal);
     }
 
     /**
@@ -52,12 +53,18 @@ class CreateHabitat extends BindingClass {
             species = speciesText.split(/\s*,\s*/);
         }
 
+        let errorOccurred = false;
         const habitat = await this.client.createHabitat(habitatName, species, (error) => {
-            createButton.innerText = origButtonText;
             errorMessageDisplay.innerText = `Error: ${error.message}`;
             errorMessageDisplay.classList.remove('hidden');
+            errorOccurred = true;
+            this.showErrorModal(error.message);
+            createButton.innerText = origButtonText;
         });
-        this.dataStore.set('habitat', habitat);
+
+        if (!errorOccurred) {
+            this.dataStore.set('habitat', habitat);
+        }
     }
 
     /**
@@ -68,6 +75,18 @@ class CreateHabitat extends BindingClass {
         if (habitat != null) {
             window.location.href = `/habitat.html?habitatId=${habitat.habitatId}`;
         }
+    }
+
+    async showErrorModal(message) {
+        const modal = document.getElementById('error-modal');
+        const modalMessage = document.getElementById('error-modal-message');
+        modalMessage.innerText = message;
+        modal.style.display = "block";
+    }
+
+    async closeModal() {
+        const modal = document.getElementById('error-modal');
+        modal.style.display = "none";
     }
 }
 

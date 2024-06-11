@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <script type="text/javascript" src="assets/viewAllEnrichmentActivities.js"></script>
+    <link rel="stylesheet" type="text/css" href="css/style.css">
+</head>
+
+<body class="background">
+<header class="header" id="header"></header>
+<div class="card" id="all-activities">
+    <h2>All Enrichment Activities</h2>
+    <p class="hidden error" id="error-message"></p>
+    <p class="button-group">
+        <a href="#" class="button" id="toggle-complete-btn">Complete/Incomplete</a>
+    </p>
+    <p id='complete-results-container'>
+        <span id="complete-criteria-display"></span>
+    <div id="complete-results-display"></div>
+    </p>
+</div>
+
+<div id="error-modal" class="modal">
+    <div class="modal-content">
+        <p id="error-modal-message"></p>
+        <button id="ok-button" class="ok-button">OK</button>
+    </div>
+</div>
+</body>
+
+</html>

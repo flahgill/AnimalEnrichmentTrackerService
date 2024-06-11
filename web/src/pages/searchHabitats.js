@@ -112,17 +112,18 @@ class SearchHabitats extends BindingClass {
             return '<h4>No results found</h4>';
         }
 
-        let html = '<table><tr><th>Habitat</th><th>Total Animals</th><th>Species</th><th>Animals</th><th>Habitat Id</th></tr>';
+        let html = '<table id="habitats-table"><tr><th>Habitat</th><th>Habitat ID</th><th>Species</th><th>Total Animals</th><th>Animals</th><th>Status</th></tr>';
         for (const res of searchResults) {
             html += `
             <tr>
                 <td>
                     <a href="habitat.html?habitatId=${res.habitatId}">${res.habitatName}</a>
                 </td>
-                <td>${res.totalAnimals}</td>
-                <td>${res.species?.join(', ')}</td>
-                <td>${res.animalsInHabitat?.join(', ')}</td>
                 <td>${res.habitatId}</td>
+                <td>${res.species?.join(', ')}</td>
+                <td>${res.totalAnimals}</td>
+                <td>${res.animalsInHabitat?.join(', ')}</td>
+                <td>${res.isActive}</td>
             </tr>`;
         }
         html += '</table>';

@@ -42,6 +42,8 @@ class ViewHabitatEnrichments extends BindingClass {
 
         this.client = new AnimalEnrichmentTrackerClient();
         this.clientLoaded();
+
+        document.getElementById('ok-button').addEventListener("click", this.closeModal);
     }
 
     /**
@@ -70,7 +72,7 @@ class ViewHabitatEnrichments extends BindingClass {
         }
         document.getElementById('acceptable-enrichment-ids').innerHTML = 'Acceptable Enrichment Ids:' + acceptEnrichIdHtml;
 
-        let enrichHtml = '<table id="enrichments-table"><tr><th>Date Completed</th><th>Activity</th><th>Description</th><th>Enrichment Id</th><th>Rating</th><th>Activity Id</th><th>Completed</th><th>Update Activity</th><th>Remove From Habitat</th></tr>';
+        let enrichHtml = '<table id="enrichments-table"><tr><th>Date Completed</th><th>Activity</th><th>Activity ID</th><th>Description</th><th>Rating</th><th>Completed</th><th>Update Activity</th><th>Remove From Habitat</th></tr>';
         for (const enrich of completedEnrich) {
             enrichHtml += `
                <tr id="${enrich.activityId + enrich.habitatId}">
@@ -78,10 +80,9 @@ class ViewHabitatEnrichments extends BindingClass {
                    <td>
                        <a href="enrichmentActivity.html?activityId=${enrich.activityId}">${enrich.activityName}</a>
                    </td>
-                   <td>${enrich.description}</td>
-                   <td>${enrich.enrichmentId}</td>
-                   <td>${enrich.keeperRating}</td>
                    <td>${enrich.activityId}</td>
+                   <td>${enrich.description}</td>
+                   <td>${enrich.keeperRating}</td>
                    <td>${enrich.isComplete}</td>
                    <td><button data-activity-id="${enrich.activityId}"  data-habitat-id="${enrich.habitatId}" class ="button update-enrich">Update</button></td>
                    <td><button data-activity-id="${enrich.activityId}"  data-habitat-id="${enrich.habitatId}" class ="button remove-enrich">Remove</button></td>
@@ -124,16 +125,21 @@ class ViewHabitatEnrichments extends BindingClass {
         const dateCompleted = document.getElementById('date-completed').value;
         const isComplete = document.getElementById('is-complete').value;
 
+        let errorOccurred = false;
         const completedEnrich = await this.client.addEnrichmentToHabitat(habitatId, enrichId, keeperRating, dateCompleted, isComplete, (error) => {
             errorMessageDisplay.innerText = `Error: ${error.message}`;
             errorMessageDisplay.classList.remove('hidden');
+            errorOccurred = true;
+            this.showErrorModal(error.message);
         });
 
-        this.dataStore.set('completed-enrichments', completedEnrich);
+        if (!errorOccurred) {
+            this.dataStore.set('completed-enrichments', completedEnrich);
 
-        document.getElementById('add-enrichment').innerText = 'Add';
-        document.getElementById('add-enrichment-form').reset();
-        this.addEnrichmentsToPage();
+            document.getElementById('add-enrichment').innerText = 'Add';
+            document.getElementById('add-enrichment-form').reset();
+            this.addEnrichmentsToPage();
+        }
     }
 
     /**
@@ -152,12 +158,18 @@ class ViewHabitatEnrichments extends BindingClass {
         errorMessageDisplay.innerText = ``;
         errorMessageDisplay.classList.add('hidden');
 
+        let errorOccurred = false;
         await this.client.removeEnrichmentActivityFromHabitat(removeButton.dataset.habitatId, removeButton.dataset.activityId, (error) => {
             errorMessageDisplay.innerText = `Error: ${error.message}`;
             errorMessageDisplay.classList.remove('hidden');
+            errorOccurred = true;
+            this.showErrorModal(error.message);
+            removeButton.innerText = "Remove";
         });
 
-        document.getElementById(removeButton.dataset.activityId + removeButton.dataset.habitatId).remove();
+        if (!errorOccurred) {
+            document.getElementById(removeButton.dataset.activityId + removeButton.dataset.habitatId).remove();
+        }
     }
 
     /**
@@ -174,6 +186,18 @@ class ViewHabitatEnrichments extends BindingClass {
         if (updateButton != null) {
             window.location.href = `/updateHabitatEnrichment.html?habitatId=${updateButton.dataset.habitatId}&activityId=${updateButton.dataset.activityId}`;
         }
+    }
+
+    async showErrorModal(message) {
+        const modal = document.getElementById('error-modal');
+        const modalMessage = document.getElementById('error-modal-message');
+        modalMessage.innerText = message;
+        modal.style.display = "block";
+    }
+
+    async closeModal() {
+        const modal = document.getElementById('error-modal');
+        modal.style.display = "none";
     }
 }
 

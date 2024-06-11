@@ -108,14 +108,14 @@ class SearchEnrichments extends BindingClass {
             return '<h4>No Results found</h4>';
         }
 
-        let enrichHtml = '<table id="enrichments-table"><tr><th>Activity</th><th>Description</th><th>Enrichment Id</th></tr>';
+        let enrichHtml = '<table id="enrichments-table"><tr><th>Enrichment Id</th><th>Activity</th><th>Description</th></tr>';
         let enrich;
         for (enrich of searchResults) {
             enrichHtml += `
                <tr id="${enrich.activityId + enrich.habitatId}">
+                   <td>${enrich.enrichmentId}</td>
                    <td>${enrich.activityName}</td>
                    <td>${enrich.description}</td>
-                   <td>${enrich.enrichmentId}</td>
                </tr>`;
         }
 

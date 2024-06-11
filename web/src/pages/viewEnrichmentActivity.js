@@ -88,13 +88,19 @@ class ViewHabitat extends BindingClass {
         const removeButton = e.target;
         removeButton.innerText = "Removing...";
 
+        let errorOccurred = false;
         await this.client.removeEnrichmentActivity(activityId, (error) => {
             errorMessageDisplay.innerText = `Error: ${error.message}`;
             errorMessageDisplay.classList.remove('hidden');
+            errorOccurred = true;
             this.showErrorModal(error.message);
         });
 
-        removeButton.innerText = "Delete Activity";
+        if (!errorOccurred) {
+            removeButton.innerText = "Delete Activity";
+            this.showErrorModal("Activity Deleted");
+            window.location.href = `/index.html`;
+        }
     }
 
     async redirectToHabitat(e) {
