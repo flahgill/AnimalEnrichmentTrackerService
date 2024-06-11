@@ -34,6 +34,8 @@ class ViewUserHabitats extends BindingClass {
 
           this.client = new AnimalEnrichmentTrackerClient();
           this.checkLoginStatus();
+
+          document.getElementById('ok-button').addEventListener("click", this.closeModal);
       }
 
       /**
@@ -96,6 +98,18 @@ class ViewUserHabitats extends BindingClass {
             if (updateButton != null) {
                 window.location.href = `/updateHabitat.html?habitatId=${updateButton.dataset.id}`;
             }
+        }
+
+        async showErrorModal(message) {
+            const modal = document.getElementById('error-modal');
+            const modalMessage = document.getElementById('error-modal-message');
+            modalMessage.innerText = message;
+            modal.style.display = "block";
+        }
+
+        async closeModal() {
+            const modal = document.getElementById('error-modal');
+            modal.style.display = "none";
         }
 }
 
