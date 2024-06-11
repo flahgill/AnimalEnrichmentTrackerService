@@ -1,5 +1,6 @@
 import AnimalEnrichmentTrackerClient from '../api/animalEnrichmentTrackerClient';
 import BindingClass from "../util/bindingClass";
+import Header from '../components/header';
 import DataStore from "../util/DataStore";
 
 
@@ -20,9 +21,9 @@ class ViewAllHabitats extends BindingClass {
 
         this.bindClassMethods(['mount', 'toggleFilter', 'displayHabitatResults', 'getHTMLForFilterResults'], this);
 
-        // Create a new datastore with an initial "empty" state.
         this.dataStore = new DataStore(EMPTY_DATASTORE_STATE);
         this.dataStore.addChangeListener(this.displayHabitatResults);
+        this.header = new Header(this.dataStore);
         console.log("ViewAllHabitats constructor");
     }
 
@@ -35,6 +36,7 @@ class ViewAllHabitats extends BindingClass {
         this.client = new AnimalEnrichmentTrackerClient();
 
         this.toggleFilter();
+        this.header.addHeaderToPage();
     }
 
     /**

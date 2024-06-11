@@ -9,7 +9,7 @@ export default class Header extends BindingClass {
         super();
 
         const methodsToBind = [
-            'addHeaderToPage', 'createSiteTitle', 'createUserInfoForHeader',
+            'addHeaderToPage', 'createSiteTitle', 'createMenuHeader', 'createUserInfoForHeader',
             'createLoginButton', 'createLoginButton', 'createLogoutButton'
         ];
         this.bindClassMethods(methodsToBind, this);
@@ -24,10 +24,12 @@ export default class Header extends BindingClass {
         const currentUser = await this.client.getIdentity();
 
         const siteTitle = this.createSiteTitle();
+        const menuHeader = this.createMenuHeader();
         const userInfo = this.createUserInfoForHeader(currentUser);
 
         const header = document.getElementById('header');
         header.appendChild(siteTitle);
+        header.appendChild(menuHeader);
         header.appendChild(userInfo);
     }
 
@@ -42,6 +44,40 @@ export default class Header extends BindingClass {
         siteTitle.appendChild(homeButton);
 
         return siteTitle;
+    }
+
+    createMenuHeader() {
+        const menuList = document.createElement('ul');
+        menuList.classList.add('menu_list');
+
+        menuList.appendChild(this.createViewHabitatsLink());
+        menuList.appendChild(this.createViewEnrichmentActivitiesLink());
+
+        const menu = document.createElement('div');
+        menu.classList.add('menu');
+        menu.appendChild(menuList);
+
+        return menu;
+    }
+
+    createViewHabitatsLink() {
+        const viewHabitatsLink = document.createElement('a');
+        viewHabitatsLink.href = 'viewAllHabitats.html';
+        const viewHabitats = document.createElement('li');
+        viewHabitats.classList.add('nav');
+        viewHabitats.innerText = 'Habitats';
+        viewHabitatsLink.appendChild(viewHabitats);
+        return viewHabitatsLink;
+    }
+
+    createViewEnrichmentActivitiesLink() {
+        const viewEnrichmentActivitiesLink = document.createElement('a');
+        viewEnrichmentActivitiesLink.href = 'viewAllActivities.html';
+        const viewActivities = document.createElement('li');
+        viewActivities.classList.add('nav');
+        viewActivities.innerText = 'Enrichment Activities';
+        viewEnrichmentActivitiesLink.appendChild(viewActivities);
+        return viewEnrichmentActivitiesLink;
     }
 
     createUserInfoForHeader(currentUser) {

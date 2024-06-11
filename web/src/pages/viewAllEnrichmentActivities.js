@@ -1,5 +1,6 @@
 import AnimalEnrichmentTrackerClient from '../api/animalEnrichmentTrackerClient';
 import BindingClass from "../util/bindingClass";
+import Header from '../components/header';
 import DataStore from "../util/DataStore";
 
 
@@ -21,9 +22,9 @@ class ViewAllEnrichmentActivities extends BindingClass {
         this.bindClassMethods(['mount', 'toggleComplete', 'displayActivitiesResults', 'getHTMLForCompleteResults',
          'removeActivity', 'reAddActivity', 'redirectToUpdateActivity'], this);
 
-        // Create a new datastore with an initial "empty" state.
         this.dataStore = new DataStore(EMPTY_DATASTORE_STATE);
         this.dataStore.addChangeListener(this.displayActivitiesResults);
+        this.header = new Header(this.dataStore);
         console.log("ViewAllEnrichmentActivities constructor");
     }
 
@@ -39,6 +40,8 @@ class ViewAllEnrichmentActivities extends BindingClass {
         this.client = new AnimalEnrichmentTrackerClient();
 
         this.toggleComplete();
+        this.header.addHeaderToPage();
+
         document.getElementById('ok-button').addEventListener("click", this.closeModal);
     }
 
