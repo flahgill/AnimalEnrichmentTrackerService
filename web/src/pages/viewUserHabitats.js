@@ -3,107 +3,108 @@ import BindingClass from "../util/bindingClass";
 import DataStore from "../util/DataStore";
 
 /**
- * Logic needed for the view user habitats page of the website.
- */
-  class ViewUserHabitats extends BindingClass {
+* Logic needed for the view user habitats page of the website.
+*/
+class ViewUserHabitats extends BindingClass {
      constructor() {
-             super();
-             this.bindClassMethods(['clientLoaded', 'mount', 'addHabitatsToPage',
-             'redirectToUpdateHabitat', 'checkLoginStatus'], this);
-             this.dataStore = new DataStore();
-             console.log("viewUserHabitats constructor");
+         super();
+         this.bindClassMethods(['clientLoaded', 'mount', 'addHabitatsToPage',
+         'redirectToUpdateHabitat', 'checkLoginStatus'], this);
+         this.dataStore = new DataStore();
+         console.log("viewUserHabitats constructor");
      }
 
- /**
-  * Once the client is loaded, get the habitat metadata and habitat list.
-  */
- async clientLoaded() {
-     const urlParams = new URLSearchParams(window.location.search);
-     const keeperManagerId = urlParams.get('email');
-     document.getElementById('habitats').innerText = "Loading Habitats ...";
-     const habitats = await this.client.getUserHabitats(keeperManagerId);
-     this.dataStore.set('habitats', habitats);
-     this.addHabitatsToPage();
- }
+     /**
+      * Once the client is loaded, get the habitat metadata and habitat list.
+      */
+     async clientLoaded() {
+         const urlParams = new URLSearchParams(window.location.search);
+         const keeperManagerId = urlParams.get('email');
+         document.getElementById('habitats').innerText = "Loading Habitats ...";
+         const habitats = await this.client.getUserHabitats(keeperManagerId);
+         this.dataStore.set('habitats', habitats);
+         this.addHabitatsToPage();
+     }
 
- /**
-  * Load the AnimalEnrichmentTrackerClient.
-  */
-  mount() {
-      document.getElementById('habitats').addEventListener("click", this.redirectToUpdateHabitat);
+     /**
+      * Load the AnimalEnrichmentTrackerClient.
+      */
+      mount() {
+          document.getElementById('habitats').addEventListener("click", this.redirectToUpdateHabitat);
 
-      this.client = new AnimalEnrichmentTrackerClient();
-      this.checkLoginStatus();
-  }
+          this.client = new AnimalEnrichmentTrackerClient();
+          this.checkLoginStatus();
+      }
 
-  /**
-  * Check user login status.
-  */
-  async checkLoginStatus() {
-        const user = await this.client.getIdentity();
-        const userHabitatsSection = document.querySelector('.card.hidden');
+      /**
+      * Check user login status.
+      */
+      async checkLoginStatus() {
+            const user = await this.client.getIdentity();
+            const userHabitatsSection = document.querySelector('.card.hidden');
 
-        if (user) {
-            userHabitatsSection.classList.remove('hidden');
-            this.clientLoaded();
-        } else {
-            userHabitatsSection.classList.add('hidden');
+            if (user) {
+                userHabitatsSection.classList.remove('hidden');
+                await this.clientLoaded();
+            } else {
+                userHabitatsSection.classList.add('hidden');
+            }
+      }
+
+      /**
+       * When the habitat is updated in the datastore, update the habitat metadata on the page.
+       */
+       addHabitatsToPage() {
+            const habitats = this.dataStore.get('habitats');
+
+            if (habitats == null) {
+                return;
+            }
+
+            let habitatsHtml = '<table id="user-habitats-table"><tr><th>Name</th><th>Habitat ID</th><th>Species</th><th>Total Animals</th><th>Animals</th><th>Update Habitat</th></tr>';
+            let habitat;
+            for (habitat of habitats) {
+                habitatsHtml += `
+                <tr id= "${habitat.habitatId}">
+                    <td>
+                        <a href="habitat.html?habitatId=${habitat.habitatId}">${habitat.habitatName}</a>
+                    </td>
+                    <td>${habitat.habitatId}</td>
+                    <td>${habitat.species?.join(', ')}</td>
+                    <td>${habitat.totalAnimals}</td>
+                    <td>${habitat.animalsInHabitat?.join(', ')}</td>
+                    <td><button data-id="${habitat.habitatId}" class="button update-habitat">Update</button></td>
+                </tr>`;
+            }
+
+            document.getElementById('habitats').innerHTML = habitatsHtml;
+
+            document.getElementById('habitat-owner').innerText = habitat.keeperManagerId;
+       }
+
+        /**
+        * when the update button is clicked, redirects to update habitat page.
+        */
+        async redirectToUpdateHabitat(e) {
+            const updateButton = e.target;
+            if (!updateButton.classList.contains("update-habitat")) {
+                return;
+            }
+
+            updateButton.innerText = "Loading...";
+
+            if (updateButton != null) {
+                window.location.href = `/updateHabitat.html?habitatId=${updateButton.dataset.id}`;
+            }
         }
-  }
-
-  /**
-   * When the habitat is updated in the datastore, update the habitat metadata on the page.
-   */
-   addHabitatsToPage() {
-        const habitats = this.dataStore.get('habitats');
-
-        if (habitats == null) {
-            return;
-        }
-
-        let habitatsHtml = '<table id="user-habitats-table"><tr><th>Name</th><th>Total Animals</th><th>Species</th><th>Habitat Id</th><th>Update Habitat</th></tr>';
-        let habitat;
-        for (habitat of habitats) {
-            habitatsHtml += `
-            <tr id= "${habitat.habitatId}">
-                <td>
-                    <a href="habitat.html?habitatId=${habitat.habitatId}">${habitat.habitatName}</a>
-                </td>
-                <td>${habitat.totalAnimals}</td>
-                <td>${habitat.species?.join(', ')}</td>
-                <td>${habitat.habitatId}</td>
-                <td><button data-id="${habitat.habitatId}" class="button update-habitat">Update</button></td>
-            </tr>`;
-        }
-
-        document.getElementById('habitats').innerHTML = habitatsHtml;
-
-        document.getElementById('habitat-owner').innerText = habitat.keeperManagerId;
-   }
-
-    /**
-    * when the update button is clicked, redirects to update habitat page.
-    */
-    async redirectToUpdateHabitat(e) {
-        const updateButton = e.target;
-        if (!updateButton.classList.contains("update-habitat")) {
-            return;
-        }
-
-        updateButton.innerText = "Loading...";
-
-        if (updateButton != null) {
-            window.location.href = `/updateHabitat.html?habitatId=${updateButton.dataset.id}`;
-        }
-    }
 }
 
- /**
-  * Main method to run when the page contents have loaded.
-  */
-  const main = async () => {
-        const viewUserHabitats = new ViewUserHabitats();
-        viewUserHabitats.mount();
-  };
+/**
+* Main method to run when the page contents have loaded.
+*/
+const main = async () => {
+      const viewUserHabitats = new ViewUserHabitats();
+      viewUserHabitats.mount();
+};
 
-  window.addEventListener('DOMContentLoaded', main);
+window.addEventListener('DOMContentLoaded', main);
