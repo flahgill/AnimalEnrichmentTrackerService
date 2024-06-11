@@ -146,7 +146,9 @@ h1, h2, h3, h4, h5 { text-transform: uppercase; }
 
 #search-activities-results-display,
 #search-results-display,
-#search-enrichments-results-display {
+#search-enrichments-results-display,
+#complete-results-display,
+#filter-results-display {
     max-width: 100%;
     overflow-x: auto;
 }
