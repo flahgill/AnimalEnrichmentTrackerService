@@ -19,7 +19,7 @@ class ViewAllHabitats extends BindingClass {
     constructor() {
         super();
 
-        this.bindClassMethods(['mount', 'toggleFilter', 'displayHabitatResults', 'getHTMLForFilterResults'], this);
+        this.bindClassMethods(['mount', 'toggleFilter', 'displayHabitatResults', 'getHTMLForFilterResults', 'redirectToUpdateHabitat'], this);
 
         this.dataStore = new DataStore(EMPTY_DATASTORE_STATE);
         this.dataStore.addChangeListener(this.displayHabitatResults);
@@ -32,6 +32,7 @@ class ViewAllHabitats extends BindingClass {
      */
     mount() {
         document.getElementById('toggle-filter-btn').addEventListener('click', this.toggleFilter);
+        document.getElementById('filter-results-display').addEventListener("click", this.redirectToUpdateHabitat);
 
         this.client = new AnimalEnrichmentTrackerClient();
 
@@ -92,10 +93,10 @@ class ViewAllHabitats extends BindingClass {
             return '<h4>No habitats found</h4>';
         }
 
-        let html = '<table><tr><th>Habitat</th><th>Total Animals</th><th>Species</th><th>Animals</th><th>Habitat Id</th><th>Status</th><th>Keeper Manager</th></tr>';
+        let html = '<table><tr><th>Habitat</th><th>Total Animals</th><th>Species</th><th>Animals</th><th>Habitat Id</th><th>Status</th><th>Keeper Manager</th><th>Update Habitat</th></tr>';
         for (const res of filterResults) {
             html += `
-            <tr>
+            <tr id= "${res.habitatId}">
                 <td>
                     <a href="habitat.html?habitatId=${res.habitatId}">${res.habitatName}</a>
                 </td>
@@ -105,11 +106,28 @@ class ViewAllHabitats extends BindingClass {
                 <td>${res.habitatId}</td>
                 <td>${res.isActive}</td>
                 <td>${res.keeperManagerId}</td>
+                <td><button data-id="${res.habitatId}" class="button update-habitat">Update</button></td>
             </tr>`;
         }
         html += '</table>';
 
         return html;
+    }
+
+    /**
+    * when the update button is clicked, redirects to update habitat page.
+    */
+    async redirectToUpdateHabitat(e) {
+        const updateButton = e.target;
+        if (!updateButton.classList.contains("update-habitat")) {
+            return;
+        }
+
+        updateButton.innerText = "Loading...";
+
+        if (updateButton != null) {
+            window.location.href = `/updateHabitat.html?habitatId=${updateButton.dataset.id}`;
+        }
     }
 
 }

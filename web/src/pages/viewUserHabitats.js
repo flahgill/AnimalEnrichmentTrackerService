@@ -8,7 +8,7 @@ import DataStore from "../util/DataStore";
   class ViewUserHabitats extends BindingClass {
      constructor() {
              super();
-             this.bindClassMethods(['clientLoaded', 'mount', 'addHabitatsToPage', 'removeHabitat',
+             this.bindClassMethods(['clientLoaded', 'mount', 'addHabitatsToPage',
              'redirectToUpdateHabitat', 'checkLoginStatus'], this);
              this.dataStore = new DataStore();
              console.log("viewUserHabitats constructor");
@@ -30,7 +30,6 @@ import DataStore from "../util/DataStore";
   * Load the AnimalEnrichmentTrackerClient.
   */
   mount() {
-      document.getElementById('habitats').addEventListener("click", this.removeHabitat);
       document.getElementById('habitats').addEventListener("click", this.redirectToUpdateHabitat);
 
       this.client = new AnimalEnrichmentTrackerClient();
@@ -62,7 +61,7 @@ import DataStore from "../util/DataStore";
             return;
         }
 
-        let habitatsHtml = '<table id="habitats-table"><tr><th>Name</th><th>Total Animals</th><th>Species</th><th>Habitat Id</th><th>Update Habitat</th></tr>';
+        let habitatsHtml = '<table id="user-habitats-table"><tr><th>Name</th><th>Total Animals</th><th>Species</th><th>Habitat Id</th><th>Update Habitat</th></tr>';
         let habitat;
         for (habitat of habitats) {
             habitatsHtml += `
@@ -81,29 +80,6 @@ import DataStore from "../util/DataStore";
 
         document.getElementById('habitat-owner').innerText = habitat.keeperManagerId;
    }
-
-   /**
-    * when remove button is clicked, removes habitat.
-    */
-    async removeHabitat(e) {
-        const removeButton = e.target;
-        if (!removeButton.classList.contains('remove-habitat')) {
-             return;
-        }
-
-        removeButton.innerText = "Removing...";
-
-        const errorMessageDisplay = document.getElementById('error-message');
-        errorMessageDisplay.innerText = ``;
-        errorMessageDisplay.classList.add('hidden');
-
-        await this.client.removeHabitat(removeButton.dataset.id, (error) => {
-            errorMessageDisplay.innerText = `Error: ${error.message}`;
-            errorMessageDisplay.classList.remove('hidden');
-        });
-
-        document.getElementById(removeButton.dataset.id).remove();
-    }
 
     /**
     * when the update button is clicked, redirects to update habitat page.

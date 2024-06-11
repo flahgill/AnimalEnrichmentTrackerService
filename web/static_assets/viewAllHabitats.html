@@ -10,6 +10,7 @@
 <header class="header" id="header"></header>
 <div class="card">
     <h2>All Habitats</h2>
+    <p class="hidden error" id="error-message"></p>
     <p class="button-group">
         <a href="#" class="button" id="toggle-filter-btn">Active/Inactive</a>
     </p>
@@ -17,6 +18,13 @@
         <span id="filter-criteria-display"></span>
     <div id="filter-results-display"></div>
     </p>
+</div>
+
+<div id="error-modal" class="modal">
+    <div class="modal-content">
+        <p id="error-modal-message"></p>
+        <button id="ok-button" class="ok-button">OK</button>
+    </div>
 </div>
 </body>
 

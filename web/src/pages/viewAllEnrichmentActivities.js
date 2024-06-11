@@ -174,8 +174,6 @@ class ViewAllEnrichmentActivities extends BindingClass {
 
         const activityId = reAddButton.dataset.activityId;
         const habitatId = reAddButton.dataset.habitatId;
-        console.log(activityId);
-        console.log(habitatId);
 
         reAddButton.innerText = "Adding...";
 

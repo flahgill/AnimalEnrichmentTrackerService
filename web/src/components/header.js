@@ -50,8 +50,8 @@ export default class Header extends BindingClass {
         const menuList = document.createElement('ul');
         menuList.classList.add('menu_list');
 
-        menuList.appendChild(this.createViewHabitatsLink());
-        menuList.appendChild(this.createViewEnrichmentActivitiesLink());
+        menuList.appendChild(this.createMenuItem('Habitats', 'viewAllHabitats.html'));
+        menuList.appendChild(this.createMenuItem('Activities', 'viewAllActivities.html'));
 
         const menu = document.createElement('div');
         menu.classList.add('menu');
@@ -60,24 +60,14 @@ export default class Header extends BindingClass {
         return menu;
     }
 
-    createViewHabitatsLink() {
-        const viewHabitatsLink = document.createElement('a');
-        viewHabitatsLink.href = 'viewAllHabitats.html';
-        const viewHabitats = document.createElement('li');
-        viewHabitats.classList.add('nav');
-        viewHabitats.innerText = 'Habitats';
-        viewHabitatsLink.appendChild(viewHabitats);
-        return viewHabitatsLink;
-    }
-
-    createViewEnrichmentActivitiesLink() {
-        const viewEnrichmentActivitiesLink = document.createElement('a');
-        viewEnrichmentActivitiesLink.href = 'viewAllActivities.html';
-        const viewActivities = document.createElement('li');
-        viewActivities.classList.add('nav');
-        viewActivities.innerText = 'Enrichment Activities';
-        viewEnrichmentActivitiesLink.appendChild(viewActivities);
-        return viewEnrichmentActivitiesLink;
+    createMenuItem(text, href) {
+        const link = document.createElement('a');
+        link.href = href;
+        const menuItem = document.createElement('li');
+        menuItem.classList.add('menu_item');
+        menuItem.innerText = text;
+        link.appendChild(menuItem);
+        return link;
     }
 
     createUserInfoForHeader(currentUser) {

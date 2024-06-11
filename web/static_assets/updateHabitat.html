@@ -11,6 +11,7 @@
 <header class="header" id="header"></header>
 <div class="card">
     <h2 id="update-habitat-form">Update Habitat </h2>
+    <p class="hidden error" id="error-message"> </p>
     <h3>Name: <span id="habitat-name"></span></h3>
     <h3>Manager: <span id="habitat-owner"></span></h3>
     <h3>Id: <span id="habitat-id"></span></h3>
@@ -20,7 +21,6 @@
 
 <div class="card">
     <form class="card-content" id="update-habitat-name-form">
-        <p class="hidden error" id="error-message"> </p>
         <p class="form-field">
             <h4>Update Habitat Name</h4>
             <input type="text" class="validated-field" id="new-name" placeholder="Giraffe Barn" autofocus>
@@ -58,6 +58,13 @@
 
 <div class="card">
     <a href="#" class="button" id="update-habitat">Submit</a>
+</div>
+
+<div id="error-modal" class="modal">
+    <div class="modal-content">
+        <p id="error-modal-message"></p>
+        <button id="ok-button" class="ok-button">OK</button>
+    </div>
 </div>
 </body>
 
