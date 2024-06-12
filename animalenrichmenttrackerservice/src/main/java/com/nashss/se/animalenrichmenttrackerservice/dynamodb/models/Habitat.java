@@ -28,6 +28,7 @@ public class Habitat {
     private List<String> animalsInHabitat;
     private List<String> acceptableEnrichmentIds = new ArrayList<>();
     private List<EnrichmentActivity> completedEnrichments = new ArrayList<>();
+    private String keeperName;
 
     @DynamoDBHashKey(attributeName = "habitatId")
     @DynamoDBIndexHashKey(globalSecondaryIndexNames = {"AcceptableEnrichmentsForHabitatIndex",
@@ -131,6 +132,15 @@ public class Habitat {
         this.isActive = isActive;
     }
 
+    @DynamoDBAttribute(attributeName = "keeperName")
+    public String getKeeperName() {
+        return keeperName;
+    }
+
+    public void setKeeperName(String keeperName) {
+        this.keeperName = keeperName;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) {
@@ -160,6 +170,7 @@ public class Habitat {
                 ", animalsInHabitat=" + animalsInHabitat +
                 ", acceptableEnrichmentIds=" + acceptableEnrichmentIds +
                 ", completedEnrichments=" + completedEnrichments +
+                ", keeperName=" + keeperName +
                 '}';
     }
 }

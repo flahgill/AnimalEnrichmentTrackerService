@@ -77,6 +77,7 @@ public class AddHabitatActivity {
         habitat.setTotalAnimals(0);
         habitat.setAnimalsInHabitat(new ArrayList<>());
         habitat.setAcceptableEnrichmentIds(new ArrayList<>());
+        habitat.setKeeperName(addHabitatRequest.getKeeperName());
 
         habitatDao.saveHabitat(habitat);
 

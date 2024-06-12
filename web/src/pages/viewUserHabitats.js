@@ -81,7 +81,8 @@ class ViewUserHabitats extends BindingClass {
 
             document.getElementById('habitats').innerHTML = habitatsHtml;
 
-            document.getElementById('habitat-owner').innerText = habitat.keeperManagerId;
+            document.getElementById('habitat-owner').innerText = habitat.keeperName;
+            document.getElementById('owner-email').innerText = habitat.keeperManagerId;
        }
 
         /**

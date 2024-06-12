@@ -51,6 +51,7 @@ public class ModelConverter {
                 .withAnimalsInHabitat(animalsInHabitat)
                 .withAcceptableEnrichmentIds(acceptableEnrichmentIds)
                 .withCompletedEnrichments(completedEnrichments)
+                .withKeeperName(habitat.getKeeperName())
                 .build();
     }
 

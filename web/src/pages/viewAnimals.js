@@ -57,7 +57,8 @@ class ViewAnimals extends BindingClass {
         }
 
         document.getElementById('habitat-name').innerText = habitat.habitatName;
-        document.getElementById('habitat-owner').innerText = habitat.keeperManagerId;
+        document.getElementById('habitat-owner').innerText = habitat.keeperName;
+        document.getElementById('owner-email').innerText = habitat.keeperManagerId;
         document.getElementById('habitat-id').innerText = habitat.habitatId;
 
         let speciesHtml = '';
