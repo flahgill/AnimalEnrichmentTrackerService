@@ -25,9 +25,10 @@ const EMPTY_DATASTORE_STATE = {
 /**
  * Logic needed for the search habitats page of the website.
  */
-class SearchHabitats extends BindingClass {
-    constructor() {
+export default class SearchHabitats extends BindingClass {
+    constructor(client) {
         super();
+        this.client = client;
 
         this.bindClassMethods(['mount', 'search', 'displaySearchResults', 'getHTMLForSearchResults'], this);
 
@@ -47,8 +48,6 @@ class SearchHabitats extends BindingClass {
         document.getElementById('search-btn').addEventListener('click', this.search);
 
         this.header.addHeaderToPage();
-
-        this.client = new AnimalEnrichmentTrackerClient();
     }
 
     /**
@@ -136,13 +135,3 @@ class SearchHabitats extends BindingClass {
     }
 
 }
-
-/**
- * Main method to run when the page contents have loaded.
- */
-const main = async () => {
-    const searchHabitats = new SearchHabitats();
-    searchHabitats.mount();
-};
-
-window.addEventListener('DOMContentLoaded', main);

@@ -5,9 +5,11 @@ import DataStore from "../util/DataStore";
 /**
 * Logic needed for the view user habitats page of the website.
 */
-class ViewUserHabitats extends BindingClass {
-     constructor() {
+export default class ViewUserHabitats extends BindingClass {
+     constructor(client) {
          super();
+         this.client = client;
+
          this.bindClassMethods(['clientLoaded', 'mount', 'addHabitatsToPage',
          'redirectToUpdateHabitat', 'checkLoginStatus'], this);
          this.dataStore = new DataStore();
@@ -20,6 +22,7 @@ class ViewUserHabitats extends BindingClass {
      async clientLoaded() {
          const urlParams = new URLSearchParams(window.location.search);
          const keeperManagerId = urlParams.get('email');
+
          document.getElementById('habitats').innerText = "Loading Habitats ...";
          const habitats = await this.client.getUserHabitats(keeperManagerId);
          this.dataStore.set('habitats', habitats);
@@ -29,14 +32,13 @@ class ViewUserHabitats extends BindingClass {
      /**
       * Load the AnimalEnrichmentTrackerClient.
       */
-      mount() {
+       async mount() {
           document.getElementById('habitats').addEventListener("click", this.redirectToUpdateHabitat);
 
-          this.client = new AnimalEnrichmentTrackerClient();
           await this.checkLoginStatus();
 
           document.getElementById('ok-button').addEventListener("click", this.closeModal);
-      }
+       }
 
       /**
       * Check user login status.
@@ -113,13 +115,3 @@ class ViewUserHabitats extends BindingClass {
             modal.style.display = "none";
         }
 }
-
-/**
-* Main method to run when the page contents have loaded.
-*/
-const main = async () => {
-      const viewUserHabitats = new ViewUserHabitats();
-      viewUserHabitats.mount();
-};
-
-window.addEventListener('DOMContentLoaded', main);

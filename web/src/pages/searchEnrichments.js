@@ -24,9 +24,10 @@ const EMPTY_DATASTORE_STATE = {
 /**
  * Logic needed for the search habitats page of the website.
  */
-class SearchEnrichments extends BindingClass {
-    constructor() {
+export default class SearchEnrichments extends BindingClass {
+    constructor(client) {
         super();
+        this.client = client;
 
         this.bindClassMethods(['mount', 'search', 'displaySearchResults', 'getHTMLForSearchResults'], this);
 
@@ -43,8 +44,6 @@ class SearchEnrichments extends BindingClass {
         // Wire up the form's 'submit' event and the button's 'click' event to the search method.
         document.getElementById('search-enrichments-form').addEventListener('submit', this.search);
         document.getElementById('search-enrichments-btn').addEventListener('click', this.search);
-
-        this.client = new AnimalEnrichmentTrackerClient();
     }
 
     /**
@@ -123,13 +122,3 @@ class SearchEnrichments extends BindingClass {
     }
 
 }
-
-/**
- * Main method to run when the page contents have loaded.
- */
-const main = async () => {
-    const searchEnrichments = new SearchEnrichments();
-    searchEnrichments.mount();
-};
-
-window.addEventListener('DOMContentLoaded', main);
