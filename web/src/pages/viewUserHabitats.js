@@ -33,7 +33,7 @@ class ViewUserHabitats extends BindingClass {
           document.getElementById('habitats').addEventListener("click", this.redirectToUpdateHabitat);
 
           this.client = new AnimalEnrichmentTrackerClient();
-          this.checkLoginStatus();
+          await this.checkLoginStatus();
 
           document.getElementById('ok-button').addEventListener("click", this.closeModal);
       }
