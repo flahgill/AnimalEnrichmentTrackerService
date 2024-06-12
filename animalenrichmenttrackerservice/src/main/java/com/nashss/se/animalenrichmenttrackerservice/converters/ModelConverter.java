@@ -1,6 +1,5 @@
 package com.nashss.se.animalenrichmenttrackerservice.converters;
 
-import com.nashss.se.animalenrichmenttrackerservice.dynamodb.AnimalDao;
 import com.nashss.se.animalenrichmenttrackerservice.dynamodb.models.Animal;
 import com.nashss.se.animalenrichmenttrackerservice.dynamodb.models.Enrichment;
 import com.nashss.se.animalenrichmenttrackerservice.dynamodb.models.EnrichmentActivity;

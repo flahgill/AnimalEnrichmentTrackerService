@@ -1,11 +1,5 @@
 package com.nashss.se.animalenrichmenttrackerservice.models;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateSerializer;
-
-import java.time.LocalDate;
 import java.util.Objects;
 
 public class AnimalModel {
@@ -64,8 +58,12 @@ public class AnimalModel {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
         AnimalModel that = (AnimalModel) o;
         return age == that.age &&
                 Objects.equals(animalId, that.animalId) &&
