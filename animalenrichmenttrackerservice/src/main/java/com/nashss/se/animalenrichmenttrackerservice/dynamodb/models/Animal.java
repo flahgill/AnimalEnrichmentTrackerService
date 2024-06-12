@@ -2,6 +2,7 @@ package com.nashss.se.animalenrichmenttrackerservice.dynamodb.models;
 
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBAttribute;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBHashKey;
+import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBIndexHashKey;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBTable;
 
 import java.util.Objects;
@@ -66,6 +67,7 @@ public class Animal {
     }
 
     @DynamoDBAttribute(attributeName = "isActive")
+    @DynamoDBIndexHashKey(globalSecondaryIndexName = "AnimalsStatusIndex", attributeName = "isActive")
     public String getIsActive() {
         return isActive;
     }

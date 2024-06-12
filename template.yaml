@@ -815,6 +815,8 @@ Resources:
       AttributeDefinitions:
         - AttributeName: "animalId"
           AttributeType: "S"
+        - AttributeName: "isActive"
+          AttributeType: "S"
       KeySchema:
         - AttributeName: "animalId"
           KeyType: "HASH"
