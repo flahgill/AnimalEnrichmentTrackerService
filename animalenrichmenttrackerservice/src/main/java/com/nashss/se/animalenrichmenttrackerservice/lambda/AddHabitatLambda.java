@@ -20,6 +20,7 @@ public class AddHabitatLambda
                                 .withHabitatName(unauthRequest.getHabitatName())
                                 .withSpecies(unauthRequest.getSpecies())
                                 .withKeeperManagerId(claims.get("email"))
+                                .withKeeperName(claims.get("name"))
                                 .build());
             },
             (request, serviceComponent) ->

@@ -20,10 +20,12 @@ public class HabitatModel {
 
     @JsonSerialize(contentUsing = CompletedEnrichmentsSerializer.class)
     private final List<EnrichmentActivity> completedEnrichments;
+    private String keeperName;
 
     private HabitatModel(String habitatId, String isActive, String habitatName, List<String> species,
                          String keeperManagerId, int totalAnimals, List<String> animalsInHabitat,
-                         List<String> acceptableEnrichmentIds, List<EnrichmentActivity> completedEnrichments) {
+                         List<String> acceptableEnrichmentIds, List<EnrichmentActivity> completedEnrichments,
+                         String keeperName) {
         this.habitatId = habitatId;
         this.isActive = isActive;
         this.habitatName = habitatName;
@@ -33,6 +35,7 @@ public class HabitatModel {
         this.animalsInHabitat = animalsInHabitat;
         this.acceptableEnrichmentIds = acceptableEnrichmentIds;
         this.completedEnrichments = completedEnrichments;
+        this.keeperName = keeperName;
     }
 
     public String getHabitatId() {
@@ -71,6 +74,9 @@ public class HabitatModel {
         return isActive;
     }
 
+    public String getKeeperName() {
+        return keeperName;
+    }
 
     @Override
     public boolean equals(Object o) {
@@ -104,6 +110,7 @@ public class HabitatModel {
         private List<String> animalsInHabitat;
         private List<String> acceptableEnrichmentIds;
         private List<EnrichmentActivity> completedEnrichments;
+        private String keeperName;
 
         public Builder withHabitatId(String habitatId) {
             this.habitatId = habitatId;
@@ -142,10 +149,14 @@ public class HabitatModel {
             this.completedEnrichments = completedEnrichments;
             return this;
         }
+        public Builder withKeeperName(String keeperName) {
+            this.keeperName = keeperName;
+            return this;
+        }
         public HabitatModel build() {
             return new HabitatModel(habitatId, isActive, habitatName, species, keeperManagerId,
                     totalAnimals, animalsInHabitat, acceptableEnrichmentIds,
-                    completedEnrichments);
+                    completedEnrichments, keeperName);
         }
     }
 }

@@ -11,11 +11,13 @@ public class AddHabitatRequest {
     private final String habitatName;
     private final String keeperManagerId;
     private final List<String> species;
+    private final String keeperName;
 
-    private AddHabitatRequest(String habitatName, String keeperManagerId, List<String> species) {
+    private AddHabitatRequest(String habitatName, String keeperManagerId, List<String> species, String keeperName) {
         this.habitatName = habitatName;
         this.keeperManagerId = keeperManagerId;
         this.species = species;
+        this.keeperName = keeperName;
     }
 
     public String getHabitatName() {
@@ -30,12 +32,17 @@ public class AddHabitatRequest {
         return species;
     }
 
+    public String getKeeperName() {
+        return keeperName;
+    }
+
     @Override
     public String toString() {
         return "AddHabitatRequest{" +
                 "habitatName='" + habitatName + '\'' +
                 ", keeperManagerId='" + keeperManagerId + '\'' +
                 ", species=" + species +
+                ", keeperName=" + keeperName +
                 '}';
     }
 
@@ -49,6 +56,7 @@ public class AddHabitatRequest {
         private String habitatName;
         private String keeperManagerId;
         private List<String> species;
+        private String keeperName;
 
         public Builder withHabitatName(String habitatName) {
             this.habitatName = habitatName;
@@ -62,8 +70,12 @@ public class AddHabitatRequest {
             this.species = species;
             return this;
         }
+        public Builder withKeeperName(String keeperName) {
+            this.keeperName = keeperName;
+            return this;
+        }
         public AddHabitatRequest build() {
-            return new AddHabitatRequest(habitatName, keeperManagerId, species);
+            return new AddHabitatRequest(habitatName, keeperManagerId, species, keeperName);
         }
     }
 }
