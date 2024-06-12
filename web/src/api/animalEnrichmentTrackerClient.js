@@ -260,10 +260,10 @@ export default class AnimalEnrichmentTrackerClient extends BindingClass {
      }
 
      /**
-      * Gets the habitat's list of animals for the given ID.
+      * Gets the list of animals for the given habitat ID.
       * @param habitatId Unique identifier for a habitat
       * @param errorCallback (Optional) A function to execute if the call fails.
-      * @returns {Promise<string[]>} The habitat's list of animals.
+      * @returns A list of animals associated with the habitat Id.
       */
      async getAnimalsForHabitat(habitatId, errorCallback) {
          try {

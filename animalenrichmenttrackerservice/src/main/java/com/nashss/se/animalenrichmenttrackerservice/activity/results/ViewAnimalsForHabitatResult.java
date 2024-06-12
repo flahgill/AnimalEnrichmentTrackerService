@@ -1,5 +1,7 @@
 package com.nashss.se.animalenrichmenttrackerservice.activity.results;
 
+import com.nashss.se.animalenrichmenttrackerservice.models.AnimalModel;
+
 import java.util.List;
 
 /**
@@ -7,18 +9,18 @@ import java.util.List;
  */
 public class ViewAnimalsForHabitatResult {
 
-    private final List<String> animalsInHabitat;
+    private final List<AnimalModel> animalsInHabitat;
 
     /**
      * creates ViewAnimalsForHabitatResult object for retrieving a habitat's list of animals using the habitatId.
      *
      * @param animalsInHabitat list of animals to be returned.
      */
-    private ViewAnimalsForHabitatResult(List<String> animalsInHabitat) {
+    private ViewAnimalsForHabitatResult(List<AnimalModel> animalsInHabitat) {
         this.animalsInHabitat = animalsInHabitat;
     }
 
-    public List<String> getAnimalsInHabitat() {
+    public List<AnimalModel> getAnimalsInHabitat() {
         return animalsInHabitat;
     }
 
@@ -35,8 +37,8 @@ public class ViewAnimalsForHabitatResult {
     }
 
     public static class Builder {
-        private List<String> animalsInHabitat;
-        public Builder withAnimalsInHabitat(List<String> animalsInHabitat) {
+        private List<AnimalModel> animalsInHabitat;
+        public Builder withAnimalsInHabitat(List<AnimalModel> animalsInHabitat) {
             this.animalsInHabitat = animalsInHabitat;
             return this;
         }

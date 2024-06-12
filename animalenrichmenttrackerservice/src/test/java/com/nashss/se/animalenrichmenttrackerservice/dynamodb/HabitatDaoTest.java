@@ -27,7 +27,7 @@ public class HabitatDaoTest {
     @Mock
     private PaginatedQueryList<Habitat> pagQueryList;
     @Captor
-    ArgumentCaptor<DynamoDBQueryExpression> queryExpCaptor;
+    private ArgumentCaptor<DynamoDBQueryExpression> queryExpCaptor;
     private HabitatDao habitatDao;
 
     @BeforeEach

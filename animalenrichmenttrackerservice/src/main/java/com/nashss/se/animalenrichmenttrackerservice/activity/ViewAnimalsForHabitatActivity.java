@@ -2,14 +2,15 @@ package com.nashss.se.animalenrichmenttrackerservice.activity;
 
 import com.nashss.se.animalenrichmenttrackerservice.activity.requests.ViewAnimalsForHabitatRequest;
 import com.nashss.se.animalenrichmenttrackerservice.activity.results.ViewAnimalsForHabitatResult;
-import com.nashss.se.animalenrichmenttrackerservice.dynamodb.HabitatDao;
-import com.nashss.se.animalenrichmenttrackerservice.dynamodb.models.Habitat;
+import com.nashss.se.animalenrichmenttrackerservice.comparators.AnimalNameComparator;
+import com.nashss.se.animalenrichmenttrackerservice.converters.ModelConverter;
+import com.nashss.se.animalenrichmenttrackerservice.dynamodb.AnimalDao;
+import com.nashss.se.animalenrichmenttrackerservice.dynamodb.models.Animal;
+import com.nashss.se.animalenrichmenttrackerservice.models.AnimalModel;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -22,16 +23,16 @@ import javax.inject.Inject;
  */
 public class ViewAnimalsForHabitatActivity {
     private final Logger log = LogManager.getLogger();
-    private final HabitatDao habitatDao;
+    private final AnimalDao animalDao;
 
     /**
      * Instantiates a new ViewAnimalsForHabitatActivity object.
      *
-     * @param habitatDao the HabitatDao to access the Habitats DDB table.
+     * @param animalDao the data access object to access the Animals DDB table.
      */
     @Inject
-    public ViewAnimalsForHabitatActivity(HabitatDao habitatDao) {
-        this.habitatDao = habitatDao;
+    public ViewAnimalsForHabitatActivity(AnimalDao animalDao) {
+        this.animalDao = animalDao;
     }
 
     /**
@@ -46,15 +47,13 @@ public class ViewAnimalsForHabitatActivity {
     public ViewAnimalsForHabitatResult handleRequest(final ViewAnimalsForHabitatRequest viewAnimalsForHabitatRequest) {
         log.info("Recieved ViewAnimalsInHabitatRequest {}", viewAnimalsForHabitatRequest);
 
-        Habitat habitat = habitatDao.getHabitat(viewAnimalsForHabitatRequest.getHabitatId());
-        List<String> animalsInHabitat = habitat.getAnimalsInHabitat();
+        List<Animal> animalsInHabitat = animalDao.getHabitatAnimals(viewAnimalsForHabitatRequest.getHabitatId());
 
-        List<String> sortedAnimals = new ArrayList<>(animalsInHabitat);
-
-        Collections.sort(sortedAnimals);
+        List<AnimalModel> habitatAnimalModels = new ModelConverter().toAnimalModelList(animalsInHabitat);
+        habitatAnimalModels.sort(new AnimalNameComparator());
 
         return ViewAnimalsForHabitatResult.builder()
-                .withAnimalsInHabitat(sortedAnimals)
+                .withAnimalsInHabitat(habitatAnimalModels)
                 .build();
     }
 }
