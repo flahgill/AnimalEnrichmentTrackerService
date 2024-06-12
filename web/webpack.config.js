@@ -36,6 +36,7 @@ module.exports = {
     searchEnrichmentActivities: path.resolve(__dirname, 'src', 'pages', 'SearchEnrichmentActivities.js'),
     searchEnrichments: path.resolve(__dirname, 'src', 'pages', 'searchEnrichments.js'),
     viewAcceptableIds: path.resolve(__dirname, 'src', 'pages', 'viewAcceptableIds.js'),
+    IndexInitialize: path.resolve(__dirname, 'src', 'pages', 'IndexInitialize.js'),
     searchHabitats: path.resolve(__dirname, 'src', 'pages', 'searchHabitats.js')
   },
   output: {

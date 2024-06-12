@@ -1,4 +1,5 @@
 import AnimalEnrichmentTrackerClient from '../api/animalEnrichmentTrackerClient';
+import SearchHabitats from './searchHabitats.js'
 import BindingClass from "../util/bindingClass";
 import DataStore from "../util/DataStore";
 
@@ -24,9 +25,10 @@ const EMPTY_DATASTORE_STATE = {
 /**
  * Logic needed for the search habitats page of the website.
  */
-class SearchEnrichmentActivities extends BindingClass {
-    constructor() {
+export default class SearchEnrichmentActivities extends BindingClass {
+    constructor(client) {
         super();
+        this.client = client;
 
         this.bindClassMethods(['mount', 'search', 'displaySearchResults', 'getHTMLForSearchResults'], this);
 
@@ -43,8 +45,6 @@ class SearchEnrichmentActivities extends BindingClass {
         // Wire up the form's 'submit' event and the button's 'click' event to the search method.
         document.getElementById('search-activities-form').addEventListener('submit', this.search);
         document.getElementById('search-activities-btn').addEventListener('click', this.search);
-
-        this.client = new AnimalEnrichmentTrackerClient();
     }
 
     /**
@@ -137,13 +137,3 @@ class SearchEnrichmentActivities extends BindingClass {
     }
 
 }
-
-/**
- * Main method to run when the page contents have loaded.
- */
-const main = async () => {
-    const searchEnrichmentActivities = new SearchEnrichmentActivities();
-    searchEnrichmentActivities.mount();
-};
-
-window.addEventListener('DOMContentLoaded', main);
