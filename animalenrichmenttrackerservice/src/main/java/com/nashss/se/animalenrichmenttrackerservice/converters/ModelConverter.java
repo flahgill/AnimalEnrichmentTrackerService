@@ -1,8 +1,11 @@
 package com.nashss.se.animalenrichmenttrackerservice.converters;
 
+import com.nashss.se.animalenrichmenttrackerservice.dynamodb.AnimalDao;
+import com.nashss.se.animalenrichmenttrackerservice.dynamodb.models.Animal;
 import com.nashss.se.animalenrichmenttrackerservice.dynamodb.models.Enrichment;
 import com.nashss.se.animalenrichmenttrackerservice.dynamodb.models.EnrichmentActivity;
 import com.nashss.se.animalenrichmenttrackerservice.dynamodb.models.Habitat;
+import com.nashss.se.animalenrichmenttrackerservice.models.AnimalModel;
 import com.nashss.se.animalenrichmenttrackerservice.models.EnrichmentActivityModel;
 import com.nashss.se.animalenrichmenttrackerservice.models.EnrichmentModel;
 import com.nashss.se.animalenrichmenttrackerservice.models.HabitatModel;
@@ -135,5 +138,39 @@ public class ModelConverter {
         }
 
         return habitatModels;
+    }
+
+    /**
+     * Converts a provided {@link Animal} into an {@link AnimalModel} representation.
+     *
+     * @param animal animal object to be converted to an AnimalModel.
+     * @return the converted AnimalModel object.
+     */
+    public AnimalModel toAnimalModel(Animal animal) {
+        return AnimalModel.builder()
+                .withAnimalId(animal.getAnimalId())
+                .withAnimalName(animal.getAnimalName())
+                .withAge(animal.getAge())
+                .withSex(animal.getSex())
+                .withSpecies(animal.getSpecies())
+                .withIsActive(animal.getIsActive())
+                .withHabitatId(animal.getHabitatId())
+                .withOnHabitat(animal.getOnHabitat())
+                .build();
+    }
+
+    /**
+     * Converts a provided list of Animal objects to a list of AnimalModels.
+     * @param animals list of animals to be converted to a list of AnimalModels.
+     * @return the converted list of AnimalModels.
+     */
+    public List<AnimalModel> toAnimalModelList(List<Animal> animals) {
+        List<AnimalModel> animalModels = new ArrayList<>();
+
+        for (Animal animal : animals) {
+            animalModels.add(toAnimalModel(animal));
+        }
+
+        return animalModels;
     }
 }

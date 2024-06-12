@@ -213,7 +213,6 @@ Resources:
               - Effect: Allow
                 Action: dynamodb:query
                 Resource: !Sub "arn:aws:dynamodb:${AWS::Region}:${AWS::AccountId}:table/Habitats/index/HabitatsStatusIndex"
-
         - PolicyName: 'AccessEnrichmentsTable'
           PolicyDocument:
             Version: '2012-10-17'
@@ -221,7 +220,6 @@ Resources:
               - Effect: Allow
                 Action: dynamodb:*
                 Resource: !Sub "arn:aws:dynamodb:${AWS::Region}:${AWS::AccountId}:table/Enrichments"
-
         - PolicyName: 'AccessEnrichmentActivitiesTable'
           PolicyDocument:
             Version: '2012-10-17'
@@ -229,6 +227,16 @@ Resources:
               - Effect: Allow
                 Action: dynamodb:*
                 Resource: !Sub "arn:aws:dynamodb:${AWS::Region}:${AWS::AccountId}:table/EnrichmentActivities"
+        - PolicyName: 'AccessAnimalsTable'
+          PolicyDocument:
+            Version: '2012-10-17'
+            Statement:
+              - Effect: Allow
+                Action: dynamodb:*
+                Resource: !Sub "arn:aws:dynamodb:${AWS::Region}:${AWS::AccountId}:table/Animals"
+              - Effect: Allow
+                Action: dynamodb:query
+                Resource: !Sub "arn:aws:dynamodb:${AWS::Region}:${AWS::AccountId}:table/Animals/index/AnimalsStatusIndex"
 
   #-----------------------------------------------------
   # Lambda Functions Configuration
@@ -797,6 +805,25 @@ Resources:
         - IndexName: "ActivityCompletionStatusIndex"
           KeySchema:
             - AttributeName: "isComplete"
+              KeyType: "HASH"
+          Projection:
+            ProjectionType: "ALL"
+
+  AnimalsTable:
+    Type: AWS::DynamoDB::Table
+    Properties:
+      AttributeDefinitions:
+        - AttributeName: "animalId"
+          AttributeType: "S"
+      KeySchema:
+        - AttributeName: "animalId"
+          KeyType: "HASH"
+      BillingMode: "PAY_PER_REQUEST"
+      TableName: "Animals"
+      GlobalSecondaryIndexes:
+        - IndexName: "AnimalsStatusIndex"
+          KeySchema:
+            - AttributeName: "isActive"
               KeyType: "HASH"
           Projection:
             ProjectionType: "ALL"
