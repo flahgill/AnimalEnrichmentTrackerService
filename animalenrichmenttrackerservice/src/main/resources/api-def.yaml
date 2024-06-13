@@ -876,15 +876,41 @@ paths:
                   onHabitat:
                     type: boolean
 
-
-
-
-
-
-
-
-
-
-
-
-
+  /animals:
+    get:
+      tags:
+        - Animals
+      parameters:
+        - name: q
+          in: query
+          description: active status
+          required: false
+          schema:
+            type: array
+            items:
+              type: string
+      summary: View All Animals (ViewAllAnimalsLambda)
+      responses:
+        "200":
+          description: a list of animals
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  animalId:
+                    type: string
+                  animalName:
+                    type: string
+                  age:
+                    type: integer
+                  sex:
+                    type: string
+                  species:
+                    type: string
+                  isActive:
+                    type: string
+                  habitatId:
+                    type: string
+                  onHabitat:
+                    type: boolean

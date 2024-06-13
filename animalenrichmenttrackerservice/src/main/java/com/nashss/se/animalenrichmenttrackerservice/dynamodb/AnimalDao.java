@@ -5,6 +5,7 @@ import com.nashss.se.animalenrichmenttrackerservice.exceptions.AnimalNotFoundExc
 import com.nashss.se.animalenrichmenttrackerservice.metrics.MetricsPublisher;
 
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBMapper;
+import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBQueryExpression;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBScanExpression;
 import com.amazonaws.services.dynamodbv2.model.AttributeValue;
 
@@ -75,6 +76,25 @@ public class AnimalDao {
         this.dynamoDBMapper.delete(animal);
 
         return animal;
+    }
+
+    /**
+     * Perform a query of the animals table (GSI) for animals matching the active status in query.
+     *
+     * @param isActive the activity status of an animal, requested by the user.
+     * @return a list of animals matching the active status requested.
+     */
+    public List<Animal> getAllAnimals(String isActive) {
+        Map<String, AttributeValue> valueMap = new HashMap<>();
+        valueMap.put(":isActive", new AttributeValue().withS(isActive));
+
+        DynamoDBQueryExpression<Animal> queryExpression = new DynamoDBQueryExpression<Animal>()
+                .withIndexName("AnimalsStatusIndex")
+                .withConsistentRead(false)
+                .withKeyConditionExpression("isActive = :isActive")
+                .withExpressionAttributeValues(valueMap);
+
+        return this.dynamoDBMapper.query(Animal.class, queryExpression);
     }
 
     /**

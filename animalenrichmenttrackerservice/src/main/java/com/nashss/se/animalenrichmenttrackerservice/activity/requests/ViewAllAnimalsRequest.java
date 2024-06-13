@@ -1,17 +1,17 @@
 package com.nashss.se.animalenrichmenttrackerservice.activity.requests;
 
 /**
- * ViewInactiveHabitatsRequest object class.
+ * ViewAllAnimalsRequest object class.
  */
-public class ViewAllHabitatsRequest {
+public class ViewAllAnimalsRequest {
     private final String isActive;
 
     /**
-     * creates ViewInactiveHabitatsRequest object for retrieving all habitats based on active status.
+     * creates ViewAllAnimalsRequest object for retrieving all animals based on the active status.
      *
-     * @param isActive the active status used to retrieve a list of habitats
+     * @param isActive the active status specified by user.
      */
-    private ViewAllHabitatsRequest(String isActive) {
+    private ViewAllAnimalsRequest(String isActive) {
         this.isActive = isActive;
     }
 
@@ -21,7 +21,7 @@ public class ViewAllHabitatsRequest {
 
     @Override
     public String toString() {
-        return "ViewInactiveHabitatsRequest{" +
+        return "ViewAllAnimalsRequest{" +
                 "isActive='" + isActive + '\'' +
                 '}';
     }
@@ -30,14 +30,14 @@ public class ViewAllHabitatsRequest {
     public static Builder builder() {
         return new Builder();
     }
-    public static class Builder{
+    public static class Builder {
         private String isActive;
         public Builder withIsActive(String isActive) {
             this.isActive = isActive;
             return this;
         }
-        public ViewAllHabitatsRequest build() {
-            return new ViewAllHabitatsRequest(isActive);
+        public ViewAllAnimalsRequest build() {
+            return new ViewAllAnimalsRequest(isActive);
         }
     }
 }
