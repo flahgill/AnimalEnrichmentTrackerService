@@ -5,6 +5,7 @@ import com.nashss.se.animalenrichmenttrackerservice.activity.results.RemoveAnima
 import com.nashss.se.animalenrichmenttrackerservice.converters.ModelConverter;
 import com.nashss.se.animalenrichmenttrackerservice.dynamodb.AnimalDao;
 import com.nashss.se.animalenrichmenttrackerservice.dynamodb.models.Animal;
+import com.nashss.se.animalenrichmenttrackerservice.exceptions.AnimalCurrentlyOnHabitatException;
 import com.nashss.se.animalenrichmenttrackerservice.models.AnimalModel;
 
 import org.apache.logging.log4j.LogManager;
@@ -47,7 +48,10 @@ public class RemoveAnimalActivity {
         String animalId = removeAnimalRequest.getAnimalId();
         Animal animalToRemove = animalDao.getAnimal(animalId);
 
-        // TODO: will later implement that animal's onHabitat attribute must be false before deleting.
+        if (animalToRemove.getOnHabitat()) {
+            throw new AnimalCurrentlyOnHabitatException("animal with id [" + animalId + "] is currently " +
+                    "on a habitat[" + animalToRemove.getHabitatId() + "] and can't be deleted.");
+        }
 
         animalToRemove = animalDao.removeAnimal(animalId);
 

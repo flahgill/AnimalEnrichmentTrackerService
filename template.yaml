@@ -445,6 +445,8 @@ Resources:
           Properties:
             Path: /animals/{animalId}
             Method: get
+            Auth:
+              Authorizer: 'NONE'
 
   ViewAllAnimalsLambda:
     Type: AWS::Serverless::Function
