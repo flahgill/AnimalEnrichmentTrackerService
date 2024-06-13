@@ -9,7 +9,7 @@ import DataStore from "../util/DataStore";
 class ViewAnimals extends BindingClass {
     constructor() {
         super();
-        this.bindClassMethods(['clientLoaded', 'mount', 'addAnimalsToPage'], this);
+        this.bindClassMethods(['clientLoaded', 'mount', 'addAnimalsToPage', 'addAnimal'], this);
         this.dataStore = new DataStore();
         this.dataStore.addChangeListener(this.addAnimalsToPage);
         this.header = new Header(this.dataStore);
@@ -35,6 +35,8 @@ class ViewAnimals extends BindingClass {
      * Add the header to the page and load the AnimalEnrichmentTrackerClient.
      */
     mount() {
+        document.getElementById('add-animal-btn').addEventListener('click', this.addAnimal);
+
         this.header.addHeaderToPage();
 
         this.client = new AnimalEnrichmentTrackerClient();
@@ -81,6 +83,44 @@ class ViewAnimals extends BindingClass {
 
         animalsHtml += '</table>';
         document.getElementById('animals').innerHTML = animalsHtml;
+    }
+
+    /*
+    * method to run when the add animal submit button is pressed. Call the AnimalEnrichmentTrackerClient to add
+    * an animal to a habitat's list of animals.
+    */
+    async addAnimal() {
+        const errorMessageDisplay = document.getElementById('add-animal-error-message');
+        errorMessageDisplay.innerText = ``;
+        errorMessageDisplay.classList.add('hidden');
+
+        const habitat = this.dataStore.get('habitat');
+        const habitatAnimals = this.dataStore.get('habitat-animals');
+        if (habitatAnimals == null || habitat == null) {
+            return;
+        }
+
+        document.getElementById('add-animal-btn').innerText = 'Adding...';
+        const animalName = document.getElementById('animal-name').value;
+        const age = document.getElementById('age').value;
+        const sex = document.getElementById('sex').value;
+        const species = document.getElementById('animal-species').value;
+        const habitatId = habitat.habitatId;
+
+        let errorOccurred = false;
+        const newAnimal = await this.client.addAnimalToHabitat(habitatId, animalName, age, sex, species, (error) => {
+           errorMessageDisplay.innerText = `Error: ${error.message}`;
+           errorMessageDisplay.classList.remove('hidden');
+           errorOccurred = true;
+           this.showErrorModal(error.message);
+           document.getElementById('add-animal-btn').innerText = 'Add';
+        });
+
+        if (!errorOccurred) {
+            this.dataStore.set('habitat-animals', habitatAnimals);
+            document.getElementById('add-animal-btn').innerText = 'Add';
+            location.reload();
+        }
     }
 
     async showErrorModal(message) {
