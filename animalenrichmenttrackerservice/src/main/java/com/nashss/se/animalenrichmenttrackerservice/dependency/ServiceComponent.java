@@ -6,6 +6,7 @@ import com.nashss.se.animalenrichmenttrackerservice.activity.AddEnrichmentActivi
 import com.nashss.se.animalenrichmenttrackerservice.activity.AddHabitatActivity;
 import com.nashss.se.animalenrichmenttrackerservice.activity.ReAddEnrichmentActivityToHabitatActivity;
 import com.nashss.se.animalenrichmenttrackerservice.activity.RemoveAcceptableIdActivity;
+import com.nashss.se.animalenrichmenttrackerservice.activity.RemoveAnimalActivity;
 import com.nashss.se.animalenrichmenttrackerservice.activity.RemoveAnimalFromHabitatActivity;
 import com.nashss.se.animalenrichmenttrackerservice.activity.RemoveEnrichmentActivityActivity;
 import com.nashss.se.animalenrichmenttrackerservice.activity.RemoveEnrichmentActivityFromHabitatActivity;
@@ -18,6 +19,7 @@ import com.nashss.se.animalenrichmenttrackerservice.activity.UpdateHabitatEnrich
 import com.nashss.se.animalenrichmenttrackerservice.activity.ViewAcceptableEnrichmentIdsActivity;
 import com.nashss.se.animalenrichmenttrackerservice.activity.ViewAllEnrichmentActivitiesActivity;
 import com.nashss.se.animalenrichmenttrackerservice.activity.ViewAllHabitatsActivity;
+import com.nashss.se.animalenrichmenttrackerservice.activity.ViewAnimalActivity;
 import com.nashss.se.animalenrichmenttrackerservice.activity.ViewAnimalsForHabitatActivity;
 import com.nashss.se.animalenrichmenttrackerservice.activity.ViewEnrichmentActivityActivity;
 import com.nashss.se.animalenrichmenttrackerservice.activity.ViewHabitatActivity;
@@ -169,4 +171,16 @@ public interface ServiceComponent {
      * @return RemoveAcceptableIdActivity
      */
     RemoveAcceptableIdActivity provideRemoveAcceptableIdActivity();
+
+    /**
+     * Provides the relevant activity.
+     * @return RemoveAnimalActivity
+     */
+    RemoveAnimalActivity provideRemoveAnimalActivity();
+
+    /**
+     * Provides the relevant activity.
+     * @return ViewAnimalActivity
+     */
+    ViewAnimalActivity provideViewAnimalActivity();
 }

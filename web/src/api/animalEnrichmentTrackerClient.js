@@ -19,7 +19,7 @@ export default class AnimalEnrichmentTrackerClient extends BindingClass {
         'removeHabitat', 'updateHabitat', 'getAnimalsForHabitat', 'addAnimalToHabitat', 'removeAnimalFromHabitat', 'getAllHabitats',
         'getHabitatEnrichments', 'addEnrichmentToHabitat', 'removeEnrichmentActivityFromHabitat', 'getEnrichmentActivity', 'getAllEnrichmentActivities',
         'removeEnrichmentActivity', 'searchEnrichmentActivities', 'searchEnrichments', 'reAddActivityToHabitat', 'getAcceptableIds', 'addAcceptableId',
-        'removeAcceptableId'];
+        'removeAcceptableId', 'getAnimal', 'removeAnimal'];
         this.bindClassMethods(methodsToBind, this);
 
         this.authenticator = new Authenticator();;
@@ -275,6 +275,21 @@ export default class AnimalEnrichmentTrackerClient extends BindingClass {
      }
 
      /**
+      * Gets the animal for the given ID.
+      * @param animalId Unique identifier for a animal
+      * @param errorCallback (Optional) A function to execute if the call fails.
+      * @returns The animal's metadata.
+      */
+     async getAnimal(animalId, errorCallback) {
+         try {
+             const response = await this.axiosClient.get(`animals/${animalId}`);
+             return response.data.animal;
+         } catch (error) {
+             this.handleError(error, errorCallback)
+         }
+     }
+
+     /**
       * Add an animal to an existing Habitat and to the animals DDB table.
       * @param habitatId the Id of the habitat to add the animal to.
       * @param animalName name of the animal to add.
@@ -327,6 +342,28 @@ export default class AnimalEnrichmentTrackerClient extends BindingClass {
              this.handleError(error, errorCallback)
          }
      }
+
+     /**
+      * removes an animal (Hard Delete).
+      * @param animalId The id of the animal.
+      * @returns removed animal.
+      */
+      async removeAnimal(animalId, errorCallback) {
+         try {
+             const token = await this.getTokenOrThrow("Only authenticated users can remove an animal from a habitat.");
+             const response = await this.axiosClient.delete(`animals/${animalId}`, {
+                 headers: {
+                     Authorization: `Bearer ${token}`
+                 },
+                 data: {
+                     animalId: animalId
+                 }
+                 });
+             return response.data.animal;
+         } catch (error) {
+             this.handleError(error, errorCallback)
+         }
+      }
 
      /**
       * Gets the habitat's list of completedEnrichments for the given ID.

@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <script type="text/javascript" src="assets/viewAnimal.js"></script>
+    <link rel="stylesheet" type="text/css" href="css/style.css">
+</head>
+
+<body class="background">
+<header class="header" id="header"></header>
+<div class="card">
+    <h2 id="animal-name"></h2>
+    <h3>ID: <span id="animal-id"></span></h3>
+    <h3>Age: <span id="animal-age"></span></h3>
+    <h3>Sex: <span id="animal-sex"></span></h3>
+    <h3>Species: <span id="animal-species"></span></h3>
+    <h3>Status: <span id="active-status"></span></h3>
+    <h3>Habitat: <span id="animal-habitat-id"></span></h3>
+    <p class="hidden error" id="error-message"></p>
+</div>
+
+<div class="card">
+    <a href='#' class="button" id="remove-animal">Delete Animal</a>
+    <sub>*This will permanently delete the animal</sub>
+</div>
+
+<div id="error-modal" class="modal">
+    <div class="modal-content">
+        <p id="error-modal-message"></p>
+        <button id="ok-button" class="ok-button">OK</button>
+    </div>
+</div>
+
+</body>
+
+</html>

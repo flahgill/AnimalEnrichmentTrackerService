@@ -1,6 +1,7 @@
 package com.nashss.se.animalenrichmenttrackerservice.dynamodb;
 
 import com.nashss.se.animalenrichmenttrackerservice.dynamodb.models.Animal;
+import com.nashss.se.animalenrichmenttrackerservice.exceptions.AnimalNotFoundException;
 import com.nashss.se.animalenrichmenttrackerservice.metrics.MetricsPublisher;
 
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBMapper;
@@ -10,6 +11,7 @@ import com.amazonaws.services.dynamodbv2.model.AttributeValue;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
@@ -42,6 +44,36 @@ public class AnimalDao {
      */
     public Animal saveAnimal(Animal animal) {
         this.dynamoDBMapper.save(animal);
+        return animal;
+    }
+
+    /**
+     * Retrieves (loads) a given animal based on the animalId.
+     *
+     * @param animalId the animalId to load the given animal.
+     * @return the animal object that was retrieved/loaded.
+     */
+    public Animal getAnimal(String animalId) {
+        Animal animal = this.dynamoDBMapper.load(Animal.class, animalId);
+
+        if (Objects.isNull(animal)) {
+            throw new AnimalNotFoundException("Could not find animal with id [" + animalId + "].");
+        }
+
+        return animal;
+    }
+
+    /**
+     * Hard deletes the {@link Animal} based on the animalId.
+     *
+     * @param animalId the animalId to load and remove the given animal.
+     * @return the animal object that was removed.
+     */
+    public Animal removeAnimal(String animalId) {
+        Animal animal = getAnimal(animalId);
+
+        this.dynamoDBMapper.delete(animal);
+
         return animal;
     }
 

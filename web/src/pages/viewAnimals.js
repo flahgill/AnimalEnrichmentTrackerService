@@ -74,7 +74,9 @@ class ViewAnimals extends BindingClass {
             animalsHtml += `
                <tr id="${animal.animalId}">
                    <td>${animal.animalId}</td>
-                   <td>${animal.animalName}</td>
+                   <td>
+                        <a href="animal.html?animalId=${animal.animalId}">${animal.animalName}</a>
+                   </td>
                    <td>${animal.age}</td>
                    <td>${animal.sex}</td>
                    <td>${animal.species}</td>
