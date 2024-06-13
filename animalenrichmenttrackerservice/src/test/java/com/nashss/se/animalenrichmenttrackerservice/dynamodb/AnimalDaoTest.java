@@ -4,6 +4,7 @@ import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBMapper;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBScanExpression;
 import com.amazonaws.services.dynamodbv2.datamodeling.PaginatedScanList;
 import com.nashss.se.animalenrichmenttrackerservice.dynamodb.models.Animal;
+import com.nashss.se.animalenrichmenttrackerservice.exceptions.AnimalNotFoundException;
 import com.nashss.se.animalenrichmenttrackerservice.metrics.MetricsPublisher;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -62,5 +63,29 @@ public class AnimalDaoTest {
         // THEN
         verify(dynamoDBMapper).save(animal);
         assertEquals(animal, result);
+    }
+
+    @Test
+    public void getAnimal_withAnimalId_callsMapper() {
+        // GIVEN
+        String animalId = "id";
+        when(dynamoDBMapper.load(Animal.class, animalId)).thenReturn(new Animal());
+
+        // WHEN
+        Animal animal = animalDao.getAnimal(animalId);
+
+        // THEN
+        assertNotNull(animal);
+        verify(dynamoDBMapper).load(Animal.class, animalId);
+    }
+
+    @Test
+    public void getAnimal_animalIdNotFound_throwsAnimalNotFoundException() {
+        // GIVEN
+        String nonexistentId = "fake";
+        when(dynamoDBMapper.load(Animal.class, nonexistentId)).thenReturn(null);
+
+        // WHEN + THEN
+        assertThrows(AnimalNotFoundException.class, ()-> animalDao.getAnimal(nonexistentId));
     }
 }

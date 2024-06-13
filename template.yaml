@@ -423,7 +423,7 @@ Resources:
         animalenrichmenttrackerservice:
           Type: Api
           Properties:
-            Path: /habitats/{habitatId}/animals/{animalId}
+            Path: /animals/{animalId}
             Method: delete
 
   SearchHabitatsLambda:

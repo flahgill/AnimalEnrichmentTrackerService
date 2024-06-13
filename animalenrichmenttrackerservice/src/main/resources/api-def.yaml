@@ -806,17 +806,11 @@ paths:
                 items:
                   type: string
 
-  /habitats/{habitatId}/animals/{animalId}:
+  /animals/{animalId}:
     put:
       tags:
         - Animals
       parameters:
-        - name: habitatId
-          in: path
-          description: Id to retrieve habitat
-          required: true
-          schema:
-            type: string
         - name: animalId
           in: path
           description: Id to retrieve animal
