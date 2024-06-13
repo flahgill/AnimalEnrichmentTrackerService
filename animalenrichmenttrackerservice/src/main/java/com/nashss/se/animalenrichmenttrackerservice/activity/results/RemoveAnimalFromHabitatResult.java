@@ -1,30 +1,30 @@
 package com.nashss.se.animalenrichmenttrackerservice.activity.results;
 
-import java.util.List;
+import com.nashss.se.animalenrichmenttrackerservice.models.AnimalModel;
 
 /**
  * RemoveAnimalFromHabitatResult object class.
  */
 public class RemoveAnimalFromHabitatResult {
-    private List<String> animalsInHabitat;
+    private AnimalModel animalModel;
 
     /**
      * creates AddAnimalToHabitatResult object for retrieving a habitat's list of animals after removing an animal.
      *
-     * @param animalsInHabitat list of animals to be returned.
+     * @param animalModel animal removed from habitat.
      */
-    private RemoveAnimalFromHabitatResult(List<String> animalsInHabitat) {
-        this.animalsInHabitat = animalsInHabitat;
+    private RemoveAnimalFromHabitatResult(AnimalModel animalModel) {
+        this.animalModel = animalModel;
     }
 
-    public List<String> getAnimalsInHabitat() {
-        return animalsInHabitat;
+    public AnimalModel getAnimalModel() {
+        return animalModel;
     }
 
     @Override
     public String toString() {
         return "RemoveAnimalFromHabitatResult{" +
-                "animalsInHabitat=" + animalsInHabitat +
+                "animalModel=" + animalModel +
                 '}';
     }
 
@@ -34,13 +34,13 @@ public class RemoveAnimalFromHabitatResult {
     }
 
     public static class Builder {
-        private List<String> animalsInHabitat;
-        public Builder withAnimalsInHabitat(List<String> animalsInHabitat) {
-            this.animalsInHabitat = animalsInHabitat;
+        private AnimalModel animalModel;
+        public Builder withAnimalModel(AnimalModel animalModel) {
+            this.animalModel = animalModel;
             return this;
         }
         public RemoveAnimalFromHabitatResult build() {
-            return new RemoveAnimalFromHabitatResult(animalsInHabitat);
+            return new RemoveAnimalFromHabitatResult(animalModel);
         }
     }
 }

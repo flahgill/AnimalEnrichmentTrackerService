@@ -10,7 +10,7 @@ import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
 public class RemoveAnimalFromHabitatRequest {
     private final String habitatId;
     private final String keeperManagerId;
-    private final String animalToRemove;
+    private final String animalId;
 
     /**
      * creates RemoveAnimalFromHabitatRequest object for removing an animal from a habitat
@@ -18,12 +18,12 @@ public class RemoveAnimalFromHabitatRequest {
      *
      * @param habitatId the habitatId to identify which habitat to remove the animal from.
      * @param keeperManagerId the keeperManagerId to identify the keeper who can remove the animal.
-     * @param animalToRemove the animal to remove from the habitat.
+     * @param animalId the animalId to remove from the habitat.
      */
-    private RemoveAnimalFromHabitatRequest(String habitatId, String keeperManagerId, String animalToRemove) {
+    private RemoveAnimalFromHabitatRequest(String habitatId, String keeperManagerId, String animalId) {
         this.habitatId = habitatId;
         this.keeperManagerId = keeperManagerId;
-        this.animalToRemove = animalToRemove;
+        this.animalId = animalId;
     }
 
     public String getHabitatId() {
@@ -34,8 +34,8 @@ public class RemoveAnimalFromHabitatRequest {
         return keeperManagerId;
     }
 
-    public String getAnimalToRemove() {
-        return animalToRemove;
+    public String getAnimalId() {
+        return animalId;
     }
 
     @Override
@@ -43,7 +43,7 @@ public class RemoveAnimalFromHabitatRequest {
         return "RemoveAnimalFromHabitatRequest{" +
                 "habitatId='" + habitatId + '\'' +
                 ", keeperManagerId='" + keeperManagerId + '\'' +
-                ", animalToRemove='" + animalToRemove + '\'' +
+                ", animalId='" + animalId + '\'' +
                 '}';
     }
 
@@ -56,7 +56,7 @@ public class RemoveAnimalFromHabitatRequest {
     public static class Builder {
         private String habitatId;
         private String keeperManagerId;
-        private String animalToRemove;
+        private String animalId;
         public Builder withHabitatId(String habitatId) {
             this.habitatId = habitatId;
             return this;
@@ -65,12 +65,12 @@ public class RemoveAnimalFromHabitatRequest {
             this.keeperManagerId = keeperManagerId;
             return this;
         }
-        public Builder withAnimalToRemove(String animalToRemove) {
-            this.animalToRemove = animalToRemove;
+        public Builder withAnimalId(String animalId) {
+            this.animalId = animalId;
             return this;
         }
         public RemoveAnimalFromHabitatRequest build() {
-            return new RemoveAnimalFromHabitatRequest(habitatId, keeperManagerId, animalToRemove);
+            return new RemoveAnimalFromHabitatRequest(habitatId, keeperManagerId, animalId);
         }
     }
 }

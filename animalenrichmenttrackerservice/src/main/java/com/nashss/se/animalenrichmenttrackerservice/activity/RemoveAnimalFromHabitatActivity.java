@@ -2,7 +2,10 @@ package com.nashss.se.animalenrichmenttrackerservice.activity;
 
 import com.nashss.se.animalenrichmenttrackerservice.activity.requests.RemoveAnimalFromHabitatRequest;
 import com.nashss.se.animalenrichmenttrackerservice.activity.results.RemoveAnimalFromHabitatResult;
+import com.nashss.se.animalenrichmenttrackerservice.converters.ModelConverter;
+import com.nashss.se.animalenrichmenttrackerservice.dynamodb.AnimalDao;
 import com.nashss.se.animalenrichmenttrackerservice.dynamodb.HabitatDao;
+import com.nashss.se.animalenrichmenttrackerservice.dynamodb.models.Animal;
 import com.nashss.se.animalenrichmenttrackerservice.dynamodb.models.Habitat;
 import com.nashss.se.animalenrichmenttrackerservice.exceptions.AnimalNotFoundException;
 import com.nashss.se.animalenrichmenttrackerservice.exceptions.UserSecurityException;
@@ -25,22 +28,26 @@ import javax.inject.Inject;
 public class RemoveAnimalFromHabitatActivity {
     private final Logger log = LogManager.getLogger();
     private final HabitatDao habitatDao;
+    private final AnimalDao animalDao;
 
     /**
      * Instantiates a new RemoveAnimalFromHabitatActivity object.
      *
      * @param habitatDao the HabitatDao to access the Habitats DDB table.
+     * @param animalDao the AnimalDao to access the Animals DDB table.
      */
     @Inject
-    public RemoveAnimalFromHabitatActivity(HabitatDao habitatDao) {
+    public RemoveAnimalFromHabitatActivity(HabitatDao habitatDao, AnimalDao animalDao) {
         this.habitatDao = habitatDao;
+        this.animalDao = animalDao;
     }
 
     /**
      * handles the incoming request by retrieving a habitat's list of animals, removing the animal,
      * and saving the new list within the habitat.
+     * Also, updates the animal object to inactive and saves on the animals master table.
      * <p>
-     * returns the saved habitat's updated list of animals.
+     * returns the removed animal.
      * <p>
      * If the animal is not present in the habitat's existing list of animals, throws
      * an AnimalNotFoundException.
@@ -48,7 +55,7 @@ public class RemoveAnimalFromHabitatActivity {
      * If the keeper removing the animal is not the owner of the habitat, throws a UserSecurityException.
      *
      * @param removeAnimalFromHabitatRequest request object containing the habitatId and animal to be removed.
-     * @return removeAnimalFromHabitatResult result object containing the updated list of animals.
+     * @return removeAnimalFromHabitatResult result object containing the removed animal.
      */
     public RemoveAnimalFromHabitatResult handleRequest(final RemoveAnimalFromHabitatRequest
                                                                removeAnimalFromHabitatRequest) {
@@ -60,6 +67,8 @@ public class RemoveAnimalFromHabitatActivity {
             throw new UserSecurityException("You must own this habitat to remove an animal from it.");
         }
 
+        Animal animalToRemove = animalDao.getAnimal(removeAnimalFromHabitatRequest.getAnimalId());
+
         List<String> currAnimalsInHabitat = habitat.getAnimalsInHabitat();
 
         if (currAnimalsInHabitat == null) {
@@ -69,21 +78,26 @@ public class RemoveAnimalFromHabitatActivity {
         List<String> updatedAnimalsList = new ArrayList<>(currAnimalsInHabitat);
 
         int totalAnimals = habitat.getTotalAnimals();
-        String animalToRemove = removeAnimalFromHabitatRequest.getAnimalToRemove();
+        String animalNameToRemove = animalToRemove.getAnimalName();
 
-        if (!containsIgnoreCase(currAnimalsInHabitat, animalToRemove)) {
-            throw new AnimalNotFoundException("[" + animalToRemove + "] is not in the habitat.");
+        if (!containsIgnoreCase(currAnimalsInHabitat, animalNameToRemove)) {
+            throw new AnimalNotFoundException("[" + animalNameToRemove + "] is not in the habitat.");
         }
 
-        updatedAnimalsList.remove(animalToRemove);
+        updatedAnimalsList.remove(animalNameToRemove);
         totalAnimals -= 1;
         Collections.sort(updatedAnimalsList);
         habitat.setAnimalsInHabitat(updatedAnimalsList);
         habitat.setTotalAnimals(totalAnimals);
         habitat = habitatDao.saveHabitat(habitat);
 
+        animalToRemove.setOnHabitat(false);
+        animalToRemove.setIsActive("inactive");
+        animalToRemove.setHabitatId("none");
+        animalToRemove = animalDao.saveAnimal(animalToRemove);
+
         return RemoveAnimalFromHabitatResult.builder()
-                .withAnimalsInHabitat(updatedAnimalsList)
+                .withAnimalModel(new ModelConverter().toAnimalModel(animalToRemove))
                 .build();
     }
 
