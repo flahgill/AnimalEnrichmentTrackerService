@@ -13,7 +13,8 @@
 #search-results-display a,
 #complete-results-display a,
 #search-activities-results-display a,
-#habitat-enrichments a{
+#habitat-enrichments a,
+#animals-table a {
     color: var(--tertiary-color);
     text-decoration: none;
 }
