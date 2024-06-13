@@ -52,6 +52,7 @@ export default class Header extends BindingClass {
 
         menuList.appendChild(this.createMenuItem('Habitats', 'viewAllHabitats.html'));
         menuList.appendChild(this.createMenuItem('Activities', 'viewAllActivities.html'));
+        menuList.appendChild(this.createMenuItem('Animals', 'viewAllAnimals.html'));
 
         const menu = document.createElement('div');
         menu.classList.add('menu');

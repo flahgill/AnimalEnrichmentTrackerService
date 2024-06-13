@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <script type="text/javascript" src="assets/viewAllAnimals.js"></script>
+    <link rel="stylesheet" type="text/css" href="css/style.css">
+</head>
+
+<body class="background">
+<header class="header" id="header"></header>
+<div class="card" id="all-animals">
+    <h2>All Animals</h2>
+    <p class="hidden error" id="error-message"></p>
+    <p class="button-group">
+        <a href="#" class="button" id="toggle-filter-btn">Active/Inactive</a>
+    </p>
+    <p id='filter-results-container'>
+        <span id="filter-criteria-display"></span>
+    <div id="filter-results-display"></div>
+    </p>
+</div>
+
+<div id="error-modal" class="modal">
+    <div class="modal-content">
+        <p id="error-modal-message"></p>
+        <button id="ok-button" class="ok-button">OK</button>
+    </div>
+</div>
+</body>
+
+</html>

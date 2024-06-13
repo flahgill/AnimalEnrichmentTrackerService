@@ -19,7 +19,7 @@ export default class AnimalEnrichmentTrackerClient extends BindingClass {
         'removeHabitat', 'updateHabitat', 'getAnimalsForHabitat', 'addAnimalToHabitat', 'removeAnimalFromHabitat', 'getAllHabitats',
         'getHabitatEnrichments', 'addEnrichmentToHabitat', 'removeEnrichmentActivityFromHabitat', 'getEnrichmentActivity', 'getAllEnrichmentActivities',
         'removeEnrichmentActivity', 'searchEnrichmentActivities', 'searchEnrichments', 'reAddActivityToHabitat', 'getAcceptableIds', 'addAcceptableId',
-        'removeAcceptableId', 'getAnimal', 'removeAnimal'];
+        'removeAcceptableId', 'getAnimal', 'removeAnimal', 'getAllAnimals'];
         this.bindClassMethods(methodsToBind, this);
 
         this.authenticator = new Authenticator();;
@@ -364,6 +364,24 @@ export default class AnimalEnrichmentTrackerClient extends BindingClass {
              this.handleError(error, errorCallback)
          }
       }
+
+      /**
+       * gets all animals saved in DB.
+       * @param isActive the requested active status to sort animals by.
+       * @returns a list of saved animals.
+       */
+       async getAllAnimals(isActive, errorCallback) {
+          try {
+              const queryParams = new URLSearchParams({ isActive: isActive});
+              const queryString = queryParams.toString();
+
+              const response = await this.axiosClient.get(`animals?${queryString}`);
+
+              return response.data.animals;
+          } catch (error) {
+              this.handleError(error, errorCallback)
+          }
+       }
 
      /**
       * Gets the habitat's list of completedEnrichments for the given ID.

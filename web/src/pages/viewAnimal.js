@@ -64,6 +64,10 @@ class ViewHabitat extends BindingClass {
     async removeAnimal(e) {
         const animalId = this.dataStore.get('animal').animalId;
 
+        const errorMessageDisplay = document.getElementById('error-message');
+        errorMessageDisplay.innerText = ``;
+        errorMessageDisplay.classList.add('hidden');
+
         const removeButton = e.target;
         removeButton.innerText = "Deleting...";
 

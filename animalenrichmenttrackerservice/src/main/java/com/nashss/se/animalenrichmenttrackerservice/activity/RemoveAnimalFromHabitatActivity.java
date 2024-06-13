@@ -93,7 +93,7 @@ public class RemoveAnimalFromHabitatActivity {
 
         animalToRemove.setOnHabitat(false);
         animalToRemove.setIsActive("inactive");
-        animalToRemove.setHabitatId("none");
+        animalToRemove.setHabitatId(" ");
         animalToRemove = animalDao.saveAnimal(animalToRemove);
 
         return RemoveAnimalFromHabitatResult.builder()
