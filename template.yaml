@@ -426,6 +426,26 @@ Resources:
             Path: /animals/{animalId}
             Method: delete
 
+  ViewAnimalLambda:
+    Type: AWS::Serverless::Function
+    Properties:
+      Role: !GetAtt AccessRole.Arn
+      CodeUri: animalenrichmenttrackerservice
+      Handler: com.nashss.se.animalenrichmenttrackerservice.lambda.ViewAnimalLambda::handleRequest
+      Runtime: java11
+      Architectures:
+        - x86_64
+      MemorySize: 512
+      Environment:
+        Variables:
+          JAVA_TOOL_OPTIONS: -XX:+TieredCompilation -XX:TieredStopAtLevel=1
+      Events:
+        animalenrichmenttrackerservice:
+          Type: Api
+          Properties:
+            Path: /animals/{animalId}
+            Method: get
+
   SearchHabitatsLambda:
     Type: AWS::Serverless::Function
     Properties:
