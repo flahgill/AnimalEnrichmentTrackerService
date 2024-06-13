@@ -80,7 +80,7 @@ public class AddAnimalToHabitatRequest {
     public static class Builder {
         private String habitatId;
         private String keeperManagerId;
-        private String animalToAdd;
+        private String animalName;
         private int age;
         private String sex;
         private String species;
@@ -92,8 +92,8 @@ public class AddAnimalToHabitatRequest {
             this.keeperManagerId = keeperManagerId;
             return this;
         }
-        public Builder withAnimalName(String animalToAdd) {
-            this.animalToAdd = animalToAdd;
+        public Builder withAnimalName(String animalName) {
+            this.animalName = animalName;
             return this;
         }
         public Builder withAge(int age) {
@@ -109,7 +109,7 @@ public class AddAnimalToHabitatRequest {
             return this;
         }
         public AddAnimalToHabitatRequest build() {
-            return new AddAnimalToHabitatRequest(habitatId, keeperManagerId, animalToAdd, age, sex, species);
+            return new AddAnimalToHabitatRequest(habitatId, keeperManagerId, animalName, age, sex, species);
         }
     }
 }
