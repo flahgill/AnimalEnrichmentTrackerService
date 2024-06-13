@@ -9,7 +9,7 @@ import DataStore from "../util/DataStore";
 class ViewAnimals extends BindingClass {
     constructor() {
         super();
-        this.bindClassMethods(['clientLoaded', 'mount', 'addAnimalsToPage', 'addAnimal'], this);
+        this.bindClassMethods(['clientLoaded', 'mount', 'addAnimalsToPage', 'addAnimal', 'removeAnimalFromHabitat'], this);
         this.dataStore = new DataStore();
         this.dataStore.addChangeListener(this.addAnimalsToPage);
         this.header = new Header(this.dataStore);
@@ -27,7 +27,6 @@ class ViewAnimals extends BindingClass {
         this.dataStore.set('habitat', habitat);
         document.getElementById('animals').innerText = "(loading animals...)";
         const habitatAnimals = await this.client.getAnimalsForHabitat(habitatId);
-        console.log(habitatAnimals);
         this.dataStore.set('habitat-animals', habitatAnimals);
     }
 
@@ -36,6 +35,7 @@ class ViewAnimals extends BindingClass {
      */
     mount() {
         document.getElementById('add-animal-btn').addEventListener('click', this.addAnimal);
+        document.getElementById('animals').addEventListener('click', this.removeAnimalFromHabitat);
 
         this.header.addHeaderToPage();
 
@@ -68,7 +68,7 @@ class ViewAnimals extends BindingClass {
         }
         document.getElementById('species').innerHTML = speciesHtml;
 
-        let animalsHtml = '<table id="animals-table"><tr><th>ID</th><th>Name</th><th>Age</th><th>Sex</th><th>Species</th></tr>';
+        let animalsHtml = '<table id="animals-table"><tr><th>ID</th><th>Name</th><th>Age</th><th>Sex</th><th>Species</th><th>Remove From Habitat</th></tr>';
         let animal;
         for (animal of habitatAnimals) {
             animalsHtml += `
@@ -80,6 +80,7 @@ class ViewAnimals extends BindingClass {
                    <td>${animal.age}</td>
                    <td>${animal.sex}</td>
                    <td>${animal.species}</td>
+                   <td><button data-id="${animal.animalId}" class ="button remove-animal">Remove</button></td>
                </tr>`;
         }
 
@@ -134,6 +135,39 @@ class ViewAnimals extends BindingClass {
 
             document.getElementById('add-animal-btn').innerText = 'Add';
             location.reload();
+        }
+    }
+
+    /**
+    * method to run when the remove animal from habitat button is cliecked. class the AnimalEnrichmentTrackerService to
+    * remove the animal from the habitat.
+    */
+    async removeAnimalFromHabitat(e) {
+        const habitat = this.dataStore.get('habitat');
+        const habitatId = habitat.habitatId;
+
+        const removeButton = e.target;
+        if (!removeButton.classList.contains("remove-animal")) {
+            return;
+        }
+
+        removeButton.innerText = "Removing...";
+
+        const errorMessageDisplay = document.getElementById('error-message');
+        errorMessageDisplay.innerText = ``;
+        errorMessageDisplay.classList.add('hidden');
+
+        let errorOccurred = false;
+        await this.client.removeAnimalFromHabitat(habitatId, removeButton.dataset.id, (error) => {
+            errorMessageDisplay.innerText = `Error: ${error.message}`;
+            errorMessageDisplay.classList.remove('hidden');
+            errorOccurred = true;
+            this.showErrorModal(error.message);
+            removeButton.innerText = "Remove";
+        });
+
+        if (!errorOccurred) {
+            document.getElementById(removeButton.dataset.id).remove();
         }
     }
 

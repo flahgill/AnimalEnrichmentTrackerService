@@ -322,10 +322,10 @@ export default class AnimalEnrichmentTrackerClient extends BindingClass {
      /**
       * removes an animal from a habitat.
       * @param habitatId The id of the habitat.
-      * @param animalToRemove the animal to be removed.
-      * @returns {Promise<string[]>} The habitat's list of animals.
+      * @param animalId the id of the animal.
+      * @returns removed animal.
       */
-     async removeAnimalFromHabitat(habitatId, animalToRemove, errorCallback) {
+     async removeAnimalFromHabitat(habitatId, animalId, errorCallback) {
          try {
              const token = await this.getTokenOrThrow("Only authenticated users can remove an animal from a habitat.");
              const response = await this.axiosClient.delete(`habitats/${habitatId}/animals`, {
@@ -334,10 +334,10 @@ export default class AnimalEnrichmentTrackerClient extends BindingClass {
                  },
                  data: {
                      habitatId: habitatId,
-                     animalToRemove: animalToRemove
+                     animalId: animalId
                  }
                  });
-             return response.data.animalsInHabitat;
+             return response.data.animal;
          } catch (error) {
              this.handleError(error, errorCallback)
          }
