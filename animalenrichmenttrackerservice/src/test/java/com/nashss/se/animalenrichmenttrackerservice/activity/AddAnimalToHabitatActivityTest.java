@@ -2,10 +2,13 @@ package com.nashss.se.animalenrichmenttrackerservice.activity;
 
 import com.nashss.se.animalenrichmenttrackerservice.activity.requests.AddAnimalToHabitatRequest;
 import com.nashss.se.animalenrichmenttrackerservice.activity.results.AddAnimalToHabitatResult;
+import com.nashss.se.animalenrichmenttrackerservice.dynamodb.AnimalDao;
 import com.nashss.se.animalenrichmenttrackerservice.dynamodb.HabitatDao;
+import com.nashss.se.animalenrichmenttrackerservice.dynamodb.models.Animal;
 import com.nashss.se.animalenrichmenttrackerservice.dynamodb.models.Habitat;
 import com.nashss.se.animalenrichmenttrackerservice.exceptions.DuplicateAnimalException;
 import com.nashss.se.animalenrichmenttrackerservice.exceptions.InvalidCharacterException;
+import com.nashss.se.animalenrichmenttrackerservice.helper.AnimalTestHelper;
 import com.nashss.se.animalenrichmenttrackerservice.helper.HabitatTestHelper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -21,36 +24,42 @@ import static org.mockito.MockitoAnnotations.initMocks;
 public class AddAnimalToHabitatActivityTest {
     @Mock
     private HabitatDao habitatDao;
+    @Mock
+    private AnimalDao animalDao;
     private AddAnimalToHabitatActivity addAnimalToHabitatActivity;
 
     @BeforeEach
     public void setup() {
         initMocks(this);
-        addAnimalToHabitatActivity = new AddAnimalToHabitatActivity(habitatDao);
+        addAnimalToHabitatActivity = new AddAnimalToHabitatActivity(habitatDao, animalDao);
     }
 
     @Test
     public void handleRequest_acceptableAnimalNoOtherAnimalsInHabitat_addsAnimalToHabitat() {
         // GIVEN
         Habitat habitat = HabitatTestHelper.generateHabitat();
-        String expectedAnimal = "Benny";
+        Animal expectedAnimal = AnimalTestHelper.generateAnimal();
+
 
         AddAnimalToHabitatRequest request = AddAnimalToHabitatRequest.builder()
-                .withAnimalToAdd(expectedAnimal)
+                .withAnimalName(expectedAnimal.getAnimalName())
+                .withAge(expectedAnimal.getAge())
+                .withSpecies(expectedAnimal.getSpecies())
+                .withSex(expectedAnimal.getSex())
                 .withHabitatId(habitat.getHabitatId())
                 .withKeeperManagerId(habitat.getKeeperManagerId())
                 .build();
 
         when(habitatDao.getHabitat(habitat.getHabitatId())).thenReturn(habitat);
         when(habitatDao.saveHabitat(habitat)).thenReturn(habitat);
+        when(animalDao.saveAnimal(expectedAnimal)).thenReturn(expectedAnimal);
 
         // WHEN
         AddAnimalToHabitatResult result = addAnimalToHabitatActivity.handleRequest(request);
 
         // THEN
-        assertEquals(1, result.getAnimalsInHabitat().size());
-        assertEquals(expectedAnimal, result.getAnimalsInHabitat().get(0));
-        assertEquals(1, habitat.getTotalAnimals());
+        assertEquals(expectedAnimal.getAnimalName(), result.getAddedAnimal().getAnimalName());
+        assertEquals(result.getAddedAnimal().getAnimalName(), habitat.getAnimalsInHabitat().get(0));
     }
 
     @Test
@@ -58,24 +67,35 @@ public class AddAnimalToHabitatActivityTest {
         // GIVEN
         Habitat habitat = HabitatTestHelper.generateHabitat();
         habitat.setAnimalsInHabitat(List.of("hello", "world"));
+        Animal hello = AnimalTestHelper.generateAnimal();
+        hello.setAnimalName("hello");
+        hello.setHabitatId(habitat.getHabitatId());
+        Animal world = AnimalTestHelper.generateAnimal();
+        world.setAnimalName("world");
+        world.setHabitatId(habitat.getHabitatId());
         habitat.setTotalAnimals(2);
-        String expectedAnimal = "Benny";
+
+        Animal expectedAnimal = AnimalTestHelper.generateAnimal();
 
         AddAnimalToHabitatRequest request = AddAnimalToHabitatRequest.builder()
-                .withAnimalToAdd(expectedAnimal)
+                .withAnimalName(expectedAnimal.getAnimalName())
+                .withAge(expectedAnimal.getAge())
+                .withSex(expectedAnimal.getSex())
+                .withSpecies(expectedAnimal.getSpecies())
                 .withHabitatId(habitat.getHabitatId())
                 .withKeeperManagerId(habitat.getKeeperManagerId())
                 .build();
 
         when(habitatDao.getHabitat(habitat.getHabitatId())).thenReturn(habitat);
         when(habitatDao.saveHabitat(habitat)).thenReturn(habitat);
+        when(animalDao.saveAnimal(expectedAnimal)).thenReturn(expectedAnimal);
 
         // WHEN
         AddAnimalToHabitatResult result = addAnimalToHabitatActivity.handleRequest(request);
 
         // THEN
-        assertEquals(3, result.getAnimalsInHabitat().size());
-        assertEquals(expectedAnimal, result.getAnimalsInHabitat().get(0));
+        assertEquals(expectedAnimal.getAnimalName(), result.getAddedAnimal().getAnimalName());
+        assertEquals(result.getAddedAnimal().getAnimalName(), habitat.getAnimalsInHabitat().get(0));
         assertEquals(3, habitat.getTotalAnimals());
     }
 
@@ -85,7 +105,7 @@ public class AddAnimalToHabitatActivityTest {
         Habitat habitat = HabitatTestHelper.generateHabitat();
 
         AddAnimalToHabitatRequest request = AddAnimalToHabitatRequest.builder()
-                .withAnimalToAdd("\"illegal\" name")
+                .withAnimalName("\"illegal\" name")
                 .withHabitatId(habitat.getHabitatId())
                 .withKeeperManagerId(habitat.getKeeperManagerId())
                 .build();
@@ -105,7 +125,7 @@ public class AddAnimalToHabitatActivityTest {
         String expectedAnimal = "Benny";
 
         AddAnimalToHabitatRequest request = AddAnimalToHabitatRequest.builder()
-                .withAnimalToAdd(expectedAnimal)
+                .withAnimalName(expectedAnimal)
                 .withHabitatId(habitat.getHabitatId())
                 .withKeeperManagerId(habitat.getKeeperManagerId())
                 .build();

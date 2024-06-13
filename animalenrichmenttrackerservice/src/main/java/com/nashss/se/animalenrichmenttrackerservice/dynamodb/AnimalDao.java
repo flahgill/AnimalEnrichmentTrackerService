@@ -35,6 +35,17 @@ public class AnimalDao {
     }
 
     /**
+     * Saves (creates/updates) given animal.
+     *
+     * @param animal the animal object to save/update.
+     * @return the animal object that was saved/updated.
+     */
+    public Animal saveAnimal(Animal animal) {
+        this.dynamoDBMapper.save(animal);
+        return animal;
+    }
+
+    /**
      * Perform a search (via a scan) of the animals table for animals matching the habitatId.
      *
      * @param habitatId the habitatId to search for in the animals table.

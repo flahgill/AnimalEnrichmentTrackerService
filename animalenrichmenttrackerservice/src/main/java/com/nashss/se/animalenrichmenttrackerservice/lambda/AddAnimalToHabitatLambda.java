@@ -17,8 +17,11 @@ public class AddAnimalToHabitatLambda
                 AddAnimalToHabitatRequest unauthRequest = input.fromBody(AddAnimalToHabitatRequest.class);
                 return input.fromUserClaims(claims ->
                         AddAnimalToHabitatRequest.builder()
-                                .withAnimalToAdd(unauthRequest.getAnimalToAdd())
+                                .withAnimalName(unauthRequest.getAnimalName())
                                 .withHabitatId(unauthRequest.getHabitatId())
+                                .withAge(unauthRequest.getAge())
+                                .withSex(unauthRequest.getSex())
+                                .withSpecies(unauthRequest.getSpecies())
                                 .withKeeperManagerId(claims.get("email"))
                                 .build());
             },
