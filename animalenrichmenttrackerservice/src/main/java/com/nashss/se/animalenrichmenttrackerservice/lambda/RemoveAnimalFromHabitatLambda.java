@@ -18,7 +18,7 @@ public class RemoveAnimalFromHabitatLambda
                 RemoveAnimalFromHabitatRequest unauthReq = input.fromBody(RemoveAnimalFromHabitatRequest.class);
                 return input.fromUserClaims(claims ->
                         RemoveAnimalFromHabitatRequest.builder()
-                                .withAnimalToRemove(unauthReq.getAnimalToRemove())
+                                .withAnimalId(unauthReq.getAnimalId())
                                 .withHabitatId(unauthReq.getHabitatId())
                                 .withKeeperManagerId(claims.get("email"))
                                 .build());
