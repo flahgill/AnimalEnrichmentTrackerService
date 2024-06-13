@@ -83,6 +83,17 @@ class ViewAnimals extends BindingClass {
 
         animalsHtml += '</table>';
         document.getElementById('animals').innerHTML = animalsHtml;
+
+        const speciesSelect = document.getElementById('animal-species');
+        speciesSelect.innerHTML = '';
+
+        const uniqueSortedSpecies = Array.from(new Set(habitat.species)).sort();
+        for (const sp of uniqueSortedSpecies) {
+            const option = document.createElement('option');
+            option.value = sp;
+            option.textContent = sp;
+            speciesSelect.appendChild(option);
+        }
     }
 
     /*
@@ -118,6 +129,7 @@ class ViewAnimals extends BindingClass {
 
         if (!errorOccurred) {
             this.dataStore.set('habitat-animals', habitatAnimals);
+
             document.getElementById('add-animal-btn').innerText = 'Add';
             location.reload();
         }

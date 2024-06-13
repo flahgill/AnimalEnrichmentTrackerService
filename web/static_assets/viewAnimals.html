@@ -24,22 +24,24 @@
     <form class="card-content" id="add-animal-form">
         <p class="form-field">
             <label>Name</label>
-            <input type="text" class="validated-field" id="animal-name" autofocus>
+            <input type="text" required class="validated-field" id="animal-name" autofocus>
         </p>
         <p class="form-field">
             <label>Age</label>
-            <input type="text" class="validated-field" id="age" autofocus>
+            <input type="text" required class="validated-field" id="age" autofocus>
         </p>
         <p class="form-field">
             <label>Sex</label>
-            <select id="sex" autofocus>
+            <select required class="validated-field" id="sex" autofocus>
                 <option value="M">Male</option>
                 <option value="F">Female</option>
             </select>
         </p>
         <p class="form-field">
             <label>Species</label>
-            <input type="text" class="validated-field" id="animal-species" autofocus>
+            <select required class="validated-field" id="animal-species" >
+                <!-- Options will be populated based on habitat's saved list of species -->
+            </select>
         </p>
         <p class="hidden error" id="add-animal-error-message"></p>
         <p class="button-group">
