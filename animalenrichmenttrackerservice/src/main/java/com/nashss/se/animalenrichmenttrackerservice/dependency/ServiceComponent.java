@@ -17,6 +17,7 @@ import com.nashss.se.animalenrichmenttrackerservice.activity.SearchHabitatsActiv
 import com.nashss.se.animalenrichmenttrackerservice.activity.UpdateHabitatActivity;
 import com.nashss.se.animalenrichmenttrackerservice.activity.UpdateHabitatEnrichmentActivityActivity;
 import com.nashss.se.animalenrichmenttrackerservice.activity.ViewAcceptableEnrichmentIdsActivity;
+import com.nashss.se.animalenrichmenttrackerservice.activity.ViewAllAnimalsActivity;
 import com.nashss.se.animalenrichmenttrackerservice.activity.ViewAllEnrichmentActivitiesActivity;
 import com.nashss.se.animalenrichmenttrackerservice.activity.ViewAllHabitatsActivity;
 import com.nashss.se.animalenrichmenttrackerservice.activity.ViewAnimalActivity;
@@ -183,4 +184,10 @@ public interface ServiceComponent {
      * @return ViewAnimalActivity
      */
     ViewAnimalActivity provideViewAnimalActivity();
+
+    /**
+     * Provides the relevant activity.
+     * @return ViewAllAnimalsActivity
+     */
+    ViewAllAnimalsActivity provideViewAllAnimalsActivity();
 }
