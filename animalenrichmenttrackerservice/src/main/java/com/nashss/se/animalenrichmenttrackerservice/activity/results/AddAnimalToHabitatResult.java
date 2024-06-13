@@ -1,30 +1,30 @@
 package com.nashss.se.animalenrichmenttrackerservice.activity.results;
 
-import java.util.List;
+import com.nashss.se.animalenrichmenttrackerservice.models.AnimalModel;
 
 /**
  * AddAnimalToHabitatResult object class.
  */
 public class AddAnimalToHabitatResult {
-    private final List<String> animalsInHabitat;
+    private final AnimalModel addedAnimal;
 
     /**
-     * creates AddAnimalToHabitatResult object for retrieving a habitat's list of animals after a new addition.
+     * creates AddAnimalToHabitatResult object for persisting the new animal added.
      *
-     * @param animalsInHabitat list of animals to be returned.
+     * @param addedAnimal new animal added.
      */
-    private AddAnimalToHabitatResult(List<String> animalsInHabitat) {
-        this.animalsInHabitat = animalsInHabitat;
+    private AddAnimalToHabitatResult(AnimalModel addedAnimal) {
+        this.addedAnimal = addedAnimal;
     }
 
-    public List<String> getAnimalsInHabitat() {
-        return animalsInHabitat;
+    public AnimalModel getAddedAnimal() {
+        return addedAnimal;
     }
 
     @Override
     public String toString() {
         return "AddAnimalToHabitatResult{" +
-                "animalsInHabitat=" + animalsInHabitat +
+                "addedAnimal=" + addedAnimal +
                 '}';
     }
 
@@ -34,13 +34,13 @@ public class AddAnimalToHabitatResult {
     }
 
     public static class Builder {
-        private List<String> animalsInHabitat;
-        public Builder withAnimalsInHabitat(List<String> animalsInHabitat) {
-            this.animalsInHabitat = animalsInHabitat;
+        private AnimalModel addedAnimal;
+        public Builder withAddedAnimal(AnimalModel addedAnimal) {
+            this.addedAnimal = addedAnimal;
             return this;
         }
         public AddAnimalToHabitatResult build() {
-            return new AddAnimalToHabitatResult(animalsInHabitat);
+            return new AddAnimalToHabitatResult(addedAnimal);
         }
     }
 }

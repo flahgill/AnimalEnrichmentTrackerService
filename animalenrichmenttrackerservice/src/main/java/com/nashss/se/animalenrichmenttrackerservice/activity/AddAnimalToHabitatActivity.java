@@ -2,7 +2,10 @@ package com.nashss.se.animalenrichmenttrackerservice.activity;
 
 import com.nashss.se.animalenrichmenttrackerservice.activity.requests.AddAnimalToHabitatRequest;
 import com.nashss.se.animalenrichmenttrackerservice.activity.results.AddAnimalToHabitatResult;
+import com.nashss.se.animalenrichmenttrackerservice.converters.ModelConverter;
+import com.nashss.se.animalenrichmenttrackerservice.dynamodb.AnimalDao;
 import com.nashss.se.animalenrichmenttrackerservice.dynamodb.HabitatDao;
+import com.nashss.se.animalenrichmenttrackerservice.dynamodb.models.Animal;
 import com.nashss.se.animalenrichmenttrackerservice.dynamodb.models.Habitat;
 import com.nashss.se.animalenrichmenttrackerservice.exceptions.DuplicateAnimalException;
 import com.nashss.se.animalenrichmenttrackerservice.exceptions.InvalidCharacterException;
@@ -27,22 +30,25 @@ import javax.inject.Inject;
 public class AddAnimalToHabitatActivity {
     private final Logger log = LogManager.getLogger();
     private final HabitatDao habitatDao;
+    private final AnimalDao animalDao;
 
     /**
      * Instantiates a new AddAnimalToHabitatActivity object.
      *
      * @param habitatDao the HabitatDao to access the Habitats DDB table.
+     * @param animalDao the AnimalDao to acces the Animals DDB Table.
      */
     @Inject
-    public AddAnimalToHabitatActivity(HabitatDao habitatDao) {
+    public AddAnimalToHabitatActivity(HabitatDao habitatDao, AnimalDao animalDao) {
         this.habitatDao = habitatDao;
+        this.animalDao = animalDao;
     }
 
     /**
-     * handles the incoming request by retrieving a habitat's list of animals, adding the new animal,
-     * and saving the new list within the habitat.
+     * handles the incoming request by retrieving a habitat's list of animals, adding the new animal's name,
+     * saving the new list within the habitat, and saving the new animal to the animals table.
      * <p>
-     * returns the saved habitat's updated list of animals.
+     * returns the newly saved animal.
      * <p>
      * If the provided habitat name or keeper ID has invalid characters, throws an
      * InvalidCharacterException.
@@ -53,7 +59,7 @@ public class AddAnimalToHabitatActivity {
      * If the keeper adding the animal is not the owner of the habitat, throws a UserSecurityException.
      *
      * @param addAnimalToHabitatRequest request object containing the habitatId and animal to be added.
-     * @return addAnimalToHabitatResult result object containing the updated list of animals.
+     * @return addAnimalToHabitatResult result object containing newly saved animal.
      */
     public AddAnimalToHabitatResult handleRequest(final AddAnimalToHabitatRequest addAnimalToHabitatRequest) {
         log.info("Recieved AddAnimalToHabitatActivity {}", addAnimalToHabitatRequest);
@@ -73,25 +79,37 @@ public class AddAnimalToHabitatActivity {
         List<String> updatedAnimalsList = new ArrayList<>(currAnimalsInHabitat);
 
         int totalAnimals = habitat.getTotalAnimals();
-        String animalToAdd = addAnimalToHabitatRequest.getAnimalToAdd();
+        String animalNameToAdd = addAnimalToHabitatRequest.getAnimalName();
 
-        if (!ServiceUtils.isValidString(animalToAdd)) {
-            throw new InvalidCharacterException("Animal name [" + animalToAdd + "] contains illegal characters.");
+        if (!ServiceUtils.isValidString(animalNameToAdd)) {
+            throw new InvalidCharacterException("Animal name [" + animalNameToAdd + "] contains illegal characters.");
         }
 
-        if (containsIgnoreCase(currAnimalsInHabitat, animalToAdd)) {
-            throw new DuplicateAnimalException("[" + animalToAdd + "] is already in the habitat.");
+        if (containsIgnoreCase(currAnimalsInHabitat, animalNameToAdd)) {
+            throw new DuplicateAnimalException("[" + animalNameToAdd + "] is already in the habitat.");
         }
 
-        updatedAnimalsList.add(animalToAdd);
+        updatedAnimalsList.add(animalNameToAdd);
         totalAnimals += 1;
         Collections.sort(updatedAnimalsList);
         habitat.setAnimalsInHabitat(updatedAnimalsList);
         habitat.setTotalAnimals(totalAnimals);
         habitat = habitatDao.saveHabitat(habitat);
 
+        Animal animal = new Animal();
+        animal.setAnimalId(ServiceUtils.generateId());
+        animal.setAnimalName(animalNameToAdd);
+        animal.setHabitatId(addAnimalToHabitatRequest.getHabitatId());
+        animal.setAge(addAnimalToHabitatRequest.getAge());
+        animal.setSex(addAnimalToHabitatRequest.getSex());
+        animal.setSpecies(addAnimalToHabitatRequest.getSpecies());
+        animal.setIsActive("active");
+        animal.setOnHabitat(true);
+
+        animalDao.saveAnimal(animal);
+
         return AddAnimalToHabitatResult.builder()
-                .withAnimalsInHabitat(updatedAnimalsList)
+                .withAddedAnimal(new ModelConverter().toAnimalModel(animal))
                 .build();
     }
 

@@ -1,9 +1,6 @@
 package com.nashss.se.animalenrichmenttrackerservice.dynamodb.models;
 
-import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBAttribute;
-import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBHashKey;
-import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBIndexHashKey;
-import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBTable;
+import com.amazonaws.services.dynamodbv2.datamodeling.*;
 
 import java.util.Objects;
 
@@ -86,6 +83,7 @@ public class Animal {
     }
 
     @DynamoDBAttribute(attributeName = "onHabitat")
+    @DynamoDBTyped(DynamoDBMapperFieldModel.DynamoDBAttributeType.BOOL)
     public Boolean getOnHabitat() {
         return onHabitat;
     }

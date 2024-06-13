@@ -275,24 +275,30 @@ export default class AnimalEnrichmentTrackerClient extends BindingClass {
      }
 
      /**
-      * Add an animal to an existing Habitat.
-      * @param habitatId the Id of the habitat to update.
-      * @param animalToAdd the animal to be added
+      * Add an animal to an existing Habitat and to the animals DDB table.
+      * @param habitatId the Id of the habitat to add the animal to.
+      * @param animalName name of the animal to add.
+      * @param age age of the animal to add.
+      * @param sex sex of the animal to add.
+      * @param species species of the animal to add.
       * @param errorCallback (Optional) A function to execute if the call fails.
-      * @returns {Promise<string[]>} The habitat's list of animals.
+      * @returns newly added animal.
       */
-     async addAnimalToHabitat(habitatId, animalToAdd, errorCallback) {
+     async addAnimalToHabitat(habitatId, animalName, age, sex, species, errorCallback) {
      try {
             const token = await this.getTokenOrThrow("Only authenticated users can update their habitat");
             const response = await this.axiosClient.post(`habitats/${habitatId}/animals`, {
                 habitatId: habitatId,
-                animalToAdd: animalToAdd
+                animalName: animalName,
+                age: age,
+                species: species,
+                sex: sex
             }, {
                 headers: {
                     Authorization: `Bearer ${token}`
                 }
             });
-            return response.data.animalsInHabitat;
+            return response.data.animal;
          } catch (error) {
             this.handleError(error, errorCallback)
          }
