@@ -956,3 +956,23 @@ paths:
                 type: array
                 items:
                   type: string
+    delete:
+      tags:
+        - Species
+      summary: Remove from a list of species (RemoveSpeciesLambda)
+      parameters:
+        - name: habitatId
+          in: path
+          description: ID of habitat
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: A list of species
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: string
