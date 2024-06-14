@@ -67,42 +67,6 @@ public class UpdateHabitatActivityTest {
     }
 
     @Test
-    public void handleRequest_goodSpeciesRequest_updatesHabitat() {
-        // GIVEN
-        String id = "id";
-        String expectedKeeperId = "expectedKeeperId";
-        String expectedName = "name";
-        String expectedActive = "active";
-        List<String> expectedSpecies = List.of("hello", "world");
-        int expectedAnimalCount = 5;
-
-        UpdateHabitatRequest request = UpdateHabitatRequest.builder()
-                .withHabitatId(id)
-                .withKeeperManagerId(expectedKeeperId)
-                .withSpecies(expectedSpecies)
-                .withHabitatName(expectedName)
-                .withIsActive(expectedActive)
-                .build();
-
-        Habitat startingHabitat = new Habitat();
-        startingHabitat.setKeeperManagerId(expectedKeeperId);
-        startingHabitat.setSpecies(expectedSpecies);
-        startingHabitat.setTotalAnimals(expectedAnimalCount);
-
-        when(habitatDao.getHabitat(id)).thenReturn(startingHabitat);
-        when(habitatDao.saveHabitat(startingHabitat)).thenReturn(startingHabitat);
-
-        // WHEN
-        UpdateHabitatResult result = updateHabitatActivity.handleRequest(request);
-
-        // THEN
-        assertEquals(expectedSpecies, result.getHabitat().getSpecies());
-        assertEquals(expectedKeeperId, result.getHabitat().getKeeperManagerId());
-        assertEquals(expectedAnimalCount, result.getHabitat().getTotalAnimals());
-        assertEquals(expectedActive, result.getHabitat().getIsActive());
-    }
-
-    @Test
     public void handleRequest_habitatDoesNotExist_throwsHabitatNotFoundException() {
         // GIVEN
         String id = "id";

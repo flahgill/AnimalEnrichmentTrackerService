@@ -4,6 +4,7 @@ import com.nashss.se.animalenrichmenttrackerservice.activity.AddAcceptableIdActi
 import com.nashss.se.animalenrichmenttrackerservice.activity.AddAnimalToHabitatActivity;
 import com.nashss.se.animalenrichmenttrackerservice.activity.AddEnrichmentActivityToHabitatActivity;
 import com.nashss.se.animalenrichmenttrackerservice.activity.AddHabitatActivity;
+import com.nashss.se.animalenrichmenttrackerservice.activity.AddSpeciesActivity;
 import com.nashss.se.animalenrichmenttrackerservice.activity.ReAddEnrichmentActivityToHabitatActivity;
 import com.nashss.se.animalenrichmenttrackerservice.activity.RemoveAcceptableIdActivity;
 import com.nashss.se.animalenrichmenttrackerservice.activity.RemoveAnimalActivity;
@@ -11,6 +12,7 @@ import com.nashss.se.animalenrichmenttrackerservice.activity.RemoveAnimalFromHab
 import com.nashss.se.animalenrichmenttrackerservice.activity.RemoveEnrichmentActivityActivity;
 import com.nashss.se.animalenrichmenttrackerservice.activity.RemoveEnrichmentActivityFromHabitatActivity;
 import com.nashss.se.animalenrichmenttrackerservice.activity.RemoveHabitatActivity;
+import com.nashss.se.animalenrichmenttrackerservice.activity.RemoveSpeciesActivity;
 import com.nashss.se.animalenrichmenttrackerservice.activity.SearchEnrichmentActivitiesActivity;
 import com.nashss.se.animalenrichmenttrackerservice.activity.SearchEnrichmentsActivity;
 import com.nashss.se.animalenrichmenttrackerservice.activity.SearchHabitatsActivity;
@@ -25,6 +27,7 @@ import com.nashss.se.animalenrichmenttrackerservice.activity.ViewAnimalsForHabit
 import com.nashss.se.animalenrichmenttrackerservice.activity.ViewEnrichmentActivityActivity;
 import com.nashss.se.animalenrichmenttrackerservice.activity.ViewHabitatActivity;
 import com.nashss.se.animalenrichmenttrackerservice.activity.ViewHabitatEnrichmentActivitiesActivity;
+import com.nashss.se.animalenrichmenttrackerservice.activity.ViewSpeciesListActivity;
 import com.nashss.se.animalenrichmenttrackerservice.activity.ViewUserHabitatsActivity;
 
 import dagger.Component;
@@ -190,4 +193,22 @@ public interface ServiceComponent {
      * @return ViewAllAnimalsActivity
      */
     ViewAllAnimalsActivity provideViewAllAnimalsActivity();
+
+    /**
+     * Provides the relevant activity.
+     * @return ViewSpeciesListActivity
+     */
+    ViewSpeciesListActivity provideViewSpeciesListActivity();
+
+    /**
+     * Provides the relevant activity.
+     * @return AddSpeciesActivity
+     */
+    AddSpeciesActivity provideAddSpeciesActivity();
+
+    /**
+     * Provides the relevant activity.
+     * @return RemoveSpeciesActivity
+     */
+    RemoveSpeciesActivity provideRemoveSpeciesActivity();
 }

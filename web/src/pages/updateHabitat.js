@@ -98,18 +98,10 @@ class UpdateHabitat extends BindingClass {
         updateButton.innerText = 'Loading...';
 
         const newName = document.getElementById('new-name').value;
-        const newSpecies = document.getElementById('new-species').value;
         const newActive = document.getElementById('activate-status').checked ? "active" : "inactive";
 
-        let species;
-        if (newSpecies.length < 1) {
-            species = null;
-        } else {
-            species = newSpecies.split(/\s*,\s*/);
-        }
-
         let errorOccurred = false;
-        const habitat = await this.client.updateHabitat(this.habitatId, newName, species, newActive, (error) => {
+        const habitat = await this.client.updateHabitat(this.habitatId, newName, newActive, (error) => {
             errorMessageDisplay.innerText = `Error: ${error.message}`;
             errorMessageDisplay.classList.remove('hidden');
             errorOccurred = true;

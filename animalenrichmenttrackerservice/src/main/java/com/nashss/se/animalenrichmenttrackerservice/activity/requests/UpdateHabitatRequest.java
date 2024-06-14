@@ -3,8 +3,6 @@ package com.nashss.se.animalenrichmenttrackerservice.activity.requests;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
 
-import java.util.List;
-
 /**
  * UpdateHabitatRequest object class.
  */
@@ -12,7 +10,6 @@ import java.util.List;
 public class UpdateHabitatRequest {
     private final String habitatId;
     private final String habitatName;
-    private final List<String> species;
     private final String keeperManagerId;
     private final String isActive;
 
@@ -21,14 +18,12 @@ public class UpdateHabitatRequest {
      *
      * @param habitatId the habitatId to find the correct habitat to update.
      * @param habitatName the habitatName to update.
-     * @param species the species to update.
      * @param keeperManagerId the keeperManagerId to avoid security concerns.
      */
-    private UpdateHabitatRequest(String habitatId, String habitatName, List<String> species,
+    private UpdateHabitatRequest(String habitatId, String habitatName,
                                  String keeperManagerId, String isActive) {
         this.habitatId = habitatId;
         this.habitatName = habitatName;
-        this.species = species;
         this.keeperManagerId = keeperManagerId;
         this.isActive = isActive;
     }
@@ -41,9 +36,6 @@ public class UpdateHabitatRequest {
         return habitatName;
     }
 
-    public List<String> getSpecies() {
-        return species;
-    }
 
     public String getKeeperManagerId() {
         return keeperManagerId;
@@ -58,7 +50,6 @@ public class UpdateHabitatRequest {
         return "UpdateHabitatRequest{" +
                 "habitatId='" + habitatId + '\'' +
                 ", habitatName='" + habitatName + '\'' +
-                ", species=" + species +
                 ", keeperManagerId='" + keeperManagerId + '\'' +
                 ", isActive='" + isActive + '\'' +
                 '}';
@@ -73,7 +64,6 @@ public class UpdateHabitatRequest {
     public static class Builder {
         private String habitatId;
         private String habitatName;
-        private List<String> species;
         private String keeperManagerId;
         private String isActive;
 
@@ -85,10 +75,6 @@ public class UpdateHabitatRequest {
             this.habitatName = habitatName;
             return this;
         }
-        public Builder withSpecies(List<String> species) {
-            this.species = species;
-            return this;
-        }
         public Builder withKeeperManagerId(String keeperManagerId) {
             this.keeperManagerId = keeperManagerId;
             return this;
@@ -98,7 +84,7 @@ public class UpdateHabitatRequest {
             return this;
         }
         public UpdateHabitatRequest build() {
-            return new UpdateHabitatRequest(habitatId, habitatName, species, keeperManagerId, isActive);
+            return new UpdateHabitatRequest(habitatId, habitatName, keeperManagerId, isActive);
         }
 
     }

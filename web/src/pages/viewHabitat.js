@@ -10,7 +10,7 @@ class ViewHabitat extends BindingClass {
     constructor() {
         super();
         this.bindClassMethods(['clientLoaded', 'mount', 'addHabitatToPage', 'redirectToViewAnimals', 'removeHabitat',
-        'redirectToUpdateHabitat', 'redirectToViewHabitatEnrichments', 'redirectToViewAcceptableIds'], this);
+        'redirectToUpdateHabitat', 'redirectToViewHabitatEnrichments', 'redirectToViewAcceptableIds', 'redirectToViewSpecies'], this);
         this.dataStore = new DataStore();
         this.dataStore.addChangeListener(this.addHabitatToPage);
         this.header = new Header(this.dataStore);
@@ -38,6 +38,7 @@ class ViewHabitat extends BindingClass {
         document.getElementById('remove-habitat').addEventListener("click", this.removeHabitat);
         document.getElementById('update-habitat').addEventListener("click", this.redirectToUpdateHabitat);
         document.getElementById('view-habitat-enrichments-button').addEventListener("click", this.redirectToViewHabitatEnrichments);
+        document.getElementById('view-species-button').addEventListener("click", this.redirectToViewSpecies);
 
         this.client = new AnimalEnrichmentTrackerClient();
         this.clientLoaded();
@@ -86,6 +87,15 @@ class ViewHabitat extends BindingClass {
         const habitat = this.dataStore.get('habitat');
         const habitatId = habitat.habitatId;
         window.location.href = `viewAcceptableIds.html?habitatId=${habitatId}`;
+    }
+
+    /**
+    * when view species button is clicked, redirects to view species page.
+    */
+    async redirectToViewSpecies(e) {
+        const habitat = this.dataStore.get('habitat');
+        const habitatId = habitat.habitatId;
+        window.location.href = `viewSpeciesList.html?habitatId=${habitatId}`;
     }
 
     /**

@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <script type="text/javascript" src="assets/viewSpeciesList.js"></script>
+    <link rel="stylesheet" type="text/css" href="css/style.css">
+</head>
+
+<body class="background">
+<header class="header" id="header"></header>
+<div class="card">
+    <h2 id="habitat-name"></h2>
+    <h3>Keeper: <span id="habitat-owner"></span></h3>
+    <h3>Keeper Email: <span id="owner-email"></span></h3>
+    <h3>Id: <span id="habitat-id"></span></h3>
+    <h2 id="species-list-page">Habitat Species:</h2>
+    <p class="hidden error" id="error-message"></p>
+    <ol id="species-list"></ol>
+</div>
+
+<div class="card">
+    <h2>Add Species</h2>
+    <form class="card-content" id="add-species-form">
+        <p class="form-field">
+            <input type="text" class="validated-field" id="add-species" placeholder="Giraffe" autofocus>
+            <sub>Enter one at a time.</sub>
+            <sub>Any species that are more than one word should be entered in camel case format.</sub>
+        </p>
+        <p class="hidden error" id="add-species-error-message"></p>
+        <p class="button-group">
+            <a href="#" class="button" id="add-species-btn">Add</a>
+        </p>
+    </form>
+
+</div>
+
+<div id="error-modal" class="modal">
+    <div class="modal-content">
+        <p id="error-modal-message"></p>
+        <button id="ok-button" class="ok-button">OK</button>
+    </div>
+</div>
+
+</body>
+
+</html>
