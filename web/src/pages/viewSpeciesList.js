@@ -131,7 +131,7 @@ class ViewSpeciesList extends BindingClass {
 
         const specToRemove = removeButton.dataset.spec;
 
-        const speciesList = await this.client.removeAcceptableId(habitatId, specToRemove, (error) => {
+        const speciesList = await this.client.removeSpecies(habitatId, specToRemove, (error) => {
            errorMessageDisplay.innerText = `Error: ${error.message}`;
            errorMessageDisplay.classList.remove('hidden');
            this.showErrorModal(error.message);
