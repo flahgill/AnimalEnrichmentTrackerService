@@ -19,7 +19,7 @@ export default class AnimalEnrichmentTrackerClient extends BindingClass {
         'removeHabitat', 'updateHabitat', 'getAnimalsForHabitat', 'addAnimalToHabitat', 'removeAnimalFromHabitat', 'getAllHabitats',
         'getHabitatEnrichments', 'addEnrichmentToHabitat', 'removeEnrichmentActivityFromHabitat', 'getEnrichmentActivity', 'getAllEnrichmentActivities',
         'removeEnrichmentActivity', 'searchEnrichmentActivities', 'searchEnrichments', 'reAddActivityToHabitat', 'getAcceptableIds', 'addAcceptableId',
-        'removeAcceptableId', 'getAnimal', 'removeAnimal', 'getAllAnimals', 'getSpeciesList', 'addSpecies', 'removeSpecies'];
+        'removeAcceptableId', 'getAnimal', 'removeAnimal', 'getAllAnimals', 'getSpeciesList', 'addSpecies', 'removeSpecies', 'updateAnimal'];
         this.bindClassMethods(methodsToBind, this);
 
         this.authenticator = new Authenticator();;
@@ -379,6 +379,36 @@ export default class AnimalEnrichmentTrackerClient extends BindingClass {
           } catch (error) {
               this.handleError(error, errorCallback)
           }
+       }
+
+       /**
+        * Update an existing Animal.
+        * @param animalId the Id of the animal to update.
+        * @param animalName the name of the animal to update.
+        * @param age the age of the animal to update.
+        * @param sex the sex of the animal to update.
+        * @param age the species of the species to update.
+        * @param errorCallback (Optional) A function to execute if the call fails.
+        * @returns The habitat that has been created.
+        */
+       async updateAnimal(animalId, animalName, age, sex, species, errorCallback) {
+       try {
+              const token = await this.getTokenOrThrow("Only authenticated users can update animals");
+              const response = await this.axiosClient.put(`animals/${animalId}`, {
+                  animalId: animalId,
+                  animalName: animalName,
+                  age: age,
+                  sex: sex,
+                  species: species
+              }, {
+                  headers: {
+                      Authorization: `Bearer ${token}`
+                  }
+              });
+              return response.data.animal;
+           } catch (error) {
+              this.handleError(error, errorCallback)
+           }
        }
 
      /**

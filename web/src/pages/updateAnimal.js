@@ -1,39 +1,32 @@
 import AnimalEnrichmentTrackerClient from '../api/animalEnrichmentTrackerClient';
 import Header from '../components/header';
-import BindingClass from "../util/bindingClass";
-import DataStore from "../util/DataStore";
+import BindingClass from '../util/bindingClass';
+import DataStore from '../util/DataStore';
 
 /**
- * Logic needed for the view playlist page of the website.
+ * Logic needed for the update habitat page of the website.
  */
-class ViewHabitat extends BindingClass {
+class UpdateAnimal extends BindingClass {
+
+    urlParams = new URLSearchParams(window.location.search);
+    animalId = this.urlParams.get('animalId');
+
     constructor() {
         super();
-        this.bindClassMethods(['clientLoaded', 'mount', 'addAnimalToPage', 'removeAnimal', 'redirectToUpdateAnimal'], this);
+        this.bindClassMethods(['mount', 'clientLoaded', 'submit', 'addAnimalToPage', 'redirectToAnimal'], this);
         this.dataStore = new DataStore();
         this.dataStore.addChangeListener(this.addAnimalToPage);
         this.header = new Header(this.dataStore);
-        console.log("viewAnimal constructor");
+        console.log("updateAnimal constructor");
     }
 
     /**
-     * Once the client is loaded, get the playlist metadata and song list.
-     */
-    async clientLoaded() {
-        const urlParams = new URLSearchParams(window.location.search);
-        const animalId = urlParams.get('animalId');
-        document.getElementById('animal-name').innerText = "Loading Animal ...";
-        const animal = await this.client.getAnimal(animalId);
-        this.dataStore.set('animal', animal);
-    }
-
-    /**
-     * Add the header to the page and load the MusicPlaylistClient.
+     * Add the header to the page and load the AnimalEnrichmentTrackerClient.
      */
     mount() {
+        document.getElementById('update-animal').addEventListener('click', this.submit);
+
         this.header.addHeaderToPage();
-        document.getElementById('remove-animal').addEventListener("click", this.removeAnimal);
-        document.getElementById('update-animal').addEventListener("click", this.redirectToUpdateAnimal);
 
         this.client = new AnimalEnrichmentTrackerClient();
         this.clientLoaded();
@@ -42,7 +35,17 @@ class ViewHabitat extends BindingClass {
     }
 
     /**
-     * When the habitat is updated in the datastore, update the habitat metadata on the page.
+     * Once the client is loaded, get the animal metadata.
+     */
+    async clientLoaded() {
+        document.getElementById('animal-name').innerText = "Loading Animal ...";
+
+        const animal = await this.client.getAnimal(this.animalId);
+        this.dataStore.set('animal', animal);
+    }
+
+    /**
+     * When the animal is updated in the datastore, update the animal metadata on the page.
      */
     addAnimalToPage() {
         const animal = this.dataStore.get('animal');
@@ -60,45 +63,45 @@ class ViewHabitat extends BindingClass {
     }
 
     /**
-    * when remove button is clicked, removes habitat.
-    */
-    async removeAnimal(e) {
-        const animalId = this.dataStore.get('animal').animalId;
+     * Method to run when the update animal submit button is pressed. Call the AnimalEnrichmentTrackerClient to update the
+     * animal.
+     */
+    async submit(evt) {
+        evt.preventDefault();
 
         const errorMessageDisplay = document.getElementById('error-message');
         errorMessageDisplay.innerText = ``;
         errorMessageDisplay.classList.add('hidden');
 
-        const removeButton = e.target;
-        removeButton.innerText = "Deleting...";
+        const updateButton = document.getElementById('update-animal');
+        const origButtonText = updateButton.innerText;
+        updateButton.innerText = 'Loading...';
+
+        const newName = document.getElementById('new-name').value;
+        const newAge = document.getElementById('new-age').value;
+        const newSex = document.getElementById('new-sex').value;
+        const newSpecies = document.getElementById('new-species').value;
 
         let errorOccurred = false;
-        const animal = await this.client.removeAnimal(animalId, (error) => {
+        const animal = await this.client.updateAnimal(this.animalId, newName, newAge, newSex, newSpecies, (error) => {
             errorMessageDisplay.innerText = `Error: ${error.message}`;
             errorMessageDisplay.classList.remove('hidden');
             errorOccurred = true;
             this.showErrorModal(error.message);
-            removeButton.innerText = "Delete Animal";
+            updateButton.innerText = origButtonText;
         });
 
         if (!errorOccurred) {
-            window.location.href = '/index.html';
+            this.dataStore.set('animal', animal);
+            this.redirectToAnimal(this.animalId);
         }
-
     }
 
     /**
-    * when the update button is clicked, redirects to update animal page.
-    */
-    async redirectToUpdateAnimal(e) {
-        const animalId = this.dataStore.get('animal').animalId;
-        const updateButton = e.target;
-
-        updateButton.innerText = "Loading...";
-
-        if (updateButton != null) {
-            window.location.href = `/updateAnimal.html?animalId=${animalId}`;
-        }
+     * When the animal is updated in the datastore, redirect back to the animal page.
+     */
+    redirectToAnimal(animalId) {
+        window.location.href = `/animal.html?animalId=${animalId}`;
     }
 
     async showErrorModal(message) {
@@ -118,8 +121,8 @@ class ViewHabitat extends BindingClass {
  * Main method to run when the page contents have loaded.
  */
 const main = async () => {
-    const viewHabitat = new ViewHabitat();
-    viewHabitat.mount();
+    const updateAnimal = new UpdateAnimal();
+    updateAnimal.mount();
 };
 
 window.addEventListener('DOMContentLoaded', main);

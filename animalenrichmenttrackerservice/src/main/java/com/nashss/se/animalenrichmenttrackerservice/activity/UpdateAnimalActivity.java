@@ -98,24 +98,27 @@ public class UpdateAnimalActivity {
 
         if (animal.getOnHabitat()) {
             if (updateName != null) {
-                Habitat habitat = habitatDao.getHabitat(animal.getHabitatId());
+                if (!updateName.isEmpty()) {
+                    Habitat habitat = habitatDao.getHabitat(animal.getHabitatId());
 
-                if (!updateAnimalRequest.getKeeperManagerId().equals(habitat.getKeeperManagerId())) {
-                    throw new UserSecurityException("Must own habitat that animal is currently on to update the " +
-                            "animal.");
+                    if (!updateAnimalRequest.getKeeperManagerId().equals(habitat.getKeeperManagerId())) {
+                        throw new UserSecurityException("Must own habitat that animal is currently on to update the " +
+                                "animal.");
+                    }
+
+                    List<String> updateAnimals = new ArrayList<>(habitat.getAnimalsInHabitat());
+
+                    if (containsIgnoreCase(updateAnimals, updateName)) {
+                        throw new DuplicateAnimalException("Name [" + updateName + "] is already in use for the " +
+                                "habitat.");
+                    }
+
+                    updateAnimals.remove(oldName);
+                    updateAnimals.add(updateName);
+                    habitat.setAnimalsInHabitat(updateAnimals);
+                    habitat = habitatDao.saveHabitat(habitat);
+                    animal.setAnimalName(updateName);
                 }
-
-                List<String> updateAnimals = new ArrayList<>(habitat.getAnimalsInHabitat());
-
-                if (containsIgnoreCase(updateAnimals, updateName)) {
-                    throw new DuplicateAnimalException("Name [" + updateName + "] is already in use for the habitat.");
-                }
-
-                updateAnimals.remove(oldName);
-                updateAnimals.add(updateName);
-                habitat.setAnimalsInHabitat(updateAnimals);
-                habitat = habitatDao.saveHabitat(habitat);
-                animal.setAnimalName(updateName);
             }
         }
 
