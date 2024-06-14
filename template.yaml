@@ -808,6 +808,26 @@ Resources:
             Auth:
               Authorizer: 'NONE'
 
+  AddSpeciesLambda:
+    Type: AWS::Serverless::Function
+    Properties:
+      Role: !GetAtt AccessRole.Arn
+      CodeUri: animalenrichmenttrackerservice
+      Handler: com.nashss.se.animalenrichmenttrackerservice.lambda.AddSpeciesLambda::handleRequest
+      Runtime: java11
+      Architectures:
+        - x86_64
+      MemorySize: 512
+      Environment:
+        Variables:
+          JAVA_TOOL_OPTIONS: -XX:+TieredCompilation -XX:TieredStopAtLevel=1
+      Events:
+        MusicPlaylistService:
+          Type: Api
+          Properties:
+            Path: /habitats/{habitatId}/species
+            Method: post
+
 
   #-----------------------------------------------------
   # DynamoDB Configuration

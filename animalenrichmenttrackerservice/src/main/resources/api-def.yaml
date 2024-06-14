@@ -936,3 +936,23 @@ paths:
                 type: array
                 items:
                   type: string
+    post:
+      tags:
+        - Species
+      summary: Add to a list of species (AddSpeciesLambda)
+      parameters:
+        - name: habitatId
+          in: path
+          description: ID of habitat
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: A list of species
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: string
