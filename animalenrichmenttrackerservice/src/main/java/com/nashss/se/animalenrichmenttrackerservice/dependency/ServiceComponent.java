@@ -25,6 +25,7 @@ import com.nashss.se.animalenrichmenttrackerservice.activity.ViewAnimalsForHabit
 import com.nashss.se.animalenrichmenttrackerservice.activity.ViewEnrichmentActivityActivity;
 import com.nashss.se.animalenrichmenttrackerservice.activity.ViewHabitatActivity;
 import com.nashss.se.animalenrichmenttrackerservice.activity.ViewHabitatEnrichmentActivitiesActivity;
+import com.nashss.se.animalenrichmenttrackerservice.activity.ViewSpeciesListActivity;
 import com.nashss.se.animalenrichmenttrackerservice.activity.ViewUserHabitatsActivity;
 
 import dagger.Component;
@@ -190,4 +191,10 @@ public interface ServiceComponent {
      * @return ViewAllAnimalsActivity
      */
     ViewAllAnimalsActivity provideViewAllAnimalsActivity();
+
+    /**
+     * Provides the relevant activity.
+     * @return ViewSpeciesListActivity
+     */
+    ViewSpeciesListActivity provideViewSpeciesListActivity();
 }
