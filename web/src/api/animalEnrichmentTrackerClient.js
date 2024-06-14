@@ -19,7 +19,7 @@ export default class AnimalEnrichmentTrackerClient extends BindingClass {
         'removeHabitat', 'updateHabitat', 'getAnimalsForHabitat', 'addAnimalToHabitat', 'removeAnimalFromHabitat', 'getAllHabitats',
         'getHabitatEnrichments', 'addEnrichmentToHabitat', 'removeEnrichmentActivityFromHabitat', 'getEnrichmentActivity', 'getAllEnrichmentActivities',
         'removeEnrichmentActivity', 'searchEnrichmentActivities', 'searchEnrichments', 'reAddActivityToHabitat', 'getAcceptableIds', 'addAcceptableId',
-        'removeAcceptableId', 'getAnimal', 'removeAnimal', 'getAllAnimals', 'getSpeciesList'];
+        'removeAcceptableId', 'getAnimal', 'removeAnimal', 'getAllAnimals', 'getSpeciesList', 'addSpecies'];
         this.bindClassMethods(methodsToBind, this);
 
         this.authenticator = new Authenticator();;
@@ -638,6 +638,30 @@ export default class AnimalEnrichmentTrackerClient extends BindingClass {
                 return response.data.speciesList;
             } catch (error) {
                 this.handleError(error, errorCallback)
+            }
+        }
+
+        /**
+        * Add a new species to an existing Habitat.
+        * @param habitatId the Id of the habitat to update.
+        * @param speciesToAdd the species to be added
+        * @param errorCallback (Optional) A function to execute if the call fails.
+        * @returns {Promise<string[]>} The habitat's list of species.
+        */
+        async addSpecies(habitatId, speciesToAdd, errorCallback) {
+            try {
+                const token = await this.getTokenOrThrow("Only authenticated users can update their habitat");
+                const response = await this.axiosClient.post(`habitats/${habitatId}/species`, {
+                    habitatId: habitatId,
+                    speciesToAdd: speciesToAdd
+                }, {
+                    headers: {
+                        Authorization: `Bearer ${token}`
+                    }
+                });
+                return response.data.speciesList;
+            } catch (error) {
+               this.handleError(error, errorCallback)
             }
         }
 
