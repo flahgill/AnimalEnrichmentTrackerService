@@ -15,9 +15,6 @@ import com.nashss.se.animalenrichmenttrackerservice.utils.ServiceUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import javax.inject.Inject;
 
 /**
@@ -57,7 +54,7 @@ public class UpdateHabitatActivity {
      * this should throw a UserSecurityException
      *
      * @param updateHabitatRequest request object containing the habitatId, habitatName,
-     *                             species, and keeperManagerId associated with it.
+     *                             and keeperManagerId associated with it.
      * @return result object containing the API defined {@link HabitatModel}
      */
     public UpdateHabitatResult handleRequest(final UpdateHabitatRequest updateHabitatRequest) {
@@ -83,17 +80,6 @@ public class UpdateHabitatActivity {
             }
 
             habitat.setHabitatName(updateName);
-        }
-
-        List<String> species = updateHabitatRequest.getSpecies();
-
-        if (species != null) {
-            if (species.isEmpty()) {
-                species = habitat.getSpecies();
-            } else {
-                species = new ArrayList<>(species);
-            }
-            habitat.setSpecies(species);
         }
 
         String updateActivity = updateHabitatRequest.getIsActive();
