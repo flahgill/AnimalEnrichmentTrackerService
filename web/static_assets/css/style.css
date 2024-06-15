@@ -1,5 +1,5 @@
 :root {
-    --primary-color: #77AF74; /*light green - main background */
+    --primary-color: #4A8962; /*light green - main background */
     --secondary-color: #ffffff; /*white - wording */
     --tertiary-color: #3E583D; /*dark green - buttons and header background */
     --quaternary-color: #9C8081;
@@ -17,6 +17,7 @@
 #animals-table a {
     color: var(--tertiary-color);
     text-decoration: none;
+    font-weight: bold;
 }
 
 .background {
@@ -302,7 +303,7 @@ h1, h2, h3, h4, h5 { text-transform: uppercase; }
 	background: white;
 }
 
-.species {
+.species, .accept-ids {
     display: inline-block;
     font-size: 12px;
     margin: 0 10px 10px 0;
@@ -311,7 +312,6 @@ h1, h2, h3, h4, h5 { text-transform: uppercase; }
     color: var(--secondary-color);
     position: relative;
     border-radius: 16px;
-    margin-bottom: -40px;
 }
 
 .nav {

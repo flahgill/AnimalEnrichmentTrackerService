@@ -68,13 +68,13 @@ export default class ViewHabitatEnrichments extends BindingClass {
         }
         document.getElementById('species').innerHTML = speciesHtml;
 
-        let acceptEnrichIdHtml = '';
+        let acceptEnrichIdHtml = 'Acceptable Enrichments for Habitat: ';
         for (const id of habitat.acceptableEnrichmentIds) {
             acceptEnrichIdHtml += `<div class="accept-ids">${id}</div>`;
         }
-        document.getElementById('acceptable-enrichment-ids').innerHTML = 'Acceptable Enrichment Ids:' + acceptEnrichIdHtml;
+        document.getElementById('acceptable-enrichment-ids').innerHTML = acceptEnrichIdHtml;
 
-        let enrichHtml = '<table id="enrichments-table"><tr><th>Date Completed</th><th>Activity</th><th>Activity ID</th><th>Description</th><th>Rating</th><th>Completed</th><th>Update Activity</th><th>Remove From Habitat</th></tr>';
+        let enrichHtml = '<table id="enrichments-table"><tr><th>Date Completed</th><th>Activity</th><th>Activity ID</th><th>Description</th><th>Rating</th><th>Enrichment ID</th><th>Completed</th><th>Update Activity</th><th>Remove From Habitat</th></tr>';
         for (const enrich of completedEnrich) {
             enrichHtml += `
                <tr id="${enrich.activityId + enrich.habitatId}">
@@ -85,6 +85,7 @@ export default class ViewHabitatEnrichments extends BindingClass {
                    <td>${enrich.activityId}</td>
                    <td>${enrich.description}</td>
                    <td>${enrich.keeperRating}</td>
+                   <td>${enrich.enrichmentId}</td>
                    <td>${enrich.isComplete}</td>
                    <td><button data-activity-id="${enrich.activityId}"  data-habitat-id="${enrich.habitatId}" class ="button update-enrich">Update</button></td>
                    <td><button data-activity-id="${enrich.activityId}"  data-habitat-id="${enrich.habitatId}" class ="button remove-enrich">Remove</button></td>

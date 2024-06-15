@@ -61,11 +61,15 @@ class ViewHabitat extends BindingClass {
         document.getElementById('habitat-id').innerText = habitat.habitatId;
         document.getElementById('total-animals').innerText = habitat.totalAnimals;
         document.getElementById('active-status').innerText = habitat.isActive;
-        document.getElementById('acceptable-ids').innerText = habitat.acceptableEnrichmentIds;
+
+        let acceptEnrichIdHtml = 'Acceptable Enrichments for Habitat: ';
+        for (const id of habitat.acceptableEnrichmentIds) {
+            acceptEnrichIdHtml += `<div class="accept-ids">${id}</div>`;
+        }
+        document.getElementById('acceptable-enrichment-ids').innerHTML = acceptEnrichIdHtml;
 
         let speciesHtml = '';
-        let spec;
-        for (spec of habitat.species) {
+        for (const spec of habitat.species) {
             speciesHtml += `<div class="species">${spec}</div>`;
         }
         document.getElementById('species').innerHTML = speciesHtml;
