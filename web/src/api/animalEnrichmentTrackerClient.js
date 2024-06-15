@@ -19,7 +19,7 @@ export default class AnimalEnrichmentTrackerClient extends BindingClass {
         'removeHabitat', 'updateHabitat', 'getAnimalsForHabitat', 'addAnimalToHabitat', 'removeAnimalFromHabitat', 'getAllHabitats',
         'getHabitatEnrichments', 'addEnrichmentToHabitat', 'removeEnrichmentActivityFromHabitat', 'getEnrichmentActivity', 'getAllEnrichmentActivities',
         'removeEnrichmentActivity', 'searchEnrichmentActivities', 'searchEnrichments', 'reAddActivityToHabitat', 'getAcceptableIds', 'addAcceptableId',
-        'removeAcceptableId', 'getAnimal', 'removeAnimal', 'getAllAnimals', 'getSpeciesList', 'addSpecies', 'removeSpecies', 'updateAnimal'];
+        'removeAcceptableId', 'getAnimal', 'removeAnimal', 'getAllAnimals', 'getSpeciesList', 'addSpecies', 'removeSpecies', 'updateAnimal', 'searchAnimals'];
         this.bindClassMethods(methodsToBind, this);
 
         this.authenticator = new Authenticator();;
@@ -124,6 +124,24 @@ export default class AnimalEnrichmentTrackerClient extends BindingClass {
             const response = await this.axiosClient.get(`enrichments/search?${queryString}`);
 
             return response.data.enrichments;
+        } catch (error) {
+            this.handleError(error, errorCallback)
+        }
+    }
+
+    /**
+     * Search for an animal.
+     * @param criteria A string containing search criteria to pass to the API.
+     * @returns The animals that match the search criteria.
+     */
+    async searchAnimals(criteria, errorCallback) {
+        try {
+            const queryParams = new URLSearchParams({ q: criteria })
+            const queryString = queryParams.toString();
+
+            const response = await this.axiosClient.get(`animals/search?${queryString}`);
+
+            return response.data.animals;
         } catch (error) {
             this.handleError(error, errorCallback)
         }

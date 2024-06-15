@@ -3,6 +3,7 @@ import SearchHabitats from './searchHabitats.js';
 import SearchEnrichmentActivities from './SearchEnrichmentActivities.js';
 import SearchEnrichments from './searchEnrichments.js';
 import ViewUserHabitats from './viewUserHabitats.js';
+import SearchAnimals from './searchAnimals.js';
 
 
 const initialize = async () => {
@@ -15,6 +16,8 @@ const initialize = async () => {
     searchEnrichments.mount();
     const viewUserHabitats = new ViewUserHabitats(client);
     viewUserHabitats.mount();
+    const searchAnimals = new SearchAnimals(client);
+    searchAnimals.mount();
 };
 
 window.addEventListener('DOMContentLoaded', initialize);
