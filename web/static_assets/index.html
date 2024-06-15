@@ -24,7 +24,7 @@
     <form class="card-content" id="search-habitats-form">
         <p class="form-field">
             <label>Search by name, species, or animal names</label>
-            <input type="text" class="validated-field" id="search-criteria" placeholder="Giraffe Barn" autofocus>
+            <input type="text" class="validated-field" id="search-criteria" placeholder="Antelope House" autofocus>
             <sub>Search is case-sensitive and must match exactly.</sub>
         </p>
     </form>
@@ -76,6 +76,26 @@
 <div class="card hidden" id='search-enrichments-results-container'>
     <h3>Results for <span id="search-enrichments-criteria-display"></span></h3>
     <div id="search-enrichments-results-display">
+    </div>
+</div>
+
+<div class="card">
+    <h2>Search Animals</h2>
+    <form class="card-content" id="search-animals-form">
+        <p class="form-field">
+            <label>Search by name, id, sex, or species</label>
+            <input type="text" class="validated-field" id="search-animals-criteria" placeholder="Takin" autofocus>
+            <sub>Search is case-sensitive and must match exactly.</sub>
+        </p>
+    </form>
+    <p class="button-group">
+        <a href="#" class="button" id="search-animals-btn">Search</a>
+    </p>
+</div>
+
+<div class="card hidden" id='search-animals-results-container'>
+    <h3>Results for <span id="search-animals-criteria-display"></span></h3>
+    <div id="search-animals-results-display">
     </div>
 </div>
 
