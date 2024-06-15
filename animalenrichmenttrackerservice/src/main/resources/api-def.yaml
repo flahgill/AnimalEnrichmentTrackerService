@@ -875,6 +875,41 @@ paths:
                     type: string
                   onHabitat:
                     type: boolean
+    post:
+      tags:
+        - Animals
+      parameters:
+        - name: animalId
+          in: path
+          description: Id to retrieve animal
+          required: true
+          schema:
+            type: string
+      summary: Updates Animal in database (UpdateAnimalLambda)
+      responses:
+        "200":
+          description: an animal object
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  animalId:
+                    type: string
+                  animalName:
+                    type: string
+                  age:
+                    type: integer
+                  sex:
+                    type: string
+                  species:
+                    type: string
+                  isActive:
+                    type: string
+                  habitatId:
+                    type: string
+                  onHabitat:
+                    type: boolean
 
   /animals:
     get:

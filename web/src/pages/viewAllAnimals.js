@@ -19,7 +19,8 @@ class ViewAllAnimals extends BindingClass {
     constructor() {
         super();
 
-        this.bindClassMethods(['mount', 'toggleFilter', 'displayAnimalResults', 'getHTMLForFilterResults', 'removeAnimal'], this);
+        this.bindClassMethods(['mount', 'toggleFilter', 'displayAnimalResults', 'getHTMLForFilterResults', 'removeAnimal',
+        'redirectToUpdateAnimal'], this);
 
         this.dataStore = new DataStore(EMPTY_DATASTORE_STATE);
         this.dataStore.addChangeListener(this.displayAnimalResults);
@@ -33,6 +34,7 @@ class ViewAllAnimals extends BindingClass {
     mount() {
         document.getElementById('toggle-filter-btn').addEventListener('click', this.toggleFilter);
         document.getElementById('all-animals').addEventListener('click', this.removeAnimal);
+        document.getElementById('all-animals').addEventListener('click', this.redirectToUpdateAnimal);
 
         this.client = new AnimalEnrichmentTrackerClient();
 
@@ -95,8 +97,9 @@ class ViewAllAnimals extends BindingClass {
             return '<h4>No Animals found</h4>';
         }
 
-        let html = '<table id="animals-table"><tr><th>ID</th><th>Name</th><th>Age</th><th>Sex</th><th>Species</th><th>Habitat ID</th><th>Status</th><th>Currently On Habitat</th><th>Delete Permanently</th></tr>';
+        let html = '<table id="animals-table"><tr><th>ID</th><th>Name</th><th>Age</th><th>Sex</th><th>Species</th><th>Habitat ID</th><th>Status</th><th>Currently On Habitat</th><th>Update Animal</th><th>Delete Permanently</th></tr>';
         for (const res of filterResults) {
+            const habitatId = res.habitatId || '';
             html += `
             <tr id= "${res.animalId}">
                 <td>${res.animalId}</td>
@@ -107,7 +110,7 @@ class ViewAllAnimals extends BindingClass {
                 <td>${res.sex}</td>
                 <td>${res.species}</td>
                 <td>
-                    <a href="habitat.html?habitatId=${res.habitatId}">${res.habitatId}</a>
+                    <a href="habitat.html?habitatId=${habitatId}">${habitatId}</a>
                 </td>
                 <td>${res.isActive}</td>
                 <td>
@@ -116,6 +119,7 @@ class ViewAllAnimals extends BindingClass {
                 <span class="checkmark"></span>
                 </label>
                 </td>
+                <td><button data-id="${res.animalId}" class="button update-animal">Update</button></td>
                 <td><button data-id="${res.animalId}" class="button remove-animal">Delete</button></td>
             </tr>`;
         }
@@ -153,6 +157,22 @@ class ViewAllAnimals extends BindingClass {
 
         if (!errorOccurred) {
             document.getElementById(removeButton.dataset.id).remove();
+        }
+    }
+
+    /**
+    * when the update button is clicked, redirects to update animal page.
+    */
+    async redirectToUpdateAnimal(e) {
+        const updateButton = e.target;
+        if (!updateButton.classList.contains("update-animal")) {
+            return;
+        }
+
+        updateButton.innerText = "Loading...";
+
+        if (updateButton != null) {
+            window.location.href = `/updateAnimal.html?animalId=${updateButton.dataset.id}`;
         }
     }
 

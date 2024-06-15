@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <script type="text/javascript" src="assets/updateAnimal.js"></script>
+    <link rel="stylesheet" type="text/css" href="css/style.css">
+</head>
+
+<body class="background">
+
+<header class="header" id="header"></header>
+<div class="card">
+    <h2 id="update-animal-form">Update Animal </h2>
+    <h2 id="animal-name"></h2>
+    <h3>ID: <span id="animal-id"></span></h3>
+    <h3>Age: <span id="animal-age"></span></h3>
+    <h3>Sex: <span id="animal-sex"></span></h3>
+    <h3>Species: <span id="animal-species"></span></h3>
+    <h3>Status: <span id="active-status"></span></h3>
+    <h3>Habitat: <span id="animal-habitat-id"></span></h3>
+    <p class="hidden error" id="error-message"></p>
+</div>
+
+<div class="card">
+    <form class="card-content" id="update-animal-name-form">
+        <p class="form-field">
+        <h4>Update Animal Name</h4>
+        <input type="text" class="validated-field" id="new-name" placeholder="Enter Name" autofocus>
+        </p>
+    </form>
+</div>
+
+<div class="card">
+    <form class="card-content" id="update-animal-age-form">
+        <p class="form-field">
+        <h4>Update Animal Age</h4>
+        <div class="age-input">
+            <button type="button" id="decrease-age">-</button>
+            <input type="number" class="validated-field" id="new-age" value="0" min="0">
+            <button type="button" id="increase-age">+</button>
+        </div>
+        </p>
+    </form>
+</div>
+
+<div class="card">
+    <form class="card-content" id="update-animal-sex-form">
+        <p class="form-field">
+        <h4>Update Animal Sex</h4>
+        <input type="text" class="validated-field" id="new-sex" placeholder="Enter Sex" autofocus>
+        </p>
+    </form>
+</div>
+
+<div class="card">
+    <form class="card-content" id="update-animal-species-form">
+        <p class="form-field">
+            <label>Update Species</label>
+            <select class="validated-field hidden" id="species-dropdown">
+                <!-- Options will be populated based on habitat's saved list of species if the animal is currently on a habitat-->
+            </select>
+            <input type="text" class="validated-field hidden" id="species-textbox" placeholder="Enter Species">
+        </p>
+    </form>
+</div>
+
+<div class="card">
+    <a href="#" class="button" id="update-animal">Submit</a>
+</div>
+
+<div id="error-modal" class="modal">
+    <div class="modal-content">
+        <p id="error-modal-message"></p>
+        <button id="ok-button" class="ok-button">OK</button>
+    </div>
+</div>
+</body>
+
+</html>

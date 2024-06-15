@@ -9,7 +9,7 @@ import DataStore from "../util/DataStore";
 class ViewHabitat extends BindingClass {
     constructor() {
         super();
-        this.bindClassMethods(['clientLoaded', 'mount', 'addAnimalToPage', 'removeAnimal'], this);
+        this.bindClassMethods(['clientLoaded', 'mount', 'addAnimalToPage', 'removeAnimal', 'redirectToUpdateAnimal'], this);
         this.dataStore = new DataStore();
         this.dataStore.addChangeListener(this.addAnimalToPage);
         this.header = new Header(this.dataStore);
@@ -33,6 +33,7 @@ class ViewHabitat extends BindingClass {
     mount() {
         this.header.addHeaderToPage();
         document.getElementById('remove-animal').addEventListener("click", this.removeAnimal);
+        document.getElementById('update-animal').addEventListener("click", this.redirectToUpdateAnimal);
 
         this.client = new AnimalEnrichmentTrackerClient();
         this.clientLoaded();
@@ -84,6 +85,20 @@ class ViewHabitat extends BindingClass {
             window.location.href = '/index.html';
         }
 
+    }
+
+    /**
+    * when the update button is clicked, redirects to update animal page.
+    */
+    async redirectToUpdateAnimal(e) {
+        const animalId = this.dataStore.get('animal').animalId;
+        const updateButton = e.target;
+
+        updateButton.innerText = "Loading...";
+
+        if (updateButton != null) {
+            window.location.href = `/updateAnimal.html?animalId=${animalId}`;
+        }
     }
 
     async showErrorModal(message) {

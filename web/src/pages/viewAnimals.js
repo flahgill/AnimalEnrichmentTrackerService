@@ -9,7 +9,8 @@ import DataStore from "../util/DataStore";
 class ViewAnimals extends BindingClass {
     constructor() {
         super();
-        this.bindClassMethods(['clientLoaded', 'mount', 'addAnimalsToPage', 'addAnimal', 'removeAnimalFromHabitat'], this);
+        this.bindClassMethods(['clientLoaded', 'mount', 'addAnimalsToPage', 'addAnimal', 'removeAnimalFromHabitat',
+        'redirectToUpdateAnimal'], this);
         this.dataStore = new DataStore();
         this.dataStore.addChangeListener(this.addAnimalsToPage);
         this.header = new Header(this.dataStore);
@@ -36,6 +37,8 @@ class ViewAnimals extends BindingClass {
     mount() {
         document.getElementById('add-animal-btn').addEventListener('click', this.addAnimal);
         document.getElementById('animals').addEventListener('click', this.removeAnimalFromHabitat);
+        document.getElementById('animals').addEventListener('click', this.redirectToUpdateAnimal);
+
 
         this.header.addHeaderToPage();
 
@@ -68,7 +71,7 @@ class ViewAnimals extends BindingClass {
         }
         document.getElementById('species').innerHTML = speciesHtml;
 
-        let animalsHtml = '<table id="animals-table"><tr><th>ID</th><th>Name</th><th>Age</th><th>Sex</th><th>Species</th><th>Remove From Habitat</th></tr>';
+        let animalsHtml = '<table id="animals-table"><tr><th>ID</th><th>Name</th><th>Age</th><th>Sex</th><th>Species</th><th>Update Animal</th><th>Remove From Habitat</th></tr>';
         let animal;
         for (animal of habitatAnimals) {
             animalsHtml += `
@@ -80,6 +83,7 @@ class ViewAnimals extends BindingClass {
                    <td>${animal.age}</td>
                    <td>${animal.sex}</td>
                    <td>${animal.species}</td>
+                   <td><button data-id="${animal.animalId}" class ="button update-animal">Update</button></td>
                    <td><button data-id="${animal.animalId}" class ="button remove-animal">Remove</button></td>
                </tr>`;
         }
@@ -168,6 +172,22 @@ class ViewAnimals extends BindingClass {
 
         if (!errorOccurred) {
             document.getElementById(removeButton.dataset.id).remove();
+        }
+    }
+
+    /**
+    * when the update button is clicked, redirects to update animal page.
+    */
+    async redirectToUpdateAnimal(e) {
+        const updateButton = e.target;
+        if (!updateButton.classList.contains("update-animal")) {
+            return;
+        }
+
+        updateButton.innerText = "Loading...";
+
+        if (updateButton != null) {
+            window.location.href = `/updateAnimal.html?animalId=${updateButton.dataset.id}`;
         }
     }
 
