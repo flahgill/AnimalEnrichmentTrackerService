@@ -25,6 +25,8 @@ class UpdateAnimal extends BindingClass {
      */
     mount() {
         document.getElementById('update-animal').addEventListener('click', this.submit);
+        document.getElementById('increase-age').addEventListener('click', () => this.adjustAge(1));
+        document.getElementById('decrease-age').addEventListener('click', () => this.adjustAge(-1));
 
         this.header.addHeaderToPage();
 
@@ -42,6 +44,25 @@ class UpdateAnimal extends BindingClass {
 
         const animal = await this.client.getAnimal(this.animalId);
         this.dataStore.set('animal', animal);
+
+        if (animal.habitatId) {
+            const habitat = await this.client.getHabitat(animal.habitatId);
+            const speciesDropdown = document.getElementById('species-dropdown');
+            habitat.species.forEach(species => {
+                const option = document.createElement('option');
+                option.value = species;
+                option.text = species;
+                speciesDropdown.add(option);
+            });
+
+            speciesDropdown.classList.remove('hidden');
+            document.getElementById('species-textbox').classList.add('hidden');
+        } else {
+            document.getElementById('species-dropdown').classList.add('hidden');
+            document.getElementById('species-textbox').classList.remove('hidden');
+        }
+
+        document.getElementById('new-age').value = animal.age;
     }
 
     /**
@@ -80,7 +101,13 @@ class UpdateAnimal extends BindingClass {
         const newName = document.getElementById('new-name').value;
         const newAge = document.getElementById('new-age').value;
         const newSex = document.getElementById('new-sex').value;
-        const newSpecies = document.getElementById('new-species').value;
+        let newSpecies;
+
+        if (!document.getElementById('species-dropdown').classList.contains('hidden')) {
+            newSpecies = document.getElementById('species-dropdown').value;
+        } else {
+            newSpecies = document.getElementById('species-textbox').value;
+        }
 
         let errorOccurred = false;
         const animal = await this.client.updateAnimal(this.animalId, newName, newAge, newSex, newSpecies, (error) => {
@@ -95,6 +122,16 @@ class UpdateAnimal extends BindingClass {
             this.dataStore.set('animal', animal);
             this.redirectToAnimal(this.animalId);
         }
+    }
+
+    /**
+     * Adjust the age input field by a given increment.
+     */
+    adjustAge(increment) {
+        const ageInput = document.getElementById('new-age');
+        const currentAge = parseInt(ageInput.value, 10);
+        const newAge = Math.max(0, currentAge + increment); // Ensure age doesn't go below 0
+        ageInput.value = newAge;
     }
 
     /**

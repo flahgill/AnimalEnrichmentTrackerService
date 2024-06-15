@@ -57,20 +57,17 @@ public class UpdateAnimalActivity {
      * @return UpdateAnimalResult result object containing the animal that was updated.
      */
     public UpdateAnimalResult handleRequest(final UpdateAnimalRequest updateAnimalRequest) {
-        log.info("Recieved UpdateAnimalRequest {}", updateAnimalRequest);
+        log.info("Received UpdateAnimalRequest {}", updateAnimalRequest);
 
         Animal animal = animalDao.getAnimal(updateAnimalRequest.getAnimalId());
 
         String oldName = animal.getAnimalName();
         String updateName = updateAnimalRequest.getAnimalName();
-        if (updateName != null) {
-            if (updateName.isEmpty()) {
-                updateName = animal.getAnimalName();
-            }
+        boolean isNameChanged = updateName != null && !updateName.isEmpty() && !updateName.equals(oldName);
 
+        if (isNameChanged) {
             if (!ServiceUtils.isValidString(updateName)) {
-                throw new InvalidCharacterException("Animal name [" + updateName +
-                        "] contains invalid characters.");
+                throw new InvalidCharacterException("Animal name [" + updateName + "] contains invalid characters.");
             }
             animal.setAnimalName(updateName);
         }
@@ -79,50 +76,32 @@ public class UpdateAnimalActivity {
         animal.setAge(updateAge);
 
         String updatedSex = updateAnimalRequest.getSex();
-        if (updatedSex != null) {
-            if (updatedSex.isEmpty()) {
-                updatedSex = animal.getSex();
-            }
+        if (updatedSex != null && !updatedSex.isEmpty()) {
             animal.setSex(updatedSex);
         }
 
-
         String updateSpecies = updateAnimalRequest.getSpecies();
-        if (updateSpecies != null) {
-            if (updateSpecies.isEmpty()) {
-                updateSpecies = animal.getSpecies();
-            }
+        if (updateSpecies != null && !updateSpecies.isEmpty()) {
             animal.setSpecies(updateSpecies);
         }
 
-
-        if (animal.getOnHabitat()) {
-            if (updateName != null) {
-                if (!updateName.isEmpty()) {
-                    Habitat habitat = habitatDao.getHabitat(animal.getHabitatId());
-
-                    if (!updateAnimalRequest.getKeeperManagerId().equals(habitat.getKeeperManagerId())) {
-                        throw new UserSecurityException("Must own habitat that animal is currently on to update the " +
-                                "animal.");
-                    }
-
-                    List<String> updateAnimals = new ArrayList<>(habitat.getAnimalsInHabitat());
-
-                    if (containsIgnoreCase(updateAnimals, updateName)) {
-                        throw new DuplicateAnimalException("Name [" + updateName + "] is already in use for the " +
-                                "habitat.");
-                    }
-
-                    updateAnimals.remove(oldName);
-                    updateAnimals.add(updateName);
-                    habitat.setAnimalsInHabitat(updateAnimals);
-                    habitat = habitatDao.saveHabitat(habitat);
-                    animal.setAnimalName(updateName);
-                }
+        if (animal.getOnHabitat() && isNameChanged) {
+            Habitat habitat = habitatDao.getHabitat(animal.getHabitatId());
+            if (!updateAnimalRequest.getKeeperManagerId().equals(habitat.getKeeperManagerId())) {
+                throw new UserSecurityException("Must own habitat that animal is currently on to update the animal.");
             }
+
+            List<String> updateAnimals = new ArrayList<>(habitat.getAnimalsInHabitat());
+
+            if (containsIgnoreCase(updateAnimals, updateName)) {
+                throw new DuplicateAnimalException("Name [" + updateName + "] is already in use for the habitat.");
+            }
+
+            updateAnimals.remove(oldName);
+            updateAnimals.add(updateName);
+            habitat.setAnimalsInHabitat(updateAnimals);
+            habitatDao.saveHabitat(habitat);
         }
-
-
 
         animal = animalDao.saveAnimal(animal);
 

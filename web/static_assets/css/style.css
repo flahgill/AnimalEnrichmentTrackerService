@@ -443,3 +443,22 @@ a {
 .ok-button:hover {
     background-color: var(--primary-color);
 }
+
+.age-input {
+    display: flex;
+    align-items: center;
+}
+
+.age-input button {
+    width: 30px;
+    height: 30px;
+    font-size: 20px;
+    margin: 0 5px;
+    cursor: pointer;
+}
+
+.age-input input {
+    width: 50px;
+    text-align: center;
+}
+

@@ -34,8 +34,11 @@
     <form class="card-content" id="update-animal-age-form">
         <p class="form-field">
         <h4>Update Animal Age</h4>
-        <input type="text" class="validated-field" id="new-age" placeholder="Enter Age" autofocus>
-        <sub>Age must always be entered when updating animal.</sub>
+        <div class="age-input">
+            <button type="button" id="decrease-age">-</button>
+            <input type="number" class="validated-field" id="new-age" value="0" min="0">
+            <button type="button" id="increase-age">+</button>
+        </div>
         </p>
     </form>
 </div>
@@ -52,8 +55,11 @@
 <div class="card">
     <form class="card-content" id="update-animal-species-form">
         <p class="form-field">
-        <h4>Update Animal Species</h4>
-        <input type="text" class="validated-field" id="new-species" placeholder="Enter Species" autofocus>
+            <label>Update Species</label>
+            <select class="validated-field hidden" id="species-dropdown">
+                <!-- Options will be populated based on habitat's saved list of species if the animal is currently on a habitat-->
+            </select>
+            <input type="text" class="validated-field hidden" id="species-textbox" placeholder="Enter Species">
         </p>
     </form>
 </div>
