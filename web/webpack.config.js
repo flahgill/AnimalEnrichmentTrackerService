@@ -42,6 +42,8 @@ module.exports = {
     viewSpeciesList: path.resolve(__dirname, 'src', 'pages', 'viewSpeciesList.js'),
     updateAnimal: path.resolve(__dirname, 'src', 'pages', 'updateAnimal.js'),
     searchAnimals: path.resolve(__dirname, 'src', 'pages', 'searchAnimals.js'),
+    acceptIdsInitializer: path.resolve(__dirname, 'src', 'pages', 'acceptIdsInitializer.js'),
+    viewHabitatEAsInitializer: path.resolve(__dirname, 'src', 'pages', 'viewHabitatEAsInitializer.js'),
     searchHabitats: path.resolve(__dirname, 'src', 'pages', 'searchHabitats.js')
   },
   output: {

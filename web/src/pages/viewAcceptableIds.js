@@ -6,9 +6,10 @@ import DataStore from "../util/DataStore";
 /**
  * Logic needed for the view animals page of the website.
  */
-class ViewAcceptableIds extends BindingClass {
-    constructor() {
+export default class ViewAcceptableIds extends BindingClass {
+    constructor(client) {
         super();
+        this.client = client;
         this.bindClassMethods(['clientLoaded', 'mount', 'addAnimalsToPage', 'addId', 'removeId'], this);
         this.dataStore = new DataStore();
         this.dataStore.addChangeListener(this.addAnimalsToPage);
@@ -39,7 +40,6 @@ class ViewAcceptableIds extends BindingClass {
 
         this.header.addHeaderToPage();
 
-        this.client = new AnimalEnrichmentTrackerClient();
         this.clientLoaded();
 
         document.getElementById('ok-button').addEventListener("click", this.closeModal);
@@ -161,13 +161,3 @@ class ViewAcceptableIds extends BindingClass {
     }
 
 }
-
-/**
- * Main method to run when the page contents have loaded.
- */
-const main = async () => {
-    const viewAcceptableIds = new ViewAcceptableIds();
-    viewAcceptableIds.mount();
-};
-
-window.addEventListener('DOMContentLoaded', main);

@@ -107,8 +107,9 @@ export default class SearchAnimals extends BindingClass {
             return '<h4>No Results found</h4>';
         }
 
-        let html = '<table id="animals-table"><tr><th>ID</th><th>Name</th><th>Age</th><th>Sex</th><th>Species</th><th>Habitat ID</th><th>Status</th><th>Currently On Habitat</th><th>Update Animal</th><th>Delete Permanently</th></tr>';
-        for (const res of searchResults) {
+        let html = '<table id="animals-table"><tr><th>ID</th><th>Name</th><th>Age</th><th>Sex</th><th>Species</th><th>Habitat ID</th><th>Status</th><th>Currently On Habitat</th></tr>';
+        let res;
+        for (res of searchResults) {
             const habitatId = res.habitatId || '';
             html += `
             <tr id= "${res.animalId}">
@@ -129,8 +130,6 @@ export default class SearchAnimals extends BindingClass {
                 <span class="checkmark"></span>
                 </label>
                 </td>
-                <td><button data-id="${res.animalId}" class="button update-animal">Update</button></td>
-                <td><button data-id="${res.animalId}" class="button remove-animal">Delete</button></td>
             </tr>`;
         }
         html += '</table>';
