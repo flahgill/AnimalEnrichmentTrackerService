@@ -42,7 +42,7 @@ public class SearchHabitatsActivity {
      * It then returns the matching habitats, or an empty result list if none are found.
      *
      * @param searchHabitatsRequest request object containing the search criteria
-     * @return searchPlaylistsResult result object containing the habitats that match the
+     * @return searchHabitatsResult result object containing the habitats that match the
      * search criteria.
      */
     public SearchHabitatsResult handleRequest(final SearchHabitatsRequest searchHabitatsRequest) {

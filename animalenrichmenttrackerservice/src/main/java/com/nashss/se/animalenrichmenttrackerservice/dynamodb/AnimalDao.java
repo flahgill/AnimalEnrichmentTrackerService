@@ -113,4 +113,70 @@ public class AnimalDao {
 
         return this.dynamoDBMapper.scan(Animal.class, scanExpression);
     }
+
+    /**
+     * Perform a search (via a "scan") of the animals table for animals matching the given criteria.
+     *
+     * "animalName", "species", "animalId", and "sex" attributes are searched.
+     * The criteria are an array of Strings. Each element of the array is search individually.
+     * ALL elements of the criteria array must appear in the animalName, species, animalId, or sex (or all).
+     * Searches are CASE SENSITIVE.
+     *
+     * @param criteria an array of String containing search criteria.
+     * @return a List of Animal objects that match the search criteria.
+     */
+    public List<Animal> searchAnimals(String[] criteria) {
+        DynamoDBScanExpression dynamoDBScanExpression = new DynamoDBScanExpression();
+
+        if (criteria.length > 0) {
+            Map<String, AttributeValue> valueMap = new HashMap<>();
+            String valueMapNamePrefix = ":c";
+
+            StringBuilder nameFilterExpression = new StringBuilder();
+            StringBuilder speciesFilterExpression = new StringBuilder();
+            StringBuilder idFilterExpression = new StringBuilder();
+            StringBuilder sexFilterExpression = new StringBuilder();
+
+            for (int i = 0; i < criteria.length; i++) {
+                valueMap.put(valueMapNamePrefix + i,
+                        new AttributeValue().withS(criteria[i]));
+                nameFilterExpression.append(
+                        filterExpressionPart("animalName", valueMapNamePrefix, i));
+                speciesFilterExpression.append(
+                        filterExpressionPart("species", valueMapNamePrefix, i));
+                idFilterExpression.append(
+                        filterExpressionPart("animalId", valueMapNamePrefix, i));
+                sexFilterExpression.append(
+                        filterExpressionPart("sex", valueMapNamePrefix, i));
+            }
+
+            dynamoDBScanExpression.setExpressionAttributeValues(valueMap);
+            dynamoDBScanExpression.setFilterExpression(
+                    "(" + nameFilterExpression +
+                            ") or (" + speciesFilterExpression +
+                            ") or (" + sexFilterExpression +
+                            ") or (" + idFilterExpression + ")");
+        }
+
+        return this.dynamoDBMapper.scan(Animal.class, dynamoDBScanExpression);
+    }
+
+    /**
+     * private helper method to parse filter expressions.
+     *
+     * @param target the targeted attribute of the searched table.
+     * @param valueMapNamePrefix prefix of the value map.
+     * @param position position to parse.
+     * @return StringBuilder to append to the filter expression.
+     */
+    private StringBuilder filterExpressionPart(String target, String valueMapNamePrefix, int position) {
+        String possiblyAnd = position == 0 ? "" : "and ";
+        return new StringBuilder()
+                .append(possiblyAnd)
+                .append("contains(")
+                .append(target)
+                .append(", ")
+                .append(valueMapNamePrefix).append(position)
+                .append(") ");
+    }
 }

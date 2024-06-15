@@ -391,7 +391,7 @@ paths:
       parameters:
         - name: q
           in: query
-          description: Search term (name or species)
+          description: Search term (name, species, animalsInHabitat, or id)
           required: true
           schema:
             type: array
@@ -1011,3 +1011,42 @@ paths:
                 type: array
                 items:
                   type: string
+
+  /animals/search:
+    get:
+      tags:
+        - Animals
+      parameters:
+        - name: q
+          in: query
+          description: Search term (name, species, id, or sex)
+          required: true
+          schema:
+            type: array
+            items:
+              type: string
+      summary: Search for an Animal (SearchAnimalsLambda)
+      responses:
+        "200":
+          description: a list of animals
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  animalId:
+                    type: string
+                  animalName:
+                    type: string
+                  age:
+                    type: integer
+                  sex:
+                    type: string
+                  species:
+                    type: string
+                  isActive:
+                    type: string
+                  habitatId:
+                    type: string
+                  onHabitat:
+                    type: boolean
