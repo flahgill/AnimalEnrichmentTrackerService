@@ -147,9 +147,12 @@ h1, h2, h3, h4, h5 { text-transform: uppercase; }
 #search-activities-results-display,
 #search-results-display,
 #search-enrichments-results-display,
+#search-animals-results-display,
 #complete-results-display,
 #filter-results-display,
 #habitat-enrichments,
+#habitats,
+#animals-table,
 #animals {
     max-width: 100%;
     overflow-x: auto;
@@ -160,10 +163,11 @@ h1, h2, h3, h4, h5 { text-transform: uppercase; }
 #animals-table {
     width: 100%;
     border-collapse: collapse;
+    margin-top: 20px;
 }
 
 #enrichments-table th, #enrichments-table td,
-#habitats-table th, #habitats-table td
+#habitats-table th, #habitats-table td,
 #animals-table th, #animals-table td {
     border-right: 1px solid var(--primary-color);
     border-bottom: 1px solid var(--primary-color);

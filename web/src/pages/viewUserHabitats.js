@@ -65,11 +65,11 @@ export default class ViewUserHabitats extends BindingClass {
                 return;
             }
 
-            let habitatsHtml = '<table id="user-habitats-table"><tr><th>Name</th><th>Habitat ID</th><th>Species</th><th>Total Animals</th><th>Animals</th><th>Update Habitat</th></tr>';
+            let habitatsHtml = '<table id="habitats-table"><tr><th>Name</th><th>Habitat ID</th><th>Species</th><th>Total Animals</th><th>Animals</th><th>Update Habitat</th></tr>';
             let habitat;
             for (habitat of habitats) {
                 habitatsHtml += `
-                <tr id= "${habitat.habitatId}">
+                <tr id="${habitat.habitatId}">
                     <td>
                         <a href="habitat.html?habitatId=${habitat.habitatId}">${habitat.habitatName}</a>
                     </td>

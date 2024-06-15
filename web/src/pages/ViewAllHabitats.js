@@ -96,7 +96,7 @@ class ViewAllHabitats extends BindingClass {
         let html = '<table id="habitats-table"><tr><th>Habitat</th><th>Habitat ID</th><th>Species</th><th>Total Animals</th><th>Animals</th><th>Status</th><th>Keeper</th><th>Keeper Email</th><th>Update Habitat</th></tr>';
         for (const res of filterResults) {
             html += `
-            <tr id= "${res.habitatId}">
+            <tr id="${res.habitatId}">
                 <td>
                     <a href="habitat.html?habitatId=${res.habitatId}">${res.habitatName}</a>
                 </td>
