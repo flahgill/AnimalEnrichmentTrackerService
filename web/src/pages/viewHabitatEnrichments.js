@@ -6,9 +6,11 @@ import DataStore from "../util/DataStore";
 /**
  * Logic needed for the view a habitat's enrichment activities page of the website.
  */
-class ViewHabitatEnrichments extends BindingClass {
-    constructor() {
+export default class ViewHabitatEnrichments extends BindingClass {
+    constructor(client) {
         super();
+        this.client = client;
+
         this.bindClassMethods(['clientLoaded', 'mount', 'addEnrichmentsToPage', 'addEnrichment', 'removeEnrichment',
             'redirectToUpdateActivity'], this);
         this.dataStore = new DataStore();
@@ -40,7 +42,6 @@ class ViewHabitatEnrichments extends BindingClass {
         document.getElementById('habitat-enrichments').addEventListener('click', this.redirectToUpdateActivity);
         this.header.addHeaderToPage();
 
-        this.client = new AnimalEnrichmentTrackerClient();
         this.clientLoaded();
 
         document.getElementById('ok-button').addEventListener("click", this.closeModal);
@@ -201,13 +202,3 @@ class ViewHabitatEnrichments extends BindingClass {
         modal.style.display = "none";
     }
 }
-
-/**
- * Main method to run when the page contents have loaded.
- */
-const main = async () => {
-    const viewHabitatEnrichments = new ViewHabitatEnrichments();
-    viewHabitatEnrichments.mount();
-};
-
-window.addEventListener('DOMContentLoaded', main);
