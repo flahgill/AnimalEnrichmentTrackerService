@@ -10,8 +10,8 @@ import com.nashss.se.animalenrichmenttrackerservice.exceptions.AnimalCurrentlyOn
 import com.nashss.se.animalenrichmenttrackerservice.exceptions.DuplicateAnimalException;
 import com.nashss.se.animalenrichmenttrackerservice.exceptions.IncompatibleSpeciesException;
 import com.nashss.se.animalenrichmenttrackerservice.exceptions.UserSecurityException;
-import com.nashss.se.animalenrichmenttrackerservice.models.AnimalModel;
 import com.nashss.se.animalenrichmenttrackerservice.dynamodb.models.Habitat;
+import com.nashss.se.animalenrichmenttrackerservice.models.AnimalModel;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -84,17 +84,17 @@ public class ReactivateAnimalActivity {
                     "animal's species [" + animalToReactivate.getSpecies() + "].");
         }
 
+        List<String> copiedCurrAnimals = getHabitatAnimalsAndCopy(habitatToAddTo);
+        String animalName = animalToReactivate.getAnimalName();
+
+        if (containsIgnoreCase(copiedCurrAnimals, animalName)) {
+            throw new DuplicateAnimalException("Habitat already contains animal with name [" + animalName + "].");
+        }
+
         animalToReactivate.setIsActive("active");
         animalToReactivate.setOnHabitat(true);
         animalToReactivate.setHabitatId(habitatId);
         animalToReactivate = animalDao.saveAnimal(animalToReactivate);
-
-        List<String> copiedCurrAnimals = getHabitatAnimalsAndCopy(habitatToAddTo);
-        String animalName = animalToReactivate.getAnimalName();
-
-        if (copiedCurrAnimals.contains(animalName)) {
-            throw new DuplicateAnimalException("Habitat already contains animal with name [" + animalName + "].");
-        }
 
         copiedCurrAnimals.add(animalName);
         Collections.sort(copiedCurrAnimals);
@@ -155,5 +155,23 @@ public class ReactivateAnimalActivity {
         List<String> currAnimals = habitat.getAnimalsInHabitat();
 
         return new ArrayList<>(currAnimals);
+    }
+
+    /**
+     * helper method to determine if the animal being added is already present in the habitat's current
+     * list of animals. Case Insensitive.
+     *
+     * @param animals list of animals in a habitat.
+     * @param searchTerm animal to be added and searched in the current list.
+     * @return boolean determining if animal's name is already present, ignoring casing.
+     */
+    private boolean containsIgnoreCase(List<String> animals, String searchTerm) {
+        String lowerCaseSearchTerm = searchTerm.toLowerCase();
+        for (String animal : animals) {
+            if (animal.toLowerCase().equals(lowerCaseSearchTerm)) {
+                return true;
+            }
+        }
+        return false;
     }
 }

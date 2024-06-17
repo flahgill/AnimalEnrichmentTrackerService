@@ -2,6 +2,7 @@ package com.nashss.se.animalenrichmenttrackerservice.activity;
 
 import com.nashss.se.animalenrichmenttrackerservice.activity.requests.ViewUserHabitatsRequest;
 import com.nashss.se.animalenrichmenttrackerservice.activity.results.ViewUserHabitatsResult;
+import com.nashss.se.animalenrichmenttrackerservice.comparators.HabitatNameComparator;
 import com.nashss.se.animalenrichmenttrackerservice.converters.ModelConverter;
 import com.nashss.se.animalenrichmenttrackerservice.dynamodb.HabitatDao;
 import com.nashss.se.animalenrichmenttrackerservice.dynamodb.models.Habitat;
@@ -41,6 +42,7 @@ public class ViewUserHabitatsActivity {
 
         List<Habitat> userHabitats = habitatDao.getAllHabitatsForKeeper(viewUserHabitatsRequest.getKeeperManagerId());
         List<HabitatModel> userHabitatsModels = new ModelConverter().toHabitatModelList(userHabitats);
+        userHabitatsModels.sort(new HabitatNameComparator());
 
         return ViewUserHabitatsResult.builder()
                 .withHabitats(userHabitatsModels)

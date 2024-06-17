@@ -46,9 +46,9 @@ To streamline this process, the proposed Animal Enrichment Tracker Service (Safa
 ## 5. Proposed Architecture Overview
 
 - This initial iteration will provide the minimum lovable product (MLP) including creating, retrieving, and updating a habitat, as well as adding to and retrieving a saved habitat’s enrichment activities.
-- We will use API Gateway and Lambda to create multiple endpoints (AddHabitat, RemoveHabitat, UpdateHabitat, ViewHabitat, AddAnimalToHabitat, RemoveAnimalFromHabitat, AddEnrichmentActivityToHabitat, RemoveEnrichmentActivityFromHabitat, UpdateHabitatEnrichmentActivity, ViewUserHabitats, ViewHabitatEnrichments, SearchHabitats, DeactivateHabitat, ViewAllHabitats, RemoveEnrichmentActivity, SearchEnrichmentActivities, SearchEnrichments, ViewAllEnrichmentActivities, ViewAcceptableEnrichmentIds, AddAcceptableId, RemoveAcceptableId, ReAddEnrichmentActivityToHabitat) that will handle the creation, update, and retrieval of habitats and enrichments to satisfy our requirements.
+- We will use API Gateway and Lambda to create multiple endpoints (AddHabitat, RemoveHabitat, UpdateHabitat, ViewHabitat, AddAnimalToHabitat, RemoveAnimalFromHabitat, AddEnrichmentActivityToHabitat, RemoveEnrichmentActivityFromHabitat, UpdateHabitatEnrichmentActivity, ViewUserHabitats, ViewHabitatEnrichmentActivities, SearchHabitats, ViewAllHabitats, RemoveEnrichmentActivity, SearchEnrichmentActivities, SearchEnrichments, ViewAllEnrichmentActivities, ViewAcceptableEnrichmentIds, AddAcceptableId, RemoveAcceptableId, ReAddEnrichmentActivityToHabitat, RemoveAnimal, ViewAnimal, ViewSpeciesList, AddSpecies, RemoveSpecies, UpdateAnimal, ViewAllAnimals, SearchAnimals, UpdateAnimal, ViewHabitatAnimals, ViewEnrichmentActivity, ReactivateAnimal) that will handle the creation, update, and retrieval of habitats and enrichments to satisfy our requirements.
 - We will store newly created enrichment activities and habitats in DynamoDB. For simpler enrichment retrieval, we will store the list of enrichment activities in a given habitat directly in the habitats table.
-Animal Enrichment Tracker Service will also provide a web interface for users to manage habitats and enrichment activities. A main page providing a list view of all the keeper’s habitats will let them add/remove habitats. This will link off to pages per-habitat to update metadata and add/remove animals and/or enrichment activities.
+- Animal Enrichment Tracker Service will also provide a web interface for users to manage habitats and enrichment activities. A main page providing a list view of all the keeper’s habitats will let them add/remove habitats. This will link off to pages per-habitat to update metadata and add/remove animals and/or enrichment activities.
 
 
 ## 6. API
@@ -61,6 +61,7 @@ Animal Enrichment Tracker Service will also provide a web interface for users to
 - String isActive;
 - List<String> species;
 - String keeperManagerId;
+- String keeperName;
 - Int totalAnimals;
 - List<String> animalsInHabitat;
 - List<String> acceptableEnrichmentIds;
@@ -81,6 +82,17 @@ Animal Enrichment Tracker Service will also provide a web interface for users to
 - String habitatId;
 - String isComplete;
 - Boolean onHabitat;
+
+// AnimalModel
+- String animalId;
+- String animalName;
+- int age;
+- String sex;
+- String species;
+- String isActive;
+- String habitatId;
+- Boolean onHabitat;
+
 
 ### 6.2. AddHabitat Endpoint
 
@@ -232,13 +244,89 @@ Animal Enrichment Tracker Service will also provide a web interface for users to
   - If the activity is already on a habitat, will throw a EnrichmentActivityCurrentlyOnHabitatException.
   - If the habitatId does not match the habitatId that the activity was originally added to, will throw a IncompatibleHabitatIdException.
 
+### 6.23. RemoveAnimal Endpoint (Hard Delete)
+
+- Accepts DELETE requests to /animals/:animalId
+- Accepts an animalId to be removed.
+  - If the animal is not found, will throw an AnimalNotFoundException
+  - If the animal is currently on a habitat, will throw an AnimalCurrentlyOnHabitatException
+
+### 6.24. ViewAnimal Endpoint
+
+- Accepts GET requests to /animals/:animalId
+- Accepts an animalId used to retrieve animal
+  - If the animal is not found, will throw an AnimalNotFoundException
+
+### 6.25. ViewSpeciesList Endpoint
+
+- Accepts GET requests to /habitats/:habitatId/species
+- Accepts a habitatId and returns a list of species saved on the retrieved habitat.
+  - If the habitat is not found, will throw an HabitatNotFoundException
+
+### 6.26. AddSpecies Endpoint
+
+- Accepts POST requests to /habitats/:habitatId/species
+- Accepts a habitatId and a species to add, returns habitat’s updated list of species
+  - If the habitat is not found, will throw an HabitatNotFoundException
+  - If the species is already present in the habitat, will throw a DuplicateSpeciesException.
+  - If the keeper adding the species is not the owner of the habitat, will throw an UserSecurityException.
+
+### 6.27. RemoveSpecies Endpoint
+
+- Accepts DELETE requests to /habitats/:habitatId/species
+- Accepts a habitatId and a species to remove, returns habitat’s updated list of species
+  - If the habitat is not found, will throw an HabitatNotFoundException
+  - If the species is not present in the habitat, will throw a SpeciesNotFoundException.
+  - If the keeper removing the species is not the owner of the habitat, it will throw an UserSecurityException.
+
+### 6.28. ViewAllAnimals Endpoint
+
+- Accepts GET requests to /animals
+- Accepts active status and returns a list of AnimalModels that have that active status
+
+### 6.29. SearchAnimals Endpoint
+
+- Accepts GET requests to /animals/search
+- Accepts a search criteria and returns a list of associated Animals
+
+### 6.30. UpdateAnimal Endpoint
+
+- Accepts PUT requests to /animals/:animalId
+- Accepts an animalId, and user inputs to update the animal (animalName, age, sex, and species)
+  - If the animal is not found, will throw an AnimalNotFoundException
+  - If the provided animalName contains illegal characters, it will throw an InvalidCharacterException.
+  - If the animal being updated is in a habitat, and the keeper is not the owner of that habitat, will throw an UserSecurityException.
+  - If the animal being updated is in a habitat, and the animal name is already present on the habitat, will throw an DuplicateAnimalException.
+
+### 6.31. ViewHabitatAnimals Endpoint
+
+- Accepts PUT requests to /habitats/:habitatId/animals
+- Accepts a habitatId, and returns the list of animals present on the habitat.
+  - If the habitat is not found, will throw an HabitatNotFoundException
+
+### 6.32. ViewEnrichmentActivity Endpoint
+
+- Accepts PUT requests to /enrichmentActivities/:activityId
+- Accepts an activityId, and returns the EnrichmentActivity associated with that Id.
+  - If the activity is not found, will throw an EnrichmentActivityNotFoundException
+
+### 6.33. ReactiveAnimal Endpoint
+
+- Accepts PUT requests to /animals/:animalId
+- Accepts an animalId, habitatId, and keeperManagerId to reactivate an animal to a specific habitat.
+  - If the animal is not found, will throw an AnimalNotFoundException
+  - If the habitat is not found, will throw a HabitatNotFoundException
+  - If the keeper does not own the habitat they are trying to add the animal to, will throw a UserSecurityException
+  - If the species of the animal is not included on the requested habitat’s list of species, will throw an IncompatibleSpeciesException
+  - If the animal name is already listed on the habitat, will throw a DuplicateAnimalException
+
 ## 7. Tables
 
 ### 7.1. Habitats
 
 - habitatId // partition key, string
 - keeperManagerId // string (keeperManagerId-habitatId-index)
-- keeperManagerName // string
+- keeperName // string
 - habitatName // string
 - species // list
 - isActive // string (habitatId-isActive-index)
@@ -273,6 +361,18 @@ Animal Enrichment Tracker Service will also provide a web interface for users to
 
   * keeperRating-enrichmentId-index includes ALL attributes
   * activityId-isComplete-index includes ALL attributes
+
+### 7.4 Animals
+- animalId // partition key, string
+- animalName // string
+- age // int
+- sex // string
+- species // string
+- isActive // string (animalId-isActive-index)
+- habitatId // string
+- onHabitat // bool
+
+  *animalId-isActive-index includes ALL attributes
 
 ## 8. Link to Google doc with images
 [FULL DESIGN DOC](https://docs.google.com/document/d/1qD5lhMVNko6C9FZJOiNMof6X5cuzQFkSKtgWBlDoVaY/edit)
