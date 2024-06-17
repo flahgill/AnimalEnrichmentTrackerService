@@ -150,6 +150,7 @@ public class HabitatDao {
             StringBuilder speciesFilterExpression = new StringBuilder();
             StringBuilder animalsFilterExpression = new StringBuilder();
             StringBuilder idFilterExpression = new StringBuilder();
+            StringBuilder keeperFilterExpression = new StringBuilder();
 
             for (int i = 0; i < criteria.length; i++) {
                 valueMap.put(valueMapNamePrefix + i,
@@ -162,6 +163,8 @@ public class HabitatDao {
                         filterExpressionPart("animalsInHabitat", valueMapNamePrefix, i));
                 idFilterExpression.append(
                         filterExpressionPart("habitatId", valueMapNamePrefix, i));
+                keeperFilterExpression.append(
+                        filterExpressionPart("keeperName", valueMapNamePrefix, i));
             }
 
             dynamoDBScanExpression.setExpressionAttributeValues(valueMap);
@@ -169,6 +172,7 @@ public class HabitatDao {
                     "(" + nameFilterExpression +
                             ") or (" + speciesFilterExpression +
                             ") or (" + animalsFilterExpression +
+                            ") or (" + keeperFilterExpression +
                             ") or (" + idFilterExpression + ")");
         }
 
