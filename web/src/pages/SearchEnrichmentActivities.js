@@ -64,6 +64,8 @@ export default class SearchEnrichmentActivities extends BindingClass {
             return;
         }
 
+        document.getElementById('search-activities-btn').innerText = "Loading...";
+
         if (searchCriteria) {
             const results = await this.client.searchEnrichmentActivities(searchCriteria);
 
@@ -74,6 +76,8 @@ export default class SearchEnrichmentActivities extends BindingClass {
         } else {
             this.dataStore.setState(EMPTY_DATASTORE_STATE);
         }
+
+        document.getElementById('search-activities-btn').innerText = "Search";
     }
 
     /**

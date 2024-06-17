@@ -45,7 +45,7 @@ class UpdateAnimal extends BindingClass {
         const animal = await this.client.getAnimal(this.animalId);
         this.dataStore.set('animal', animal);
 
-        if (animal.habitatId) {
+        if (animal.habitatId && animal.habitatId.trim() !== "") {
             const habitat = await this.client.getHabitat(animal.habitatId);
             const speciesDropdown = document.getElementById('species-dropdown');
             habitat.species.forEach(species => {

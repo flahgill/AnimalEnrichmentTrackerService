@@ -9,7 +9,8 @@ import DataStore from "../util/DataStore";
 class ViewHabitat extends BindingClass {
     constructor() {
         super();
-        this.bindClassMethods(['clientLoaded', 'mount', 'addAnimalToPage', 'removeAnimal', 'redirectToUpdateAnimal'], this);
+        this.bindClassMethods(['clientLoaded', 'mount', 'addAnimalToPage', 'removeAnimal', 'redirectToUpdateAnimal',
+        'redirectToHabitat'], this);
         this.dataStore = new DataStore();
         this.dataStore.addChangeListener(this.addAnimalToPage);
         this.header = new Header(this.dataStore);
@@ -34,6 +35,7 @@ class ViewHabitat extends BindingClass {
         this.header.addHeaderToPage();
         document.getElementById('remove-animal').addEventListener("click", this.removeAnimal);
         document.getElementById('update-animal').addEventListener("click", this.redirectToUpdateAnimal);
+        document.getElementById('view-habitat').addEventListener("click", this.redirectToHabitat);
 
         this.client = new AnimalEnrichmentTrackerClient();
         this.clientLoaded();
@@ -57,6 +59,13 @@ class ViewHabitat extends BindingClass {
         document.getElementById('animal-species').innerText = animal.species;
         document.getElementById('active-status').innerText = animal.isActive;
         document.getElementById('animal-habitat-id').innerText = animal.habitatId;
+
+        const viewHabitatButton = document.getElementById('view-habitat');
+        if (animal.habitatId && animal.habitatId.trim() !== "") {
+            viewHabitatButton.parentElement.classList.remove('hidden');
+        } else {
+            viewHabitatButton.parentElement.classList.add('hidden');
+        }
     }
 
     /**
@@ -98,6 +107,17 @@ class ViewHabitat extends BindingClass {
 
         if (updateButton != null) {
             window.location.href = `/updateAnimal.html?animalId=${animalId}`;
+        }
+    }
+
+    async redirectToHabitat(e) {
+        const habitatId = this.dataStore.get('animal').habitatId;
+        const viewHabitatButton = e.target;
+
+        viewHabitatButton.innerText = "Loading...";
+
+        if (viewHabitatButton != null) {
+            window.location.href = `/habitat.html?habitatId=${habitatId}`;
         }
     }
 

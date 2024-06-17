@@ -67,6 +67,8 @@ export default class SearchHabitats extends BindingClass {
             return;
         }
 
+        document.getElementById('search-btn').innerText = "Loading...";
+
         if (searchCriteria) {
             const results = await this.client.search(searchCriteria);
 
@@ -77,6 +79,8 @@ export default class SearchHabitats extends BindingClass {
         } else {
             this.dataStore.setState(EMPTY_DATASTORE_STATE);
         }
+
+        document.getElementById('search-btn').innerText = "Search";
     }
 
     /**

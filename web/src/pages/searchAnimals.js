@@ -63,6 +63,8 @@ export default class SearchAnimals extends BindingClass {
             return;
         }
 
+        document.getElementById('search-animals-btn').innerText = "Loading...";
+
         if (searchCriteria) {
             const results = await this.client.searchAnimals(searchCriteria);
 
@@ -73,6 +75,8 @@ export default class SearchAnimals extends BindingClass {
         } else {
             this.dataStore.setState(EMPTY_DATASTORE_STATE);
         }
+
+        document.getElementById('search-animals-btn').innerText = "Search";
     }
 
     /**
