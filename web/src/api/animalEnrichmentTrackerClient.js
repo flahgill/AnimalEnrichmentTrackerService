@@ -19,7 +19,8 @@ export default class AnimalEnrichmentTrackerClient extends BindingClass {
         'removeHabitat', 'updateHabitat', 'getAnimalsForHabitat', 'addAnimalToHabitat', 'removeAnimalFromHabitat', 'getAllHabitats',
         'getHabitatEnrichments', 'addEnrichmentToHabitat', 'removeEnrichmentActivityFromHabitat', 'getEnrichmentActivity', 'getAllEnrichmentActivities',
         'removeEnrichmentActivity', 'searchEnrichmentActivities', 'searchEnrichments', 'reAddActivityToHabitat', 'getAcceptableIds', 'addAcceptableId',
-        'removeAcceptableId', 'getAnimal', 'removeAnimal', 'getAllAnimals', 'getSpeciesList', 'addSpecies', 'removeSpecies', 'updateAnimal', 'searchAnimals'];
+        'removeAcceptableId', 'getAnimal', 'removeAnimal', 'getAllAnimals', 'getSpeciesList', 'addSpecies', 'removeSpecies', 'updateAnimal',
+        'searchAnimals', 'reactivateAnimal'];
         this.bindClassMethods(methodsToBind, this);
 
         this.authenticator = new Authenticator();;
@@ -379,6 +380,30 @@ export default class AnimalEnrichmentTrackerClient extends BindingClass {
          } catch (error) {
              this.handleError(error, errorCallback)
          }
+      }
+
+      /**
+       * Reactivates an existing animal back to the requested habitat.
+       * @param animalId the Id of the animal to reactivate.
+       * @param habitatId the Id of the habitat to add the animal to.
+       * @param errorCallback (Optional) A function to execute if the call fails.
+       * @returns The habitat that has been created.
+       */
+      async reactivateAnimal(animalId, habitatId, errorCallback) {
+      try {
+             const token = await this.getTokenOrThrow("Only authenticated users can reactivate an animal");
+             const response = await this.axiosClient.post(`animals/${animalId}`, {
+                 habitatId: habitatId,
+                 animalId: animalId
+             }, {
+                 headers: {
+                     Authorization: `Bearer ${token}`
+                 }
+             });
+             return response.data.animal;
+          } catch (error) {
+             this.handleError(error, errorCallback)
+          }
       }
 
       /**
