@@ -10,8 +10,8 @@ import com.nashss.se.animalenrichmenttrackerservice.exceptions.AnimalCurrentlyOn
 import com.nashss.se.animalenrichmenttrackerservice.exceptions.DuplicateAnimalException;
 import com.nashss.se.animalenrichmenttrackerservice.exceptions.IncompatibleSpeciesException;
 import com.nashss.se.animalenrichmenttrackerservice.exceptions.UserSecurityException;
-import com.nashss.se.animalenrichmenttrackerservice.models.AnimalModel;
 import com.nashss.se.animalenrichmenttrackerservice.dynamodb.models.Habitat;
+import com.nashss.se.animalenrichmenttrackerservice.models.AnimalModel;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
