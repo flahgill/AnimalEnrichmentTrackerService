@@ -342,43 +342,6 @@ nav ul li a {
     color: #fff;
 }
 
-/*
-.dropbtn {
-    background-color: var(--tertiary-color);
-    border: none;
-    color: var(--secondary-color);
-    padding: 6px 8px 4px 8px;
-    text-align: center;
-    font-weight: bold;
-    text-decoration: none;
-    cursor: pointer;
-}
-
-.dropdown {
-    position: relative;
-    display: inline-block;
-}
-
-.dropdown-content {
-    display: none;
-    position: absolute;
-    background-color: #f1f1f1;
-    min-width: 160px;
-    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-    z-index: 1;
-}
-
-.dropdown-content select {
-    color: black;
-    padding: 12px 16px;
-    text-decoration: none;
-    display: block;
-}
-
-.dropdown-content select:hover {
-    background-color: #ddd;
-}
-*/
 .dropbtn {
   background-color: var(--tertiary-color);
   border: none;
@@ -514,5 +477,11 @@ a {
 .age-input input {
     width: 50px;
     text-align: center;
+}
+
+img {
+  border-radius: 25px;
+  background: var(--tertiary-color);
+  padding: 8px;
 }
 
