@@ -107,14 +107,12 @@
     border: 2px solid var(--tertiary-color);
 }
 
-/* Container for buttons */
 .button-container {
     display: flex;
     flex-direction: column;
     align-items: flex-start;
 }
 
-/* Styling for button card */
 .button.card {
     color: var(--primary-color);
     background-color: var(--secondary-color);
@@ -124,14 +122,48 @@
     font-family: Georgia, serif;
     border: 2px solid var(--tertiary-color);
     width: 50%;
-    text-align: left; /* Align text to the left */
+    text-align: left;
     box-sizing: border-box;
 }
 
-/* Ensure all child elements inside button card are aligned to the left */
 .button.card * {
-    align-self: flex-start; /* Align all child elements to the left */
-    text-align: left; /* Ensure text inside child elements is also aligned to the left */
+    align-self: flex-start;
+    text-align: left;
+}
+
+.accept-container {
+    display: flex;
+    justify-content: flex-start;
+    align-items: flex-start;
+    width: 100%;
+}
+
+.accept.card {
+    color: var(--primary-color);
+    background-color: var(--secondary-color);
+    margin: 10px;
+    border-radius: 25px;
+    padding: 15px 10px 15px 10px;
+    font-family: Georgia, serif;
+    border: 2px solid var(--tertiary-color);
+    width: calc(50% - 20px);
+    text-align: left;
+    box-sizing: border-box;
+}
+
+.accept.card * {
+    align-self: flex-start;
+    text-align: left;
+}
+
+.right-side-container {
+    display: flex;
+    flex-direction: column;
+    width: calc(50% - 20px);
+}
+
+.right-side-container .accept.card {
+    width: 100%;
 }
 
 .upperCaseHeader { text-transform: uppercase }

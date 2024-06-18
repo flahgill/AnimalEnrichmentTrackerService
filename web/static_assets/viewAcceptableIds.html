@@ -9,70 +9,73 @@
 
 <body class="background">
 <header class="header" id="header"></header>
-<div class="card">
-    <h2 id="habitat-name"></h2>
-    <h3>Keeper: <span id="habitat-owner"></span></h3>
-    <h3>Keeper Email: <span id="owner-email"></span></h3>
-    <h3>Id: <span id="habitat-id"></span></h3>
-    <div class="species-container" id="species"></div>
-    <h2 id="acceptable-ids-page">Acceptable Enrichment Ids:</h2>
-    <p class="hidden error" id="error-message"></p>
-    <ol id="acceptable-ids"></ol>
-</div>
+<div class="accept-container">
+    <div class="accept card main">
+        <h2 id="habitat-name"></h2>
+        <h3>Keeper: <span id="habitat-owner"></span></h3>
+        <h3>Keeper Email: <span id="owner-email"></span></h3>
+        <h3>Id: <span id="habitat-id"></span></h3>
+        <div class="species-container" id="species"></div>
+        <h2 id="acceptable-ids-page">Acceptable Enrichment Ids:</h2>
+        <p class="hidden error" id="error-message"></p>
+        <ol id="acceptable-ids"></ol>
+    </div>
 
-<div class="card">
-    <h2>Add Acceptable Id</h2>
-    <form class="card-content" id="add-id-form">
-        <p class="form-field">
-            <label>Enter Id</label>
-            <select id="acceptable-id" autofocus>
-                <option value="01">01</option>
-                <option value="02">02</option>
-                <option value="03">03</option>
-                <option value="04">04</option>
-                <option value="05">05</option>
-                <option value="06">06</option>
-                <option value="07">07</option>
-                <option value="08">08</option>
-                <option value="09">09</option>
-                <option value="10">10</option>
-                <option value="11">11</option>
-                <option value="12">12</option>
-                <option value="13">13</option>
-                <option value="14">14</option>
-                <option value="15">15</option>
-                <option value="16">16</option>
-                <option value="17">17</option>
-                <option value="18">18</option>
-                <option value="19">19</option>
-                <option value="20">20</option>
-            </select>
-        </p>
-        <p class="hidden error" id="add-id-error-message"></p>
-        <p class="button-group">
-            <a href="#" class="button" id="add-id-btn">Add</a>
-        </p>
-    </form>
+    <div class="right-side-container">
+        <div class="accept card">
+            <h2>Add Acceptable Id</h2>
+            <form class="card-content" id="add-id-form">
+                <p class="form-field">
+                    <label>Enter Id</label>
+                    <select id="acceptable-id" autofocus>
+                        <option value="01">01</option>
+                        <option value="02">02</option>
+                        <option value="03">03</option>
+                        <option value="04">04</option>
+                        <option value="05">05</option>
+                        <option value="06">06</option>
+                        <option value="07">07</option>
+                        <option value="08">08</option>
+                        <option value="09">09</option>
+                        <option value="10">10</option>
+                        <option value="11">11</option>
+                        <option value="12">12</option>
+                        <option value="13">13</option>
+                        <option value="14">14</option>
+                        <option value="15">15</option>
+                        <option value="16">16</option>
+                        <option value="17">17</option>
+                        <option value="18">18</option>
+                        <option value="19">19</option>
+                        <option value="20">20</option>
+                    </select>
+                </p>
+                <p class="hidden error" id="add-id-error-message"></p>
+                <p class="button-group">
+                    <a href="#" class="button" id="add-id-btn">Add</a>
+                </p>
+            </form>
+        </div>
 
-</div>
+        <div class="accept card">
+            <h2>Search Enrichments</h2>
+            <form class="card-content" id="search-enrichments-form">
+                <p class="form-field">
+                    <label>Search by name, id, or description</label>
+                    <input type="text" class="validated-field" id="search-enrichments-criteria" placeholder="Amazing Graze" autofocus>
+                    <sub>Search is case-sensitive and must match exactly.</sub>
+                </p>
+            </form>
+            <p class="button-group">
+                <a href="#" class="button" id="search-enrichments-btn">Search</a>
+            </p>
+        </div>
 
-<div class="card">
-    <h2>Search Enrichments</h2>
-    <form class="card-content" id="search-enrichments-form">
-        <p class="form-field">
-            <label>Search by name, id, or description</label>
-            <input type="text" class="validated-field" id="search-enrichments-criteria" placeholder="Amazing Graze" autofocus>
-            <sub>Search is case-sensitive and must match exactly.</sub>
-        </p>
-    </form>
-    <p class="button-group">
-        <a href="#" class="button" id="search-enrichments-btn">Search</a>
-    </p>
-</div>
-
-<div class="card hidden" id='search-enrichments-results-container'>
-    <h3>Results for <span id="search-enrichments-criteria-display"></span></h3>
-    <div id="search-enrichments-results-display">
+        <div class="card hidden" id='search-enrichments-results-container'>
+            <h3>Results for <span id="search-enrichments-criteria-display"></span></h3>
+            <div id="search-enrichments-results-display">
+            </div>
+        </div>
     </div>
 </div>
 
