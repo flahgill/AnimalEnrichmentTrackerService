@@ -46,12 +46,15 @@ export default class ViewUserHabitats extends BindingClass {
       async checkLoginStatus() {
             const user = await this.client.getIdentity();
             const userHabitatsSection = document.querySelector('.card.hidden');
+            const welcomeSection = document.querySelector('.card.homepage.hidden');
 
             if (user) {
                 userHabitatsSection.classList.remove('hidden');
+                welcomeSection.classList.add('hidden');
                 await this.clientLoaded();
             } else {
                 userHabitatsSection.classList.add('hidden');
+                welcomeSection.classList.remove('hidden');
             }
       }
 
