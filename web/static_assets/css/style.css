@@ -100,11 +100,38 @@
 .card {
     color: var(--primary-color);
     background-color: var(--secondary-color);
-    margin: 20px;
+    margin: 8px;
     border-radius: 25px;
-    padding: 20px;
+    padding: 10px 10px 8px 10px;
     font-family: Georgia, serif;
     border: 2px solid var(--tertiary-color);
+}
+
+/* Container for buttons */
+.button-container {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+/* Styling for button card */
+.button.card {
+    color: var(--primary-color);
+    background-color: var(--secondary-color);
+    margin: 10px;
+    border-radius: 25px;
+    padding: 15px 10px 15px 10px;
+    font-family: Georgia, serif;
+    border: 2px solid var(--tertiary-color);
+    width: 50%;
+    text-align: left; /* Align text to the left */
+    box-sizing: border-box;
+}
+
+/* Ensure all child elements inside button card are aligned to the left */
+.button.card * {
+    align-self: flex-start; /* Align all child elements to the left */
+    text-align: left; /* Ensure text inside child elements is also aligned to the left */
 }
 
 .upperCaseHeader { text-transform: uppercase }
@@ -484,4 +511,49 @@ img {
   background: var(--tertiary-color);
   padding: 8px;
 }
+
+.search-container {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  margin-bottom: 1px;
+  width: 100%;
+}
+
+.search-card-container {
+  display: flex;
+  align-items: flex-start;
+  margin-bottom: 1px;
+  width: 100%;
+}
+
+.search.card {
+  width: 350px;
+  flex-shrink: 0;
+}
+
+.results.card {
+  margin-left: 20px;
+  flex-grow: 1;
+  width: calc(100% - 320px);
+}
+
+/* search boxes hover
+.search-content {
+  display: none;
+  position: absolute;
+  background-color: #f9f9f9;
+  min-width: 160px;
+  box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+  z-index: 1;
+}
+
+/* Show search content on hover
+.search:hover .search-content {
+  display: block;
+}
+*/
+
+
+
 
