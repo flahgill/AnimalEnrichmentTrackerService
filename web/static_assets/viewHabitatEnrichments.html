@@ -9,74 +9,79 @@
 
 <body class="background">
 <header class="header" id="header"></header>
-<div class="card">
-    <h2 id="habitat-name"></h2>
-    <h3>Keeper: <span id="habitat-owner"></span></h3>
-    <h3>Keeper Email: <span id="owner-email"></span></h3>
-    <h3>Id: <span id="habitat-id"></span></h3>
-    <h3 class="accept-ids-container"><span id="acceptable-enrichment-ids"></span></h3>
-    <div class="species-container" id="species"></div>
-    <h2 id="habitat-enrichments-page">Completed Enrichment Activities:</h2>
-    <p class="hidden error" id="error-message"></p>
-    <ol id="habitat-enrichments"></ol>
-</div>
 
-<div class="card">
-    <h2>Add Enrichment to Habitat</h2>
-    <form class="card-content" id="add-enrichment-form">
-        <p class="form-field">
-            <label>Enrichment Id</label>
-            <select required class="validated-field" id="accept-enrichment-id" >
-                <!-- Options will be populated based on habitat's saved list of acceptable enrichmentId's -->
-            </select>
-        </p>
-        <p class="form-field">
-            <label>Keeper Rating</label>
-            <select id="keeper-rating" autofocus>
-                <option value="1">1</option>
-                <option value="2">2</option>
-                <option value="3">3</option>
-                <option value="4">4</option>
-                <option value="5">5</option>
-                <option value="6">6</option>
-                <option value="7">7</option>
-                <option value="8">8</option>
-                <option value="9">9</option>
-                <option value="10">10</option>
-            </select>
-        </p>
-        <p class="form-field">
-        <label>Date Completed</label>
-        <input type="date" id="date-completed">
-        </p>
-        <p class="form-field">
-            <label>Administered to Habitat</label>
-            <select id="is-complete" autofocus>
-                <option value="complete">yes</option>
-                <option value="incomplete">no</option>
-            </select>
-        </p>
-    </form>
-    <a href="#" class="button" id="add-enrichment">Add</a>
-</div>
+<div class="enrich-container">
+    <div class="enrich card">
+        <h2 id="habitat-name"></h2>
+        <h3>Keeper: <span id="habitat-owner"></span></h3>
+        <h3>Keeper Email: <span id="owner-email"></span></h3>
+        <h3>Id: <span id="habitat-id"></span></h3>
+        <h3 class="accept-ids-container"><span id="acceptable-enrichment-ids"></span></h3>
+        <div class="species-container" id="species"></div>
+        <h2 id="habitat-enrichments-page">Completed Enrichment Activities:</h2>
+        <p class="hidden error" id="error-message"></p>
+        <ol id="habitat-enrichments"></ol>
+    </div>
 
-<div class="card">
-    <h2>Search Enrichments</h2>
-    <form class="card-content" id="search-enrichments-form">
-        <p class="form-field">
-            <label>Search by name, id, or description</label>
-            <input type="text" class="validated-field" id="search-enrichments-criteria" placeholder="Amazing Graze" autofocus>
-            <sub>Search is case-sensitive and must match exactly.</sub>
-        </p>
-    </form>
-    <p class="button-group">
-        <a href="#" class="button" id="search-enrichments-btn">Search</a>
-    </p>
-</div>
+    <div class="bottom-container">
+        <div class="enrich card">
+            <h2>Add Enrichment to Habitat</h2>
+            <form class="card-content" id="add-enrichment-form">
+                <p class="form-field">
+                    <label>Enrichment Id</label>
+                    <select required class="validated-field" id="accept-enrichment-id" >
+                        <!-- Options will be populated based on habitat's saved list of acceptable enrichmentId's -->
+                    </select>
+                </p>
+                <p class="form-field">
+                    <label>Keeper Rating</label>
+                    <select id="keeper-rating" autofocus>
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>
+                        <option value="6">6</option>
+                        <option value="7">7</option>
+                        <option value="8">8</option>
+                        <option value="9">9</option>
+                        <option value="10">10</option>
+                    </select>
+                </p>
+                <p class="form-field">
+                <label>Date Completed</label>
+                <input type="date" id="date-completed">
+                </p>
+                <p class="form-field">
+                    <label>Administered to Habitat</label>
+                    <select id="is-complete" autofocus>
+                        <option value="complete">yes</option>
+                        <option value="incomplete">no</option>
+                    </select>
+                </p>
+            </form>
+            <a href="#" class="button" id="add-enrichment">Add</a>
+        </div>
 
-<div class="card hidden" id='search-enrichments-results-container'>
-    <h3>Results for <span id="search-enrichments-criteria-display"></span></h3>
-    <div id="search-enrichments-results-display">
+        <div class="enrich card">
+            <h2>Search Enrichments</h2>
+            <form class="card-content" id="search-enrichments-form">
+                <p class="form-field">
+                    <label>Search by name, id, or description</label>
+                    <input type="text" class="validated-field" id="search-enrichments-criteria" placeholder="Amazing Graze" autofocus>
+                    <sub>Search is case-sensitive and must match exactly.</sub>
+                </p>
+            </form>
+            <p class="button-group">
+                <a href="#" class="button" id="search-enrichments-btn">Search</a>
+            </p>
+        </div>
+
+        <div class="card hidden" id='search-enrichments-results-container'>
+            <h3>Results for <span id="search-enrichments-criteria-display"></span></h3>
+            <div id="search-enrichments-results-display">
+            </div>
+        </div>
     </div>
 </div>
 
