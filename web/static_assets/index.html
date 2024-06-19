@@ -30,75 +30,98 @@
     </div>
 </div>
 
-<div class="card">
-    <h5>All searches are case sensitive and must match exactly:</h5>
+<div class="instruction card">
+    <h5>Search Habitats, Activities, or Animals:</h5>
+    <sub>Searches are case-sensitive and must match exactly</sub>
 </div>
 
 <div class="search-container">
     <div class="search-card-container">
-        <div class="search card">
-            <h3>Habitats</h3>
-            <form class="search-content" id="search-habitats-form">
-                <p class="form-field">
-                    <label>Search by name, species, animals, ID, or keeper</label>
-                    <input type="text" class="validated-field" id="search-criteria" placeholder="Antelope House" autofocus>
-                </p>
-                <p class="button-group">
-                    <a href="#" class="button" id="search-btn">Search</a>
-                </p>
-            </form>
-        </div>
-        <div class="results card hidden" id='search-results-container'>
-            <h3>Habitat Search Results for <span id="search-criteria-display"></span></h3>
-            <div id="search-results-display"></div>
-        </div>
-    </div>
-
-    <div class="search-card-container">
-        <div class="search card">
-            <h3>Activities</h3>
-            <form class="search-content" id="search-activities-form">
-                <p class="form-field">
-                    <label>Search by name, ID, or description</label>
-                    <input type="text" class="validated-field" id="search-activities-criteria" placeholder="Amazing Graze" autofocus>
-                </p>
-                <p class="button-group">
-                    <a href="#" class="button" id="search-activities-btn">Search</a>
-                </p>
-            </form>
-        </div>
-        <div class="results card hidden" id='search-activities-results-container'>
-            <h3>Activity Search Results for <span id="search-activities-criteria-display"></span></h3>
-            <div id="search-activities-results-display"></div>
+        <button class="accordion">Habitats</button>
+        <div class="panel">
+            <div class="search card">
+                <form class="search-content" id="search-habitats-form">
+                    <p class="form-field">
+                        <label>Search by name, species, animals, ID, or keeper</label>
+                        <input type="text" class="validated-field" id="search-criteria" placeholder="Antelope House" autofocus>
+                    </p>
+                    <p class="button-group">
+                        <a href="#" class="button" id="search-btn">Search</a>
+                    </p>
+                </form>
+            </div>
+            <div class="results card hidden" id='search-results-container'>
+                <h3>Habitat Search Results for <span id="search-criteria-display"></span></h3>
+                <div id="search-results-display"></div>
+            </div>
         </div>
     </div>
 
     <div class="search-card-container">
-        <div class="search card">
-            <h3>Animals</h3>
-            <form class="search-content" id="search-animals-form">
-                <p class="form-field">
-                    <label>Search by name, ID, sex, or species</label>
-                    <input type="text" class="validated-field" id="search-animals-criteria" placeholder="Takin" autofocus>
-                </p>
-                <p class="button-group">
-                    <a href="#" class="button" id="search-animals-btn">Search</a>
-                </p>
-            </form>
+        <button class="accordion">Activities</button>
+        <div class="panel">
+            <div class="search card">
+                <form class="search-content" id="search-activities-form">
+                    <p class="form-field">
+                        <label>Search by name, ID, or description</label>
+                        <input type="text" class="validated-field" id="search-activities-criteria" placeholder="Amazing Graze" autofocus>
+                    </p>
+                    <p class="button-group">
+                        <a href="#" class="button" id="search-activities-btn">Search</a>
+                    </p>
+                </form>
+            </div>
+            <div class="results card hidden" id='search-activities-results-container'>
+                <h3>Activity Search Results for <span id="search-activities-criteria-display"></span></h3>
+                <div id="search-activities-results-display"></div>
+            </div>
         </div>
-        <div class="results card hidden" id='search-animals-results-container'>
-            <h3>Animal Search Results for <span id="search-animals-criteria-display"></span></h3>
-            <div id="search-animals-results-display"></div>
+    </div>
+
+    <div class="search-card-container">
+        <button class="accordion">Animals</button>
+        <div class="panel">
+            <div class="search card">
+                <form class="search-content" id="search-animals-form">
+                    <p class="form-field">
+                        <label>Search by name, ID, sex, or species</label>
+                        <input type="text" class="validated-field" id="search-animals-criteria" placeholder="Takin" autofocus>
+                    </p>
+                    <p class="button-group">
+                        <a href="#" class="button" id="search-animals-btn">Search</a>
+                    </p>
+                </form>
+            </div>
+            <div class="results card hidden" id='search-animals-results-container'>
+                <h3>Animal Search Results for <span id="search-animals-criteria-display"></span></h3>
+                <div id="search-animals-results-display"></div>
+            </div>
         </div>
     </div>
 </div>
-
 <div id="error-modal" class="modal">
     <div class="modal-content">
         <p id="error-modal-message"></p>
         <button id="ok-button" class="ok-button">OK</button>
     </div>
 </div>
+
+<script>
+    var acc = document.getElementsByClassName("accordion");
+    var i;
+
+    for (i = 0; i < acc.length; i++) {
+        acc[i].addEventListener("click", function() {
+            this.classList.toggle("active");
+            var panel = this.nextElementSibling;
+            if (panel.style.display === "block") {
+                panel.style.display = "none";
+            } else {
+                panel.style.display = "block";
+            }
+        });
+    }
+</script>
 
 </body>
 
