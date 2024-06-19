@@ -37,7 +37,6 @@ export default class Header extends BindingClass {
         const homeButton = document.createElement('a');
         homeButton.classList.add('header_home');
         homeButton.href = 'index.html';
-
         const imageButton = document.createElement('img');
         imageButton.src = "css/site_title.png"
         imageButton.width = "425";
