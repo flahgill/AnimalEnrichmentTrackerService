@@ -1,7 +1,6 @@
 import AnimalEnrichmentTrackerClient from '../api/animalEnrichmentTrackerClient';
 import SearchHabitats from './searchHabitats.js';
 import SearchEnrichmentActivities from './SearchEnrichmentActivities.js';
-import SearchEnrichments from './searchEnrichments.js';
 import ViewUserHabitats from './viewUserHabitats.js';
 import SearchAnimals from './searchAnimals.js';
 
