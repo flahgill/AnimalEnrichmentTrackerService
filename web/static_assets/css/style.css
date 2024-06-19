@@ -591,23 +591,68 @@ img {
 
 .search-card-container {
   display: flex;
-  align-items: flex-start;
-  margin-bottom: 1px;
+  flex-direction: column;
   width: 100%;
 }
 
 .search.card {
-  width: 350px;
-  flex-shrink: 0;
+  width: 100%;
 }
 
 .results.card {
-  margin-left: 20px;
-  flex-grow: 1;
-  width: calc(100% - 320px);
+  margin-left: 0;
+  width: 100%;
 }
 
-/* search boxes hover
+.accordion {
+  background-color: var(--tertiary-color);
+  color: var(--secondary-color);
+  cursor: pointer;
+  text-align: left;
+  outline: none;
+  transition: 0.4s;
+  border-radius: 25px;
+  padding: 10px 10px 8px 10px;
+  font-family: Georgia, serif;
+  border: 2px solid var(--secondary-color);
+}
+
+.active, .accordion:hover {
+  background-color: var(--primary-color);
+}
+
+.panel {
+  padding: 0 18px;
+  display: none;
+  overflow: hidden;
+}
+
+.instruction.card {
+    color: var(--primary-color);
+    background-color: var(--secondary-color);
+    margin: 10px auto;
+    border-radius: 25px;
+    padding: 15px 10px 15px 10px;
+    font-family: Georgia, serif;
+    border: 2px solid var(--tertiary-color);
+    width: 50%;
+    text-align: center;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.instruction.card h5 {
+    margin: 0;
+}
+
+.instruction.card sub {
+    margin-top: 5px;
+}
+
+/*
+search boxes hover
 .search-content {
   display: none;
   position: absolute;
