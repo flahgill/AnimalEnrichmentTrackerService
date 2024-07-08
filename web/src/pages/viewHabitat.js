@@ -10,7 +10,8 @@ class ViewHabitat extends BindingClass {
     constructor() {
         super();
         this.bindClassMethods(['clientLoaded', 'mount', 'addHabitatToPage', 'redirectToViewAnimals', 'removeHabitat',
-        'redirectToUpdateHabitat', 'redirectToViewHabitatEnrichments', 'redirectToViewAcceptableIds', 'redirectToViewSpecies'], this);
+        'redirectToUpdateHabitat', 'redirectToViewHabitatEnrichments', 'redirectToViewAcceptableIds', 'redirectToViewSpecies',
+        'checkLoginStatus'], this);
         this.dataStore = new DataStore();
         this.dataStore.addChangeListener(this.addHabitatToPage);
         this.header = new Header(this.dataStore);
@@ -26,6 +27,17 @@ class ViewHabitat extends BindingClass {
         document.getElementById('habitat-name').innerText = "Loading Habitat ...";
         const habitat = await this.client.getHabitat(habitatId);
         this.dataStore.set('habitat', habitat);
+    }
+
+    async checkLoginStatus() {
+        const user = await this.client.getIdentity();
+        const buttons = document.querySelectorAll('.button-container .b.card');
+
+        if (user) {
+            buttons.forEach(button => {
+                button.classList.remove('hidden');
+            });
+        }
     }
 
     /**
@@ -44,6 +56,8 @@ class ViewHabitat extends BindingClass {
         this.clientLoaded();
 
         document.getElementById('ok-button').addEventListener("click", this.closeModal);
+
+        this.checkLoginStatus();
     }
 
     /**
