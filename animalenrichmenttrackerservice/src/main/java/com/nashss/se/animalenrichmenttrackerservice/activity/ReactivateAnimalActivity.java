@@ -6,11 +6,12 @@ import com.nashss.se.animalenrichmenttrackerservice.converters.ModelConverter;
 import com.nashss.se.animalenrichmenttrackerservice.dynamodb.AnimalDao;
 import com.nashss.se.animalenrichmenttrackerservice.dynamodb.HabitatDao;
 import com.nashss.se.animalenrichmenttrackerservice.dynamodb.models.Animal;
+import com.nashss.se.animalenrichmenttrackerservice.dynamodb.models.Habitat;
 import com.nashss.se.animalenrichmenttrackerservice.exceptions.AnimalCurrentlyOnHabitatException;
 import com.nashss.se.animalenrichmenttrackerservice.exceptions.DuplicateAnimalException;
 import com.nashss.se.animalenrichmenttrackerservice.exceptions.IncompatibleSpeciesException;
 import com.nashss.se.animalenrichmenttrackerservice.exceptions.UserSecurityException;
-import com.nashss.se.animalenrichmenttrackerservice.dynamodb.models.Habitat;
+
 import com.nashss.se.animalenrichmenttrackerservice.models.AnimalModel;
 
 import org.apache.logging.log4j.LogManager;
