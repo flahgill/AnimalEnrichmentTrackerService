@@ -12,7 +12,7 @@ export default class ViewHabitatEnrichments extends BindingClass {
         this.client = client;
 
         this.bindClassMethods(['clientLoaded', 'mount', 'addEnrichmentsToPage', 'addEnrichment', 'removeEnrichment',
-            'redirectToUpdateActivity'], this);
+            'redirectToUpdateActivity', 'checkLoginStatus'], this);
         this.dataStore = new DataStore();
         this.dataStore.addChangeListener(this.addEnrichmentsToPage);
         this.header = new Header(this.dataStore);
@@ -33,6 +33,26 @@ export default class ViewHabitatEnrichments extends BindingClass {
         this.dataStore.set('completed-enrichments', completedEnrich);
     }
 
+    async checkLoginStatus() {
+        const user = await this.client.getIdentity();
+        this.isLoggedIn = !!user;
+
+        // Select the correct 'Add Enrichment' form card
+        const addEAFormSection = document.querySelector('.bottom-container .enrich.card.hidden');
+
+        if (this.isLoggedIn) {
+            if (addEAFormSection) {
+                addEAFormSection.classList.remove('hidden');
+            }
+        } else {
+            if (addEAFormSection) {
+                addEAFormSection.classList.add('hidden');
+            }
+        }
+
+        this.addEnrichmentsToPage();
+    }
+
     /**
      * Add the header to the page and load the AnimalEnrichmentTrackerClient.
      */
@@ -45,6 +65,8 @@ export default class ViewHabitatEnrichments extends BindingClass {
         this.clientLoaded();
 
         document.getElementById('ok-button').addEventListener("click", this.closeModal);
+
+        this.checkLoginStatus();
     }
 
     /**
@@ -74,22 +96,29 @@ export default class ViewHabitatEnrichments extends BindingClass {
         }
         document.getElementById('acceptable-enrichment-ids').innerHTML = acceptEnrichIdHtml;
 
-        let enrichHtml = '<table id="enrichments-table"><tr><th>Date Completed</th><th>Activity</th><th>Activity ID</th><th>Description</th><th>Rating</th><th>Enrichment ID</th><th>Completed</th><th>Update Activity</th><th>Remove From Habitat</th></tr>';
+        let enrichHtml = '<table id="enrichments-table"><tr><th>Date Completed</th><th>Activity</th><th>Activity ID</th><th>Description</th><th>Rating</th><th>Enrichment ID</th><th>Completed</th>';
+        if (this.isLoggedIn) {
+            enrichHtml += '<th>Update Activity</th><th>Remove From Habitat</th>';
+        }
+        enrichHtml += '</tr>';
         for (const enrich of completedEnrich) {
             enrichHtml += `
-               <tr id="${enrich.activityId + enrich.habitatId}">
-                   <td>${enrich.dateCompleted}</td>
-                   <td>
-                       <a href="enrichmentActivity.html?activityId=${enrich.activityId}">${enrich.activityName}</a>
-                   </td>
-                   <td>${enrich.activityId}</td>
-                   <td>${enrich.description}</td>
-                   <td>${enrich.keeperRating}</td>
-                   <td>${enrich.enrichmentId}</td>
-                   <td>${enrich.isComplete}</td>
-                   <td><button data-activity-id="${enrich.activityId}"  data-habitat-id="${enrich.habitatId}" class ="button update-enrich">Update</button></td>
-                   <td><button data-activity-id="${enrich.activityId}"  data-habitat-id="${enrich.habitatId}" class ="button remove-enrich">Remove</button></td>
-               </tr>`;
+                <tr id="${enrich.activityId + enrich.habitatId}">
+                    <td>${enrich.dateCompleted}</td>
+                    <td>
+                        <a href="enrichmentActivity.html?activityId=${enrich.activityId}">${enrich.activityName}</a>
+                    </td>
+                    <td>${enrich.activityId}</td>
+                    <td>${enrich.description}</td>
+                    <td>${enrich.keeperRating}</td>
+                    <td>${enrich.enrichmentId}</td>
+                    <td>${enrich.isComplete}</td>`;
+            if (this.isLoggedIn) {
+                enrichHtml += `
+                    <td><button data-activity-id="${enrich.activityId}"  data-habitat-id="${enrich.habitatId}" class ="button update-enrich">Update</button></td>
+                    <td><button data-activity-id="${enrich.activityId}"  data-habitat-id="${enrich.habitatId}" class ="button remove-enrich">Remove</button></td>`;
+            }
+            enrichHtml += `</tr>`;
         }
 
         enrichHtml += '</table>';
