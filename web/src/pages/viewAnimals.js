@@ -10,7 +10,7 @@ class ViewAnimals extends BindingClass {
     constructor() {
         super();
         this.bindClassMethods(['clientLoaded', 'mount', 'addAnimalsToPage', 'addAnimal', 'removeAnimalFromHabitat',
-        'redirectToUpdateAnimal'], this);
+        'redirectToUpdateAnimal', 'checkLoginStatus'], this);
         this.dataStore = new DataStore();
         this.dataStore.addChangeListener(this.addAnimalsToPage);
         this.header = new Header(this.dataStore);
@@ -31,6 +31,18 @@ class ViewAnimals extends BindingClass {
         this.dataStore.set('habitat-animals', habitatAnimals);
     }
 
+    async checkLoginStatus() {
+        const user = await this.client.getIdentity();
+        this.isLoggedIn = !!user;
+        const addAnimalFormSection = document.querySelector('.b.card');
+
+        if (user) {
+            addAnimalFormSection.classList.remove('hidden');
+        }
+
+        this.addAnimalsToPage();
+    }
+
     /**
      * Add the header to the page and load the AnimalEnrichmentTrackerClient.
      */
@@ -46,6 +58,8 @@ class ViewAnimals extends BindingClass {
         this.clientLoaded();
 
         document.getElementById('ok-button').addEventListener("click", this.closeModal);
+
+        this.checkLoginStatus();
 
     }
 
@@ -71,21 +85,28 @@ class ViewAnimals extends BindingClass {
         }
         document.getElementById('species').innerHTML = speciesHtml;
 
-        let animalsHtml = '<table id="animals-table"><tr><th>ID</th><th>Name</th><th>Age</th><th>Sex</th><th>Species</th><th>Update Animal</th><th>Remove From Habitat</th></tr>';
+        let animalsHtml = '<table id="animals-table"><tr><th>ID</th><th>Name</th><th>Age</th><th>Sex</th><th>Species</th>';
+        if (this.isLoggedIn) {
+            animalsHtml += '<th>Update Animal</th><th>Remove From Habitat</th>';
+        }
+        animalsHtml += '</tr>';
         let animal;
         for (animal of habitatAnimals) {
             animalsHtml += `
-               <tr id="${animal.animalId}">
-                   <td>${animal.animalId}</td>
-                   <td>
+                <tr id="${animal.animalId}">
+                    <td>${animal.animalId}</td>
+                    <td>
                         <a href="animal.html?animalId=${animal.animalId}">${animal.animalName}</a>
-                   </td>
-                   <td>${animal.age}</td>
-                   <td>${animal.sex}</td>
-                   <td>${animal.species}</td>
-                   <td><button data-id="${animal.animalId}" class ="button update-animal">Update</button></td>
-                   <td><button data-id="${animal.animalId}" class ="button remove-animal">Remove</button></td>
-               </tr>`;
+                    </td>
+                    <td>${animal.age}</td>
+                    <td>${animal.sex}</td>
+                    <td>${animal.species}</td>`;
+            if (this.isLoggedIn) {
+                animalsHtml += `
+                    <td><button data-id="${animal.animalId}" class="button update-animal">Update</button></td>
+                    <td><button data-id="${animal.animalId}" class="button remove-animal">Remove</button></td>`;
+            }
+            animalsHtml += `</tr>`;
         }
 
         animalsHtml += '</table>';
