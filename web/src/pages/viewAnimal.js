@@ -4,7 +4,7 @@ import BindingClass from "../util/bindingClass";
 import DataStore from "../util/DataStore";
 
 /**
- * Logic needed for the view playlist page of the website.
+ * Logic needed for the view animal page of the website.
  */
 class ViewHabitat extends BindingClass {
     constructor() {
@@ -18,7 +18,7 @@ class ViewHabitat extends BindingClass {
     }
 
     /**
-     * Once the client is loaded, get the playlist metadata and song list.
+     * Once the client is loaded, get the animal metadata.
      */
     async clientLoaded() {
         const urlParams = new URLSearchParams(window.location.search);
@@ -29,7 +29,7 @@ class ViewHabitat extends BindingClass {
     }
 
     /**
-     * Add the header to the page and load the MusicPlaylistClient.
+     * Add the header to the page and load the AnimalEnrichmentTrackerClient.
      */
     mount() {
         this.header.addHeaderToPage();
@@ -44,7 +44,7 @@ class ViewHabitat extends BindingClass {
     }
 
     /**
-     * When the habitat is updated in the datastore, update the habitat metadata on the page.
+     * When the animal is updated in the datastore, update the animal metadata on the page.
      */
     addAnimalToPage() {
         const animal = this.dataStore.get('animal');
@@ -69,7 +69,7 @@ class ViewHabitat extends BindingClass {
     }
 
     /**
-    * when remove button is clicked, removes habitat.
+    * when remove button is clicked, removes animal.
     */
     async removeAnimal(e) {
         const animalId = this.dataStore.get('animal').animalId;
