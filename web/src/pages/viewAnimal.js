@@ -10,7 +10,7 @@ class ViewHabitat extends BindingClass {
     constructor() {
         super();
         this.bindClassMethods(['clientLoaded', 'mount', 'addAnimalToPage', 'removeAnimal', 'redirectToUpdateAnimal',
-        'redirectToHabitat'], this);
+        'redirectToHabitat', 'checkLoginStatus'], this);
         this.dataStore = new DataStore();
         this.dataStore.addChangeListener(this.addAnimalToPage);
         this.header = new Header(this.dataStore);
@@ -28,6 +28,17 @@ class ViewHabitat extends BindingClass {
         this.dataStore.set('animal', animal);
     }
 
+    async checkLoginStatus() {
+        const user = await this.client.getIdentity();
+        const updateSection = document.getElementById('update-animal-card');
+        const removeSection = document.getElementById('remove-animal-card');
+
+        if (user) {
+            updateSection.classList.remove('hidden');
+            removeSection.classList.remove('hidden');
+        }
+    }
+
     /**
      * Add the header to the page and load the AnimalEnrichmentTrackerClient.
      */
@@ -41,6 +52,8 @@ class ViewHabitat extends BindingClass {
         this.clientLoaded();
 
         document.getElementById('ok-button').addEventListener("click", this.closeModal);
+
+        this.checkLoginStatus();
     }
 
     /**
