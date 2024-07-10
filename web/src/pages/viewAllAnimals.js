@@ -18,20 +18,27 @@ const EMPTY_DATASTORE_STATE = {
 class ViewAllAnimals extends BindingClass {
     constructor() {
         super();
-
         this.bindClassMethods(['mount', 'toggleFilter', 'displayAnimalResults', 'getHTMLForFilterResults', 'removeAnimal',
-        'redirectToUpdateAnimal', 'reactivateAnimal', 'fetchUserHabitats', 'showDropdown'], this);
-
+        'redirectToUpdateAnimal', 'reactivateAnimal', 'fetchUserHabitats', 'showDropdown', 'checkLoginStatus'], this);
         this.dataStore = new DataStore(EMPTY_DATASTORE_STATE);
         this.dataStore.addChangeListener(this.displayAnimalResults);
         this.header = new Header(this.dataStore);
         console.log("ViewAllAnimals constructor");
     }
 
+    async checkLoginStatus() {
+        const user = await this.client.getIdentity();
+        this.isLoggedIn = !!user;
+    }
+
     /**
      * Load the AnimalEnrichmentTrackerClient.
      */
     async mount() {
+        this.client = new AnimalEnrichmentTrackerClient();
+
+        await this.checkLoginStatus();
+
         document.getElementById('toggle-filter-btn').addEventListener('click', this.toggleFilter);
         document.getElementById('all-animals').addEventListener('click', (e) => {
             if (e.target.classList.contains('remove-animal')) {
@@ -44,8 +51,6 @@ class ViewAllAnimals extends BindingClass {
                 this.showDropdown(e);
             }
         });
-
-        this.client = new AnimalEnrichmentTrackerClient();
 
         this.toggleFilter();
         this.header.addHeaderToPage();
@@ -131,7 +136,11 @@ class ViewAllAnimals extends BindingClass {
             return '<h4>No Animals found</h4>';
         }
 
-        let html = '<table id="animals-table"><tr><th>ID</th><th>Name</th><th>Age</th><th>Sex</th><th>Species</th><th>Habitat ID</th><th>Status</th><th>Currently On Habitat</th><th>Update Animal</th><th>Restore Animal To Habitat</th><th>Delete Permanently</th></tr>';
+        let html = '<table id="animals-table"><tr><th>ID</th><th>Name</th><th>Age</th><th>Sex</th><th>Species</th><th>Habitat ID</th><th>Status</th><th>Currently On Habitat</th>';
+        if (this.isLoggedIn) {
+            html += '<th>Update Animal</th><th>Restore Animal To Habitat</th><th>Delete Permanently</th>';
+        }
+        html += '</tr>';
         for (const res of filterResults) {
             let options = '';
             for (const habitat of habitats) {
@@ -156,18 +165,21 @@ class ViewAllAnimals extends BindingClass {
                 <input type="checkbox" ${res.onHabitat ? 'checked' : ''} disabled>
                 <span class="checkmark"></span>
                 </label>
-                </td>
-                <td><button data-id="${res.animalId}" class="button update-animal">Update</button></td>
-                <td>
-                    <div class="dropdown">
-                        <button class="dropbtn">Restore</button>
-                        <div class="dropdown-content">
-                            ${options}
-                        </div>
-                    </div>
-                </td>
-                <td><button data-id="${res.animalId}" class="button remove-animal">Delete</button></td>
-            </tr>`;
+                </td>`
+                if (this.isLoggedIn) {
+                    html += `
+                        <td><button data-id="${res.animalId}" class="button update-animal">Update</button></td>
+                        <td>
+                            <div class="dropdown">
+                                <button class="dropbtn">Restore</button>
+                                <div class="dropdown-content">
+                                    ${options}
+                                </div>
+                            </div>
+                        </td>
+                        <td><button data-id="${res.animalId}" class="button remove-animal">Delete</button></td>`
+                }
+            html += `</tr>`;
         }
         html += '</table>';
 
