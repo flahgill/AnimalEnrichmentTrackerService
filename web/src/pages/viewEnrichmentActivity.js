@@ -10,7 +10,7 @@ class ViewHabitat extends BindingClass {
     constructor() {
         super();
         this.bindClassMethods(['clientLoaded', 'mount', 'addActivityToPage', 'redirectToUpdateActivity',
-        'removeActivity', 'redirectToHabitat'], this);
+        'removeActivity', 'redirectToHabitat', 'checkLoginStatus'], this);
         this.dataStore = new DataStore();
         this.dataStore.addChangeListener(this.addActivityToPage);
         this.header = new Header(this.dataStore);
@@ -28,6 +28,17 @@ class ViewHabitat extends BindingClass {
         this.dataStore.set('enrichmentActivity', enrichmentActivity);
     }
 
+    async checkLoginStatus() {
+        const user = await this.client.getIdentity();
+        const updateSection = document.getElementById('update-activity-card');
+        const removeSection = document.getElementById('remove-activity-card');
+
+        if (user) {
+            updateSection.classList.remove('hidden');
+            removeSection.classList.remove('hidden');
+        }
+    }
+
     /**
      * Add the header to the page and load the AnimalEnrichmentTrackerClient.
      */
@@ -41,6 +52,8 @@ class ViewHabitat extends BindingClass {
         this.clientLoaded();
 
         document.getElementById('ok-button').addEventListener("click", this.closeModal);
+
+        this.checkLoginStatus();
     }
 
     /**
@@ -59,6 +72,13 @@ class ViewHabitat extends BindingClass {
         document.getElementById('activity-rating').innerText = enrichmentActivity.keeperRating;
         document.getElementById('activity-id').innerText = enrichmentActivity.activityId;
         document.getElementById('habitat-id').innerText = enrichmentActivity.habitatId;
+
+        const viewHabitatButton = document.getElementById('view-habitat');
+        if (!enrichmentActivity.onHabitat) {
+            viewHabitatButton.parentElement.classList.add('hidden');
+        } else {
+            viewHabitatButton.parentElement.classList.remove('hidden');
+        }
     }
 
     /**
