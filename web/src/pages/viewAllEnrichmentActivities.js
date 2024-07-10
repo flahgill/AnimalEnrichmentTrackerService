@@ -18,26 +18,31 @@ const EMPTY_DATASTORE_STATE = {
 class ViewAllEnrichmentActivities extends BindingClass {
     constructor() {
         super();
-
         this.bindClassMethods(['mount', 'toggleComplete', 'displayActivitiesResults', 'getHTMLForCompleteResults',
-         'removeActivity', 'reAddActivity', 'redirectToUpdateActivity'], this);
-
+         'removeActivity', 'reAddActivity', 'redirectToUpdateActivity', 'checkLoginStatus'], this);
         this.dataStore = new DataStore(EMPTY_DATASTORE_STATE);
         this.dataStore.addChangeListener(this.displayActivitiesResults);
         this.header = new Header(this.dataStore);
         console.log("ViewAllEnrichmentActivities constructor");
     }
 
+    async checkLoginStatus() {
+        const user = await this.client.getIdentity();
+        this.isLoggedIn = !!user;
+    }
+
     /**
      * Load the AnimalEnrichmentTrackerClient.
      */
-    mount() {
+    async mount() {
+        this.client = new AnimalEnrichmentTrackerClient();
+
+        await this.checkLoginStatus();
+
         document.getElementById('toggle-complete-btn').addEventListener('click', this.toggleComplete);
         document.getElementById('all-activities').addEventListener("click", this.removeActivity);
         document.getElementById('all-activities').addEventListener("click", this.reAddActivity);
         document.getElementById('all-activities').addEventListener("click", this.redirectToUpdateActivity);
-
-        this.client = new AnimalEnrichmentTrackerClient();
 
         this.toggleComplete();
         this.header.addHeaderToPage();
@@ -98,7 +103,11 @@ class ViewAllEnrichmentActivities extends BindingClass {
             return '<h4>No Activities found</h4>';
         }
 
-        let enrichHtml = '<table id="enrichments-table"><tr><th>Date Completed</th><th>Activity</th><th>Activity ID</th><th>Description</th><th>Rating</th><th>Completed</th><th>Habitat Id</th><th>Enrichment Id</th><th>Currently On Habitat</th><th>Update Activity</th><th>Restore To Habitat</th><th>Delete Permanently</th></tr>';
+        let enrichHtml = '<table id="enrichments-table"><tr><th>Date Completed</th><th>Activity</th><th>Activity ID</th><th>Description</th><th>Rating</th><th>Completed</th><th>Habitat Id</th><th>Enrichment Id</th><th>Currently On Habitat</th>';
+        if (this.isLoggedIn) {
+            enrichHtml += '<th>Update Activity</th><th>Restore To Habitat</th><th>Delete Permanently</th>';
+        }
+        enrichHtml += '</tr>';
         let enrich;
         for (enrich of completeResults) {
             enrichHtml += `
@@ -120,12 +129,17 @@ class ViewAllEnrichmentActivities extends BindingClass {
                    <input type="checkbox" ${enrich.onHabitat ? 'checked' : ''} disabled>
                    <span class="checkmark"></span>
                    </label>
-                   </td>
-                   <td><button data-activity-id="${enrich.activityId}" data-habitat-id="${enrich.habitatId}" class="button update-activity">Update</button></td>
-                   <td><button data-activity-id="${enrich.activityId}" data-habitat-id="${enrich.habitatId}" class="button readd-activity">Restore</button></td>
-                   <td><button data-activity-id="${enrich.activityId}" class="button remove-activity">Delete</button></td>
-               </tr>`;
+                   </td>`
+                   if (this.isLoggedIn) {
+                        enrichHtml += `
+                           <td><button data-activity-id="${enrich.activityId}" data-habitat-id="${enrich.habitatId}" class="button update-activity">Update</button></td>
+                           <td><button data-activity-id="${enrich.activityId}" data-habitat-id="${enrich.habitatId}" class="button readd-activity">Restore</button></td>
+                           <td><button data-activity-id="${enrich.activityId}" class="button remove-activity">Delete</button></td>`
+                   }
+               enrichHtml + `</tr>`;
         }
+
+        enrichHtml += '</table>';
 
         return enrichHtml;
     }
