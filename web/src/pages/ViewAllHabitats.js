@@ -28,7 +28,7 @@ class ViewAllHabitats extends BindingClass {
 
     async checkLoginStatus() {
         const user = await this.client.getIdentity();
-        this.isLoggedIn = !!user;
+        this.LoggedIn = !!user;
     }
 
     /**
