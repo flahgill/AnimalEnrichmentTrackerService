@@ -59,6 +59,13 @@ class ViewHabitat extends BindingClass {
         document.getElementById('activity-rating').innerText = enrichmentActivity.keeperRating;
         document.getElementById('activity-id').innerText = enrichmentActivity.activityId;
         document.getElementById('habitat-id').innerText = enrichmentActivity.habitatId;
+
+        const viewHabitatButton = document.getElementById('view-habitat');
+        if (!enrichmentActivity.onHabitat) {
+            viewHabitatButton.parentElement.classList.add('hidden');
+        } else {
+            viewHabitatButton.parentElement.classList.remove('hidden');
+        }
     }
 
     /**
