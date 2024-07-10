@@ -18,23 +18,29 @@ const EMPTY_DATASTORE_STATE = {
 class ViewAllHabitats extends BindingClass {
     constructor() {
         super();
-
-        this.bindClassMethods(['mount', 'toggleFilter', 'displayHabitatResults', 'getHTMLForFilterResults', 'redirectToUpdateHabitat'], this);
-
+        this.bindClassMethods(['mount', 'toggleFilter', 'displayHabitatResults', 'getHTMLForFilterResults', 'redirectToUpdateHabitat',
+        'checkLoginStatus'], this);
         this.dataStore = new DataStore(EMPTY_DATASTORE_STATE);
         this.dataStore.addChangeListener(this.displayHabitatResults);
         this.header = new Header(this.dataStore);
         console.log("ViewAllHabitats constructor");
     }
 
+    async checkLoginStatus() {
+        const user = await this.client.getIdentity();
+        this.isLoggedIn = !!user;
+    }
+
     /**
      * Load the AnimalEnrichmentTrackerClient.
      */
-    mount() {
+    async mount() {
+        this.client = new AnimalEnrichmentTrackerClient();
+
+        await this.checkLoginStatus();
+
         document.getElementById('toggle-filter-btn').addEventListener('click', this.toggleFilter);
         document.getElementById('filter-results-display').addEventListener("click", this.redirectToUpdateHabitat);
-
-        this.client = new AnimalEnrichmentTrackerClient();
 
         this.toggleFilter();
         this.header.addHeaderToPage();
@@ -93,7 +99,11 @@ class ViewAllHabitats extends BindingClass {
             return '<h4>No habitats found</h4>';
         }
 
-        let html = '<table id="habitats-table"><tr><th>Habitat</th><th>Habitat ID</th><th>Species</th><th>Total Animals</th><th>Animals</th><th>Status</th><th>Keeper</th><th>Keeper Email</th><th>Update Habitat</th></tr>';
+        let html = '<table id="habitats-table"><tr><th>Habitat</th><th>Habitat ID</th><th>Species</th><th>Total Animals</th><th>Animals</th><th>Status</th><th>Keeper</th><th>Keeper Email</th>';
+        if (this.isLoggedIn) {
+            html += '<th>Update Habitat</th>';
+        }
+        html += '</tr>';
         for (const res of filterResults) {
             html += `
             <tr id="${res.habitatId}">
@@ -106,10 +116,14 @@ class ViewAllHabitats extends BindingClass {
                 <td>${res.animalsInHabitat?.join(', ')}</td>
                 <td>${res.isActive}</td>
                 <td>${res.keeperName}</td>
-                <td>${res.keeperManagerId}</td>
-                <td><button data-id="${res.habitatId}" class="button update-habitat">Update</button></td>
-            </tr>`;
+                <td>${res.keeperManagerId}</td>`;
+                if (this.isLoggedIn) {
+                    html += `
+                        <td><button data-id="${res.habitatId}" class="button update-habitat">Update</button></td>`
+                }
+                html += `</tr>`;
         }
+
         html += '</table>';
 
         return html;
