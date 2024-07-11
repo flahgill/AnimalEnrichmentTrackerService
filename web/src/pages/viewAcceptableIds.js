@@ -10,9 +10,9 @@ export default class ViewAcceptableIds extends BindingClass {
     constructor(client) {
         super();
         this.client = client;
-        this.bindClassMethods(['clientLoaded', 'mount', 'addAnimalsToPage', 'addId', 'removeId'], this);
+        this.bindClassMethods(['clientLoaded', 'mount', 'addIdsToPage', 'addId', 'removeId'], this);
         this.dataStore = new DataStore();
-        this.dataStore.addChangeListener(this.addAnimalsToPage);
+        this.dataStore.addChangeListener(this.addIdsToPage);
         this.header = new Header(this.dataStore);
         console.log("viewAcceptableIds constructor");
     }
@@ -47,14 +47,37 @@ export default class ViewAcceptableIds extends BindingClass {
     }
 
     /**
-     * When the list of animals are updated in the datastore, update the animals metadata on the page.
+     * When the list of acceptable Ids are updated in the datastore, update the Ids metadata on the page.
      */
-    addAnimalsToPage() {
+    addIdsToPage() {
         const acceptableIds = this.dataStore.get('acceptableIds');
         const habitat = this.dataStore.get('habitat');
         if (acceptableIds == null || habitat == null) {
             return;
         }
+
+        const enrichmentMapping = {
+            "01": "Amazing Graze",
+            "02": "Boomer Ball",
+            "03": "Jolly Ball",
+            "04": "Bubbles",
+            "05": "Chalk Drawings",
+            "06": "Cap Feeder",
+            "07": "Hay Play Feeder",
+            "08": "Honeycomb Feeder",
+            "09": "Jolly Stall",
+            "10": "Keg",
+            "11": "Looks Lou",
+            "12": "Paper Chains",
+            "13": "Planter Bucket",
+            "14": "PVC Roller",
+            "15": "Slow Feeder Bowls",
+            "16": "Scent/Spices",
+            "17": "Sprinkler",
+            "18": "Wiffle Ball Feeder",
+            "19": "Weeble",
+            "20": "Squiggle Feeder"
+        };
 
         document.getElementById('habitat-name').innerText = habitat.habitatName;
         document.getElementById('habitat-owner').innerText = habitat.keeperName;
@@ -68,12 +91,14 @@ export default class ViewAcceptableIds extends BindingClass {
         }
         document.getElementById('species').innerHTML = speciesHtml;
 
-        let idsHtml = '<table id="animals-table"><tr><th>Id</th><th>Remove</th></tr>';
+        let idsHtml = '<table id="animals-table"><tr><th>Id</th><th>Enrichment Activity</th><th>Remove</th></tr>';
         let id;
         for (id of acceptableIds) {
+            const enrichName = enrichmentMapping[id] || "unknown";
             idsHtml += `
                <tr id="id-${id}">
                    <td>${id}</td>
+                   <td>${enrichName}</td>
                    <td><button data-id="${id}" class="button remove-id">Remove</button></td>
                </tr>`;
         }
