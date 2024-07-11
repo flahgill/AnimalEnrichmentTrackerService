@@ -17,6 +17,29 @@ export default class ViewHabitatEnrichments extends BindingClass {
         this.dataStore.addChangeListener(this.addEnrichmentsToPage);
         this.header = new Header(this.dataStore);
         console.log("viewHabitatEnrichments constructor");
+
+        this.enrichmentMapping = {
+            "01": "Amazing Graze",
+            "02": "Boomer Ball",
+            "03": "Jolly Ball",
+            "04": "Bubbles",
+            "05": "Chalk Drawings",
+            "06": "Cap Feeder",
+            "07": "Hay Play Feeder",
+            "08": "Honeycomb Feeder",
+            "09": "Jolly Stall",
+            "10": "Keg",
+            "11": "Looks Lou",
+            "12": "Paper Chains",
+            "13": "Planter Bucket",
+            "14": "PVC Roller",
+            "15": "Slow Feeder Bowls",
+            "16": "Scent/Spices",
+            "17": "Sprinkler",
+            "18": "Wiffle Ball Feeder",
+            "19": "Weeble",
+            "20": "Squiggle Feeder"
+        };
     }
 
     /**
@@ -90,9 +113,9 @@ export default class ViewHabitatEnrichments extends BindingClass {
         }
         document.getElementById('species').innerHTML = speciesHtml;
 
-        let acceptEnrichIdHtml = 'Acceptable Enrichments for Habitat: ';
+        let acceptEnrichIdHtml = 'Suitable Enrichments for Habitat: ';
         for (const id of habitat.acceptableEnrichmentIds) {
-            acceptEnrichIdHtml += `<div class="accept-ids">${id}</div>`;
+            acceptEnrichIdHtml += `<div class="accept-ids">${this.enrichmentMapping[id]}</div>`;
         }
         document.getElementById('acceptable-enrichment-ids').innerHTML = acceptEnrichIdHtml;
 
@@ -131,10 +154,11 @@ export default class ViewHabitatEnrichments extends BindingClass {
         for (const id of uniqueSortedIds) {
             const option = document.createElement('option');
             option.value = id;
-            option.textContent = id;
+            option.textContent = `${id} - ${this.enrichmentMapping[id] || "Unknown"}`;
             enrichIdsSelect.appendChild(option);
         }
     }
+
 
     /**
     * Method to run when the add enrichment submit button is clicked. Call the AnimalEnrichmentTrackerService to add

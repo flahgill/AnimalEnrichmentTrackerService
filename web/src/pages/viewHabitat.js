@@ -16,6 +16,29 @@ class ViewHabitat extends BindingClass {
         this.dataStore.addChangeListener(this.addHabitatToPage);
         this.header = new Header(this.dataStore);
         console.log("viewHabitat constructor");
+
+        this.enrichmentMapping = {
+            "01": "Amazing Graze",
+            "02": "Boomer Ball",
+            "03": "Jolly Ball",
+            "04": "Bubbles",
+            "05": "Chalk Drawings",
+            "06": "Cap Feeder",
+            "07": "Hay Play Feeder",
+            "08": "Honeycomb Feeder",
+            "09": "Jolly Stall",
+            "10": "Keg",
+            "11": "Looks Lou",
+            "12": "Paper Chains",
+            "13": "Planter Bucket",
+            "14": "PVC Roller",
+            "15": "Slow Feeder Bowls",
+            "16": "Scent/Spices",
+            "17": "Sprinkler",
+            "18": "Wiffle Ball Feeder",
+            "19": "Weeble",
+            "20": "Squiggle Feeder"
+        };
     }
 
     /**
@@ -76,9 +99,9 @@ class ViewHabitat extends BindingClass {
         document.getElementById('total-animals').innerText = habitat.totalAnimals;
         document.getElementById('active-status').innerText = habitat.isActive;
 
-        let acceptEnrichIdHtml = 'Acceptable Enrichments for Habitat: ';
+        let acceptEnrichIdHtml = 'Suitable Enrichments for Habitat: ';
         for (const id of habitat.acceptableEnrichmentIds) {
-            acceptEnrichIdHtml += `<div class="accept-ids">${id}</div>`;
+            acceptEnrichIdHtml += `<div class="accept-ids">${this.enrichmentMapping[id]}</div>`;
         }
         document.getElementById('acceptable-enrichment-ids').innerHTML = acceptEnrichIdHtml;
 
