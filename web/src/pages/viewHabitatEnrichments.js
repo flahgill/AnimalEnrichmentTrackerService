@@ -19,27 +19,27 @@ export default class ViewHabitatEnrichments extends BindingClass {
         console.log("viewHabitatEnrichments constructor");
 
         this.enrichmentMapping = {
-                    "01": "Amazing Graze",
-                    "02": "Boomer Ball",
-                    "03": "Jolly Ball",
-                    "04": "Bubbles",
-                    "05": "Chalk Drawings",
-                    "06": "Cap Feeder",
-                    "07": "Hay Play Feeder",
-                    "08": "Honeycomb Feeder",
-                    "09": "Jolly Stall",
-                    "10": "Keg",
-                    "11": "Looks Lou",
-                    "12": "Paper Chains",
-                    "13": "Planter Bucket",
-                    "14": "PVC Roller",
-                    "15": "Slow Feeder Bowls",
-                    "16": "Scent/Spices",
-                    "17": "Sprinkler",
-                    "18": "Wiffle Ball Feeder",
-                    "19": "Weeble",
-                    "20": "Squiggle Feeder"
-                };
+            "01": "Amazing Graze",
+            "02": "Boomer Ball",
+            "03": "Jolly Ball",
+            "04": "Bubbles",
+            "05": "Chalk Drawings",
+            "06": "Cap Feeder",
+            "07": "Hay Play Feeder",
+            "08": "Honeycomb Feeder",
+            "09": "Jolly Stall",
+            "10": "Keg",
+            "11": "Looks Lou",
+            "12": "Paper Chains",
+            "13": "Planter Bucket",
+            "14": "PVC Roller",
+            "15": "Slow Feeder Bowls",
+            "16": "Scent/Spices",
+            "17": "Sprinkler",
+            "18": "Wiffle Ball Feeder",
+            "19": "Weeble",
+            "20": "Squiggle Feeder"
+        };
     }
 
     /**
